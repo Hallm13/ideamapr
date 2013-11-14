@@ -1,0 +1,22 @@
+!!! html
+%html
+  %head
+    %title TestDk
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+
+  %body
+    #doc2{class: 'yui-t7'}
+      -if notice or alert
+        %span#flashmesgs
+          %p#notice #{notice}
+          %p#alert #{alert}
+
+
+    #hd{role: 'banner'}
+      = render "navigation"
+
+    = yield
+
+

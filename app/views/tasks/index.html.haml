@@ -1,0 +1,10 @@
+%table{style: "border: 1px solid;"}
+  %tr
+    %th{style: "border-bottom: 2px solid;"} Task Name
+  -@tasks.each do |task|
+    %tr
+      %td
+        = link_to task.title, task
+
+%p
+=link_to "New Task", new_task_path
