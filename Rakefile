@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-TestDk::Application.load_tasks
+IdeaMapr::Application.load_tasks

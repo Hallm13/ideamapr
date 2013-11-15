@@ -11,21 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131113054235) do
+ActiveRecord::Schema.define(version: 20150209223602) do
 
-  create_table "tasks", force: true do |t|
-    t.string   "title"
-    t.integer  "owner_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "test_models", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -38,7 +26,10 @@ ActiveRecord::Schema.define(version: 20131113054235) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin"
+    t.string   "confirmation_token"
+    t.string   "unconfirmed_email"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

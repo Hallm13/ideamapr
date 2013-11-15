@@ -1,0 +1,19 @@
+%p
+  This should be replaced by some other controller; or point to some other content/page.
+%p
+  Here are some cool things you can do:
+  %ul
+    %li
+      .centered-textbox
+        Start a cron for the sample emailer
+      = form_tag('/app_tasks', style: 'display: inline-block; margin-left: 5px') do
+        = hidden_field_tag :app_task_name, 'sample_email_cron'
+        = hidden_field_tag :klass, 'GeneralMailer'
+        = submit_tag 'Start!', class: 'btn btn-default'
+    %li
+      .centered-textbox
+        And one more thing,
+    %li
+      .centered-textbox
+        And one more.
+      

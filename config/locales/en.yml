@@ -20,4 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  site_title: "A Basic Rails App"
+  site_brand: 'Rails Skeleton'
+  successful_resource_creation: "Resource successfully created"
+  successful_resource_update: "Resource successfully updated"
+  errors_found: "Errors found"
+  access_denied_message: "Please sign in to access that page."
+  message_404: "You appear to want something that's not there."

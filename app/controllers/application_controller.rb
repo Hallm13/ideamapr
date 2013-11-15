@@ -4,18 +4,52 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action do
+    # Quite a few things to do before the app starts...
+    I18n.locale = set_locale
+    insert_default_param_filter
+    create_navbar_data
+  end
+
+  rescue_from ActionController::RoutingError do |exception|
+    error_message = I18n.t(:message_404)
+    go_to_root(error_message)
+  end
+  rescue_from CanCan::AccessDenied do |exception|
+    error_message = I18n.t(:access_denied_message)
+    go_to_root(error_message)
+  end
+
+  private
+  def set_locale
+    # 1. Let's make our app use the locale
+    
+    params[:locale] || I18n.default_locale
+  end
+
+  def insert_default_param_filter
+    # 2. This helps Rails4 strong parameter setting
     resource = controller_name.singularize.to_sym
     method = "#{resource}_strong_params"
 
     params[resource] &&= send(method, params[resource]) if respond_to?(method, true)
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
-    if request.env.key? "HTTP_REFERER"
-      redirect_to :back, :alert => exception.message
-    else
-      redirect_to root_url, :alert => exception.message
+  def create_navbar_data
+    @navbar_entries = NavbarEntry.all.map do |entry|
+      if entry.user_id == -1 || Ability.new(current_user).can?(:read, entry)
+        {title: entry.title, url: entry.url }
+      end
     end
+    @navbar_entries.compact!
+  end
+
+  def go_to_root(message)
+    redirect_to root_path, :alert => message
   end 
-  
+
+  # Use URL options to set locale. I prefer it that way. Making this a class method because
+  # Devise-based tests will fail otherwise (See https://github.com/plataformatec/devise/issues/1408)
+  def self.default_url_options(options={})
+    { locale: I18n.locale }
+  end
 end

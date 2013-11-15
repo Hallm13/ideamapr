@@ -1,0 +1,31 @@
+body {
+ height: auto;
+ width: 100%;
+ font-family: 'Cabin', sans-serif;
+ font-size: 18px;
+}
+
+.flash-box {
+  padding: 10px 5px;
+  min-height: 40px;
+
+  background-color: lightred;
+  color: black;
+
+  display: inline-block;
+  margin: auto;
+}
+
+p {
+  margin-top: 5px;
+}
+
+.centered-textbox {
+  border: blue solid 1px;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 5px;
+  height: 40px;
+  line-height: 25px;
+  vertical-align: middle;
+}
