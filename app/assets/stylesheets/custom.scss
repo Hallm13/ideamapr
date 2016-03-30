@@ -16,6 +16,11 @@ body {
   margin: auto;
 }
 
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
 p {
   margin-top: 5px;
 }
@@ -29,3 +34,52 @@ p {
   line-height: 25px;
   vertical-align: middle;
 }
+
+form {
+  font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif;
+  label {
+    margin-bottom: 7px;
+  }
+
+  input[type=text], input[type=email], input[type=password] {
+    margin: 5px 0 15px;
+  }
+
+  input[type=checkbox] {
+    margin-top: 0px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.sign-in-form {
+  padding: 20px;
+  border: 1px solid $form-border-gray;
+  background-color: $form-background;
+}
+
+.to-left {
+  float: left;
+}
+
+.to-right {
+  float: right;
+}
+
+.btn {
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-image: linear-gradient(#8add6d, #60b044);
+  font-size: 1.05em;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.auth-form-footer {
+  font-size: 0.8em;
+}
+

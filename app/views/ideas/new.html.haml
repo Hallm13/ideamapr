@@ -1,0 +1,9 @@
+%h1
+  Add An Idea
+
+= form_for(@idea) do |f|
+  = f.label :title
+  = f.text_field :title, class: 'form-control'
+  = f.label :description
+  = f.text_area :description, class: 'form-control'
+  = f.submit

@@ -1,9 +1,11 @@
 IdeaMapr::Application.routes.draw do
-  # Logins and Profiles
-  devise_for :users
+  devise_for :admins, only: [:sessions, :passwords]
+  devise_for :users, only: :sessions
+  
   resources :users, path: 'profiles'
 
-  root to: 'homepage#show' # Change this to something else in your app.
+  resources :ideas
+  root to: 'dashboard#show' # Change this to something else in your app.
 
   authenticate :admin, lambda { |u| u.is_a? Admin } do
     # Adds RailsAdmin
