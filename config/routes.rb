@@ -5,6 +5,13 @@ IdeaMapr::Application.routes.draw do
   resources :users, path: 'profiles'
 
   resources :ideas
+  resources :surveys, only: :show do
+    collection do
+      get '/new/:step', action: 'new', as: ''
+      post '/update', action: 'update'
+    end
+  end
+  
   root to: 'dashboard#show' # Change this to something else in your app.
 
   authenticate :admin, lambda { |u| u.is_a? Admin } do

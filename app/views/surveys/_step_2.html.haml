@@ -1,0 +1,6 @@
+.form-header
+  Add Ideas To Survey ##{@survey.id}
+  
+- Idea.all.each do |idea|
+  = check_box_tag 'ideas[]', idea.id
+  = idea.title

@@ -1,0 +1,13 @@
+%h1
+  Survey #{@survey.id}
+
+.field
+  .field-title
+    Title
+  .field-value
+    #{@survey.title}
+.field
+  .field-title
+    Owner
+  .field-value
+    #{@survey.owner.email}

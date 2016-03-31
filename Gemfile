@@ -29,8 +29,7 @@ gem 'bootstrap-sass'
 gem 'turbolinks'
 gem 'underscore-rails'
 
-# Integrations
-gem 'stripe'
+gem 'has_secure_token'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

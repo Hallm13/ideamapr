@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActionController::RoutingError do |exception|
     error_message = I18n.t(:message_404)
-    go_to_root(error_message)
+    redirect_to page_404
   end
 
   private
@@ -24,9 +24,11 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => message
   end 
 
-  # Use URL options to set locale. I prefer it that way. Making this a class method because
-  # Devise-based tests will fail otherwise (See https://github.com/plataformatec/devise/issues/1408)
   def self.default_url_options(options={})
     { locale: I18n.locale }
+  end
+
+  def page_404
+    '/404.html'
   end
 end

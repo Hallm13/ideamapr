@@ -1,3 +1,7 @@
+survey_1:
+  title: is a survey
+  owner: user_1
+  
 published_survey:
   status: <%= 1 %>
-  
+  owner: user_1  
