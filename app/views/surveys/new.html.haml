@@ -2,6 +2,9 @@
   Survey Creation: Step #{@payload[:current_step]} of #{@payload[:total_steps]}
   
 = form_tag('/surveys/update', method: :post) do
-  = hidden_field_tag :save_step, @payload[:current_step]
-  = render partial: "step_#{@payload[:current_step]}"
-  = submit_tag (@payload[:next_step] == -1 ? "Finish!" : "&rsaquo; Step #{@payload[:next_step]}".html_safe), class: 'btn btn-primary'
+  = hidden_field_tag :step_command, 'init'
+  .form-header
+    = label_tag :title
+    = text_field_tag :title, '', class: 'form-control', autofocus: true
+
+  = submit_tag 'Next'

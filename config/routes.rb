@@ -5,9 +5,9 @@ IdeaMapr::Application.routes.draw do
   resources :users, path: 'profiles'
 
   resources :ideas
-  resources :surveys, only: :show do
+  resources :surveys, only: [:show, :index] do
     collection do
-      get '/new/:step', action: 'new', as: ''
+      get '/edit/:step_command', action: 'edit', as: 'edit'
       post '/update', action: 'update'
     end
   end

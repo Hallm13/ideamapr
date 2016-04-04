@@ -1,13 +1,27 @@
 %h1
   Survey #{@survey.id}
 
-.field
-  .field-title
-    Title
-  .field-value
+.row
+  .page-title.col-xs-12
     #{@survey.title}
-.field
-  .field-title
-    Owner
-  .field-value
-    #{@survey.owner.email}
+
+.survey-summary
+  .row.table-headers
+    .col-xs-3
+      Status
+    .col-xs-3
+      Completed Surveys
+    .col-xs-3
+      Completion Rate
+    .col-xs-3
+      Link
+
+.question-list
+  .row.table-headers
+    .col-xs-6
+      Question
+    .col-xs-6
+      Question Type
+        
+%p
+  Owner: #{@survey.owner.email}

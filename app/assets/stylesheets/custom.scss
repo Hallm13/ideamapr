@@ -83,3 +83,14 @@ form {
   font-size: 0.8em;
 }
 
+.table-headers {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.cell-1 {
+  border: 1px solid $form-border-gray;
+  border-radius: 5px;
+  padding: 5px;
+}

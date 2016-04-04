@@ -1,0 +1,24 @@
+.row.table-headers
+  .col-xs-6
+    Survey Name
+  .col-xs-2
+    Status
+  .col-xs-2
+    Completed Surveys
+  .col-xs-2
+    Completion Rate
+
+.row
+  - @surveys.each do |survey|
+    .col-xs-6
+      .cell-1
+        = survey.title
+    .col-xs-2
+      .cell-1
+        Active
+    .col-xs-2
+      .cell-1
+        560
+    .col-xs-2
+      .cell-1
+        76%

@@ -1,0 +1,9 @@
+%h1
+  Add Ranking Screen
+  
+= form_tag('/surveys/update', method: :post) do
+  = hidden_field_tag :with_survey, @survey.id
+  = hidden_field_tag :step_command, @payload[:step_command]
+  = render partial: "step_#{@payload[:step_command]}"
+
+  = submit_tag 'Add'

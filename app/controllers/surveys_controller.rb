@@ -1,18 +1,20 @@
 class SurveysController < ApplicationController
   before_action :admin_signed_in?, except: :show 
-  before_action :params_check, only: :show
+  before_action :params_check
+
+  def index
+    @surveys = Survey.all
+  end
   
   def show
     # Admins don't need to show token
-
     permitted = false
-    @survey = Survey.find_by_id params[:id]
-    if current_admin
 
+    if current_admin
       permitted = true
     else
       # Not admin - require token
-      if params[:token] and @survey&.token == params[:token]
+      if params[:token] and @survey.token == params[:token]
         permitted = true
       end
     end
@@ -20,55 +22,43 @@ class SurveysController < ApplicationController
     permitted ? (render 'show') : (raise ActionController::RoutingError.new(''))
   end
 
-  def new
-    current_step = params[:step].to_i
-    @payload = {}
-    @payload[:total_steps] = total_steps
-    
-    if params[:with_survey]
-      if (@survey = Survey.find_by_id params[:with_survey]).nil?
-        redirect_to page_404
-        return
-      end
-    end
-    
-    case current_step
-    when 1
-
-    when 2
+  def edit
+    @payload = {step_command: params[:step_command]}
+    case params[:step_command].to_sym
+    when :init
+      render 'new'
     else
-      redirect_to page_404
-      return
+      render 'edit'
     end
-
-    @payload[:current_step] = current_step
-    @payload[:next_step] = current_step + 1 > total_steps ? -1 : current_step + 1
-    
-    render 'new'
   end
 
   def update
-    if !(1..total_steps).include? params[:save_step].to_i
-      redirect_to page_404
-      return
-    end
-
     success = false
-    current_step = params[:save_step].to_i
+    @payload = {}
+    @payload[:step_command] = current_step = params[:step_command].to_sym
 
     case current_step
-    when 1
-      s = Survey.new(title: params[:title], status: Survey::SurveyStatus::DRAFT)
-      if s.valid?
-        s.save
+    when :init
+      @survey = Survey.new(title: params[:title], status: Survey::SurveyStatus::DRAFT)
+      if @survey.valid?
+        @survey.save
         success = true
       end
-    when 2
+    when :add_ranking_screen
+      # @survey wd have been set by params_check
+      success = true
     end
 
-    next_step = current_step + (success ? 1 : 0)
-    flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey') unless status
-    redirect_to surveys_url(step: next_step), alert: flash[:alert]    
+    if success
+      redirect_to survey_url(@survey)
+    else
+      flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
+      if params[:step_command] == 'init'
+        render 'new'
+      else
+        render 'edit'
+      end
+    end
   end
   
   private
@@ -77,10 +67,35 @@ class SurveysController < ApplicationController
   end
 
   def params_check
-    params[:id].present?
+    status = true
+    case params[:action].to_sym
+    when :show
+      status &= params[:id].present? && (@survey = Survey.find_by_id params[:id])
+    when :edit, :update
+      # Need a valid command
+      status &= params[:step_command]
+      status &= valid_step?(params[:step_command])
+      
+      # Unless the command is to init, need a survey to edit
+      unless params[:step_command].to_sym == :init
+        valid_id = params[:with_survey].present? && (@survey = Survey.find_by_id params[:with_survey])
+        status &= valid_id
+      end
+    end
+    
+    if !status
+      redirect_to page_404
+      false
+    else
+      true
+    end
   end
 
   def total_steps
     2
   end
+
+  def valid_step?(req)
+    [:init, :add_ranking_screen].include? req.to_sym
+  end 
 end

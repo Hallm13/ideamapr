@@ -5,6 +5,8 @@ class Survey < ActiveRecord::Base
     CLOSED=2
   end
   
+  validates :title, length: {minimum: 12}
+
   has_many :ideas, through: :survey_assignments
   has_many :survey_assignments
   belongs_to :owner, class_name: 'User'
