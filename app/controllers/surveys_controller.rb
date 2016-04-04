@@ -1,4 +1,7 @@
 class SurveysController < ApplicationController
+  include SqlOptimizers
+  include RelationalLogic
+  
   before_action :admin_signed_in?, except: :show 
   before_action :params_check
 
@@ -47,6 +50,9 @@ class SurveysController < ApplicationController
     when :add_ranking_screen
       # @survey wd have been set by params_check
       success = true
+    when :add_question
+      handle_question_request params
+      success = true
     end
 
     if success
@@ -73,13 +79,17 @@ class SurveysController < ApplicationController
       status &= params[:id].present? && (@survey = Survey.find_by_id params[:id])
     when :edit, :update
       # Need a valid command
-      status &= params[:step_command]
       status &= valid_step?(params[:step_command])
       
       # Unless the command is to init, need a survey to edit
       unless params[:step_command].to_sym == :init
         valid_id = params[:with_survey].present? && (@survey = Survey.find_by_id params[:with_survey])
         status &= valid_id
+      end
+
+      # Adding question will need a qn type
+      if params[:step_command].to_sym == :add_question
+        status &= valid_question_type?(params[:question_type])
       end
     end
     
@@ -96,6 +106,10 @@ class SurveysController < ApplicationController
   end
 
   def valid_step?(req)
-    [:init, :add_ranking_screen].include? req.to_sym
-  end 
+    req and [:init, :add_ranking_screen, :add_question].include? req.to_sym
+  end
+
+  def valid_question_type?(req)
+    req and [:procon].include? req.to_sym
+  end
 end

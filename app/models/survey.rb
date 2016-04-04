@@ -7,8 +7,12 @@ class Survey < ActiveRecord::Base
   
   validates :title, length: {minimum: 12}
 
-  has_many :ideas, through: :survey_assignments
-  has_many :survey_assignments
+  has_many :survey_questions, through: :question_assignments
+  has_many :question_assignments
+  
+  has_many :ideas, through: :idea_assignments
+  has_many :idea_assignments, as: :groupable
+
   belongs_to :owner, class_name: 'User'
   
   has_secure_token

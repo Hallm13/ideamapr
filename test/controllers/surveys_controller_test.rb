@@ -62,12 +62,33 @@ class SurveysControllerTest < ActionController::TestCase
   end
   
   describe '#update' do
-    it 'handles errors' do
-      title = 'short'
-      refute_difference('Survey.count') do
-        post :update, step_command: 'init', title: title
+    before do
+      @s = surveys(:survey_1)
+      @idea_list = [ideas(:idea_1), ideas(:idea_2)].map { |i| i.id }.join(',')
+    end
+    
+    describe 'errors' do
+      it 'validates Survey titles' do
+        title = 'short'
+        refute_difference('Survey.count') do
+          post :update, step_command: 'init', title: title
+        end
+        assert_template :new
       end
-      assert_template :new
+
+      it 'requires ids correctly formed when adding questions' do
+        refute_difference('IdeaAssignment.count') do
+          post :update, step_command: 'add_question', question_type: 'procon', with_survey: @s.id, idea_list: '-1,-2'
+        end
+      end
+
+      it 'requires a question type' do
+        post :update, step_command: 'add_question', with_survey: @s.id, idea_list: "#{ideas(:idea_1).id}"
+        assert_redirected_to '/404.html'
+        post :update, question_type: 'not a type',
+             step_command: 'add_question', with_survey: @s.id, idea_list: "#{ideas(:idea_1).id}"
+        assert_redirected_to '/404.html'
+      end
     end
     
     it 'works to init' do
@@ -83,9 +104,25 @@ class SurveysControllerTest < ActionController::TestCase
     end
 
     it 'works to add ranking screen' do
-      s = surveys(:survey_1)
-      post :update, step_command: 'add_ranking_screen', with_survey: s.id
-      assert_redirected_to survey_url(s)
+      post :update, step_command: 'add_ranking_screen', with_survey: @s.id
+      assert_redirected_to survey_url(@s)
     end
+
+    it 'adds a qn to a survey dynamically' do
+      q_assgns = QuestionAssignment.count
+      assert_difference('SurveyQuestion.count', 1) do
+        post :update, step_command: 'add_question', question_type: 'procon', with_survey: @s.id, idea_list: @idea_list
+      end
+      assert_equal q_assgns + 1, QuestionAssignment.count
+      
+      assert_equal SurveyQuestion::QuestionType::PROCON, SurveyQuestion.last.question_type
+    end
+
+    it 'adds an existing qn to a survey' do
+      assert_difference('QuestionAssignment.count', 1) do
+        post :update, step_command: 'add_question', question_type: 'procon', with_survey: @s.id,
+             with_survey_question: survey_questions(:sq_1).id
+      end
+    end    
   end
 end

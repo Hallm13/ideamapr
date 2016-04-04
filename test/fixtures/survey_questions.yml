@@ -1,0 +1,2 @@
+sq_1:
+  question_type: <%= SurveyQuestion::QuestionType::PROCON %>
