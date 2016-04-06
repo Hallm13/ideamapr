@@ -1,13 +1,13 @@
 @font-face {
   font-family: Montserrat;
-  src:url('Montserrat-Regular.ttf') format('truetype');
+  src: font-url(asset-path('Montserrat-Regular.ttf')) format('truetype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: MontserratBold;
-  src:url('Montserrat-Bold.ttf') format('truetype');
+  src: font-url(asset-path('Montserrat-Bold.ttf')) format('truetype');
   font-weight: 700;
 }
 
