@@ -2,7 +2,7 @@ class SurveysController < ApplicationController
   include SqlOptimizers
   include RelationalLogic
   
-  before_action :admin_signed_in?, except: :show 
+  before_action :authenticate_admin!, except: :show 
   before_action :params_check
 
   def index
@@ -68,10 +68,6 @@ class SurveysController < ApplicationController
   end
   
   private
-  def admin_signed_in?
-    !current_admin.nil?
-  end
-
   def params_check
     status = true
     case params[:action].to_sym
@@ -110,6 +106,6 @@ class SurveysController < ApplicationController
   end
 
   def valid_question_type?(req)
-    req and [:procon].include? req.to_sym
+    req and [:procon, :ranking, :budgeting, :yeanay, :toppri].include? req.to_sym
   end
 end

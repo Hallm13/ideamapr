@@ -1,0 +1,10 @@
+.row
+  .col-xs-12
+    .page-title
+      = @question.title
+  
+= form_tag("/survey_questions/#{@question.id}/edit", method: :post) do
+  = hidden_field_tag :step_command, @payload[:step_command]
+  = render partial: "#{@payload[:step_command]}"
+
+  = submit_tag 'Add', class: 'btn btn-primary'

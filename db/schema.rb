@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404165833) do
+ActiveRecord::Schema.define(version: 20160405164343) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 20160404165833) do
     t.integer  "question_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "question_prompt"
+    t.string   "title"
   end
 
   create_table "surveys", force: :cascade do |t|

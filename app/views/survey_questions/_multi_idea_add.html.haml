@@ -1,0 +1,20 @@
+.form-header
+  Select One or More Ideas 
+
+%h2
+  Question Type
+  = select_tag('survey_question[question_type]', options_for_select(@question_type_select, @select_default))
+
+%h2
+  Question Prompt
+  = text_field_tag 'survey_question[question_prompt]', ''
+  .helper-line
+    Default is:
+    %span#helper_edit
+      
+- Idea.all.each do |idea|
+  .row
+    .cell-1.col-xs-12
+      = check_box_tag 'survey_question[ideas[]]', idea.id
+      %span
+        = idea.title

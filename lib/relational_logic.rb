@@ -10,7 +10,8 @@ module RelationalLogic
       if !cleaned_idea_ids.blank?
         ActiveRecord::Base.transaction do
           qtype_class = "SurveyQuestion::QuestionType::#{params[:question_type].upcase}".constantize
-          qn = SurveyQuestion.create question_type: qtype_class
+          qn = SurveyQuestion.create title: SurveyQuestion::QuestionType.default_title(qtype_class),
+                                     question_type: qtype_class
           
           raw_execute(:multi_idea_add, qn, cleaned_idea_ids)
         end
