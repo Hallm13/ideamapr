@@ -22,7 +22,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert assigns(:payload)
 
       assert_select('option') do |elts|
-        assert_equal SurveyQuestion::QuestionType.multi_idea_commands.size, elts.size
+        assert_equal SurveyQuestion::QuestionType.option_array.size, elts.size
       end
     end
   end

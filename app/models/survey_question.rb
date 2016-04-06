@@ -7,19 +7,24 @@ class SurveyQuestion < ActiveRecord::Base
     TOPPRI=4
 
     def self.default_title(id)
-      prompts_array[id]
+      default_titles_array[id]
     end
 
-    def self.prompts_array
+    def self.prompts
+      {'Pro/Con' => 'Supply pros and cons for these ideas',
+       'Ranking' => 'Rank these ideas in order of importance',
+       'Yea/Nay' => 'Mark the ideas in this list that you consider important',
+       'Budgeting' => 'Perform a budgeting exercise with these ideas',
+       'Top Priority' => 'Tell us which idea you pick as the top priority'
+      }
+    end
+    
+    def self.default_titles_array
       ['Pro/con question', 'Ranking question', 'Yea/Nay question', 'Budgeting question', 'Top priority question']
     end
     
     def self.option_array
       [['Pro/Con', 0], ['Ranking', 1], ['Yea/Nay', 2], ['Budgeting', 3], ['Top Priority', 4]]
-    end
-
-    def self.multi_idea_commands
-      [['Ranking', 1], ['Yea/Nay', 2], ['Budgeting', 3], ['Top Priority', 4]]
     end
     
     def self.name(id)

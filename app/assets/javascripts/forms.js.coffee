@@ -1,18 +1,20 @@
-prompts = (inp) ->
-  map =
-    'Ranking' : 'Rank these ideas in order of importance'
-    'Yea/Nay' : 'Mark the ideas in this list that you consider important'
-  
-  if map[inp]
-    return map[inp]
+set_prompt = (css_select) ->
+  window.selector = css_select
+  if window.prompt_map
+    prompt = window.prompt_map['data'][$('#survey_question_question_type option:selected').text()]
+    $(css_select).text prompt
   else
-    return ''  
+    $.post('/ajax_api',
+        'payload' : 'survey_question/get_prompt_map/'
+      (d, s, x) -> 
+        window.prompt_map = d
+        set_prompt(window.selector) # recursion
+    )
   
 functions = ->
-  $('#helper_edit').text(prompts($('#survey_question_question_type option:selected').text()))
+  set_prompt('#helper_edit')
   $('#survey_question_question_type').change( (evt) ->
-    prompt = prompts($(evt.target).closest('#survey_question_question_type').find('option:selected').text())
-    $('#helper_edit').text prompt
+    set_prompt('#helper_edit')
   )
 $(document).on('page:load ready', functions)
 

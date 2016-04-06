@@ -57,7 +57,7 @@ class SurveyQuestionsController < ApplicationController
   end
 
   def set_dropdown_options
-    @question_type_select = SurveyQuestion::QuestionType.multi_idea_commands
+    @question_type_select = SurveyQuestion::QuestionType.option_array
     @select_default = SurveyQuestion::QuestionType.name(@question.question_type)
   end
 end
