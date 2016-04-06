@@ -22,4 +22,31 @@ module RelationalLogic
     
     @survey.survey_questions << qn unless qn.nil?
   end
+
+  def update_has_many!(obj, model, through_model, model_ids, opts = {})
+    # obj has_many model's (through ...), update to reflect model_ids instead
+
+    fkey = opts[:foreign_key] || "#{obj.class.underscore}_id"
+    polymorphic_type = opts[:polymorphic] ? obj.class : nil
+    
+    existing_ids = obj.send("#{model.constantize.table_name}".to_sym).pluck(:id)
+    remove_ids = existing_ids - model_ids
+
+    add_ids = model_ids - existing_ids
+    thru_model_ar = through_model.constantize
+    thru_model_ar.send(:import,
+                       add_ids.map do |id|
+                         nm = thru_model_ar.send(:new)
+                         nm.send("#{model.underscore}_id=", id)
+                         nm.send("#{fkey}=", obj.id)
+                         if polymorphic_type
+                           nm.send((fkey.gsub(/_id/, '') + '_type=').to_sym, polymorphic_type)
+                         end
+                         nm
+                       end
+                      )
+
+    del_cands = thru_model_ar.send(:where, "#{model.underscore}_id in (?)", remove_ids)
+    del_cands.map &:delete
+  end
 end

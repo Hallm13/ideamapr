@@ -5,7 +5,8 @@ IdeaMapr::Application.routes.draw do
   resources :users, path: 'profiles'
 
   resources :ideas
-  resources :survey_questions
+  resources :survey_questions, except: [:new, :create]
+  
   resources :surveys, only: [:show, :index] do
     collection do
       get '/edit/:step_command', action: 'edit', as: 'edit'

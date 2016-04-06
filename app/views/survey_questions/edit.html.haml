@@ -1,10 +1,25 @@
 .row
   .col-xs-12
-    .page-title
-      = @question.title
+    - if @question.id.nil? 
+      Create Question
+    - else
+      .page-title
+        = "Edit Question: #{@question.title}"
   
-= form_tag("/survey_questions/#{@question.id}/edit", method: :post) do
+= form_tag("/survey_questions/#{@question.id || '0'}/update", method: :post) do
   = hidden_field_tag :step_command, @payload[:step_command]
-  = render partial: "#{@payload[:step_command]}"
+  = label_tag :title
+  = text_field_tag :title, @question.title, class: 'form-control'
 
-  = submit_tag 'Add', class: 'btn btn-primary'
+  .form-row
+    = label_tag :question_type
+    = select_tag('survey_question[question_type]', options_for_select(@question_type_select, @select_default))
+  .form-row
+    = label_tag :question_prompt
+    = text_field_tag :question_prompt
+    .helper-line
+      Default is:
+      %span#helper_edit
+
+  = render partial: "#{@payload[:step_command]}"
+  = submit_tag 'Save', class: 'btn btn-primary'

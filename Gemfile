@@ -9,6 +9,7 @@ gem 'quiet_assets'
 
 # Admin Interface
 gem 'rails_admin'
+gem 'activerecord-import'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'

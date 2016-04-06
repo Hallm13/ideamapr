@@ -1,0 +1,9 @@
+.form-header
+  Select One or More Ideas 
+      
+- Idea.all.each do |idea|
+  .row
+    .cell-1.col-xs-12
+      = check_box_tag 'survey_question[ideas[]]', idea.id
+      %span
+        = idea.title
