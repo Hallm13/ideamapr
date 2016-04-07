@@ -12,7 +12,7 @@
         = question.title
     .col-xs-2
       .cell-1
-        = question.question_type || 'Not set'
+        = SurveyQuestion::QuestionType.name(question.question_type) || 'Not set'
     .col-xs-4
       .cell-1
-        = link_to '+ Ranking', edit_survey_question_url(question, step_command: :multi_idea_add)
+        = link_to '> Edit', edit_survey_question_url(question, step_command: :idea_add)

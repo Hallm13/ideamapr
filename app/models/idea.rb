@@ -1,5 +1,13 @@
 class Idea < ActiveRecord::Base
-  has_many :surveys, through: :survey_assignments
+  def surveys
+    Survey.where('id in (?)',
+                 IdeaAssignment.where('idea_id = ? and groupable_type = ?', self.id, 'Survey').pluck(:groupable_id))
+  end
+  def survey_questions
+    SurveyQuestion.where('id in (?)',
+                 IdeaAssignment.where('idea_id = ? and groupable_type = ?', self.id, 'SurveyQuestion').pluck(:groupable_id))
+  end
+  
   has_many :survey_assignments
 
   validates :title, length: {minimum: 12}

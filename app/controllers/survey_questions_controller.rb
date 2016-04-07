@@ -8,23 +8,25 @@ class SurveyQuestionsController < ApplicationController
   end
   
   def edit
-    @payload = {step_command: :idea_add}
-
     set_dropdown_options
   end
 
   def update
+    set_dropdown_options
+
     attrs = params[:survey_question].permit(:title, :question_type, :question_prompt)
     @question.attributes= attrs
 
     saved = false
     if @question.valid?
-      idea_ids = params[:survey_question][:ideas]
+      idea_ids = params[:survey_question][:ideas] || []
 
       ActiveRecord::Base.transaction do      
         @question.save
-        update_has_many @question, 'Idea', idea_ids, polymorphic: true, foreign_key: 'groupable_id'
+        update_has_many! @question, 'Idea', 'IdeaAssignment', idea_ids, polymorphic: true, foreign_key: 'groupable_id'
       end
+      
+      # TODO this is not correct      
       saved = true
     end
     if saved
@@ -65,6 +67,7 @@ class SurveyQuestionsController < ApplicationController
   end
 
   def set_dropdown_options
+    @payload = {step_command: :idea_add}
     @question_type_select = SurveyQuestion::QuestionType.option_array
     @select_default = SurveyQuestion::QuestionType.name(@question.question_type)
   end

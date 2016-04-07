@@ -6,17 +6,18 @@
       .page-title
         = "Edit Question: #{@question.title}"
   
-= form_tag("/survey_questions/#{@question.id || '0'}/update", method: :post) do
+= form_tag("/survey_questions/#{@question.id || '0'}", method: :post) do
+  = hidden_field_tag '_method', 'put'        
   = hidden_field_tag :step_command, @payload[:step_command]
-  = label_tag :title
-  = text_field_tag :title, @question.title, class: 'form-control'
+  = label_tag 'survey_question[title]', 'Title'
+  = text_field_tag 'survey_question[title]', @question.title, class: 'form-control', autofocus: true
 
   .form-row
     = label_tag :question_type
     = select_tag('survey_question[question_type]', options_for_select(@question_type_select, @select_default))
   .form-row
     = label_tag :question_prompt
-    = text_field_tag :question_prompt
+    = text_field_tag 'survey_question[question_prompt]'
     .helper-line
       Default is:
       %span#helper_edit

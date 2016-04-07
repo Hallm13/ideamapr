@@ -26,13 +26,14 @@ module RelationalLogic
   def update_has_many!(obj, model, through_model, model_ids, opts = {})
     # obj has_many model's (through ...), update to reflect model_ids instead
 
-    fkey = opts[:foreign_key] || "#{obj.class.underscore}_id"
+    fkey = opts[:foreign_key] || "#{obj.class.to_s.underscore}_id"
     polymorphic_type = opts[:polymorphic] ? obj.class : nil
     
     existing_ids = obj.send("#{model.constantize.table_name}".to_sym).pluck(:id)
     remove_ids = existing_ids - model_ids
 
     add_ids = model_ids - existing_ids
+
     thru_model_ar = through_model.constantize
     thru_model_ar.send(:import,
                        add_ids.map do |id|
