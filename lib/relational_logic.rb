@@ -3,15 +3,17 @@ module RelationalLogic
     # The request can either contain a list of ideas that takes precedence and dynamically creates a question
     # With those ideas, or an ID of an existing question
 
+    return if @survey.nil? or (params.keys.sort != [:idea_list, :question_type] and
+      params.keys != [:with_survey_question])
     qn = nil
-    if params[:idea_list]
+    
+    if params[:idea_list] and SurveyQuestion.valid_type?(params[:question_type])
       # Forces the selection of actual records given any possible unclean list of IDs from the scary Internet.
-      cleaned_idea_ids = Idea.where('id in (?)', params[:idea_list]&.split(/,/)).pluck(:id)
+      cleaned_idea_ids = Idea.where('id in (?)', params[:idea_list]).pluck(:id)
       if !cleaned_idea_ids.blank?
         ActiveRecord::Base.transaction do
-          qtype_class = "SurveyQuestion::QuestionType::#{params[:question_type].upcase}".constantize
-          qn = SurveyQuestion.create title: SurveyQuestion::QuestionType.default_title(qtype_class),
-                                     question_type: qtype_class
+          qn = SurveyQuestion.create title: SurveyQuestion::QuestionType.default_title(params[:question_type]),
+                                     question_type: params[:question_type]
           
           raw_execute(:multi_idea_add, qn, cleaned_idea_ids)
         end

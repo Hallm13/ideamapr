@@ -3,6 +3,17 @@ class Survey < ActiveRecord::Base
     DRAFT=0
     PUBLISHED=1
     CLOSED=2
+
+    def self.option_array
+      [['Draft', 0], ['Published', 1], ['Closed', 2]]
+    end    
+    def self.name(id)
+      if id.nil?
+        nil
+      else
+        option_array.select { |i| i[1] == id }.first&.first
+      end
+    end
   end
   
   validates :title, length: {minimum: 12}

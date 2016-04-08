@@ -12,7 +12,7 @@
   - @surveys.each do |survey|
     .col-xs-6
       .cell-1
-        = survey.title
+        = link_to survey.title, edit_survey_url(survey)
     .col-xs-2
       .cell-1
         Active

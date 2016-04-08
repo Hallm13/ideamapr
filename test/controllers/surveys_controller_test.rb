@@ -45,35 +45,26 @@ class SurveysControllerTest < ActionController::TestCase
   
   describe '#edit' do
     describe '404 errors' do      
-      it 'is triggered by bad step' do
-        get :edit, step_command: 'notastep'
-      end
-      it 'is triggered by bad survey' do
-        get :edit, step_command: :add_ranking_screen, with_survey: :abc
-      end
-      after do
+      it 'is triggered by lack of proper id' do
+        get :edit, id: -1
         assert_redirected_to '/404.html'
       end
     end
 
-    it 'works for init' do
-      get :edit, step_command: :init
-      assert_template :new
-      assert_select 'input[type=hidden]' do |elts|
-        k = elts.select { |elt| elt['name'] == 'step_command'}
-        assert_equal 1, k.size
-        assert_equal 'init', k[0]['value']
+    it 'works for id 0' do
+      get :edit, id: '0'
+      assert_template :edit
+      assert assigns(:survey_status_select)
+      assert_match 'Create', response.body
+      assert_select('.builder-box') do |elts|
+        assert_equal 3, elts.size
       end
     end      
     
-    it 'works for step add-ranking-screen' do
-      get :edit, step_command: :add_ranking_screen, with_survey: surveys(:survey_1).id
-      assert_match /idea 1/, response.body
-      assert assigns(:payload)
-      
-      assert_select('.idea-box') do |elts|
-        assert_equal Idea.count, elts.size
-      end
+    it 'works for existing survey' do
+      get :edit, id: surveys(:survey_1).id
+      assert_match /Edit/, response.body
+      assert assigns(:survey_status_select)
     end
   end
   
@@ -87,58 +78,25 @@ class SurveysControllerTest < ActionController::TestCase
       it 'validates Survey titles' do
         title = 'short'
         refute_difference('Survey.count') do
-          post :update, step_command: 'init', title: title
+          post :update, id: '0', survey: {title: title, status: 0}
         end
-        assert_template :new
-      end
 
-      it 'requires ids correctly formed when adding questions' do
-        refute_difference('IdeaAssignment.count') do
-          post :update, step_command: 'add_question', question_type: 'procon', with_survey: @s.id, idea_list: '-1,-2'
-        end
-      end
-
-      it 'requires a question type' do
-        post :update, step_command: 'add_question', with_survey: @s.id, idea_list: "#{ideas(:idea_1).id}"
-        assert_redirected_to '/404.html'
-        post :update, question_type: 'not a type',
-             step_command: 'add_question', with_survey: @s.id, idea_list: "#{ideas(:idea_1).id}"
-        assert_redirected_to '/404.html'
+        refute_nil flash[:alert]
+        assert_template :edit
       end
     end
     
     it 'works to init' do
-      title = 'is a valid title'
+      title = 'is a valid long title'
       
-      assert_difference('Survey.count', 1) do
-        post :update, step_command: 'init', title: title
+      assert_difference('Survey.count', 1) do 
+        post :update, id: '0', survey: {title: title, status: 0}
       end
+      
       s = Survey.last
       assert_equal title, s.title
 
       assert_redirected_to survey_url(s)
     end
-
-    it 'works to add ranking screen' do
-      post :update, step_command: 'add_ranking_screen', with_survey: @s.id
-      assert_redirected_to survey_url(@s)
-    end
-
-    it 'adds a qn to a survey dynamically' do
-      q_assgns = QuestionAssignment.count
-      assert_difference('SurveyQuestion.count', 1) do
-        post :update, step_command: 'add_question', question_type: 'procon', with_survey: @s.id, idea_list: @idea_list
-      end
-      assert_equal q_assgns + 1, QuestionAssignment.count
-      
-      assert_equal SurveyQuestion::QuestionType::PROCON, SurveyQuestion.last.question_type
-    end
-
-    it 'adds an existing qn to a survey' do
-      assert_difference('QuestionAssignment.count', 1) do
-        post :update, step_command: 'add_question', question_type: 'procon', with_survey: @s.id,
-             with_survey_question: survey_questions(:sq_1).id
-      end
-    end    
   end
 end

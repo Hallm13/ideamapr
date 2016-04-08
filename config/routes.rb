@@ -7,7 +7,7 @@ IdeaMapr::Application.routes.draw do
   resources :ideas
   resources :survey_questions, except: [:new, :create]
   
-  resources :surveys, only: [:show, :index] do
+  resources :surveys, only: [:show, :index, :update, :edit] do
     collection do
       get '/edit/:step_command', action: 'edit', as: 'edit'
       post '/update', action: 'update'

@@ -16,3 +16,4 @@
 //= require turbolinks
 //= require underscore
 //= require forms
+//= require multi_select

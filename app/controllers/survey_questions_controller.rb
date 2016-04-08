@@ -5,6 +5,11 @@ class SurveyQuestionsController < ApplicationController
   
   def index
     @questions = SurveyQuestion.all
+    if params[:for_survey]
+      @survey = Survey.find_by_id params[:for_survey].to_i
+    end
+
+    
   end
   
   def edit

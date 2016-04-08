@@ -1,4 +1,7 @@
 class SurveyQuestion < ActiveRecord::Base
+  def self.valid_type?(id)
+    id.to_i >= 0 and id.to_i <= QuestionType.max_type
+  end
   class QuestionType
     PROCON=0
     RANKING=1
@@ -7,9 +10,13 @@ class SurveyQuestion < ActiveRecord::Base
     TOPPRI=4
 
     def self.default_title(id)
-      default_titles_array[id]
+      default_titles_array[id.to_i]
     end
 
+    def self.max_type
+      option_array.map { |i| i[1]}.sort.last
+    end
+    
     def self.prompts
       {'Pro/Con' => 'Supply pros and cons for these ideas',
        'Ranking' => 'Rank these ideas in order of importance',
@@ -24,7 +31,7 @@ class SurveyQuestion < ActiveRecord::Base
     end
     
     def self.option_array
-      [['Pro/Con', 0], ['Ranking', 1], ['Yea/Nay', 2], ['Budgeting', 3], ['Top Priority', 4]]
+      [['Pro/Con', PROCON], ['Ranking', RANKING], ['Yea/Nay', YEANAY], ['Budgeting', BUDGETING], ['Top Priority', TOPPRI]]
     end
     
     def self.name(id)

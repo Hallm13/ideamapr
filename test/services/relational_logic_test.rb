@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class RelationalLogicTest < ActiveSupport::TestCase
+  include SqlOptimizers
   include RelationalLogic
   test '#update_has_many!' do
     assert_difference('IdeaAssignment.count', 1) do
@@ -8,6 +9,20 @@ class RelationalLogicTest < ActiveSupport::TestCase
                        foreign_key: 'groupable_id', polymorphic: true
     end
   end
-end
 
-  
+  describe 'handle_question_request' do
+    it 'works when called without setting instance variable' do
+      refute_difference('SurveyQuestion.count') do
+        handle_question_request({})
+      end
+    end
+
+    it 'works normally' do
+      @survey = surveys(:survey_1)
+      idea_list = [ideas(:idea_1).id, ideas(:idea_2).id]
+      assert_difference('SurveyQuestion.count') do
+        handle_question_request({idea_list: idea_list, question_type: 0})
+      end
+    end
+  end
+end

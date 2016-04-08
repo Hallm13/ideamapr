@@ -10,3 +10,24 @@
   margin-bottom: 20px;
 }
 
+
+.builder-box {
+  padding: 10px;
+  border: dashed 3px $background-gray;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  textarea {
+    width: 100%;
+  }
+  
+  .title {
+    text-align: center;
+    font-family: MontserratBold;
+    margin-bottom: 5px;
+  }
+
+  select {
+    display: block;
+    margin: 0 auto;
+  }
+}

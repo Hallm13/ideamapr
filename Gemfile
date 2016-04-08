@@ -75,7 +75,7 @@ gem 'dotenv'
 
 #testing with minitest
 group :test do
-  gem 'poltergeist'
+  gem 'capybara-webkit'
   gem 'mocha'
   gem 'simplecov'
   gem 'webmock'

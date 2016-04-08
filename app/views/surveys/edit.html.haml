@@ -1,9 +1,14 @@
-%h1
-  Add Ranking Screen
+.row
+  .col-xs-12
+    - if @survey.id.nil? 
+      Create Survey
+    - else
+      .page-title
+        = "Edit Survey: #{@survey.title}"
   
-= form_tag('/surveys/update', method: :post) do
-  = hidden_field_tag :with_survey, @survey.id
-  = hidden_field_tag :step_command, @payload[:step_command]
-  = render partial: "step_#{@payload[:step_command]}"
-
-  = submit_tag 'Add'
+= form_tag("/surveys/#{@survey.id || '0'}/update", method: :post) do
+  = hidden_field_tag '_method', 'put'        
+  = render partial: 'title', layout: 'builder_box', locals: {build_box_title: 'Survey Title'}
+  = render partial: 'intro_field', layout: 'builder_box', locals: {build_box_title: 'Edit Introduction'}
+  = render partial: 'survey_status', layout: 'builder_box', locals: {build_box_title: 'Set Status'}
+  = submit_tag 'Save', class: 'btn btn-primary'

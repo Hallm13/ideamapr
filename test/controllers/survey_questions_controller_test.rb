@@ -32,6 +32,18 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_redirected_to survey_questions_path
     end
   end
+
+  describe "#index" do
+    it "shows all survey qns" do
+      get :index
+      assert_select('.question-row', SurveyQuestion.count)
+    end
+
+    it "activates selection when asked" do
+      get :index, {for_survey: surveys(:survey_1).id}
+      refute_nil assigns(:survey)
+    end
+  end
   
   describe 'authorization' do
     it 'is required' do

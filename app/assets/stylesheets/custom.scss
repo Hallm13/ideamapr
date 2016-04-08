@@ -129,4 +129,24 @@ form {
 .float-right {
   float: right;
 }
-	   
+
+.nav-secondary {
+  margin-bottom: 20px;
+}
+
+.secondary-item-border {
+  background-color: $background-gray;
+  padding: 5px;  
+}
+.secondary-item {
+  text-align: center;
+  padding: 5px;
+  background-color: $background-gray;
+  a, a:hover, a:visited {
+		color: black;
+	      }
+  &:hover {
+    background-color: $style-white;
+    border-radius: 5px;
+  }
+}
