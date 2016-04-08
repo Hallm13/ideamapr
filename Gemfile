@@ -77,7 +77,7 @@ gem 'dotenv'
 group :test do
   gem 'capybara-webkit'
   gem 'mocha'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'webmock'
   gem 'minitest-spec-rails'
   gem 'minitest-rails-capybara'
