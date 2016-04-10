@@ -19,6 +19,7 @@ gem 'uglifier'
 
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails'
+gem 'rails-backbone'
 
 # Everybody gotta have some jQuery (UI) and Bootstrap!
 gem 'jquery-rails'

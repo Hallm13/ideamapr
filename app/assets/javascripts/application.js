@@ -15,7 +15,10 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require backbone/idea_mapr
 //= require everything
 //= require forms
 //= require multi_select
-//= require underscore

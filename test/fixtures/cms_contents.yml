@@ -1,7 +1,7 @@
 ht_one:
-  key: help_text_survey-create-1
+  key: help_text_survey-create-title
   cms_text: MyText
 
 ht_two:
-  key: help_text_survey-create-2
+  key: help_text_survey-create-intro
   cms_text: MyText

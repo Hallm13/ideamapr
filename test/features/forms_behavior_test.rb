@@ -16,6 +16,13 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
     elt.set 'abc'
     assert_match /white/, page.all('.builder-before')[0]['style']
   end
+
+  test 'helper text' do
+    assert page.has_css?('.help-text', visible: false)
+    elt = page.all('.builder-after')[0]
+    elt.click
+    assert page.has_css?('.help-text', visible: true)
+  end
   
   def teardown
     Capybara.default_driver = :rack_test

@@ -1,3 +1,25 @@
+window.CmsModel = Backbone.Model.extend
+  urlRoot: '/ajax_api?payload=cms/get/',
+  getById: ->
+    this.fetch
+      success: (m, resp, opt) ->
+        m.set(resp['data'])
+
+window.cms_text = new CmsModel()
+window.CmsList = Backbone.Collection.extend
+  urlRoot: '/ajax_api?payload=cms/get/',
+  url: ->
+    return this.urlRoot + this.search_filter
+  model: CmsModel,
+  getById: ->
+    this.fetch
+      success: (coll, resp, opt) ->
+        coll.set resp['data']
+    
+window.cms_list = new CmsList()
+cms_list.search_filter = 'help_text'
+cms_list.getById()
+
 Controller = ->
 Controller.prototype = 
   set_length : (elt) ->
@@ -21,15 +43,8 @@ set_prompt = (css_select) ->
         set_prompt(window.selector) # recursion
     )
 
-window.get_help_text = (state) ->
-  $.get('/ajax_api?payload=cms/get/help_text',
-    (d, s, x) ->
-      window.help_text = d['data']
-  )
-
 functions = ->      
   set_prompt('#helper_edit')
-  get_help_text()
 
   if $('.builder-box')
     $('.builder-box').each (idx, elt) ->
@@ -38,16 +53,15 @@ functions = ->
       new_elt.text id
       $(elt).prepend new_elt
 
-      new_elt = $('<div>').addClass('builder-after')
       id = $(elt).find('.hidden').data('box-key')
-
-      new_elt.text('?')
-      $(elt).append new_elt
-      new_elt.click (evt) ->
-        help_box = $(elt).find('.help-text')
-        if help_box.text() == ''
-          help_box.text(window.help_text['help_text_'+id])
-        help_box.toggle()
+    $('.builder-after').click (evt) ->
+      help_box = $(this).closest('.builder-box').find('.help-text')
+      id = $(this).closest('.builder-box').find('.hidden').data('box-key')
+  
+      if help_box.text() == ''
+          help_box.text(window.cms_list.where({key: 'help_text_'+id})[0].get('cms_text'))
+      help_box.toggle()
+      
     $('#survey_question_question_type').change( (evt) ->
       set_prompt('#helper_edit')
     )
