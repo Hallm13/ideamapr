@@ -3,3 +3,56 @@
   text-align: center;
   margin-bottom: 5px;
 }
+
+.builder-box {
+  position: relative;
+  padding: 10px;
+  border: dashed 3px $background-gray;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  textarea {
+    width: 100%;
+  }
+  
+  .title {
+    text-align: center;
+    font-family: MontserratBold;
+    margin-bottom: 5px;
+  }
+  .help-text {
+    display: none;
+  }
+    
+  select {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.builder-before {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -30px;
+  height: 20px;
+  width: 20px;
+  background-color: white;
+  border-radius: 50%;
+  border: solid 1px black;
+  color: black;
+  text-align: center;
+}
+
+.builder-after {
+  display: block;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  top: 5px;
+  right: 10px;
+  background-color: wheat;
+  border-radius: 50%;
+  border: solid 1px black;
+  color: black;
+  text-align: center;
+}

@@ -14,6 +14,7 @@ IdeaMapr::Application.routes.draw do
     end
   end
   post '/ajax_api' => 'ajax#multiplex'
+  get '/ajax_api' => 'ajax#multiplex'
   
   root to: 'dashboard#show' # Change this to something else in your app.
 

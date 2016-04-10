@@ -8,7 +8,7 @@
   
 = form_tag("/surveys/#{@survey.id || '0'}/update", method: :post) do
   = hidden_field_tag '_method', 'put'        
-  = render partial: 'title', layout: 'builder_box', locals: {build_box_title: 'Survey Title'}
-  = render partial: 'intro_field', layout: 'builder_box', locals: {build_box_title: 'Edit Introduction'}
-  = render partial: 'survey_status', layout: 'builder_box', locals: {build_box_title: 'Set Status'}
+  = render partial: 'title', layout: 'builder_box', locals: {build_box_title: 'Survey Title', box_index: 1, box_key: 'survey-create-title'}
+  = render partial: 'intro_field', layout: 'builder_box', locals: {build_box_title: 'Edit Introduction', box_index: 2, box_key: 'survey-create-intro'}
+  = render partial: 'survey_status', layout: 'builder_box', locals: {build_box_title: 'Set Status', box_index: 3, box_key: 'survey-create-status'}
   = submit_tag 'Save', class: 'btn btn-primary'

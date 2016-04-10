@@ -45,11 +45,16 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
     end
   end
   
-  describe 'authorization' do
-    it 'is required' do
+  describe 'errors' do
+    it 'authorization is required' do
       sign_out admins(:admin_1)
       get :edit, {id: 0, step_command: :idea_add}
       assert_redirected_to new_admin_session_path
+    end
+
+    it 'valid parameters are required' do
+      put(:update, {id: 0, survey_question: {title: 'shor'}, step_command: :idea_add})
+      assert_template :edit
     end
   end
 end

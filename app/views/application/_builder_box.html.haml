@@ -1,4 +1,6 @@
 .builder-box
+  .hidden{'data-box-id' => box_index, 'data-box-key' => box_key}
   .title
     = build_box_title
+  .help-text
   = yield

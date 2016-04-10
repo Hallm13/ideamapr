@@ -15,5 +15,7 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require underscore
+//= require everything
 //= require forms
 //= require multi_select
+//= require underscore

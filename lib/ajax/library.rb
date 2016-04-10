@@ -12,6 +12,8 @@ module Ajax
         case controller
         when 'survey_question'
           status_struct = Ajax::SurveyQuestion.run_ajax_action(action, params)
+        when 'cms'
+          status_struct = Ajax::CmsContent.run_ajax_action(action, params)
         end
       end
       status_struct
