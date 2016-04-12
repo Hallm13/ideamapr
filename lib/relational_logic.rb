@@ -27,14 +27,18 @@ module RelationalLogic
 
   def update_has_many!(obj, model, through_model, model_ids, opts = {})
     # obj has_many model's (through ...), update to reflect model_ids instead
-
     fkey = opts[:foreign_key] || "#{obj.class.to_s.underscore}_id"
     polymorphic_type = opts[:polymorphic] ? obj.class : nil
-    
-    existing_ids = obj.send("#{model.constantize.table_name}".to_sym).pluck(:id)
-    remove_ids = existing_ids - model_ids
 
+    added_table = model.constantize.table_name
+    existing_ids = obj.send("#{added_table}".to_sym).pluck(:id)
+
+    remove_ids = existing_ids - model_ids
     add_ids = model_ids - existing_ids
+
+    # Clean the add_ids so spurious ones are ignored
+    possible_ids = model.constantize.send(:where, 'id in (?)', add_ids).pluck(:id)
+    add_ids = add_ids - (add_ids - possible_ids)
 
     thru_model_ar = through_model.constantize
     thru_model_ar.send(:import,
@@ -51,5 +55,7 @@ module RelationalLogic
 
     del_cands = thru_model_ar.send(:where, "#{model.underscore}_id in (?)", remove_ids)
     del_cands.map &:delete
+
+    true
   end
 end

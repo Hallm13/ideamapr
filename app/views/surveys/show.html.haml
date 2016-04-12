@@ -1,9 +1,9 @@
-%h1
-  Survey #{@survey.id}
-
 .row
   .page-title.col-xs-12
     #{@survey.title}
+.row
+  .page-title.col-xs-12
+    #{@survey.survey_questions.count} Questions
 
 .survey-summary
   .row.table-headers

@@ -112,6 +112,10 @@ form {
   padding: 5px;
 }
 
+.btn-primary {
+  background-image: linear-gradient($primary-button-gradient-start, $primary-button-gradient-end);
+}
+
 .brand-header {
   font-family: 'MontserratBold';
   font-weight: bold;

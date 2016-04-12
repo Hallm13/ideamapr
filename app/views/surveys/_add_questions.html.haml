@@ -1,0 +1,13 @@
+.row
+  - @survey_qns&.each do |qn|
+    .question-box
+      = hidden_field_tag 'survey[qns][]', qn.id
+      .col-xs-8.col-xs-offset-2.cell-1
+        = qn.title
+      .col-xs-2.delete-box
+        .fa.fa-trash-o
+  .col-xs-offset-3.col-xs-6
+    %button.btn.btn-primary#select-question
+      + Select a Question
+
+

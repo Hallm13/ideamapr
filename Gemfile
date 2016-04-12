@@ -13,6 +13,7 @@ gem 'activerecord-import'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
+gem 'font-awesome-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'

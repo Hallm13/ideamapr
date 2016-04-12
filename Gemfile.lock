@@ -330,6 +330,7 @@ DEPENDENCIES
   devise
   dotenv
   execjs
+  font-awesome-rails
   haml-rails
   has_secure_token
   jquery-rails

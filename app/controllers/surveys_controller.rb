@@ -27,8 +27,16 @@ class SurveysController < ApplicationController
 
   def edit
     set_dropdown
+
     if params[:id] == '0'
       @survey = Survey.new
+    else
+      @survey_qns = @survey.survey_questions.to_a
+    end
+    
+    if params[:survey]&.send(:[], :qns)
+      @survey_qns ||= []
+      @survey_qns += SurveyQuestion.where('id in (?)', params[:survey][:qns]).to_a
     end
   end
   
@@ -36,17 +44,26 @@ class SurveysController < ApplicationController
     success = false
     set_dropdown
     
-    attrs = params[:survey].permit(:title, :status)
+    attrs = params[:survey].permit(:title, :introduction, :status)
     @survey.attributes= attrs
+    @survey.owner_id = current_admin.id
+    @survey.owner_type = 'Admin'      
 
-    saved = false
-    if @survey.valid?
-      @survey.save
-      saved = true
+    if (saved = @survey.valid?)
+      sqn_ids = params[:survey][:qns]&.map { |i| i.to_i} || []
+      ActiveRecord::Base.transaction do      
+        saved &= @survey.save
+        saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
+      end
     end
   
     if saved
-      redirect_to survey_url(@survey)
+      # We saved so we can add questions
+      if params[:redirect] == 'select-question'
+        redirect_to survey_questions_url(for_survey: @survey.id)
+      else
+        redirect_to survey_url(@survey)
+      end
     else
       flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
       render :edit

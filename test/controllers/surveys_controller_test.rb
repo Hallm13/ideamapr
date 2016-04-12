@@ -22,6 +22,11 @@ class SurveysControllerTest < ActionController::TestCase
       @survey.regenerate_token
       @survey.save
     end
+
+    it 'works for admin' do
+      get :show, id: @survey.id
+      assert_template :show
+    end
     
     it 'works for public with token' do
       sign_out admins(:admin_1)
@@ -57,14 +62,28 @@ class SurveysControllerTest < ActionController::TestCase
       assert assigns(:survey_status_select)
       assert_match 'Create', response.body
       assert_select('.builder-box') do |elts|
-        assert_equal 3, elts.size
+        assert_equal 4, elts.size
       end
     end      
     
     it 'works for existing survey' do
       get :edit, id: surveys(:survey_1).id
       assert_match /Edit/, response.body
+      assert_match /survey 1 intro/, response.body
+      assert_match /survey 1 title/, response.body
       assert assigns(:survey_status_select)
+    end
+
+    it 'works with combining survey questions' do
+      get :edit, id: surveys(:survey_1).id, survey: {qns: new_survey_question_id_list}
+      assert_template :edit
+      assert_select('.fa-trash-o', 3)
+    end
+    
+    it 'works with adding survey questions' do
+      get :edit, id: surveys(:published_survey).id, survey: {qns: new_survey_question_id_list}
+      assert_template :edit
+      assert_select('.fa-trash-o', 2)
     end
   end
   
@@ -86,11 +105,12 @@ class SurveysControllerTest < ActionController::TestCase
       end
     end
     
-    it 'works to init' do
+    it 'works without redirect' do
       title = 'is a valid long title'
       
       assert_difference('Survey.count', 1) do 
-        post :update, id: '0', survey: {title: title, status: 0}
+        post :update, id: '0', survey: {title: title, introduction: 'is an introduction long and good',
+                                        status: 0}
       end
       
       s = Survey.last
@@ -98,5 +118,32 @@ class SurveysControllerTest < ActionController::TestCase
 
       assert_redirected_to survey_url(s)
     end
+
+    it 'works when questions are added' do
+      assert_difference('QuestionAssignment.count', 1) do 
+        post :update, id: surveys(:survey_1).id, survey: {title: 'is a valid long',
+                                                          introduction: 'is an introduction long and good',
+                                                          status: 0, qns: new_survey_question_id_list}
+      end
+
+      assert_redirected_to survey_url(surveys(:survey_1))
+
+      get :show, id: surveys(:survey_1).id
+      assert_match /2 questions/i, response.body
+    end
+    
+    it 'works to select questions' do
+      assert_difference('Survey.count', 1) do 
+        post :update, id: '0', survey: {title: 'is a valid long title', introduction: 'is an introduction long and good',
+                                        status: 0}, redirect: 'select-question'
+      end
+      s = Survey.last
+      assert_redirected_to survey_questions_url(for_survey: s.id)
+    end
+  end
+
+  private
+  def new_survey_question_id_list
+    [survey_questions(:sq_1).id, survey_questions(:sq_2).id, -1]
   end
 end

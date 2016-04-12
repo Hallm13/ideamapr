@@ -24,7 +24,7 @@ class Survey < ActiveRecord::Base
   has_many :ideas, through: :idea_assignments
   has_many :idea_assignments, as: :groupable
 
-  belongs_to :owner, class_name: 'User'
+  belongs_to :owner, polymorphic: true
   
   has_secure_token
 

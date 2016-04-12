@@ -1,29 +1,12 @@
-window.CmsModel = Backbone.Model.extend
-  urlRoot: '/ajax_api?payload=cms/get/',
-  getById: ->
-    this.fetch
-      success: (m, resp, opt) ->
-        m.set(resp['data'])
-
-window.cms_text = new CmsModel()
-window.CmsList = Backbone.Collection.extend
-  urlRoot: '/ajax_api?payload=cms/get/',
-  url: ->
-    return this.urlRoot + this.search_filter
-  model: CmsModel,
-  getById: ->
-    this.fetch
-      success: (coll, resp, opt) ->
-        coll.set resp['data']
-    
-window.cms_list = new CmsList()
+window.cms_text = new IdeaMapr.Models.CmsModel()
+window.cms_list = new IdeaMapr.Models.CmsList()
 cms_list.search_filter = 'help_text'
 cms_list.getById()
 
 Controller = ->
 Controller.prototype = 
   set_length : (elt) ->
-    if $(elt).val().length > 10
+    if $(elt).val().length > 12
       $(elt).siblings('.builder-before').css('background-color', 'green')
     else
       $(elt).siblings('.builder-before').css('background-color', 'white')
@@ -43,17 +26,19 @@ set_prompt = (css_select) ->
         set_prompt(window.selector) # recursion
     )
 
-functions = ->      
+functions = ->
+  # initialize the page.
   set_prompt('#helper_edit')
 
   if $('.builder-box')
     $('.builder-box').each (idx, elt) ->
+      new_elt = $(elt).find('.builder-before')
       id = $(elt).find('.hidden').data('box-id')
-      new_elt = $('<div>').addClass('builder-before')
       new_elt.text id
-      $(elt).prepend new_elt
+      
+    $('.watched-box').each (idx, elt) ->
+      window.controller.set_length elt
 
-      id = $(elt).find('.hidden').data('box-key')
     $('.builder-after').click (evt) ->
       help_box = $(this).closest('.builder-box').find('.help-text')
       id = $(this).closest('.builder-box').find('.hidden').data('box-key')
@@ -66,6 +51,12 @@ functions = ->
       set_prompt('#helper_edit')
     )
 
+    # Enable a transition from survey to survey question
+    $('#select-question').click (evt) ->
+      btn = $(evt.target)
+      $('form#survey_update #redirect').val('select-question')
+      $('form#survey_update').submit
+      
   $('.watched-box').keyup (evt) ->
     window.controller.set_length(this)
     

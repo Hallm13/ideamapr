@@ -1,5 +1,11 @@
 sq_1:
   title: this is a good long title
   question_type: <%= SurveyQuestion::QuestionType::PROCON %>
+sq_2:
+  title: this is a good long title 2
+  question_type: <%= SurveyQuestion::QuestionType::PROCON %>
 sq_blank:
   title: This is a good title. Long.
+sq_pre_4:
+  title: this is belongs to survey 1
+  question_type: <%= SurveyQuestion::QuestionType::PROCON %>
