@@ -31,9 +31,9 @@ class SurveysController < ApplicationController
       @survey_qns = @survey.survey_questions.to_a
     end
     
-    if params[:survey]&.send(:[], :qns)
+    if params[:survey]&.send(:[], :components)
       @survey_qns ||= []
-      @survey_qns += SurveyQuestion.where('id in (?)', params[:survey][:qns]).to_a
+      @survey_qns += SurveyQuestion.where('id in (?)', params[:survey][:components]).to_a
     end
   end
   
@@ -41,13 +41,13 @@ class SurveysController < ApplicationController
     success = false
     set_dropdown
     
-    attrs = params[:survey].permit(:title, :introduction, :status)
+    attrs = params[:survey].permit(:title, :introduction, :status, :thankyou_note)
     @survey.attributes= attrs
     @survey.owner_id = current_admin.id
     @survey.owner_type = 'Admin'      
 
     if (saved = @survey.valid?)
-      sqn_ids = params[:survey][:qns]&.map { |i| i.to_i} || []
+      sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
       ActiveRecord::Base.transaction do      
         saved &= @survey.save
         saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)

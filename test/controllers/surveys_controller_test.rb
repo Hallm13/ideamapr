@@ -67,13 +67,13 @@ class SurveysControllerTest < ActionController::TestCase
     end
 
     it 'works with combining survey questions' do
-      get :edit, id: surveys(:survey_1).id, survey: {qns: new_survey_question_id_list}
+      get :edit, id: surveys(:survey_1).id, survey: {components: new_survey_question_id_list}
       assert_template :edit
       assert_select('.fa-trash-o', 3)
     end
     
     it 'works with adding survey questions' do
-      get :edit, id: surveys(:published_survey).id, survey: {qns: new_survey_question_id_list}
+      get :edit, id: surveys(:published_survey).id, survey: {components: new_survey_question_id_list}
       assert_template :edit
       assert_select('.fa-trash-o', 2)
     end
@@ -115,7 +115,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_difference('QuestionAssignment.count', 1) do 
         post :update, id: surveys(:survey_1).id, survey: {title: 'is a valid long',
                                                           introduction: 'is an introduction long and good',
-                                                          status: 0, qns: new_survey_question_id_list}
+                                                          status: 0, components: new_survey_question_id_list}
       end
 
       assert_redirected_to survey_url(surveys(:survey_1))

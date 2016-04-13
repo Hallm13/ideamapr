@@ -5,10 +5,10 @@ module SurveyQuestionsHelper
     
     output = '<div class="cell-1">'
 
-    in_select = (params[:controller] == 'survey_questions' && !@survey.nil?) or
-      (params[:controller] == 'ideas' && !@question.nil?)
-    
-    output += set_icon(:view, in_select) + set_icon(:edit, in_select) + set_icon(:select, in_select)
+    in_select = ((params[:controller] == 'survey_questions' && !@survey.nil?) or
+      (params[:controller] == 'ideas' && !@question.nil?))
+
+    output += set_icon(:select, in_select) + set_icon(:edit, in_select) + set_icon(:view, in_select) 
 
     output += '</div>'
     raw output
@@ -19,7 +19,7 @@ module SurveyQuestionsHelper
     output += "<i class='fa fa-#{fa_symbol[type]}"
     active = (in_select && type == :select) || (!in_select && type!= :select)
 
-    output += active ? ' active-icon' : ' '
+    output += active ? ' active-icon' : ' inactive-icon'
     output += "' data-action-target='#{action_target[type]}'></i>"
 
     

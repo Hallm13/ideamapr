@@ -1,7 +1,7 @@
 .row
   - @survey_qns&.each do |qn|
     .question-box
-      = hidden_field_tag 'survey[qns][]', qn.id
+      = hidden_field_tag 'survey[components][]', qn.id
       .col-xs-8.col-xs-offset-2.cell-1
         = qn.title
       .col-xs-2.delete-box

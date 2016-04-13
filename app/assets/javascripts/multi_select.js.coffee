@@ -19,13 +19,13 @@ functions = ->
   )
   
   $('#add-multi-select').click (evt) ->
-    matches = window.location.href.match(/for_survey=(\d+)/)
-    survey_id = matches[1]
+    container_match = window.location.href.match(/for_([_\w]+)=(\d+)/)
+    container_name = container_match[1]
+    obj_id = container_match[2]
     
-    path = '/surveys/' + survey_id + '/edit'
+    path = '/'+container_name+'s/' + obj_id + '/edit'
     arr = window.selected_ids.map (elt, idx) ->
-      'survey[qns][]=' + elt
-
+      container_name + '[components][]=' + elt
 
     window.location = (path + '?' + arr.join('&'))
     null

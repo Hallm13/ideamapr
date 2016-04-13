@@ -6,6 +6,11 @@
   .fa {
     float: right;
     padding-left: 10px;
+
+    &.inactive-icon {
+      opacity: 0.0;
+    }
+    
     &.active-icon {
       cursor: pointer;      
     }

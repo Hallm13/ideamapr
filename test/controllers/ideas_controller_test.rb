@@ -1,11 +1,18 @@
 require 'test_helper'
 
 class IdeasControllerTest < ActionController::TestCase
-  test '#index' do
-    get :index
-    assert_template :index
-    assert_equal 'ideas', assigns(:selected_section)
-  end
+  describe '#index' do
+     it 'works plainly' do
+       get :index
+       assert_template :index
+       assert_equal 'ideas', assigns(:selected_section)
+     end
+     it "activates selection when asked" do
+       get :index, {for_survey_question: survey_questions(:sq_1).id}
+       refute_nil assigns(:question)
+       assert_select('.fa.fa-check.active-icon')
+     end
+  end  
   
   test '#show' do
     get :show, {id: ideas(:idea_1).id}

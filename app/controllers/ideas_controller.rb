@@ -5,7 +5,11 @@ class IdeasController < ApplicationController
   def index
     @selected_section = 'ideas'
     @ideas = Idea.all
+    if params[:for_survey_question]
+      @question = SurveyQuestion.find_by_id params[:for_survey_question].to_i
+    end
   end
+
   def new
     @idea = Idea.new
   end

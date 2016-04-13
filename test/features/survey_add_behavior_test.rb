@@ -24,6 +24,8 @@ class SurveyAddBehaviorTest < Capybara::Rails::TestCase
     click_on 'Save'
 
     assert current_path, survey_path(surveys(:survey_1))
+
+    # Survey 1 already has a question assigned to it.
     assert_match /2 questions/i, page.body
   end
   

@@ -8,14 +8,19 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
   end
   
   describe '#edit' do
-    it 'works' do
-      get :edit, step_command: :idea_add, id: survey_questions(:sq_blank).id
-
+    it 'works plainly without ideas' do
+      get :edit, id: survey_questions(:sq_blank).id
       assert_template :edit
 
       assert_select('option') do |elts|
         assert_equal SurveyQuestion::QuestionType.option_array.size, elts.size
       end
+    end
+    it 'works plainly with ideas' do
+      get :edit, id: survey_questions(:sq_1).id
+      assert_select('.question-box') do |elts|
+        assert_equal survey_questions(:sq_1).ideas.size, elts.size
+      end      
     end
   end
   
@@ -26,9 +31,18 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_select 'input[name=\'survey_question[title]\']'
 
       assert_difference('SurveyQuestion.count', 1) do
-        put(:update, {id: 0, survey_question: {title: 'this is a question title'}, step_command: :idea_add})
+        put(:update, {id: 0, survey_question: {title: 'this is a question title'}})
       end
-      assert_redirected_to survey_questions_path
+      assert_redirected_to survey_question_path(SurveyQuestion.last)
+    end
+    
+    it 'works to select ideas' do
+      assert_difference('SurveyQuestion.count', 1) do 
+        put(:update, {id: 0, survey_question: {title: 'this is a question title'},
+                      redirect: 'goto-contained'})
+      end
+      s = SurveyQuestion.last
+      assert_redirected_to ideas_url(for_survey_question: s.id)
     end
   end
 
@@ -51,9 +65,14 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_redirected_to new_admin_session_path
     end
 
-    it 'valid parameters are required' do
-      put(:update, {id: 0, survey_question: {title: 'shor'}, step_command: :idea_add})
+    it 'model validation are required' do
+      put(:update, {id: 0, survey_question: {title: 'shor'}})
       assert_template :edit
+    end
+
+    it 'valid parameters are required' do
+      get :edit, {id: -1}
+      assert_redirected_to '/404.html'
     end
   end
 end
