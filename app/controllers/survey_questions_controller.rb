@@ -66,7 +66,6 @@ class SurveyQuestionsController < ApplicationController
   end
 
   def set_dropdown_options
-    @payload = {step_command: :idea_add}
     @question_type_select = SurveyQuestion::QuestionType.option_array
     @select_default = SurveyQuestion::QuestionType.name(@question.question_type)
   end

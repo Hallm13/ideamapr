@@ -12,7 +12,6 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       get :edit, step_command: :idea_add, id: survey_questions(:sq_blank).id
 
       assert_template :edit
-      assert assigns(:payload)
 
       assert_select('option') do |elts|
         assert_equal SurveyQuestion::QuestionType.option_array.size, elts.size

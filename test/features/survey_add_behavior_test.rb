@@ -10,19 +10,21 @@ class SurveyAddBehaviorTest < Capybara::Rails::TestCase
   end
 
   test 'go to select screen' do
-    page.find('#select-question').click
-    assert page.has_css?('.fa.fa-check')
+    page.find('#select-contained').click
+    assert page.has_css?('.fa.fa-check.active-icon')
   end
 
   test 'save survey' do
-    page.find('#select-question').click
-    page.all('.fa.fa-check')[0].click
+    sq_1_id = survey_questions(:sq_1).id
+    
+    page.find('#select-contained').click
+    page.find('.fa.fa-check.active-icon' + "[data-action-target='#{sq_1_id}']").click
     page.find('#add-multi-select').click
     fill_in 'survey_introduction', with: 'hello world'
     click_on 'Save'
 
     assert current_path, survey_path(surveys(:survey_1))
-    assert page.has_content? '2 Questions'
+    assert_match /2 questions/i, page.body
   end
   
   def teardown

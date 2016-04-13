@@ -127,7 +127,7 @@ class SurveysControllerTest < ActionController::TestCase
     it 'works to select questions' do
       assert_difference('Survey.count', 1) do 
         post :update, id: '0', survey: {title: 'is a valid long title', introduction: 'is an introduction long and good',
-                                        status: 0}, redirect: 'select-question'
+                                        status: 0}, redirect: 'goto-contained'
       end
       s = Survey.last
       assert_redirected_to survey_questions_url(for_survey: s.id)

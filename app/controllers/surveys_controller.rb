@@ -56,7 +56,7 @@ class SurveysController < ApplicationController
   
     if saved
       # We saved so we can add questions
-      if params[:redirect] == 'select-question'
+      if params[:redirect] == 'goto-contained'
         redirect_to survey_questions_url(for_survey: @survey.id)
       else
         redirect_to survey_url(@survey)

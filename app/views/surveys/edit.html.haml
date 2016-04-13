@@ -6,7 +6,7 @@
       .page-title
         = "Edit Survey: #{@survey.title}"
   
-= form_tag("/surveys/#{@survey.id || '0'}", method: :post, id: :survey_update) do
+= form_tag("/surveys/#{@survey.id || '0'}", method: :post, id: :container_update) do
   = hidden_field_tag '_method', 'put'
   = hidden_field_tag :redirect, '', id: :redirect
   = render partial: 'title', layout: 'builder_box', locals: {build_box_title: 'Survey Title', box_index: 1, box_key: 'survey-create-title'}

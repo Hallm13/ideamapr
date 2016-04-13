@@ -12,7 +12,8 @@ Controller.prototype =
       $(elt).siblings('.builder-before').css('background-color', 'white')
           
 window.controller = new Controller()
-  
+
+# Set the helper text for question types  
 set_prompt = (css_select) ->
   window.selector = css_select
   if window.prompt_map
@@ -31,7 +32,7 @@ functions = ->
   set_prompt('#helper_edit')
 
   if $('.builder-box')
-    $('form#survey_update #redirect').val('')
+    $('form#container_update #redirect').val('')
     $('.builder-box').each (idx, elt) ->
       new_elt = $(elt).find('.builder-before')
       id = $(elt).find('.hidden').data('box-id')
@@ -52,11 +53,11 @@ functions = ->
       set_prompt('#helper_edit')
     )
 
-    # Enable a transition from survey to survey question
-    $('#select-question').click (evt) ->
+    # Enable a transition from containeR to containeD
+    $('#select-contained').click (evt) ->
       btn = $(evt.target)
-      $('form#survey_update #redirect').val('select-question')
-      $('form#survey_update').submit
+      $('form#container_update #redirect').val('goto-contained')
+      $('form#container_update').submit
       
   $('.watched-box').keyup (evt) ->
     window.controller.set_length(this)

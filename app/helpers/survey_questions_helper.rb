@@ -1,9 +1,13 @@
 module SurveyQuestionsHelper
-  def edit_or_select(q)
-    @curr_q = q
+  def edit_or_select(q_or_i)
+    @curr_obj = q_or_i
+    @target_obj = (q_or_i.is_a?(Idea)) ? 'idea' : 'survey_question'
+    
     output = '<div class="cell-1">'
 
-    in_select = !@survey.nil?
+    in_select = (params[:controller] == 'survey_questions' && !@survey.nil?) or
+      (params[:controller] == 'ideas' && !@question.nil?)
+    
     output += set_icon(:view, in_select) + set_icon(:edit, in_select) + set_icon(:select, in_select)
 
     output += '</div>'
@@ -26,6 +30,7 @@ module SurveyQuestionsHelper
     {edit: 'pencil', view: 'eye', select: 'check'}
   end
   def action_target
-    {edit: edit_survey_question_url(@curr_q), view: survey_question_url(@curr_q), select: @curr_q.id}
+    {edit: self.send("edit_#{@target_obj}_url".to_sym, @curr_obj),
+     view: self.send("#{@target_obj}_url".to_sym, @curr_obj), select: @curr_obj.id}
   end
 end
