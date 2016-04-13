@@ -6,8 +6,8 @@ cms_list.getById()
 Controller = ->
 Controller.prototype = 
   set_length : (elt) ->
-    if $(elt).val().length > 12
-      $(elt).siblings('.builder-before').css('background-color', 'green')
+    if $(elt).val().length > 10
+      $(elt).siblings('.builder-before').css('background-color', '#8af181')
     else
       $(elt).siblings('.builder-before').css('background-color', 'white')
           
@@ -31,6 +31,7 @@ functions = ->
   set_prompt('#helper_edit')
 
   if $('.builder-box')
+    $('form#survey_update #redirect').val('')
     $('.builder-box').each (idx, elt) ->
       new_elt = $(elt).find('.builder-before')
       id = $(elt).find('.hidden').data('box-id')

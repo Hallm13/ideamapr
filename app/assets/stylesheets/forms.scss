@@ -27,6 +27,20 @@
     display: block;
     margin: 0 auto;
   }
+
+  input + label.placeholder-label {
+    position: absolute;
+    top: 42px;
+    left: 35px;
+    font-size: 0.9em;
+  }
+  input:focus + label.placeholder-label {
+    top: 25px;
+    left: 42px;
+    padding: 0 2px;
+    background-color: white;
+    font-size: 0.8em;
+  }
 }
 
 .builder-before {

@@ -33,7 +33,7 @@ class SurveyQuestion < ActiveRecord::Base
     def self.option_array
       [['Pro/Con', PROCON], ['Ranking', RANKING], ['Yea/Nay', YEANAY], ['Budgeting', BUDGETING], ['Top Priority', TOPPRI]]
     end
-    
+
     def self.name(id)
       if id.nil?
         nil
@@ -50,4 +50,7 @@ class SurveyQuestion < ActiveRecord::Base
   has_many :idea_assignments, as: :groupable
 
   validates :title, length: {minimum: 10}
+  def question_type_name
+    QuestionType.name(question_type)
+  end
 end

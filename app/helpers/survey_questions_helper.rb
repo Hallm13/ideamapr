@@ -1,27 +1,31 @@
 module SurveyQuestionsHelper
   def edit_or_select(q)
-    output = '<div class="cell-1'
-    output += selector_radio q
+    @curr_q = q
+    output = '<div class="cell-1">'
 
-    if @survey.nil?
-      output += (link_to '> Edit', edit_survey_question_url(q, step_command: :idea_add))
-    else
-      output += "> Select"
-    end
+    in_select = !@survey.nil?
+    output += set_icon(:view, in_select) + set_icon(:edit, in_select) + set_icon(:select, in_select)
 
     output += '</div>'
     raw output
   end
 
-  def selector_radio(q)
+  def set_icon(type, in_select)
     output = ''
-    unless @survey.nil?
-      output += " selector-control\" data-target-id=#{q.id}>"
-      output += "<input style='float:right;' type=checkbox class='selector-checkbox'></input>"
-    else
-      output += '">'
-    end
+    output += "<i class='fa fa-#{fa_symbol[type]}"
+    active = (in_select && type == :select) || (!in_select && type!= :select)
+
+    output += active ? ' active-icon' : ' '
+    output += "' data-action-target='#{action_target[type]}'></i>"
+
     
     output
+  end
+
+  def fa_symbol
+    {edit: 'pencil', view: 'eye', select: 'check'}
+  end
+  def action_target
+    {edit: edit_survey_question_url(@curr_q), view: survey_question_url(@curr_q), select: @curr_q.id}
   end
 end

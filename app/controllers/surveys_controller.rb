@@ -2,27 +2,24 @@ class SurveysController < ApplicationController
   include SqlOptimizers
   include RelationalLogic
   
-  before_action :authenticate_admin!, except: :show 
+  before_action :authenticate_admin!, except: :public_show 
   before_action :params_check, except: [:new, :index]
 
   def index
+    @selected_section = 'surveys'
     @surveys = Survey.all
   end
-  
-  def show
-    # Admins don't need to show token
-    permitted = false
 
-    if current_admin
-      permitted = true
+  def public_show
+    # Not admin - require token
+    if @survey.token == params[:token]
+       render 'public_show'
     else
-      # Not admin - require token
-      if params[:token] and @survey.token == params[:token]
-        permitted = true
-      end
+      redirect_to page_404
     end
+  end
 
-    permitted ? (render 'show') : (raise ActionController::RoutingError.new(''))
+  def show
   end
 
   def edit
@@ -77,7 +74,7 @@ class SurveysController < ApplicationController
 
     if status
       case params[:action].to_sym
-      when :show
+      when :show, :public_show
         status &= (@survey = Survey.find_by_id params[:id])
       when :edit, :update
         unless params[:id] == '0'

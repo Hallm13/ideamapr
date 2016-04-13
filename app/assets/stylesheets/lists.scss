@@ -1,0 +1,17 @@
+.question-row {
+  margin-bottom: 10px;
+}
+
+.cell-1 {
+  .fa {
+    float: right;
+    padding-left: 10px;
+    &.active-icon {
+      cursor: pointer;      
+    }
+
+    &.active-select {
+      color: $selected-green;
+    }
+  }
+}

@@ -3,7 +3,8 @@ keys = ['help_text_survey-create-title', 'help_text_survey-create-intro', 'help_
 content = {
   'help_text_survey-create-title' => 'Add a title for your survey',
   'help_text_survey-create-intro' => 'Add an intro for your survey',
-  'help_text_survey-create-status' => 'You can update the status after you have added questions.'
+  'help_text_survey-create-status' => 'You can update the status after you have added questions.',
+  'help_text_survey-thankyou-note' => 'Add a Thank You note for respondents.' 
 }
 
 keys.each do |k|

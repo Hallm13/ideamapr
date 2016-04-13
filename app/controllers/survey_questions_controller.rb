@@ -4,6 +4,7 @@ class SurveyQuestionsController < ApplicationController
   include RelationalLogic
   
   def index
+    @selected_section = 'questions'
     @questions = SurveyQuestion.all
     if params[:for_survey]
       @survey = Survey.find_by_id params[:for_survey].to_i
@@ -47,9 +48,6 @@ class SurveyQuestionsController < ApplicationController
     status = true
     if params[:action] == 'update' or params[:action] == 'edit'
       status &= (params[:id] and (params[:id]=='0' || (@question = SurveyQuestion.find_by_id(params[:id]))))
-      if params[:action] == 'edit'
-        status &= valid_command?(params[:step_command])
-      end
     end
 
     if params[:action] == 'update'
@@ -65,10 +63,6 @@ class SurveyQuestionsController < ApplicationController
     end
     
     status
-  end
-
-  def valid_command?(req)
-    [:idea_add].include?(req.to_sym)
   end
 
   def set_dropdown_options

@@ -8,8 +8,10 @@ IdeaMapr::Application.routes.draw do
   resources :survey_questions, except: [:new, :create]
   
   resources :surveys, only: [:show, :index, :update, :edit] do
+    member do
+      get '/public_show/:token', action: 'public_show'
+    end
     collection do
-      get '/edit/:step_command', action: 'edit', as: 'edit'
       post '/update', action: 'update'
     end
   end

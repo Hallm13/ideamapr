@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class IdeasControllerTest < ActionController::TestCase
+  test '#index' do
+    get :index
+    assert_template :index
+    assert_equal 'ideas', assigns(:selected_section)
+  end
+  
   test '#show' do
     get :show, {id: ideas(:idea_1).id}
     assert_template :show

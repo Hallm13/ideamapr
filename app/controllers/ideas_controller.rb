@@ -1,6 +1,11 @@
 class IdeasController < ApplicationController
   before_action :admin_signed_in?
   before_action :params_check, only: :show
+
+  def index
+    @selected_section = 'ideas'
+    @ideas = Idea.all
+  end
   def new
     @idea = Idea.new
   end

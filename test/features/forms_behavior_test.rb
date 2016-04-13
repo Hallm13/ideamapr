@@ -12,7 +12,7 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
   test 'turning green' do
     elt = page.all('.watched-box')[0]
     elt.set 'abcdefghijklmno'
-    assert_match /green/, page.all('.builder-before')[0]['style']
+    assert_match /background-color: rgb.\d+, \d+, \d+/, page.all('.builder-before')[0]['style']
     elt.set 'abc'
     assert_match /white/, page.all('.builder-before')[0]['style']
   end

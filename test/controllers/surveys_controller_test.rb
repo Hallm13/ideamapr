@@ -30,24 +30,16 @@ class SurveysControllerTest < ActionController::TestCase
     
     it 'works for public with token' do
       sign_out admins(:admin_1)
-      get :show, id: @survey.id, token: @survey.token
-      assert_template :show
+      get :public_show, id: @survey.id, token: @survey.token
+      assert_template :public_show
     end
     it 'does not work for public without token' do
       sign_out admins(:admin_1)
-      get :show, id: @survey.id, token: 'notatoken'
+      get :public_show, id: @survey.id, token: 'notatoken'
       assert_redirected_to '/404.html'
     end
   end
 
-  describe 'authorization' do
-    it 'is required for non public view' do
-      sign_out admins(:admin_1)
-      get :edit, step_command: 'init'
-      assert_redirected_to new_admin_session_path
-    end
-  end
-  
   describe '#edit' do
     describe '404 errors' do      
       it 'is triggered by lack of proper id' do
@@ -62,7 +54,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert assigns(:survey_status_select)
       assert_match 'Create', response.body
       assert_select('.builder-box') do |elts|
-        assert_equal 4, elts.size
+        assert_equal 5, elts.size
       end
     end      
     

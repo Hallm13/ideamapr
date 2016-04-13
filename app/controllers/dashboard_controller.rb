@@ -11,6 +11,7 @@ class DashboardController < ApplicationController
       false
     end
 
+    @selected_section = 'ideas'
     true
   end
 end

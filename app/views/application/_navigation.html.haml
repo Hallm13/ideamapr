@@ -10,13 +10,13 @@
     
 .row.nav-secondary
   .col-xs-6.col-xs-offset-3
-    .secondary-item-border.col-xs-4
+    .secondary-item-border.col-xs-4{class: is_selected(:ideas)}
       .secondary-item
         = link_to "Ideas", ideas_url
-    .secondary-item-border.col-xs-4
+    .secondary-item-border.col-xs-4{class: is_selected(:questions)}
       .secondary-item
         = link_to "Questions", survey_questions_url
-    .secondary-item-border.col-xs-4
+    .secondary-item-border.col-xs-4{class: is_selected(:surveys)}
       .secondary-item
         = link_to "Surveys", surveys_url
     

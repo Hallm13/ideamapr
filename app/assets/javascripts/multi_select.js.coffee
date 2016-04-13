@@ -1,19 +1,23 @@
 window.selected_ids = new Array
 
 functions = ->
-  $('.selector-control').click( (evt) ->
-    box = $(this).find('input[type=checkbox]')
-    tid = $(this).data('target-id')
+  $('.fa.active-icon').click( (evt) ->
+    tid = $(this).data('action-target')
 
-    pos = window.selected_ids.indexOf(tid)
-    if $(box).is(':checked')
-      $(box).prop('checked', false)
-      if pos != -1
-        window.selected_ids.splice(pos, 1)
+    # edit or view is a get request
+
+    if typeof(tid)!='number' && tid.match(/^http/)!=null
+      window.location.href = tid
     else
-      $(box).prop('checked', true)
-      window.selected_ids.push tid
+      pos = window.selected_ids.indexOf(tid)
+      if pos == -1
+        $(this).addClass('active-select')
+        window.selected_ids.push tid
+      else
+        $(this).removeClass('active-select')
+        window.selected_ids.splice(pos, 1)
   )
+  
   $('#add-multi-select').click (evt) ->
     matches = window.location.href.match(/for_survey=(\d+)/)
     survey_id = matches[1]

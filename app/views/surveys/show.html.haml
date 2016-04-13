@@ -3,7 +3,7 @@
     #{@survey.title}
 .row
   .page-title.col-xs-12
-    #{@survey.survey_questions.count} Questions
+    #{@survey.survey_questions.count} Questions / Owner: #{@survey.owner.email}
 
 .survey-summary
   .row.table-headers
@@ -22,6 +22,9 @@
       Question
     .col-xs-6
       Question Type
-        
-%p
-  Owner: #{@survey.owner.email}
+  - @survey.survey_questions.each do |qn|
+    .row
+      .col-xs-6.cell-1
+        = qn.title
+      .col-xs-6.cell-1.center
+        = qn.question_type_name  

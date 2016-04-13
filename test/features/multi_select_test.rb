@@ -10,14 +10,12 @@ class MultiSelectTest < Capybara::Rails::TestCase
   end
 
   test 'selection' do
-    assert page.assert_selector(".selector-control", count: SurveyQuestion.count)
+    assert page.assert_selector(".fa", count: SurveyQuestion.count * 3)
 
-    elt = page.all('.selector-control')[0]
-    id = elt['data-target-id']
+    elt = page.all('.fa.fa-check')[0]
+    id = elt['data-action-target']
 
     elt.click
-    assert elt.find('input:checked')
-    
     page.find('#add-multi-select').click
 
     uri = URI.parse(current_url)

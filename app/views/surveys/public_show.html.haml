@@ -1,0 +1,19 @@
+.row
+  .page-title.col-xs-12
+    #{@survey.title}
+.row
+  .page-title.col-xs-12
+    #{@survey.survey_questions.count} Questions
+
+.question-list
+  .row.table-headers
+    .col-xs-6
+      Question
+    .col-xs-6
+
+  - @survey.survey_questions.each do |qn|
+    .row
+      .col-xs-6.cell-1
+        = qn.title
+      .col-xs-6.cell-1.center
+
