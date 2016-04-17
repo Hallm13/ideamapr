@@ -47,7 +47,7 @@ class SurveyQuestion < ActiveRecord::Base
   has_many :surveys, through: :question_assignments
   
   has_many :ideas, through: :idea_assignments
-  has_many :idea_assignments, as: :groupable
+  has_many :idea_assignments, as: :groupable, inverse_of: :groupable
 
   validates :title, length: {minimum: 10}
   def question_type_name

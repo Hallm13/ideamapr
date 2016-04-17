@@ -19,7 +19,7 @@ class SurveysControllerTest < ActionController::TestCase
   describe '#show' do
     before do
       @survey = surveys(:survey_1)
-      @survey.regenerate_token
+      @survey.regenerate_public_link
       @survey.save
     end
 
@@ -30,12 +30,12 @@ class SurveysControllerTest < ActionController::TestCase
     
     it 'works for public with token' do
       sign_out admins(:admin_1)
-      get :public_show, id: @survey.id, token: @survey.token
+      get :public_show, public_link: @survey.public_link
       assert_template :public_show
     end
     it 'does not work for public without token' do
       sign_out admins(:admin_1)
-      get :public_show, id: @survey.id, token: 'notatoken'
+      get :public_show, public_link: 'notatoken'
       assert_redirected_to '/404.html'
     end
   end
@@ -75,7 +75,9 @@ class SurveysControllerTest < ActionController::TestCase
     it 'works with adding survey questions' do
       get :edit, id: surveys(:published_survey).id, survey: {components: new_survey_question_id_list}
       assert_template :edit
-      assert_select('.fa-trash-o', 2)
+
+      # sq_pre_4 is already assigned
+      assert_select('.fa-trash-o', 3)
     end
   end
   
@@ -112,8 +114,9 @@ class SurveysControllerTest < ActionController::TestCase
     end
 
     it 'works when questions are added' do
-      assert_difference('QuestionAssignment.count', 1) do 
-        post :update, id: surveys(:survey_1).id, survey: {title: 'is a valid long',
+      s=surveys(:survey_1)
+      assert_difference('s.survey_questions.count', 1) do 
+        post :update, id: s.id, survey: {title: 'is a valid long',
                                                           introduction: 'is an introduction long and good',
                                                           status: 0, components: new_survey_question_id_list}
       end

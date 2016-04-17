@@ -22,13 +22,41 @@ class Survey < ActiveRecord::Base
   has_many :question_assignments
   
   has_many :ideas, through: :idea_assignments
-  has_many :idea_assignments, as: :groupable
+  has_many :idea_assignments, as: :groupable, inverse_of: :groupable
 
-  belongs_to :owner, polymorphic: true
+  belongs_to :owner, polymorphic: true, inverse_of: :surveys
   
-  has_secure_token
+  has_secure_token :public_link
 
   def has_state?(sym)
     Survey::SurveyStatus.const_defined?(sym.to_s.upcase) && status == "Survey::SurveyStatus::#{sym.upcase}".constantize
   end
+
+  def publish
+    self.status = SurveyStatus::PUBLISHED
+    self.regenerate_public_link
+    self.save
+  end
+
+  rails_admin do
+    compact_show_view=false
+    object_label_method do
+      :title
+    end
+    list do
+      field :title
+      field :owner
+      field :public_link
+    end
+
+    show do
+      field :title
+      field :owner
+      field :public_link do
+        formatted_value do
+          bindings[:view].tag(:a, {href: "/survey/public_show/#{value}"}) << value
+        end
+      end
+    end
+  end  
 end

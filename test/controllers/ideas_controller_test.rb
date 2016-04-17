@@ -12,6 +12,19 @@ class IdeasControllerTest < ActionController::TestCase
        refute_nil assigns(:question)
        assert_select('.fa.fa-check.active-icon')
      end
+
+     describe 'getting ideas for a survey' do
+       # temporary - make this for a survey question in public view later
+       it 'handles errors' do
+         get :index, {for_survey: -1}
+         assert_redirected_to '/404.html'
+       end
+       it 'gets the ideas when avlbl' do
+         s=surveys(:published_survey)         
+         get :index, {for_survey: s.id}
+         assert_equal s.survey_questions.first.ideas.first.id, assigns(:ideas).first.id
+       end
+     end
   end  
   
   test '#show' do

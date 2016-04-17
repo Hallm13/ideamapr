@@ -8,7 +8,8 @@ survey_1:
   owner_type: User
   
 published_survey:
-  <<: *defaults
+  title: published survey
+  introduction: published survey intro
   status: <%= 1 %>
   owner: user_1
   owner_type: User

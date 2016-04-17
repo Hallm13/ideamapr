@@ -8,7 +8,5 @@ class Idea < ActiveRecord::Base
                  IdeaAssignment.where('idea_id = ? and groupable_type = ?', self.id, 'SurveyQuestion').pluck(:groupable_id))
   end
   
-  has_many :survey_assignments
-
   validates :title, length: {minimum: 12}
 end

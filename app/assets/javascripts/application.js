@@ -22,3 +22,4 @@
 //= require everything
 //= require forms
 //= require multi_select
+//= require survey_display

@@ -12,7 +12,7 @@ class SurveysController < ApplicationController
 
   def public_show
     # Not admin - require token
-    if @survey.token == params[:token]
+    if @survey.public_link == params[:public_link]
        render 'public_show'
     else
       redirect_to page_404
@@ -70,11 +70,13 @@ class SurveysController < ApplicationController
   private
   def params_check
     status = true
-    status &= params[:id]
+    status &= params[:id] unless params[:action].to_sym == :public_show
 
     if status
       case params[:action].to_sym
-      when :show, :public_show
+      when :public_show
+        status &= (params[:public_link] && @survey = Survey.find_by_public_link(params[:public_link]))
+      when :show
         status &= (@survey = Survey.find_by_id params[:id])
       when :edit, :update
         unless params[:id] == '0'
@@ -88,10 +90,9 @@ class SurveysController < ApplicationController
     end
     if !status
       redirect_to page_404
-      false
-    else
-      true
     end
+
+    status
   end
   
   def set_dropdown

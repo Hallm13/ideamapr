@@ -1,13 +1,21 @@
 class IdeasController < ApplicationController
   before_action :admin_signed_in?
-  before_action :params_check, only: :show
+  before_action :params_check, only: [:index, :show]
 
   def index
     @selected_section = 'ideas'
-    @ideas = Idea.all
+
+    if params[:for_survey]
+      @ideas = [@survey.survey_questions.first.ideas.first]
+    else
+      @ideas = Idea.all
+    end
+    
     if params[:for_survey_question]
       @question = SurveyQuestion.find_by_id params[:for_survey_question].to_i
     end
+
+    render (request.xhr? ? ({json: @ideas}) : ('index'))
   end
 
   def new
@@ -16,7 +24,7 @@ class IdeasController < ApplicationController
 
   def show
     @idea = Idea.find_by_id params[:id]
-    @idea ? (render 'show') : (redirect_to :root)
+    @idea ? (request.xhr? ? render(json: @idea) : (render 'show')) : (redirect_to :root)
   end
   
   def create
@@ -37,6 +45,18 @@ class IdeasController < ApplicationController
   end
 
   def params_check
-    params[:id].present?
+    status = true
+    case params[:action].to_sym
+    when :show
+      status &= params[:id].present?
+    when :index
+      status &= (params[:for_survey].nil? || (@survey = Survey.find_by_id(params[:for_survey])))
+    end
+
+    if !status
+      redirect_to page_404
+    end
+
+    return status
   end
 end

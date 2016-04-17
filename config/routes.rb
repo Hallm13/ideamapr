@@ -6,14 +6,14 @@ IdeaMapr::Application.routes.draw do
 
   resources :ideas
   resources :survey_questions, except: [:new, :create]
-  
+
   resources :surveys, only: [:show, :index, :update, :edit] do
-    member do
-      get '/public_show/:token', action: 'public_show'
-    end
     collection do
       post '/update', action: 'update'
     end
+  end
+  resource :survey do
+    get '/public_show/:public_link', action: 'public_show'
   end
   post '/ajax_api' => 'ajax#multiplex'
   get '/ajax_api' => 'ajax#multiplex'
