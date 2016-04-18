@@ -6,7 +6,7 @@ class IdeasController < ApplicationController
     @selected_section = 'ideas'
 
     if params[:for_survey]
-      @ideas = [@survey.survey_questions.first.ideas.first]
+      @ideas = @survey.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc)
     else
       @ideas = Idea.all
     end
@@ -15,7 +15,7 @@ class IdeasController < ApplicationController
       @question = SurveyQuestion.find_by_id params[:for_survey_question].to_i
     end
 
-    render (request.xhr? ? ({json: @ideas}) : ('index'))
+    render (request.xhr? ? ({json: @ideas.to_a}) : ('index'))
   end
 
   def new

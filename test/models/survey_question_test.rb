@@ -5,4 +5,8 @@ class SurveyQuestionTest < ActiveSupport::TestCase
     assert_equal 'Pro/Con', SurveyQuestion::QuestionType.name(0)
     assert_nil SurveyQuestion::QuestionType.name(100)
   end
+
+  test 'question type enum' do
+    assert_equal 5, SurveyQuestion.new.question_type_enum.keys.size
+  end
 end

@@ -36,6 +36,11 @@ class ActiveRecord::Base
   end
 end
 
+# Shut some CircleCI warnings down
+Capybara::Webkit.configure do |config|
+  config.allow_url("http://www.gravatar.com/avatar/28e09f805ab4e232218fc8bd12c8fb78?s=30")
+end
+
 # Forces all threads to share the same connection. This works on
 # Capybara because it starts the web server in a thread. Needed for login_as
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection

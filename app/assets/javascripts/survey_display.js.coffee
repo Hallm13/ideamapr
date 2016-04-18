@@ -1,12 +1,15 @@
 funcs = ->
-  idea = new IdeaMapr.Models.Idea
+  ideaList = new IdeaMapr.Collections.IdeaCollection
   survey_id = $('#survey_data').data('survey-id')
-  idea.getSurveyIdea(survey_id)
-  $('#test').html(survey_id)
-  
-  survey_ideas = new IdeaMapr.Views.IdeaView(
+  ideaList.getSurveyIdeas(survey_id)
+
+  idea_list_view = new IdeaMapr.Views.IdeaListView
+    collection: ideaList
+    
+  app = new IdeaMapr.Views.AppView(
     el: $('#idea-list'),
-    model: idea
   )
+  app.render()
+  app.append_idea idea_list_view
 
 $(document).on('ready page:load', funcs)

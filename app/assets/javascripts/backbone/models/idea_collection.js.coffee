@@ -1,8 +1,14 @@
 IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
   urlRoot: '/ideas',
   url: ->
-    return this.urlRoot + this.search_filter
+    this.urlRoot + '/?for_survey=' + this.survey_id
+    
+  getSurveyIdeas: (id) ->
+    this.survey_id = id
+    this.fetch()
+        
   model: IdeaMapr.Models.Idea,
+  
   getById: ->
     this.fetch
       success: (coll, resp, opt) ->

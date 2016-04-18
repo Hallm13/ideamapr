@@ -19,10 +19,12 @@ class IdeasControllerTest < ActionController::TestCase
          get :index, {for_survey: -1}
          assert_redirected_to '/404.html'
        end
+       
        it 'gets the ideas when avlbl' do
          s=surveys(:published_survey)         
          get :index, {for_survey: s.id}
-         assert_equal s.survey_questions.first.ideas.first.id, assigns(:ideas).first.id
+         assert s.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc).first.id,
+                assigns(:ideas).first.id
        end
      end
   end  

@@ -8,15 +8,9 @@ class PublicSurveyTest < Capybara::Rails::TestCase
       visit '/survey/public_show/' + @s.public_link
     end
 
-    it 'counts pros and cons' do
-
-      3.times do
-        find('.addpro').click
-      end
-      5.times do
-        find('button.addcon').click
-      end
-      assert_match /3 pros.*5 cons/, page.body
+    it 'shows all ideas' do
+      page.find_all '.page-title'
+      assert page.has_css?('.idea-title', count: @s.survey_questions.first.ideas.count)
     end
   end
 end

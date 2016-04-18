@@ -1,4 +1,11 @@
 class SurveyQuestion < ActiveRecord::Base
+  def question_type_enum
+    (0..QuestionType.max_type).inject({}) do |acc, i|
+      acc[QuestionType.name(i)] = i
+      acc
+    end
+  end
+  
   def self.valid_type?(id)
     id.to_i >= 0 and id.to_i <= QuestionType.max_type
   end
@@ -52,5 +59,29 @@ class SurveyQuestion < ActiveRecord::Base
   validates :title, length: {minimum: 10}
   def question_type_name
     QuestionType.name(question_type)
+  end
+
+  rails_admin do
+    compact_show_view=false
+    object_label_method do
+      :title
+    end
+    list do
+      field :title
+      field :question_type do
+        formatted_value do
+          SurveyQuestion::QuestionType.name(value)
+        end
+      end
+    end
+
+    show do
+      field :title
+      field :question_type do
+        formatted_value do
+          SurveyQuestion::QuestionType.name(value)
+        end
+      end
+    end
   end
 end

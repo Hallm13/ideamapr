@@ -20,13 +20,21 @@
       .col-xs-6.cell-1.center
 
 #idea-list
-  .trybox
-    idea list
+    
+%script#idea-wrapper-template{type: 'text/template'}
+  
 %script#idea-template{type: 'text/template'}
-  .idea-view
-    .idea-title
-      <%- title %>
-      has <%- note_counts['pro'] %> pros and <%- note_counts['con'] %> cons.
-    %button.addpro
-    %button.addcon
+  .idea-title
+    <%- title %>
+    has <%- note_counts['pro'] %> pros and <%- note_counts['con'] %> cons.
+    .notes-list
+  .row    
+    .col-xs-6.note-holder
+      = text_area_tag :current_pro, ''
+      %button.addpro.addnote
+        Add Pro
+    .col-xs-6.note-holder
+      = text_area_tag :current_con, ''
+      %button.addcon.addnote
+        Add Con
         
