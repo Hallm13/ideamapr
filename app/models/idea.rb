@@ -9,4 +9,5 @@ class Idea < ActiveRecord::Base
   end
   
   validates :title, length: {minimum: 12}
+  has_many :idea_assignments, dependent: :destroy
 end

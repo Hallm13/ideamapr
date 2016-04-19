@@ -1,0 +1,6 @@
+// Intentionally keeping this un-dry for now.
+
+- if SurveyQuestion::QuestionType.name(qn_type) == 'Pro/Con'
+  = render 'backbone_procon_template'
+- elsif SurveyQuestion::QuestionType.name(qn_type) == 'Ranking'
+  = render 'backbone_ranking_template'

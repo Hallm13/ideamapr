@@ -13,7 +13,11 @@ class SurveysController < ApplicationController
   def public_show
     # Not admin - require token
     if @survey.public_link == params[:public_link]
-       render 'public_show'
+      qns = @survey.survey_questions.order(created_at: :desc)
+      if params[:step] && params[:step].to_i > 0
+        @survey_question = qns.offset(params[:step].to_i - 1).limit(1).first
+      end
+      render 'public_show'
     else
       redirect_to page_404
     end

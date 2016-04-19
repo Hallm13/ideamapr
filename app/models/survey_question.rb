@@ -50,11 +50,11 @@ class SurveyQuestion < ActiveRecord::Base
     end
   end
   
-  has_many :question_assignments
+  has_many :question_assignments, dependent: :destroy
   has_many :surveys, through: :question_assignments
   
   has_many :ideas, through: :idea_assignments
-  has_many :idea_assignments, as: :groupable, inverse_of: :groupable
+  has_many :idea_assignments, as: :groupable, inverse_of: :groupable, dependent: :destroy
 
   validates :title, length: {minimum: 10}
   def question_type_name

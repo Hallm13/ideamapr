@@ -19,10 +19,10 @@ class Survey < ActiveRecord::Base
   validates :title, length: {minimum: 12}
 
   has_many :survey_questions, through: :question_assignments
-  has_many :question_assignments
+  has_many :question_assignments, dependent: :destroy
   
   has_many :ideas, through: :idea_assignments
-  has_many :idea_assignments, as: :groupable, inverse_of: :groupable
+  has_many :idea_assignments, as: :groupable, inverse_of: :groupable, dependent: :destroy
 
   belongs_to :owner, polymorphic: true, inverse_of: :surveys
   

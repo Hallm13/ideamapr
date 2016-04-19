@@ -1,0 +1,14 @@
+%script#procon-template{type: 'text/template'}
+  .idea-title
+    <%- title %>
+    has <%- note_counts['pro'] %> pros and <%- note_counts['con'] %> cons.
+    .notes-list
+  .row    
+    .col-xs-6.note-holder
+      = text_area_tag :current_pro, ''
+      %button.addpro.addnote
+        Add Pro
+    .col-xs-6.note-holder
+      = text_area_tag :current_con, ''
+      %button.addcon.addnote
+        Add Con

@@ -3,38 +3,13 @@
 .row
   .page-title.col-xs-12
     #{@survey.title}
-.row
-  .page-title.col-xs-12
-    #{@survey.survey_questions.count} Questions
-
-.question-list
-  .row.table-headers
-    .col-xs-6
-      Question
-    .col-xs-6
-
-  - @survey.survey_questions.each do |qn|
-    .row
-      .col-xs-6.cell-1
-        = qn.title
-      .col-xs-6.cell-1.center
-
-#idea-list
     
-%script#idea-wrapper-template{type: 'text/template'}
+- if @survey_question
+  = hidden_field_tag :survey_question_data, '', 'data-question-type' => @survey_question.question_type
+  .row
+    = @survey_question.title
+  .row
+    #idea-list
+
+  = render partial: 'backbone_template', locals: {qn_type: @survey_question.question_type}
   
-%script#idea-template{type: 'text/template'}
-  .idea-title
-    <%- title %>
-    has <%- note_counts['pro'] %> pros and <%- note_counts['con'] %> cons.
-    .notes-list
-  .row    
-    .col-xs-6.note-holder
-      = text_area_tag :current_pro, ''
-      %button.addpro.addnote
-        Add Pro
-    .col-xs-6.note-holder
-      = text_area_tag :current_con, ''
-      %button.addcon.addnote
-        Add Con
-        

@@ -3,7 +3,7 @@ IdeaMapr.Views.AppView = Backbone.View.extend
     _.bindAll(this, 'render')
 
   render: ->
-    this.$el.append(_.template($('#idea-wrapper-template').html()))
+    this.$el.append($('<div>'))
     this
     
   append_idea: (view) ->

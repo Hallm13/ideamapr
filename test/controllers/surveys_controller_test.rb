@@ -30,7 +30,7 @@ class SurveysControllerTest < ActionController::TestCase
     
     it 'works for public with token' do
       sign_out admins(:admin_1)
-      get :public_show, public_link: @survey.public_link
+      get :public_show, public_link: @survey.public_link, step: 1
       assert_template :public_show
     end
     it 'does not work for public without token' do
@@ -77,7 +77,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_template :edit
 
       # sq_pre_4 is already assigned
-      assert_select('.fa-trash-o', 3)
+      assert_select('.fa-trash-o', 4)
     end
   end
   
