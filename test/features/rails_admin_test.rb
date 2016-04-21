@@ -14,5 +14,11 @@ class RailsAdminTest < Capybara::Rails::TestCase
       visit '/rails_admin/survey'
       assert_equal '/rails_admin/survey', current_path
     end
+
+    it 'loads a survey question' do
+      login_as admins(:admin_1), scope: :admin
+      visit '/rails_admin/survey_question/' + survey_questions(:sq_1).id.to_s
+      assert_match /rails_admin.survey_question/, current_path
+    end    
   end
 end

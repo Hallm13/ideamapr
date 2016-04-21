@@ -1,4 +1,6 @@
 funcs = ->
+  return if $('#survey_data').length == 0
+  
   ideaList = new IdeaMapr.Collections.IdeaCollection
   survey_id = $('#survey_data').data('survey-id')
   qn_type = $('#survey_question_data').data('question-type')
@@ -13,5 +15,7 @@ funcs = ->
   )
   app.render()
   app.append_idea idea_list_view
-
+  $('#save-response').click ->
+    ideaList.save()
+    
 $(document).on('ready page:load', funcs)

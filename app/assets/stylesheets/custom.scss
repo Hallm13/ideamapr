@@ -111,13 +111,6 @@ form {
   margin-bottom: 10px;
 }
 
-.cell-1 {
-  border: 1px solid $form-border-gray;
-  border-radius: 5px;
-  padding: 5px;
-  min-height: 40px;
-}
-
 .btn-primary {
   background-image: linear-gradient($primary-button-gradient-start, $primary-button-gradient-end);
 }
@@ -173,3 +166,9 @@ form {
 .menu-selected {
   border-bottom: solid 5px $theme-red;
 }
+.entity-set {
+  margin-top: 10px;
+  padding-top: 30px;
+  border-top: solid 1px $background-gray;
+}
+		

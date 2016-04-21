@@ -30,8 +30,12 @@ class SurveysControllerTest < ActionController::TestCase
     
     it 'works for public with token' do
       sign_out admins(:admin_1)
-      get :public_show, public_link: @survey.public_link, step: 1
+      assert_difference('Respondent.count', 1) do 
+        get :public_show, public_link: @survey.public_link, step: 1
+      end
+      
       assert_template :public_show
+      assert_match Respondent.last.cookie_key, response.body
     end
     it 'does not work for public without token' do
       sign_out admins(:admin_1)

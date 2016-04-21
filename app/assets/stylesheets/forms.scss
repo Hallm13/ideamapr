@@ -1,3 +1,11 @@
+.fa {
+  color: $theme-red;
+}
+
+.aligner label {
+  vertical-align: baseline;
+}
+
 .form-header {
   font-weight: bold;
   text-align: center;

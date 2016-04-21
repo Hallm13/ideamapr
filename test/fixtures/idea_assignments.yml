@@ -10,3 +10,8 @@ ia_1_sq_pre_4:
   idea: idea_1
   groupable_type: SurveyQuestion
   groupable: sq_pre_4
+ia_1_s_1:
+  idea: idea_1
+  groupable_type: Survey
+  groupable: survey_1
+  

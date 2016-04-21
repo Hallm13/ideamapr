@@ -1,4 +1,5 @@
 class SurveysController < ApplicationController
+  include CookieJar
   include SqlOptimizers
   include RelationalLogic
   
@@ -11,12 +12,13 @@ class SurveysController < ApplicationController
   end
 
   def public_show
-    # Not admin - require token
     if @survey.public_link == params[:public_link]
       qns = @survey.survey_questions.order(created_at: :desc)
       if params[:step] && params[:step].to_i > 0
         @survey_question = qns.offset(params[:step].to_i - 1).limit(1).first
       end
+      
+      @cookie_key = find_or_create_cookie(params[:cookie_key])
       render 'public_show'
     else
       redirect_to page_404

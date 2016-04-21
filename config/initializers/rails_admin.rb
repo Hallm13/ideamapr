@@ -1,6 +1,6 @@
 RailsAdmin.config do |config|
   # Configure this
-  config.included_models = ["Survey", "SurveyQuestion", "Admin", "Idea"]
+  config.included_models = ["Survey", "SurveyQuestion", "Admin", "Idea", "CmsContent"]
   
   ### Popular gems integration
 

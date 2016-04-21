@@ -5,6 +5,7 @@ IdeaMapr::Application.routes.draw do
   resources :users, path: 'profiles'
 
   resources :ideas
+  resources :survey_responses, only: [:update]
   resources :survey_questions, except: [:new, :create]
 
   resources :surveys, only: [:show, :index, :update, :edit] do
@@ -18,7 +19,7 @@ IdeaMapr::Application.routes.draw do
   post '/ajax_api' => 'ajax#multiplex'
   get '/ajax_api' => 'ajax#multiplex'
   
-  root to: 'dashboard#show' # Change this to something else in your app.
+  root to: 'ideas#index' # Change this to something else in your app.
 
   # Adds RailsAdmin
   mount RailsAdmin::Engine => '/rails_admin', as: 'rails_admin'

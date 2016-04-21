@@ -35,3 +35,12 @@ IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
       success: (coll, resp, opt) ->
         coll.set resp['data']
 
+  save: ->
+    x = this.toJSON()
+    y = $('.metadata').map (i, e) ->
+      _t = {}
+      _t[$(e).attr('name')] = $(e).val()
+      _t
+    x.push y.get()
+
+    Backbone.sync 'update', this, contentType: 'application/json', url: '/survey_responses/0', data: JSON.stringify(x)

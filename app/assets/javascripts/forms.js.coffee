@@ -1,8 +1,3 @@
-window.cms_text = new IdeaMapr.Models.CmsModel()
-window.cms_list = new IdeaMapr.Models.CmsList()
-cms_list.search_filter = 'help_text'
-cms_list.getById()
-
 Controller = ->
 Controller.prototype = 
   set_length : (elt) ->
@@ -15,6 +10,10 @@ window.controller = new Controller()
 
 # Set the helper text for question types  
 set_prompt = (css_select) ->
+  window.cms_list = new IdeaMapr.Models.CmsList()
+  cms_list.search_filter = 'help_text'
+  cms_list.getById()
+
   window.selector = css_select
   if window.prompt_map
     prompt = window.prompt_map['data'][$('#survey_question_question_type option:selected').text()]
@@ -28,10 +27,10 @@ set_prompt = (css_select) ->
     )
 
 functions = ->
-  # initialize the page.
-  set_prompt('#helper_edit')
+  if $('.builder-box').length != 0
+    # initialize the page.
+    set_prompt('#helper_edit')
 
-  if $('.builder-box')
     $('form#container_update #redirect').val('')
     $('.builder-box').each (idx, elt) ->
       new_elt = $(elt).find('.builder-before')

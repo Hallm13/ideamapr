@@ -1,9 +1,18 @@
-.row.table-headers
-  .col-xs-6
-    Question Title
-  .col-xs-2
-    Question Type
-  .col-xs-4
+.row
+  - if @survey
+    %button.btn.btn-primary#add-multi-select
+  - else
+    %button.btn.btn-primary
+      = link_to t(:add_button_text), edit_survey_question_url(id: 0)
+
+.entity-set
+  .row.table-headers
+    .col-xs-8
+      Question Title
+    .col-xs-2
+      Question Type
+    .col-xs-2
+      Actions
       
 - @questions.each do |question|
   .row.question-row
@@ -16,6 +25,3 @@
     .col-xs-2
       = edit_or_select(question)
 
-- if @survey
-  %button.btn.btn-primary#add-multi-select
-    Add To Survey
