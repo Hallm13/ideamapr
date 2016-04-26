@@ -15,12 +15,11 @@
     &.inactive-icon {
       opacity: 0.0;
       padding-right: 0px;
+      &:before {
+	display: none;
+      }
     }
     
-    &.active-icon {
-      cursor: pointer;      
-    }
-
     &.active-select {
       color: $selected-green;
     }

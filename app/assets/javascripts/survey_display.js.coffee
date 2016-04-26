@@ -1,21 +1,25 @@
 funcs = ->
   return if $('#survey_data').length == 0
   
-  ideaList = new IdeaMapr.Collections.IdeaCollection
+  idea_list = new IdeaMapr.Collections.IdeaCollection
   survey_id = $('#survey_data').data('survey-id')
   qn_type = $('#survey_question_data').data('question-type')
-  ideaList.getSurveyIdeas(survey_id)
+  
+  sq_list = new IdeaMapr.Collections.SurveyQuestionCollection
 
-  idea_list_view = new IdeaMapr.Views.IdeaListView
-    collection: ideaList
-  idea_list_view.set_type qn_type
-    
   app = new IdeaMapr.Views.AppView(
-    el: $('#idea-list'),
+    collection: sq_list,
+    el: $('#app'),
   )
-  app.render()
-  app.append_idea idea_list_view
+  # When the master idea list is updated, clone its contents into each survey question's model
+  sq_list.listenTo idea_list, 'update', sq_list.clone
+
+  # The data fetches trigger the events cascade
+  # These two can run in parallel
+  sq_list.getQuestions survey_id  
+  idea_list.getSurveyIdeas survey_id
+  
   $('#save-response').click ->
-    ideaList.save()
+    idea_list.save()
     
 $(document).on('ready page:load', funcs)

@@ -3,6 +3,10 @@ class RailsAdminTest < Capybara::Rails::TestCase
   include Warden::Test::Helpers
   Warden.test_mode!
   # Hit coverage goals
+  before do
+    logout :admin
+  end
+  
   describe 'rails admin loads' do
     it 'needs auth' do
       visit '/rails_admin/user'

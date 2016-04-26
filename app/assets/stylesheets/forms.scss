@@ -38,16 +38,16 @@
 
   input + label.placeholder-label {
     position: absolute;
-    top: 42px;
+    top: 10px;
     left: 35px;
     font-size: 0.9em;
   }
-  input:focus + label.placeholder-label {
-    top: 25px;
-    left: 42px;
+  input.with-text + label.placeholder-label {
+    transition: left 0.5s;
+    top: 10px;
+    left: 90%;
     padding: 0 2px;
     background-color: white;
-    font-size: 0.8em;
   }
 }
 
@@ -79,3 +79,20 @@
   color: black;
   text-align: center;
 }
+.relative-container {
+  position: relative;
+}
+.active-icon {
+  cursor: pointer;      
+}
+
+.delete-box {
+  padding-top: 10px;
+}
+
+.table-headers {
+  font-family: 'Montserrat';
+  text-align: center;
+  margin-bottom: 10px;
+}
+

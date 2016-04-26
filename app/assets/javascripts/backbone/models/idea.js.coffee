@@ -18,3 +18,6 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
   grant_top: ->
     this.set('grant_top', true)
     this
+
+  set_question_type: (type_int) ->
+    this.qn_type = type_int

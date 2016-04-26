@@ -30,8 +30,10 @@ class SurveysControllerTest < ActionController::TestCase
     
     it 'works for public with token' do
       sign_out admins(:admin_1)
-      assert_difference('Respondent.count', 1) do 
-        get :public_show, public_link: @survey.public_link, step: 1
+      assert_difference('Respondent.count', 1) do
+        s = surveys(:published_survey)
+        s.regenerate_public_link
+        get :public_show, public_link: s.public_link, step: 1
       end
       
       assert_template :public_show
@@ -40,6 +42,13 @@ class SurveysControllerTest < ActionController::TestCase
     it 'does not work for public without token' do
       sign_out admins(:admin_1)
       get :public_show, public_link: 'notatoken'
+      assert_redirected_to '/404.html'
+    end
+
+    it 'blocks for unpublished surveys via token' do
+      s = surveys(:survey_1)
+      s.regenerate_public_link
+      get :public_show, public_link: s.public_link
       assert_redirected_to '/404.html'
     end
   end
@@ -68,6 +77,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_match /survey 1 intro/, response.body
       assert_match /survey 1 title/, response.body
       assert assigns(:survey_status_select)
+      assert_equal 1, assigns(:survey_qns).count
     end
 
     it 'works with combining survey questions' do
@@ -128,7 +138,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_redirected_to survey_url(surveys(:survey_1))
 
       get :show, id: surveys(:survey_1).id
-      assert_match /2 questions/i, response.body
+      assert_match /not public/i, response.body
     end
     
     it 'works to select questions' do

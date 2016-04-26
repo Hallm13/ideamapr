@@ -1,4 +1,6 @@
 IdeaMapr.Views.IdeaListView = Backbone.View.extend
+  tagName: 'div',
+
   initialize: ->
     _.bindAll(this, 'render')
     this.listenTo(this.collection, "sync", this.render)
@@ -6,17 +8,13 @@ IdeaMapr.Views.IdeaListView = Backbone.View.extend
     
   render: ->
     self = this
-    container = $('<div>')
+    this.$el.empty()
+
+    # The idea list sort causes the highest ranked idea to show at the top.
     this.collection.each (idea) ->
       li = new IdeaMapr.Views.IdeaView
         model: idea
-      li.set_type self.qn_type
-      container.append(li.render().el)
+      self.$el.append(li.render().el)
       null
 
-    this.$el.empty()
-    this.$el.append container
     this
-
-  set_type: (type_int) ->
-    this.qn_type = type_int

@@ -1,5 +1,6 @@
 defaults: &defaults
   title: long enough title (12 chars)
+  status: <%= 0 %>
   
 survey_1:
   title: is a survey is a survey 1 title

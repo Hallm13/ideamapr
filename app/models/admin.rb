@@ -1,6 +1,6 @@
 class Admin < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :timeoutable
   def has_password?(p)
     self.valid_password? p
   end

@@ -1,9 +1,6 @@
 .row
-  .page-title.col-xs-12
+  .col-xs-12.page-title
     #{@survey.title}
-.row
-  .page-title.col-xs-12
-    #{@survey.survey_questions.count} Questions / Owner: #{@survey.owner.email}
 
 .survey-summary
   .row.table-headers
@@ -15,6 +12,15 @@
       Completion Rate
     .col-xs-3
       Link
+  .row.table-headers
+    .col-xs-3
+      = Survey::SurveyStatus.name(@survey.status)
+    .col-xs-3
+      = "%"
+    .col-xs-3
+      = "%"
+    .col-xs-3
+      = public_link_display @survey
 
 .question-list
   .row.table-headers
@@ -23,7 +29,7 @@
     .col-xs-6
       Question Type
   - @survey.survey_questions.each do |qn|
-    .row
+    .row.question-box
       .col-xs-6.cell-1
         = qn.title
       .col-xs-6.cell-1.center

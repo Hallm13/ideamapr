@@ -104,13 +104,6 @@ form {
   font-size: 0.8em;
 }
 
-.table-headers {
-  font-family: 'MontserratBold';
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
 .btn-primary {
   background-image: linear-gradient($primary-button-gradient-start, $primary-button-gradient-end);
 }
@@ -171,4 +164,8 @@ form {
   padding-top: 30px;
   border-top: solid 1px $background-gray;
 }
-		
+.alert-text {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  color: red;
+}

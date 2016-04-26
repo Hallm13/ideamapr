@@ -52,6 +52,12 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_select('.question-row', SurveyQuestion.count)
     end
 
+    it 'does not require auth when the survey is public' do
+      sign_out :admin
+      get :index, for_survey: surveys(:published_survey).id
+      assert_template :index
+    end
+
     it "activates selection when asked" do
       get :index, {for_survey: surveys(:survey_1).id}
       refute_nil assigns(:survey)

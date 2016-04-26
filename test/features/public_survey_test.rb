@@ -12,11 +12,13 @@ class PublicSurveyTest < Capybara::Rails::TestCase
       visit @base_url + '1'
       page.find_all '.page-title'
       assert page.has_content? 'Add Pro'
-      assert page.has_css?('.idea-title', count: survey_questions(:sq_pre_4).ideas.count)
+
+      assert page.has_css?('.idea-title', count: survey_questions(:sq_pre_4).ideas.count*2)
     end
 
     it 'shows pro/con question' do
       visit @base_url + '2'
+      sleep 1
       page.find_all '.page-title'
       assert page.has_content? 'has rank'
     end    

@@ -10,4 +10,8 @@ class SurveyTest < ActiveSupport::TestCase
   test '#has_state?' do
     assert @s.has_state?(:published)
   end
+
+  test '##status_enum' do
+    assert_equal({'Draft' => 0, 'Published' => 1, 'Closed' => 2}, Survey.new.status_enum)
+  end
 end

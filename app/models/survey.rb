@@ -1,9 +1,19 @@
 class Survey < ActiveRecord::Base
+  def status_enum
+    (0..SurveyStatus.max_type).inject({}) do |acc, i|
+      acc[SurveyStatus.name(i)] = i
+      acc
+    end
+  end
+  
   class SurveyStatus
     DRAFT=0
     PUBLISHED=1
     CLOSED=2
 
+    def self.max_type
+      2
+    end
     def self.option_array
       [['Draft', 0], ['Published', 1], ['Closed', 2]]
     end    

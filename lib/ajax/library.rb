@@ -10,6 +10,8 @@ module Ajax
         params = matches[3].split '/'                                  
         
         case controller
+        when 'survey'
+          status_struct = Ajax::Survey.run_ajax_action(action, params)
         when 'survey_question'
           status_struct = Ajax::SurveyQuestion.run_ajax_action(action, params)
         when 'cms'

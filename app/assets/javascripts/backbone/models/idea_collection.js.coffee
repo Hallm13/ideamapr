@@ -19,7 +19,7 @@ IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
     
   urlRoot: '/ideas',
   url: ->
-    this.urlRoot + '/?for_survey=' + this.survey_id
+    this.urlRoot + '?for_survey=' + this.survey_id
 
   comparator: (m) ->
     m.get('idea_rank')
@@ -29,12 +29,6 @@ IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
     this.fetch()
         
   model: IdeaMapr.Models.Idea,
-  
-  getById: ->
-    this.fetch
-      success: (coll, resp, opt) ->
-        coll.set resp['data']
-
   save: ->
     x = this.toJSON()
     y = $('.metadata').map (i, e) ->

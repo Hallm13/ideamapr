@@ -1,10 +1,10 @@
 Controller = ->
 Controller.prototype = 
-  set_length : (elt) ->
+  check_length : (elt) ->
     if $(elt).val().length > 10
-      $(elt).siblings('.builder-before').css('background-color', '#8af181')
+      $(elt).closest('.relative-container').siblings('.builder-before').css('background-color', '#8af181')
     else
-      $(elt).siblings('.builder-before').css('background-color', 'white')
+      $(elt).closest('.relative-container').siblings('.builder-before').css('background-color', 'white')
           
 window.controller = new Controller()
 
@@ -38,8 +38,38 @@ functions = ->
       new_elt.text id
       
     $('.watched-box').each (idx, elt) ->
-      window.controller.set_length elt
+      window.controller.check_length elt
 
+    $('input').each (idx, elt) ->
+      if $(elt).val().trim().length > 0
+        $(elt).addClass('with-text')
+      $(elt).keyup (evt) ->
+        if $(elt).hasClass('watched-box')
+          window.controller.check_length(elt)
+
+        if $(elt).val().trim().length == 0
+          $(elt).removeClass('with-text')
+        else
+          $(elt).addClass('with-text')
+
+    fade_on_delete = ($elt) ->
+      (d, s, x) ->        
+        if d['status'] == 'success'
+          $elt.hide(500)
+          $elt.remove()
+    $('.delete-box').click (evt) ->
+      survey_id = $('#survey_id').val()
+      qn_box = $(evt.target).closest('.question-box')      
+      delete_qn_id = qn_box.find('#survey_components_').val()
+
+      # this ajax call will always return success by design.
+      $.post('/ajax_api',
+        'payload' : 'survey/delete_survey_question/' + survey_id + '/' + delete_qn_id
+        fade_on_delete(qn_box)
+        
+    )
+      
+  
     $('.builder-after').click (evt) ->
       help_box = $(this).closest('.builder-box').find('.help-text')
       id = $(this).closest('.builder-box').find('.hidden').data('box-key')
@@ -57,9 +87,6 @@ functions = ->
       btn = $(evt.target)
       $('form#container_update #redirect').val('goto-contained')
       $('form#container_update').submit
-      
-  $('.watched-box').keyup (evt) ->
-    window.controller.set_length(this)
-    
+          
 $(document).on('page:load ready', functions)
 

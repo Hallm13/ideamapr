@@ -1,11 +1,14 @@
 .row
-  - @survey_qns&.each do |qn|
-    .question-box
-      = hidden_field_tag 'survey[components][]', qn.id
+  - @survey_qns&.each_with_index do |qn, qn_idx|
+    .question-box{id: "qn-box-#{qn_idx}"}
+      = hidden_field_tag 'survey[components][]', qn[:data].id
       .col-xs-8.col-xs-offset-2.cell-1
-        = qn.title
+        = qn[:data].title
+        - if !qn[:saved]
+          .float-right.alert-text
+            not saved
       .col-xs-2.delete-box
-        .fa.fa-trash-o
+        .fa.fa-trash-o.active-icon
   .col-xs-offset-3.col-xs-6
     %button.btn.btn-primary#select-contained
       + Select a Question

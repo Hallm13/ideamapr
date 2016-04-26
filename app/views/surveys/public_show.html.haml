@@ -1,17 +1,18 @@
 = hidden_field_tag 'metadata[cookie_key]', @cookie_key, class: 'metadata'
 = hidden_field_tag :survey_data, '', 'data-survey-id' => @survey.id
-#test
+
 .row
   .page-title.col-xs-12
     #{@survey.title}
-    
-- if @survey_question
-  = hidden_field_tag :survey_question_data, '', 'data-question-type' => @survey_question.question_type
-  .row
-    = @survey_question.title
-  .row
-    #idea-list
 
-  = render partial: 'backbone_template', locals: {qn_type: @survey_question.question_type}
-  %button#save-response
-    Save Response
+#app
+%script#sq-template{type: 'text/template'}
+  .sq-intro-section
+    .row
+      <%- title %>
+    = hidden_field_tag :survey_question_data, '', 'data-question-type' => "<%- question_type %>"
+  #idea-list
+
+= render partial: 'backbone_templates'
+%button#save-response
+  Save Response

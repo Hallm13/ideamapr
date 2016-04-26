@@ -34,17 +34,11 @@ class SurveysController < ApplicationController
     if params[:id] == '0'
       @survey = Survey.new
     else
-      @survey_qns = @survey.survey_questions.to_a
-    end
-    
-    if params[:survey]&.send(:[], :components)
-      @survey_qns ||= []
-      @survey_qns += SurveyQuestion.where('id in (?)', params[:survey][:components]).to_a
+      create_survey_qn_array
     end
   end
   
   def update
-    success = false
     set_dropdown
     
     attrs = params[:survey].permit(:title, :introduction, :status, :thankyou_note)
@@ -52,8 +46,8 @@ class SurveysController < ApplicationController
     @survey.owner_id = current_admin.id
     @survey.owner_type = 'Admin'      
 
+    sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
     if (saved = @survey.valid?)
-      sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
       ActiveRecord::Base.transaction do      
         saved &= @survey.save
         saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
@@ -62,6 +56,7 @@ class SurveysController < ApplicationController
   
     if saved
       # We saved so we can add questions
+      flash[:alert] = nil
       if params[:redirect] == 'goto-contained'
         redirect_to survey_questions_url(for_survey: @survey.id)
       else
@@ -69,11 +64,28 @@ class SurveysController < ApplicationController
       end
     else
       flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
+
+      create_survey_qn_array
       render :edit
     end
   end
   
   private
+  def create_survey_qn_array
+    # id_list elements are numeric, either as Integer or as String
+    @survey_qns = @survey.survey_questions.to_a.map do |qn|
+      {data: qn, saved: true}
+    end
+    
+    @survey_qns ||= []
+    if params[:survey]&.send(:[], :components)
+      id_list = params[:survey]&.send(:[], :components)
+      @survey_qns += (SurveyQuestion.where('id in (?)', id_list).to_a.map do |qn|
+                        @survey_qns.include?({data: qn, saved: true}) ? nil : {data: qn, saved: false}
+                      end.compact)
+    end
+  end
+  
   def params_check
     status = true
     status &= params[:id] unless params[:action].to_sym == :public_show
@@ -81,7 +93,8 @@ class SurveysController < ApplicationController
     if status
       case params[:action].to_sym
       when :public_show
-        status &= (params[:public_link] && @survey = Survey.find_by_public_link(params[:public_link]))
+        status &= (params[:public_link] && (@survey = Survey.find_by_public_link(params[:public_link])) &&
+                   @survey.status == Survey::SurveyStatus::PUBLISHED)
       when :show
         status &= (@survey = Survey.find_by_id params[:id])
       when :edit, :update
@@ -103,6 +116,6 @@ class SurveysController < ApplicationController
   
   def set_dropdown
     @survey_status_select = Survey::SurveyStatus.option_array
-    @select_default = Survey::SurveyStatus.name(@survey.status)
+    @select_default = @survey.status
   end
 end

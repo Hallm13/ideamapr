@@ -4,7 +4,10 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
   initialize: ->
     _.bindAll(this, 'render')
     this.listenTo(this.model, "change", this.render)
-
+    this.type_names =
+      0: 'procon'
+      1: 'ranking'
+      
   events: 
     'click .addnote': (evt) ->
       $(evt.target).closest('.note-holder').find('textarea').toggle()
@@ -12,18 +15,15 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
       this.model.trigger('move-top')
         
   render: ->
-    if this.qn_type == 0 # SurveyQuestion::QuestionType::PROCON
-      template = _.template($('#procon-template').html())
-    else if this.qn_type == 1 # SurveyQuestion::QuestionType::RANKING
-      template = _.template($('#ranking-template').html())
-
+    qn_type = this.model.qn_type
+    template = _.template($('#' + this.type_names[qn_type] + '-template').html())
     data = this.model.attributes
 
-    if this.qn_type == 0
+    if qn_type == 0
       data['note_counts'] =
         pro: this.model.get('pro')
         con: this.model.get('con')
-    else if this.qn_type == 1
+    else if qn_type == 1
       data['idea_rank'] = this.model.get('idea_rank')
       
     this.$el.html(template(data))
@@ -33,6 +33,3 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
   create_entry: (type) ->
     this.model.increment_note type
     this.render()
-    
-  set_type: (type_int) ->
-    this.qn_type = type_int

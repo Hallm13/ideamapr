@@ -1,13 +1,27 @@
 class SurveyQuestionsController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :admin_for_drafts!
   before_action :params_check, except: [:new, :index]
   include RelationalLogic
   
   def index
     @selected_section = 'questions'
-    @questions = SurveyQuestion.all
-    if params[:for_survey]
-      @survey = Survey.find_by_id params[:for_survey].to_i
+    rendered = false
+    
+    if params[:for_survey] && request.xhr?
+      # For non JSON requests, we need the @survey object for rendering purposes - it is extracted
+      # in the before_filter
+      # For JSON requests, get the survey's question(s) for Backbone processing.
+
+      set = @survey&.survey_questions
+      if params[:step] and (params[:step].to_i > 0)
+        set &= set.order(created_at: :desc).offset(params[:step].to_i - 1).limit(1)
+      end
+      # Let JSON return empty in case of errors
+      set ||= {}
+      render json: set
+    else
+      @questions = SurveyQuestion.all
+      render 'index'
     end
   end
   
@@ -73,6 +87,16 @@ class SurveyQuestionsController < ApplicationController
     status
   end
 
+  def admin_for_drafts!
+    if params[:action] != 'index' ||
+       (!params[:for_survey].nil? && (@survey=Survey.find_by_id(params[:for_survey])) != nil &&
+        @survey.status != Survey::SurveyStatus::PUBLISHED)
+      authenticate_admin!
+    else
+      true
+    end
+  end
+  
   def set_dropdown_options
     @question_type_select = SurveyQuestion::QuestionType.option_array
     @select_default = SurveyQuestion::QuestionType.name(@question.question_type)
