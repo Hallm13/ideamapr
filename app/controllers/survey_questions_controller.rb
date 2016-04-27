@@ -7,16 +7,16 @@ class SurveyQuestionsController < ApplicationController
     @selected_section = 'questions'
     rendered = false
     
-    if params[:for_survey] && request.xhr?
-      # For non JSON requests, we need the @survey object for rendering purposes - it is extracted
-      # in the before_filter
-      # For JSON requests, get the survey's question(s) for Backbone processing.
-
-      set = @survey&.survey_questions
-      if params[:step] and (params[:step].to_i > 0)
-        set &= set.order(created_at: :desc).offset(params[:step].to_i - 1).limit(1)
+    if params[:for_survey]
+      unless @survey
+        @survey = Survey.find_by_id params[:for_survey]
       end
-      # Let JSON return empty in case of errors
+    end
+    
+    if request.xhr?
+      # For non JSON requests, we need the @survey object for rendering purposes which is set
+      # in the before filter for JSON requests, for Backbone processing.
+      set = @survey&.survey_questions
       set ||= {}
       render json: set
     else
@@ -85,16 +85,6 @@ class SurveyQuestionsController < ApplicationController
     end
     
     status
-  end
-
-  def admin_for_drafts!
-    if params[:action] != 'index' ||
-       (!params[:for_survey].nil? && (@survey=Survey.find_by_id(params[:for_survey])) != nil &&
-        @survey.status != Survey::SurveyStatus::PUBLISHED)
-      authenticate_admin!
-    else
-      true
-    end
   end
   
   def set_dropdown_options

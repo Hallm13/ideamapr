@@ -4,11 +4,21 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
   
   initialize: ->
     _.bindAll(this, 'render')
+    this.model.set('is_shown', false)
     this.listenTo(this.model, "change", this.render)
 
-  render: ->
+  toggle_view: ->
+    if this.$el.hasClass 'myhidden'
+      this.$el.removeClass 'myhidden'
+    else
+      this.$el.addClass 'myhidden'
+            
+  render: (model, options) ->
     template = _.template($('#sq-template').html())
     this.$el.html(template(this.model.attributes))
+
+    if !this.is_shown
+      this.$el.addClass 'myhidden'
 
     idea_list_view = new IdeaMapr.Views.IdeaListView
       collection: this.model.idea_list,

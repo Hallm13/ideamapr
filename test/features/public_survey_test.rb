@@ -5,22 +5,20 @@ class PublicSurveyTest < Capybara::Rails::TestCase
       Capybara.default_driver = :webkit
       @s = surveys(:published_survey)
       @s.publish
-      @base_url = '/survey/public_show/' + @s.public_link + "?step="
-    end
-
-    it 'shows pro/con question' do
-      visit @base_url + '1'
+      @base_url = '/survey/public_show/' + @s.public_link
+      visit @base_url
       page.find_all '.page-title'
-      assert page.has_content? 'Add Pro'
-
-      assert page.has_css?('.idea-title', count: survey_questions(:sq_pre_4).ideas.count*2)
     end
 
     it 'shows pro/con question' do
-      visit @base_url + '2'
       sleep 1
-      page.find_all '.page-title'
       assert page.has_content? 'has rank'
+      assert page.has_css?('.idea-title', count: 2)
+    end
+
+    it 'cycles through questions' do
+      page.find('#go-right').click
+      assert page.has_content? 'Add Con'
     end    
   end
 end

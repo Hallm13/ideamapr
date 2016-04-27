@@ -13,6 +13,18 @@ class ApplicationController < ActionController::Base
     redirect_to page_404
   end
 
+  protected
+  def admin_for_drafts!
+    # specific requests for published data is allowed
+    if request.xhr? &&
+       !params[:for_survey].nil? && (@survey=Survey.find_by_id(params[:for_survey])) != nil &&
+        @survey.status == Survey::SurveyStatus::PUBLISHED
+      true
+    else
+      authenticate_admin!
+    end
+  end
+  
   private
   def set_locale
     # 1. Let's make our app use the locale

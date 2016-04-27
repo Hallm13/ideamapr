@@ -1,16 +1,24 @@
 = hidden_field_tag 'metadata[cookie_key]', @cookie_key, class: 'metadata'
 = hidden_field_tag :survey_data, '', 'data-survey-id' => @survey.id
 
-.row
-  .page-title.col-xs-12
-    #{@survey.title}
-
 #app
+  #survey-navbar
+  #sq-list
+
+%script#survey-nb-template{type: 'text/template'}
+  .row.survey-nb-row
+    .col-xs-offset-3.col-xs-6
+      .row
+        .col-xs-4#go-left
+          Previous
+        .col-xs-4#current-question
+          <%- current_question_index %> of <%- total_questions %> Questions
+        .col-xs-4#go-right
+          Next
+          
 %script#sq-template{type: 'text/template'}
-  .sq-intro-section
-    .row
-      <%- title %>
-    = hidden_field_tag :survey_question_data, '', 'data-question-type' => "<%- question_type %>"
+  = hidden_field_tag :survey_question_data, '', 'data-question-type' => "<%- question_type %>"
+  <%- title %>
   #idea-list
 
 = render partial: 'backbone_templates'

@@ -26,5 +26,6 @@
     .col-xs-2
       = edit_or_select(question)
 
-%button.btn.btn-primary#add-multi-select
-  Finish
+- if @survey
+  %button.btn.btn-primary#add-multi-select
+    Finish

@@ -19,7 +19,7 @@ IdeaMapr::Application.routes.draw do
   post '/ajax_api' => 'ajax#multiplex'
   get '/ajax_api' => 'ajax#multiplex'
   
-  root to: 'ideas#index' # Change this to something else in your app.
+  root to: 'ideas#index'
 
   # Adds RailsAdmin
   mount RailsAdmin::Engine => '/rails_admin', as: 'rails_admin'

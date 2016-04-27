@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class IdeasControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+
+  def setup
+    sign_in admins(:admin_1)
+  end
+  
   describe '#index' do
      it 'works plainly' do
        get :index
@@ -20,27 +26,42 @@ class IdeasControllerTest < ActionController::TestCase
          assert_redirected_to '/404.html'
        end
        
-       it 'gets the ideas when avlbl' do
-         s=surveys(:published_survey)         
+       it 'gets the ideas for a survey' do
+         s=surveys(:published_survey)
          get :index, {for_survey: s.id}
          assert s.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc).first.id,
                 assigns(:ideas).first.id
        end
-     end
-  end  
-  
-  test '#show' do
-    get :show, {id: ideas(:idea_1).id}
-    assert_template :show
-  end
 
+       it 'is not authenticated for XHR requests for published surveys' do
+         xhr :get, :index, {for_survey: surveys(:published_survey).id}
+       end
+     end
+  end
+  
   test '#new' do
     get :new
   end
   
-  test '#show' do
-    get :show, {id: 'notid'}
-    assert_redirected_to root_path
+  describe '#show' do
+    describe 'errors' do
+      it 'needs a valid id' do
+        get :show, {id: 'notid'}
+        assert_redirected_to '/404.html'
+      end
+      it 'needs a login' do
+        sign_out :admin
+        get :show, {id: ideas(:idea_1).id}
+        assert_redirected_to new_admin_session_path
+      end
+    end
+
+    describe 'success' do
+      it 'gets an idea' do
+        get :show, {id: ideas(:idea_1).id}
+        assert_template :show
+      end
+    end
   end
 
   describe '#create' do

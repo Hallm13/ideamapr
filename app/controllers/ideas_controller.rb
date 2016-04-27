@@ -1,5 +1,5 @@
 class IdeasController < ApplicationController
-  before_action :admin_signed_in?
+  before_action :admin_for_drafts!
   before_action :params_check, only: [:index, :show]
 
   def index
@@ -24,7 +24,7 @@ class IdeasController < ApplicationController
 
   def show
     @idea = Idea.find_by_id params[:id]
-    @idea ? (request.xhr? ? render(json: @idea) : (render 'show')) : (redirect_to :root)
+    @idea ? (request.xhr? ? render(json: @idea) : (render 'show')) : (redirect_to page_404)
   end
   
   def create
@@ -40,10 +40,6 @@ class IdeasController < ApplicationController
   end
   
   private
-  def admin_signed_in?
-    !current_admin.nil?
-  end
-
   def params_check
     status = true
     case params[:action].to_sym

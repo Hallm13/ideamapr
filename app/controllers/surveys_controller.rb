@@ -19,7 +19,7 @@ class SurveysController < ApplicationController
       end
       
       @cookie_key = find_or_create_cookie(params[:cookie_key])
-      render 'public_show'
+      render 'public_show', layout: 'public_survey'
     else
       redirect_to page_404
     end

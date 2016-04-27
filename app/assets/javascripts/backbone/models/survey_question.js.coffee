@@ -10,7 +10,6 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
     il = this.idea_list
     self = this
     master_list.each (orig_model) ->
-      console.log('using ' + JSON.stringify(orig_model.toJSON()) + ' for ' +  self.get('title'))
       cloned_idea = new IdeaMapr.Models.Idea(orig_model.toJSON())
       cloned_idea.set_question_type self.get('question_type')
       
