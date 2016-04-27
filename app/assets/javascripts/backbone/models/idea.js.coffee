@@ -21,3 +21,16 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
 
   set_question_type: (type_int) ->
     this.qn_type = type_int
+
+  getResponseData: ->
+    if this.qn_type == 0 # pro/con
+      obj =
+        pro: this.get('pro')
+        con: this.get('con')
+    else if this.qn_type == 1 # ranking
+      obj =
+        rank: this.get('idea_rank')
+
+    obj['idea_id'] = this.get('id')
+    obj
+    

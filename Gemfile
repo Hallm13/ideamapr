@@ -33,7 +33,8 @@ gem 'turbolinks'
 gem 'underscore-rails'
 
 gem 'has_secure_token'
-
+gem 'redis-namespace'
+gem 'sidekiq'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

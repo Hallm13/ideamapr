@@ -1,8 +1,8 @@
 funcs = ->
-  return if $('#survey_data').length == 0
+  return if $('#survey_id').length == 0
   
   idea_list = new IdeaMapr.Collections.IdeaCollection
-  survey_id = $('#survey_data').data('survey-id')
+  survey_id = $('#survey_id').data('survey-id')
   qn_type = $('#survey_question_data').data('question-type')
   
   sq_list = new IdeaMapr.Collections.SurveyQuestionCollection
@@ -18,8 +18,5 @@ funcs = ->
   # These two can run in parallel
   sq_list.getQuestions survey_id  
   idea_list.getSurveyIdeas survey_id
-  
-  $('#save-response').click ->
-    idea_list.save()
-    
+      
 $(document).on('ready page:load', funcs)

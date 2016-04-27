@@ -1,9 +1,11 @@
-= hidden_field_tag 'metadata[cookie_key]', @cookie_key, class: 'metadata'
-= hidden_field_tag :survey_data, '', 'data-survey-id' => @survey.id
+= hidden_field_tag :cookie_key, @cookie_key, class: 'metadata'
+= hidden_field_tag :survey_id, '', 'data-survey-id' => @survey.id
 
 #app
   #survey-navbar
   #sq-list
+  %button#save-response
+    Save Response
 
 %script#survey-nb-template{type: 'text/template'}
   .row.survey-nb-row
@@ -22,5 +24,3 @@
   #idea-list
 
 = render partial: 'backbone_templates'
-%button#save-response
-  Save Response

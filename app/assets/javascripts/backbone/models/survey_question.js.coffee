@@ -17,3 +17,10 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
       
     this
     
+  getResponseData: ->
+    obj =
+      sqn_id: this.get('id')
+    obj['answers'] =
+      this.idea_list.map (elt, idx) ->
+        elt.getResponseData()
+    obj
