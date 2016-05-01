@@ -10,7 +10,7 @@ class MultiSelectTest < Capybara::Rails::TestCase
 
   test 'selection of questions for survey' do
     visit '/survey_questions?for_survey=' + (@id = surveys(:survey_1).id).to_s
-    assert page.assert_selector(".fa", count: SurveyQuestion.count * 3)
+    assert (SurveyQuestion.count - surveys(:survey_1).survey_questions.count), page.all(".fa-check").count
 
     elt = page.all('.fa.fa-check')[0]
     id = elt['data-action-target']
@@ -25,7 +25,7 @@ class MultiSelectTest < Capybara::Rails::TestCase
   
   test 'selection of ideas for question' do
     visit '/ideas?for_survey_question=' + (@id = survey_questions(:sq_1).id).to_s
-    assert page.assert_selector(".fa", count: Idea.count * 3)
+    assert_equal Idea.count - survey_questions(:sq_1).ideas.count, page.all(".fa-check").count
 
     elt = page.all('.fa.fa-check')[0]
     id = elt['data-action-target']

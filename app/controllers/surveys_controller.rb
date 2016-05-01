@@ -7,8 +7,19 @@ class SurveysController < ApplicationController
   before_action :params_check, except: [:new, :index]
 
   def index
-    @selected_section = 'surveys'
     @surveys = Survey.all
+    if request.xhr?
+      data = @surveys.map do |s|
+        {title: s.title, displayed_survey_status: Survey::SurveyStatus.name(s.status),
+         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}
+      end
+
+      render json: data
+    else
+      @selected_section = 'surveys'
+      # Deliver custom Backbone app js 
+      render :index, layout: 'survey_index_layout'
+    end
   end
 
   def public_show

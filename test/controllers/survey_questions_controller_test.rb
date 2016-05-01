@@ -18,9 +18,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
     end
     it 'works plainly with ideas' do
       get :edit, id: survey_questions(:sq_1).id
-      assert_select('.question-box') do |elts|
-        assert_equal survey_questions(:sq_1).ideas.size, elts.size
-      end      
+      assert_select('.idea-box', count: survey_questions(:sq_1).ideas.size)
     end
   end
   
@@ -44,6 +42,18 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       s = SurveyQuestion.last
       assert_redirected_to ideas_url(for_survey_question: s.id)
     end
+
+    it 'works to add ideas to existing sq' do
+      sq = survey_questions(:sq_1)
+
+      idea_sz = sq.ideas.count # shd be 1, idea_3
+      refute_difference('SurveyQuestion.count') do 
+        put(:update, {id: sq.id, survey_question: {title: 'this is a new test title',
+                                                   components: [ideas(:idea_1).id, ideas(:idea_3).id]}})
+      end
+      assert_equal idea_sz + 1, sq.ideas.count
+      assert_redirected_to survey_question_url(sq)
+    end      
   end
 
   describe "#index" do

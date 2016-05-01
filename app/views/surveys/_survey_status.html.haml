@@ -1,5 +1,6 @@
 .row
-  .col-xs-offset-3.col-xs-6
-    = select_tag('survey[status]', options_for_select(@survey_status_select, @select_default))
+  .col-xs-offset-11.col-xs-1
+    %button.btn.btn-primary#publish-survey
+      Publish
 
 

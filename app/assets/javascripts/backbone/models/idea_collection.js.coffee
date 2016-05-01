@@ -24,10 +24,6 @@ IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
   comparator: (m) ->
     m.get('idea_rank')
         
-  getSurveyIdeas: (id) ->
-    this.survey_id = id
-    this.fetch()
-        
   model: IdeaMapr.Models.Idea,
   save: ->
     x = this.toJSON()

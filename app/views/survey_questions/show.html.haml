@@ -1,0 +1,8 @@
+%h1
+  Question: #{@question.title}
+
+.field
+  .field-title
+    Question Type
+  .field-value
+    #{SurveyQuestion::QuestionType.name(@question.question_type)}

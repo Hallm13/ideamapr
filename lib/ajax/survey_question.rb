@@ -9,6 +9,14 @@ module Ajax
       when 'get_prompt_map'
         struct[:data] = ::SurveyQuestion::QuestionType.prompts
         struct[:status] = true
+      when 'delete_idea'
+        sqn_id = args[0]
+        idea_id = args[1]
+        if id_a = IdeaAssignment.where(groupable_type: 'SurveyQuestion',
+                                       groupable_id: sqn_id.to_i, idea_id: idea_id.to_i).first
+          struct[:data] = id_a.id
+          id_a.delete
+        end
       else
         struct[:status] = false
       end

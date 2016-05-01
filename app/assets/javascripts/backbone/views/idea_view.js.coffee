@@ -13,9 +13,12 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
       $(evt.target).closest('.note-holder').find('textarea').toggle()
     'click #move-to-top': (evt) ->
       this.model.trigger('move-top')
-        
+
+  set_question_type: (type_int) ->
+    this.question_type = type_int
+            
   render: ->
-    qn_type = this.model.qn_type
+    qn_type = this.question_type
     template = _.template($('#' + this.type_names[qn_type] + '-template').html())
     data = this.model.attributes
 

@@ -1,17 +1,17 @@
 .row
-  - if @question
-    %button.btn.btn-primary#add-multi-select
-      Add To Question
-  - else
+  - if !@question
     .btn.btn-primary
       = link_to t(:add_button_text), new_idea_url
-    
+  
 .entity-set  
   - @ideas.each do |idea|
-    .row.question-row
+    .row.question-row{class: hide_by_contained(idea, @question)}
       .col-xs-10
         .cell-1
           = idea.title
       .col-xs-2
         = edit_or_select(idea)
 
+- if @question
+  %button.btn.btn-primary#add-multi-select
+    Add To Question

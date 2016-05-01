@@ -5,7 +5,10 @@ IdeaMapr.Views.IdeaListView = Backbone.View.extend
     _.bindAll(this, 'render')
     this.listenTo(this.collection, "sync", this.render)
     this.listenTo(this.collection, 'sort', this.render)
-    
+
+  set_question_type: (type_int) ->
+    this.question_type = type_int
+        
   render: ->
     self = this
     this.$el.empty()
@@ -14,6 +17,8 @@ IdeaMapr.Views.IdeaListView = Backbone.View.extend
     this.collection.each (idea) ->
       li = new IdeaMapr.Views.IdeaView
         model: idea
+      li.set_question_type self.question_type
+      
       self.$el.append(li.render().el)
       null
 

@@ -27,6 +27,11 @@ class ActionController::TestCase
   include Devise::TestHelpers
 end
 
+class Capybara::Rails::TestCase
+  include Warden::Test::Helpers
+  Warden.test_mode!
+end
+
 class ActiveRecord::Base
   mattr_accessor :shared_connection
   @@shared_connection = nil

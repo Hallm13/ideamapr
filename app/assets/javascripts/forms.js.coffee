@@ -3,9 +3,12 @@ Controller.prototype =
   check_length : (elt) ->
     if $(elt).val().length > 10
       $(elt).closest('.relative-container').siblings('.builder-before').css('background-color', '#8af181')
+      status = true
     else
       $(elt).closest('.relative-container').siblings('.builder-before').css('background-color', 'white')
-          
+      status = false
+    status
+    
 window.controller = new Controller()
 
 # Set the helper text for question types  
@@ -45,7 +48,7 @@ functions = ->
         $(elt).addClass('with-text')
       $(elt).keyup (evt) ->
         if $(elt).hasClass('watched-box')
-          window.controller.check_length(elt)
+          status = window.controller.check_length(elt)
 
         if $(elt).val().trim().length == 0
           $(elt).removeClass('with-text')
@@ -58,17 +61,19 @@ functions = ->
           $elt.hide(500)
           $elt.remove()
     $('.delete-box').click (evt) ->
-      survey_id = $('#survey_id').val()
-      qn_box = $(evt.target).closest('.question-box')      
-      delete_qn_id = qn_box.find('#survey_components_').val()
+      contained = $(this).data('contained')
+      container = $(this).data('container')
+      
+      container_id = $('#' + container + '_id').val()
+      qori_box = $(evt.target).closest('.' + contained + '-box')      
+      delete_it_id = qori_box.find('#' + container + '_components_').val()
 
       # this ajax call will always return success by design.
       $.post('/ajax_api',
-        'payload' : 'survey/delete_survey_question/' + survey_id + '/' + delete_qn_id
-        fade_on_delete(qn_box)
+        'payload' : container + '/delete_' + contained + '/' + container_id + '/' + delete_it_id
+        fade_on_delete(qori_box)
         
-    )
-      
+    )      
   
     $('.builder-after').click (evt) ->
       help_box = $(this).closest('.builder-box').find('.help-text')

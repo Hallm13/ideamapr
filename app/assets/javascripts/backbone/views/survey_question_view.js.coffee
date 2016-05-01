@@ -21,7 +21,9 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
       this.$el.addClass 'myhidden'
 
     idea_list_view = new IdeaMapr.Views.IdeaListView
-      collection: this.model.idea_list,
+      collection: new IdeaMapr.Collections.IdeaCollection(this.model.attributes.ideas),
       el: this.$('#idea-list')
+
+    idea_list_view.set_question_type(this.model.get('question_type'))
     idea_list_view.render()
     this

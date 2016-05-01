@@ -10,9 +10,7 @@ class SurveysControllerTest < ActionController::TestCase
   describe '#index' do
     it 'works' do
       get :index
-      assert_select '.cell-1' do |elts|
-        assert_equal 4*Survey.count, elts.size
-      end
+      assert assigns(:surveys)
     end
   end
   
@@ -67,7 +65,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert assigns(:survey_status_select)
       assert_match 'Create', response.body
       assert_select('.builder-box') do |elts|
-        assert_equal 5, elts.size
+        assert_equal 4, elts.size
       end
     end      
     
@@ -138,7 +136,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_redirected_to survey_url(surveys(:survey_1))
 
       get :show, id: surveys(:survey_1).id
-      assert_match /not public/i, response.body
+      assert_match /draft/i, response.body
     end
     
     it 'works to select questions' do

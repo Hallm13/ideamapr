@@ -18,18 +18,9 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
 
   getQuestions: (survey_id) ->
     this.survey_id = survey_id
+    this.selected_question = 0
     this.fetch()
 
-    this.selected_question = 0
-    this
-
-  clone: (coll, options) ->
-    # for each question in the collection, clone the list in so that it can be manipulated individually
-    # for that question.
-
-    this.each (qn) ->
-      qn.setIdeaList coll
-    this.trigger 'survey_questions:clone_done'
     this
     
   defaults:

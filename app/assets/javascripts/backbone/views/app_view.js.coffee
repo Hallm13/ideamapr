@@ -1,7 +1,7 @@
 IdeaMapr.Views.AppView = Backbone.View.extend
   initialize: ->
     _.bindAll(this, 'render')
-    this.listenTo(this.collection, "survey_questions:clone_done", this.render)
+    this.listenTo(this.collection, "sync", this.render)
     this.listenTo(this.collection, "survey:selection_changed", this.change_hidden_class)
 
   handle_post: (obj) ->

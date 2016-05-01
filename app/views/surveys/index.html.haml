@@ -13,19 +13,20 @@
     .col-xs-2
       Completion Rate
 
-  .row
-    - @surveys.each do |survey|
-      .col-xs-6
-        .cell-1
-          = link_to survey.title, survey_url(survey)
-          %a{href: edit_survey_url(survey)}
-            %i.fa.fa-pencil.active-icon{style: 'float: right'}
-      .col-xs-2
-        .cell-1
-          Active
-      .col-xs-2
-        .cell-1
-          560
-      .col-xs-2
-        .cell-1
-          76%
+  .row#survey-list-app
+%script#survey-listing-template{type: 'text/template'}
+  .col-xs-6
+    .cell-1
+      %a{href: raw('<%- survey_show_url %>')}
+        <%- title %>
+      %a{href: raw('<%= survey_edit_url %>')}
+        %i.fa.fa-pencil.active-icon{style: 'float: right'}
+  .col-xs-2
+    .cell-1
+      <%- displayed_survey_status %>
+  .col-xs-2
+    .cell-1
+      560
+  .col-xs-2
+    .cell-1
+      76%

@@ -1,4 +1,21 @@
 module SurveyQuestionsHelper
+  def hide_by_contained(contained, container)
+    # generate a hidden class for contained objects in an index that are already contained
+    # in their container
+
+    if container
+      target_assoc = (contained.is_a?(Idea)) ? 'ideas' : 'survey_questions'
+      if container.respond_to?(target_assoc) &&
+         (container.send(target_assoc)).all.include?(contained)
+        'myhidden'
+      else
+        ''
+      end
+    else
+      ''
+    end
+  end
+  
   def edit_or_select(q_or_i)
     @curr_obj = q_or_i
     @target_obj = (q_or_i.is_a?(Idea)) ? 'idea' : 'survey_question'

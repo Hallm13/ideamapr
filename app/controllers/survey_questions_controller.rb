@@ -2,6 +2,9 @@ class SurveyQuestionsController < ApplicationController
   before_action :admin_for_drafts!
   before_action :params_check, except: [:new, :index]
   include RelationalLogic
+
+  def show
+  end
   
   def index
     @selected_section = 'questions'
@@ -18,7 +21,7 @@ class SurveyQuestionsController < ApplicationController
       # in the before filter for JSON requests, for Backbone processing.
       set = @survey&.survey_questions
       set ||= {}
-      render json: set
+      render json: set, include: [:ideas]
     else
       @questions = SurveyQuestion.all
       render 'index'
@@ -44,9 +47,8 @@ class SurveyQuestionsController < ApplicationController
     attrs = params[:survey_question].permit(:title, :question_type, :question_prompt)
     @question.attributes= attrs
 
+    idea_ids = params[:survey_question][:components]&.map { |i| i.to_i} || []
     if (saved = @question.valid?)
-      idea_ids = params[:survey_question][:ideas] || []
-
       ActiveRecord::Base.transaction do      
         saved &= @question.save
         update_has_many! @question, 'Idea', 'IdeaAssignment', idea_ids, polymorphic: true, foreign_key: 'groupable_id'
@@ -74,6 +76,9 @@ class SurveyQuestionsController < ApplicationController
 
     if params[:action] == 'update'
       status &= !params[:survey_question].nil?
+    end
+    if params[:action] == 'show'
+      status &= params[:id] and (@question = SurveyQuestion.find_by_id params[:id])
     end
 
     if !status
