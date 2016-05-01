@@ -10,11 +10,11 @@ class SurveysController < ApplicationController
     @surveys = Survey.all
     if request.xhr?
       data = @surveys.map do |s|
-        {title: s.title, displayed_survey_status: Survey::SurveyStatus.name(s.status),
+        {id: s.id, title: s.title, displayed_survey_status: Survey::SurveyStatus.name(s.status),
          survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}
       end
 
-      render json: data
+      render json: ({data: data, allowed_states: Survey.new.status_enum})
     else
       @selected_section = 'surveys'
       # Deliver custom Backbone app js 
@@ -54,31 +54,28 @@ class SurveysController < ApplicationController
     
     attrs = params[:survey].permit(:title, :introduction, :status, :thankyou_note)
     @survey.attributes= attrs
-    @survey.owner_id = current_admin.id
-    @survey.owner_type = 'Admin'      
+    if x = Survey::SurveyStatus.id(params[:displayed_survey_status])
+      @survey.status = x
+    end
 
-    sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
+    unless @survey.owner_id
+      # Only set owner when the survey is created.
+      @survey.owner_id = current_admin.id
+      @survey.owner_type = 'Admin'      
+    end
+
+    unless request.xhr?
+      sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
+    end
     if (saved = @survey.valid?)
-      ActiveRecord::Base.transaction do      
+      ActiveRecord::Base.transaction do
         saved &= @survey.save
-        saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
+        unless request.xhr?
+          saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
+        end
       end
     end
-  
-    if saved
-      # We saved so we can add questions
-      flash[:alert] = nil
-      if params[:redirect] == 'goto-contained'
-        redirect_to survey_questions_url(for_survey: @survey.id)
-      else
-        redirect_to survey_url(@survey)
-      end
-    else
-      flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
-
-      create_survey_qn_array
-      render :edit
-    end
+    survey_render_wrap(status: saved, xhr: request.xhr?)
   end
   
   private
@@ -128,5 +125,28 @@ class SurveysController < ApplicationController
   def set_dropdown
     @survey_status_select = Survey::SurveyStatus.option_array
     @select_default = @survey.status
+  end
+
+  def survey_render_wrap(status:, xhr:)
+    if status
+      if xhr
+        render json: @survey, status: 201
+      else
+        flash[:alert] = nil
+        if params[:redirect] == 'goto-contained'
+          redirect_to survey_questions_url(for_survey: @survey.id)
+        else
+          redirect_to survey_url(@survey)
+        end
+      end
+    else
+      if xhr
+        render json: @survey, status: 422
+      else
+        flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
+        create_survey_qn_array
+        render :edit, status: 422
+      end
+    end
   end
 end

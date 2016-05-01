@@ -13,7 +13,7 @@
     .col-xs-2
       Completion Rate
 
-  .row#survey-list-app
+  #survey-list-app
 %script#survey-listing-template{type: 'text/template'}
   .col-xs-6
     .cell-1
@@ -22,7 +22,7 @@
       %a{href: raw('<%= survey_edit_url %>')}
         %i.fa.fa-pencil.active-icon{style: 'float: right'}
   .col-xs-2
-    .cell-1
+    .cell-1#status-change-dropdown
       <%- displayed_survey_status %>
   .col-xs-2
     .cell-1

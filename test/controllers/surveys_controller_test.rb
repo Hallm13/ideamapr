@@ -147,6 +147,12 @@ class SurveysControllerTest < ActionController::TestCase
       s = Survey.last
       assert_redirected_to survey_questions_url(for_survey: s.id)
     end
+
+    it 'updates status with json' do
+      refute_equal Survey::SurveyStatus::CLOSED, surveys(:survey_1).reload.status
+      xhr :post, :update, id: surveys(:survey_1).id, survey: {}, displayed_survey_status: 'Closed'
+      assert_equal Survey::SurveyStatus::CLOSED, surveys(:survey_1).reload.status
+    end
   end
 
   private

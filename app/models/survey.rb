@@ -16,7 +16,16 @@ class Survey < ActiveRecord::Base
     end
     def self.option_array
       [['Draft', 0], ['Published', 1], ['Closed', 2]]
-    end    
+    end
+
+    def self.id(name)
+      if (s = option_array.select { |i| i[0] == name }).length == 1
+        s.first[1]
+      else
+        nil
+      end
+    end
+        
     def self.name(id)
       if id.nil?
         nil

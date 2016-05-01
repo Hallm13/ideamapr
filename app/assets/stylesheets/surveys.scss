@@ -35,3 +35,14 @@
     }
   }
 }
+
+.cell-1#status-change-dropdown {
+  position: relative;
+  cursor: pointer;
+  .dd-choice-list {
+    position: absolute;
+    display: none;
+    z-index: 3;
+    background: white;
+  }  
+}

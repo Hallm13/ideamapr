@@ -1,13 +1,15 @@
 IdeaMapr.Views.SurveyListAppView = Backbone.View.extend
   initialize: ->
     _.bindAll(this, 'render')
-    this.listenTo(this.collection, "sync", this.render)
+    this.listenTo(this.model, "sync", this.render)
 
   render: ->
     view_self = this
-    this.collection.each (model) ->
+    this.model.get('survey_list_collection').each (model) ->
       survey_view = new IdeaMapr.Views.SurveyView
         model: model
-        
-      view_self.$el.append(survey_view.render().el)
+
+      survey_view.set_dropdown_choices view_self.model.get('allowed_states')
+      row_view = survey_view.render().el
+      view_self.$el.append row_view 
     this
