@@ -1,4 +1,4 @@
-.row
+.row.survey-question-list
   - @survey_qns&.each_with_index do |qn, qn_idx|
     .survey_question-box{id: "qn-box-#{qn_idx}"}
       = hidden_field_tag 'survey[components][]', qn[:data].id

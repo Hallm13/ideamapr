@@ -21,9 +21,10 @@
         <%- title %>
       %a{href: raw('<%= survey_edit_url %>')}
         %i.fa.fa-pencil.active-icon{style: 'float: right'}
-  .col-xs-2
-    .cell-1#status-change-dropdown
+  .col-xs-2.survey-dropdown-cell
+    .cell-1#status-change-dropdown      
       <%- displayed_survey_status %>
+      %i.fa.fa-chevron-down
   .col-xs-2
     .cell-1
       560

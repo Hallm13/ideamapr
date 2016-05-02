@@ -44,5 +44,23 @@
     display: none;
     z-index: 3;
     background: white;
+
+    margin-top: 5px;
+    border: solid 1px goldenrod;
+    width: 105%;
+    
+    .dd-choice {
+      padding: 5px 5px 5px 0px;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
   }  
+}
+
+.survey-dropdown-cell {
+  .fa.fa-chevron-down {
+    display: inline-block;
+    float: right;
+    color: $text-gray;
+  }
 }

@@ -10,7 +10,6 @@
   = hidden_field_tag '_method', 'put'
   = hidden_field_tag :redirect, '', id: :redirect
   = hidden_field_tag :survey_id, @survey.id
-  = render partial: 'survey_status', locals: {build_box_title: 'Set Status', box_index: 4, box_key: 'survey-create-status'}
   = render partial: 'title', layout: 'builder_box', locals: {build_box_title: 'Survey Title', box_index: 1, box_key: 'survey-create-title'}
   = render partial: 'intro_field', layout: 'builder_box', locals: {build_box_title: 'Edit Introduction', box_index: 2, box_key: 'survey-create-intro'}
   = render partial: 'add_questions', layout: 'builder_box', locals: {build_box_title: 'Add Questions', box_index: 3, box_key: 'survey-add-questions'}

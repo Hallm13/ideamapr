@@ -5,6 +5,8 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
   events:
     'click #status-change-dropdown': (evt) ->
       this.$('.dd-choice-list').toggle()
+      this.trigger('survey_view:dropdown_click', this.cid)
+      
       this
     'click .dd-choice': (evt) ->
       evt.stopPropagation()
@@ -13,7 +15,10 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
         
       this.render()
       this    
-      
+
+  shut_dropdown: ->
+    this.$el.find('.dd-choice-list').hide()
+    
   render: ->
     this.$el.html(_.template($('#survey-listing-template').html())(this.model.attributes))
     show_list = _.difference(_.keys(this.allowed_list), [this.model.get('displayed_survey_status')])
