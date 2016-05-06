@@ -1,5 +1,4 @@
 .env
-config/database.yml
 /log/
 /tmp/
 
