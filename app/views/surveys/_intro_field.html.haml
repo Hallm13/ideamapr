@@ -1,1 +1,2 @@
-= text_area_tag 'survey[introduction]', @survey.introduction, class: 'form-control watched-box'
+.relative-container
+  = text_area_tag 'survey[introduction]', @survey.introduction, class: 'form-control watched-box', 'data-expected-length' => 15

@@ -11,8 +11,7 @@
   = hidden_field_tag :redirect, '', id: :redirect
   = hidden_field_tag :survey_question_id, @question.id
 
-  = render partial: 'add_title', layout: 'builder_box', locals: {build_box_title: 'Survey Title', box_index: 1, box_key: 'sq-title'}
-  = render partial: 'add_question_type', layout: 'builder_box', locals: {build_box_title: 'Set Question Type', box_index: 2, box_key: 'sq-question-type'}
-  = render partial: 'question_prompt', layout: 'builder_box', locals: {build_box_title: 'Write An Explanation Prompt', box_index: 3, box_key: 'sq-question-prompt'}
-  = render partial: 'add_ideas', layout: 'builder_box', locals: {build_box_title: 'Add Ideas', box_index: 4, box_key: 'sq-add-ideas'}
+  - @question.viewbox_list.each_with_index do |vb, idx|
+    = render partial: vb.partial_name, layout: 'builder_box', locals: {is_hidden: !vb.shown, build_box_title: vb.title, box_index: idx, box_key: vb.box_key}
+
   = submit_tag 'Save', class: 'btn btn-primary'

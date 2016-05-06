@@ -1,17 +1,20 @@
 defaults: &defaults
   title: long enough title (12 chars)
+  introduction: introduction text - this is a survey
   status: <%= 0 %>
   
 survey_1:
+  <<: *defaults
   title: is a survey is a survey 1 title
-  introduction: survey 1 intro
+  introduction: survey 1 introduction text
   owner: user_1
   owner_type: User
   
 published_survey:
-  title: published survey
+  title: published survey title
   introduction: published survey intro
   status: <%= 1 %>
+  thankyou_note: thank you!
   owner: user_1
   owner_type: User
   public_link: ispubliclink

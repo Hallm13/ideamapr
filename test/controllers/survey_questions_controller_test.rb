@@ -40,7 +40,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
                       redirect: 'goto-contained'})
       end
       s = SurveyQuestion.last
-      assert_redirected_to ideas_url(for_survey_question: s.id)
+      assert_redirected_to ideas_url(add_to_survey_question: s.id)
     end
 
     it 'works to add ideas to existing sq' do
@@ -64,7 +64,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
 
     it 'does not require auth when the survey is public and the request is XHR' do
       sign_out :admin
-      xhr :get, :index, for_survey: surveys(:published_survey).id
+      xhr :get, :index, for_survey: surveys(:published_survey).public_link
       assert_match /{/, response.body
     end
 

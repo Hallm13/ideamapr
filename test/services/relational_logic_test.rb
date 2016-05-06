@@ -6,7 +6,7 @@ class RelationalLogicTest < ActiveSupport::TestCase
   describe '#update_has_many!' do
     it 'works normally' do
       s=survey_questions(:sq_1)
-      assert_difference('s.ideas.count', 1) do
+      assert_difference('s.ideas.count', 2) do
         update_has_many! s, 'Idea', 'IdeaAssignment', [ideas(:idea_1).id, ideas(:idea_2).id],
                          foreign_key: 'groupable_id', polymorphic: true
       end
@@ -14,7 +14,7 @@ class RelationalLogicTest < ActiveSupport::TestCase
 
     it 'works when added ids are faulty' do
       s = survey_questions(:sq_1)
-      assert_difference('s.ideas.count', 1) do
+      assert_difference('s.ideas.count', 2) do
         update_has_many! s, 'Idea', 'IdeaAssignment', [ideas(:idea_1).id, ideas(:idea_2).id, -1],
                          foreign_key: 'groupable_id', polymorphic: true
       end

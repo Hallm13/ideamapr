@@ -1,8 +1,5 @@
 require 'test_helper'
 class FormsBehaviorTest < Capybara::Rails::TestCase
-  include Warden::Test::Helpers
-  Warden.test_mode!
-  
   def setup
     Capybara.default_driver = :webkit
     login_as admins(:admin_1), scope: :admin
@@ -22,6 +19,14 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
     elt = page.all('.builder-after')[0]
     elt.click
     assert page.has_css?('.help-text', visible: true)
+  end
+
+  test 'showing budget screen' do
+    visit '/survey_questions/0/edit'
+    refute page.has_content? 'Set Budget'
+
+    page.find('#survey_question_question_type').select 'Budgeting'
+    assert page.has_content? 'Set Budget'
   end
   
   def teardown

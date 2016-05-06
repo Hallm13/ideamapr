@@ -1,0 +1,36 @@
+#thankyou-screen {
+  display: none;
+}
+
+.survey-nb-row {
+  .col-xs-4 {
+    text-align: center;
+    padding: 11px 5px;
+    color: black;
+    min-height: 40px;
+    cursor: pointer;
+
+    &.active {
+      background-color: $theme-green;
+    }
+    &#current-question {
+      background-color: $background-gray;
+    }      
+    &.inactive {
+      color: white;
+      background-color: $background-gray;
+      cursor: default;
+    }
+    
+    &#go-left {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    &#go-right {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
+

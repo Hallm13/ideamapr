@@ -25,10 +25,15 @@
   .title {
     text-align: center;
     font-family: MontserratBold;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
   }
   .help-text {
     display: none;
+  }
+  .budget-box {
+    input {
+      width: 100%;
+    }
   }
     
   select {
@@ -44,7 +49,6 @@
   }
   input.with-text + label.placeholder-label {
     transition: left 0.5s;
-    top: 10px;
     left: 90%;
     padding: 0 2px;
     background-color: white;
@@ -88,6 +92,7 @@
 
 .delete-box {
   padding-top: 10px;
+  cursor: pointer;
 }
 
 .table-headers {

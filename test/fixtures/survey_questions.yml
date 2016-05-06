@@ -7,10 +7,10 @@ sq_2:
 sq_blank:
   title: This is a good title. Long.
 sq_pre_4:
-  title: this is belongs to published survey and is newer
+  title: pre4 - this is belongs to published survey and is newer
   question_type: <%= SurveyQuestion::QuestionType::PROCON %>
   created_at: <%= Time.now - 1.hours %>
 sq_pre_5:
-  title: this is belongs to published survey and is older
+  title: pre5 - this is belongs to published survey and is older
   question_type: <%= SurveyQuestion::QuestionType::RANKING %>
   created_at: <%= Time.now - 10.hours %>

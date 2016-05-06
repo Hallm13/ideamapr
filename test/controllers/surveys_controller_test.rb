@@ -37,6 +37,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_template :public_show
       assert_match Respondent.last.cookie_key, response.body
     end
+    
     it 'does not work for public without token' do
       sign_out admins(:admin_1)
       get :public_show, public_link: 'notatoken'
@@ -127,10 +128,10 @@ class SurveysControllerTest < ActionController::TestCase
 
     it 'works when questions are added' do
       s=surveys(:survey_1)
-      assert_difference('s.survey_questions.count', 1) do 
+      assert_difference('s.survey_questions.count', 2) do 
         post :update, id: s.id, survey: {title: 'is a valid long',
-                                                          introduction: 'is an introduction long and good',
-                                                          status: 0, components: new_survey_question_id_list}
+                                         introduction: 'is an introduction long and good',
+                                         status: 0, components: new_survey_question_id_list}
       end
 
       assert_redirected_to survey_url(surveys(:survey_1))
@@ -145,13 +146,14 @@ class SurveysControllerTest < ActionController::TestCase
                                         status: 0}, redirect: 'goto-contained'
       end
       s = Survey.last
-      assert_redirected_to survey_questions_url(for_survey: s.id)
+      assert_redirected_to survey_questions_url(add_to_survey: s.id)
     end
 
     it 'updates status with json' do
-      refute_equal Survey::SurveyStatus::CLOSED, surveys(:survey_1).reload.status
+      refute_equal Survey::SurveyStatus::CLOSED, surveys(:survey_1).status
       xhr :post, :update, id: surveys(:survey_1).id, survey: {}, displayed_survey_status: 'Closed'
-      assert_equal Survey::SurveyStatus::CLOSED, surveys(:survey_1).reload.status
+      s = Survey.find surveys(:survey_1).id
+      assert_equal Survey::SurveyStatus::CLOSED, s.status
     end
   end
 

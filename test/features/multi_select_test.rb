@@ -18,13 +18,11 @@ class MultiSelectTest < Capybara::Rails::TestCase
     elt.click
     page.find('#add-multi-select').click
 
-    uri = URI.parse(current_url)
-    expect = "#{uri.path}?#{uri.query}"
-    assert_equal "/surveys/#{@id}/edit?" + "survey[components][]=#{id}", expect
+    assert_equal "/surveys/#{@id}/edit", URI.parse(current_url).path
   end
   
   test 'selection of ideas for question' do
-    visit '/ideas?for_survey_question=' + (@id = survey_questions(:sq_1).id).to_s
+    visit '/ideas?add_to_survey_question=' + (@id = survey_questions(:sq_1).id).to_s
     assert_equal Idea.count - survey_questions(:sq_1).ideas.count, page.all(".fa-check").count
 
     elt = page.all('.fa.fa-check')[0]
@@ -33,9 +31,7 @@ class MultiSelectTest < Capybara::Rails::TestCase
     elt.click
     page.find('#add-multi-select').click
 
-    uri = URI.parse(current_url)
-    expect = "#{uri.path}?#{uri.query}"
-    assert_equal "/survey_questions/#{@id}/edit?" + "survey_question[components][]=#{id}", expect
+    assert_equal edit_survey_question_path(id: @id), URI.parse(current_url).path
   end
   
   def teardown

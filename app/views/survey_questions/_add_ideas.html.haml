@@ -1,9 +1,12 @@
 .row
-  - @qn_ideas&.each_with_index do |idea, idea_idx|
+  - @qn_idea_assignments&.each_with_index do |idea_assignment, idea_idx|
+    - idea = idea_assignment.idea
     .idea-box{id: "idea-box-#{idea_idx}"}
       = hidden_field_tag 'survey_question[components][]', idea.id
-      .col-xs-8.col-xs-offset-2.cell-1
+      .col-xs-8.cell-1
         = idea.title
+      .col-xs-2.budget-box
+        = text_field_tag "survey_question[budgets][#{idea.id}]", idea_assignment.budget, placeholder: 'Budget'
       .col-xs-2.delete-box{'data-container' => 'survey_question', 'data-contained' => 'idea'}
         .fa.fa-trash-o
   .col-xs-offset-3.col-xs-6

@@ -33,7 +33,6 @@ module RelationalLogic
     added_table = model.constantize.table_name
     existing_ids = obj.send("#{added_table}".to_sym).pluck(:id)
 
-    remove_ids = existing_ids - model_ids
     add_ids = model_ids - existing_ids
 
     # Clean the add_ids so spurious ones are ignored
@@ -52,9 +51,6 @@ module RelationalLogic
                          nm
                        end
                       )
-
-    del_cands = thru_model_ar.send(:where, "#{model.underscore}_id in (?)", remove_ids)
-    del_cands.map &:delete
 
     true
   end

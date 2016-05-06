@@ -14,7 +14,7 @@ class IdeasControllerTest < ActionController::TestCase
        assert_equal 'ideas', assigns(:selected_section)
      end
      it "activates selection when asked" do
-       get :index, {for_survey_question: survey_questions(:sq_1).id}
+       get :index, {add_to_survey_question: survey_questions(:sq_1).id}
        refute_nil assigns(:question)
        assert_select('.fa.fa-check.active-icon')
      end
@@ -37,10 +37,6 @@ class IdeasControllerTest < ActionController::TestCase
          xhr :get, :index, {for_survey: surveys(:published_survey).id}
        end
      end
-  end
-  
-  test '#new' do
-    get :new
   end
   
   describe '#show' do
@@ -66,13 +62,13 @@ class IdeasControllerTest < ActionController::TestCase
 
   describe '#create' do
     it 'is successful' do
-      post :create, idea: {title: 'is a long title', description: "is a long title and description"}
+      put :update, id: 0, idea: {title: 'is a long title', description: "is a long title and description"}
       assert_redirected_to idea_path(Idea.last)
     end
 
     it 'shows errors' do
-      post :create, idea: {title: 'is a', description: "is"}
-      assert_template :new
+      put :update, id: 0, idea: {title: 'is a', description: "is"}
+      assert_template :edit
       assert_match /Idea /, response.body
     end
   end

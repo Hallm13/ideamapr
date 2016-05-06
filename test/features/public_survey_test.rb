@@ -1,25 +1,28 @@
 require 'test_helper'
-class PublicSurveyTest < Capybara::Rails::TestCase  
+class PublicSurveyTest < Capybara::Rails::TestCase
+  before do
+    Capybara.default_driver = :webkit
+  end    
   describe 'pro/con' do
     before do
-      Capybara.default_driver = :webkit
       @s = surveys(:published_survey)
-      @s.publish
       @base_url = '/survey/public_show/' + @s.public_link
       visit @base_url
-      page.find_all '.page-title'
-    end
-
-    it 'shows pro/con question' do
-      sleep 1
-      assert page.has_content? 'has rank'
-      assert_equal 1, page.all('.idea-title').count
     end
 
     it 'cycles through questions' do
       page.find('#go-right').click
-      assert page.has_content? 'Add Con'
-      assert_equal 2, page.all('.idea-title').count
-    end    
+      refute page.has_content? 'pre5 '
+      page.find('#go-right').click
+      assert page.has_content? 'pre5 '
+      assert page.has_css?('.idea-title', visible: true, count: 1)
+    end
+
+    it 'gets to thank you screen' do
+      page.find('#go-right').click
+      page.find('#go-right').click
+      page.find('#go-right').click
+      assert page.has_content? 'thank you!'
+    end
   end
 end

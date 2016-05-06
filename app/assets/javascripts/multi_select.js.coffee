@@ -19,15 +19,14 @@ functions = ->
   )
   
   $('#add-multi-select').click (evt) ->
-    container_match = window.location.href.match(/for_([_\w]+)=(\d+)/)
-    container_name = container_match[1]
-    obj_id = container_match[2]
-    
-    path = '/'+container_name+'s/' + obj_id + '/edit'
-    arr = window.selected_ids.map (elt, idx) ->
-      container_name + '[components][]=' + elt
-
-    window.location = (path + '?' + arr.join('&'))
+    form = $(evt.target).closest('form')
+    container_target = form.data('container-target')
+    window.selected_ids.forEach (elt, idx) ->
+      name = container_target + '[components][]'
+      t = $('<input>').attr('type', 'hidden').attr('name', name).val(elt)
+      form.append t
+  
+    form.submit()
     null
     
 $(document).on('page:load ready', functions)

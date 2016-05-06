@@ -6,6 +6,24 @@ class Survey < ActiveRecord::Base
     end
   end
   
+  def viewbox_list
+    unless Struct.const_defined? 'VbStruct'
+      Struct.new('VbStruct', :partial_name, :title, :box_key, :shown, :expected_length) do
+        def initialize(*args)
+          super
+          self.shown = true
+          self.expected_length ||= -1 
+        end
+      end
+    end
+    
+    l = [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', true, 10),
+         Struct::VbStruct.new('intro_field', 'Edit Introduction', 'survey-create-intro', true, 15),
+         Struct::VbStruct.new('add_questions', 'Add Questions', 'survey-add-questions'),
+         Struct::VbStruct.new('thankyou_field', 'Thank You Note', 'survey-thank-you-note') ]
+
+    l
+  end
   class SurveyStatus
     DRAFT=0
     PUBLISHED=1
@@ -35,7 +53,8 @@ class Survey < ActiveRecord::Base
     end
   end
   
-  validates :title, length: {minimum: 12}
+  validates :title, length: {minimum: 10}
+  validates :introduction, length: {minimum: 15}
 
   has_many :survey_questions, through: :question_assignments
   has_many :question_assignments, dependent: :destroy

@@ -4,7 +4,7 @@ IdeaMapr::Application.routes.draw do
   
   resources :users, path: 'profiles'
 
-  resources :ideas
+  resources :ideas, except: [:new, :create]
   resources :survey_responses, only: [:update]
   resources :survey_questions, except: [:new, :create]
 

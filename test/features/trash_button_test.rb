@@ -41,7 +41,7 @@ class TrashButtonTest < Capybara::Rails::TestCase
   test 'trash button for survey question' do
     visit @sq_base_url
     assert_equal 1, page.all('.idea-box').count
-    page.find("#idea-box-0").find('.col-xs-2').find('.fa-trash-o').trigger('click')
+    page.find("#idea-box-0").find('.col-xs-2.delete-box').find('.fa-trash-o').trigger('click')
     visit @sq_base_url
 
     assert_equal 0, page.all('.idea-box').count

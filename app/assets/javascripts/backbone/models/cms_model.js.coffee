@@ -11,6 +11,7 @@ IdeaMapr.Models.CmsList = Backbone.Collection.extend
     return this.urlRoot + this.search_filter
   model: IdeaMapr.Models.CmsModel,
   getById: ->
-    this.fetch
-      success: (coll, resp, opt) ->
-        coll.set resp['data']
+    if this.models.length == 0
+      this.fetch
+        success: (coll, resp, opt) ->
+          coll.set resp['data']

@@ -1,25 +1,45 @@
 = hidden_field_tag :cookie_key, @cookie_key, class: 'metadata'
-= hidden_field_tag :survey_id, '', 'data-survey-id' => @survey.id
+= hidden_field_tag :survey_token, '', 'data-survey-token' => @survey.public_link
 
-#app
+#survey-public-view
   #survey-navbar
+  #survey-intro
   #sq-list
+  #survey-thankyou
   %button#save-response
     Save Response
 
+%script#survey-intro-template{type: 'text/template'}
+  .screen#welcome-screen
+    .row
+      .col-xs-12
+        .public-title
+          Introduction
+    .row       
+      .col-xs-offset-2.col-xs-8.public-body
+        <%- introduction %>
+%script#survey-thankyou-template{type: 'text/template'}
+  .screen#thankyou-screen
+    .row
+      .col-xs-12
+        .public-title
+          Thank You!
+    .row       
+      .col-xs-offset-2.col-xs-8.public-body
+        <%- thankyou_note %>
+      
 %script#survey-nb-template{type: 'text/template'}
   .row.survey-nb-row
     .col-xs-offset-3.col-xs-6
       .row
-        .col-xs-4#go-left
+        .col-xs-4#go-left.active
           Previous
         .col-xs-4#current-question
           <%- current_question_index %> of <%- total_questions %> Questions
-        .col-xs-4#go-right
+        .col-xs-4#go-right.active
           Next
           
 %script#sq-template{type: 'text/template'}
-  = hidden_field_tag :survey_question_data, '', 'data-question-type' => "<%- question_type %>"
   <%- title %>
   #idea-list
 

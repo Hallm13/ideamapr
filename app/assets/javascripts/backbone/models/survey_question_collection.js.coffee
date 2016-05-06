@@ -18,10 +18,6 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
 
   getQuestions: (survey_id) ->
     this.survey_id = survey_id
-    this.selected_question = 0
     this.fetch()
 
     this
-    
-  defaults:
-    step: 1

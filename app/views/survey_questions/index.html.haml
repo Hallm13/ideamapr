@@ -27,5 +27,8 @@
       = edit_or_select(question)
 
 - if @survey
-  %button.btn.btn-primary#add-multi-select
-    Finish
+  = form_tag "/surveys/#{@survey.id}", 'data-container-target' => 'survey' do
+    = hidden_field_tag "_method", "put"
+    = hidden_field_tag "redirect", "edit"
+    = submit_tag 'Finish', class: 'btn btn-primary', id: 'add-multi-select'
+

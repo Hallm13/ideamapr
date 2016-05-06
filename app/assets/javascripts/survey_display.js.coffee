@@ -1,17 +1,20 @@
 funcs = ->
-  return if $('#survey_id').length == 0
+  return if $('#survey_token').length == 0
 
-  survey_id = $('#survey_id').data('survey-id')
-  qn_type = $('#survey_question_data').data('question-type')
-  
+  survey_id = $('#survey_token').data('survey-token')
+
+  shown_survey = new IdeaMapr.Models.Survey()
+  shown_survey.set('public_link', survey_id)
   sq_list = new IdeaMapr.Collections.SurveyQuestionCollection
-  app = new IdeaMapr.Views.AppView(
+  app = new IdeaMapr.Views.SurveyPublicView(
+    model: shown_survey,
     collection: sq_list,
-    el: $('#app'),
+    el: $('#survey-public-view'),
   )
 
   # The data fetches trigger the events cascade
   # These two can run in parallel
-  sq_list.getQuestions survey_id  
+  shown_survey.fetch()
+  sq_list.getQuestions survey_id
       
 $(document).on('ready page:load', funcs)

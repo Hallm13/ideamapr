@@ -1,7 +1,7 @@
 IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
   tagName: 'div',
-  className: 'survey-question',
-  
+  className: 'survey-question screen',
+
   initialize: ->
     _.bindAll(this, 'render')
     this.model.set('is_shown', false)

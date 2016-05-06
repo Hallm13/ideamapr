@@ -1,8 +1,12 @@
 .row
-  - if !@question
-    .btn.btn-primary
-      = link_to t(:add_button_text), new_idea_url
-  
+  - if @question
+    = hidden_field_tag :for_survey_question_id, @question.id
+    .text-center
+      Adding Ideas to Question #{@question.title}
+  - else
+    %button.btn.btn-primary
+      = link_to t(:add_button_text), edit_idea_url(id: 0)
+      
 .entity-set  
   - @ideas.each do |idea|
     .row.question-row{class: hide_by_contained(idea, @question)}
@@ -13,5 +17,7 @@
         = edit_or_select(idea)
 
 - if @question
-  %button.btn.btn-primary#add-multi-select
-    Add To Question
+  = form_tag "/survey_questions/#{@question.id}", 'data-container-target' => 'survey_question' do
+    = hidden_field_tag "_method", "put"
+    = hidden_field_tag "redirect", "edit"
+    = submit_tag 'Finish', class: 'btn btn-primary', id: 'add-multi-select'

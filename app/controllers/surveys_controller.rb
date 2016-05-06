@@ -4,7 +4,7 @@ class SurveysController < ApplicationController
   include RelationalLogic
   
   before_action :authenticate_admin!, except: :public_show 
-  before_action :params_check, except: [:new, :index]
+  before_action :params_check, except: :index
 
   def index
     @surveys = Survey.all
@@ -15,6 +15,7 @@ class SurveysController < ApplicationController
       end
 
       render json: ({data: data, allowed_states: Survey.new.status_enum})
+
     else
       @selected_section = 'surveys'
       # Deliver custom Backbone app js 
@@ -23,20 +24,18 @@ class SurveysController < ApplicationController
   end
 
   def public_show
-    if @survey.public_link == params[:public_link]
-      qns = @survey.survey_questions.order(created_at: :desc)
-      if params[:step] && params[:step].to_i > 0
-        @survey_question = qns.offset(params[:step].to_i - 1).limit(1).first
-      end
-      
+    if request.xhr?
+      render_json_payload
+    else
       @cookie_key = find_or_create_cookie(params[:cookie_key])
       render 'public_show', layout: 'public_survey'
-    else
-      redirect_to page_404
     end
   end
 
   def show
+    if request.xhr?
+      render_json_payload
+    end
   end
 
   def edit
@@ -51,26 +50,25 @@ class SurveysController < ApplicationController
   
   def update
     set_dropdown
-    
-    attrs = params[:survey].permit(:title, :introduction, :status, :thankyou_note)
-    @survey.attributes= attrs
-    if x = Survey::SurveyStatus.id(params[:displayed_survey_status])
-      @survey.status = x
-    end
 
-    unless @survey.owner_id
-      # Only set owner when the survey is created.
-      @survey.owner_id = current_admin.id
-      @survey.owner_type = 'Admin'      
-    end
+    saved = true
+    if request.xhr? && (x = Survey::SurveyStatus.id(params[:displayed_survey_status]))
+      @survey.update_attributes status: x
+    elsif params[:survey]
+      attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
+      @survey.attributes= attrs
+      
+      unless @survey.owner_id
+        # Only set owner when the survey is created.
+        @survey.owner_id = current_admin.id
+        @survey.owner_type = 'Admin'      
+      end
 
-    unless request.xhr?
       sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
-    end
-    if (saved = @survey.valid?)
-      ActiveRecord::Base.transaction do
-        saved &= @survey.save
-        unless request.xhr?
+      if (saved = @survey.valid?)
+        ActiveRecord::Base.transaction do
+          @survey.status ||= 0
+          saved &= @survey.save
           saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
         end
       end
@@ -79,6 +77,11 @@ class SurveysController < ApplicationController
   end
   
   private
+  def render_json_payload
+    render json: (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').
+                   merge({number_of_screens: 2 + @survey.survey_questions.count}))
+  end
+  
   def create_survey_qn_array
     # id_list elements are numeric, either as Integer or as String
     @survey_qns = @survey.survey_questions.to_a.map do |qn|
@@ -133,8 +136,11 @@ class SurveysController < ApplicationController
         render json: @survey, status: 201
       else
         flash[:alert] = nil
-        if params[:redirect] == 'goto-contained'
-          redirect_to survey_questions_url(for_survey: @survey.id)
+        case params[:redirect]
+        when 'goto-contained'
+          redirect_to survey_questions_url(add_to_survey: @survey.id)
+        when 'edit'
+          redirect_to edit_survey_url(id: @survey.id)
         else
           redirect_to survey_url(@survey)
         end

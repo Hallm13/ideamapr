@@ -16,6 +16,7 @@ module Ajax
                                        groupable_id: sqn_id.to_i, idea_id: idea_id.to_i).first
           struct[:data] = id_a.id
           id_a.delete
+          struct[:status] = true
         end
       else
         struct[:status] = false

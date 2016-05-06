@@ -1,9 +1,11 @@
-.builder-box
+.builder-box.row{class: is_hidden ? 'myhidden' : ''}
   .builder-before
-  .hidden{'data-box-id' => box_index, 'data-box-key' => box_key}
-  .title
-    = build_box_title
+  .hidden{'data-box-id' => 1 + box_index, 'data-box-key' => box_key}
+  .col-xs-offset-4.col-xs-4
+    .title
+      = build_box_title
   .help-text
-  = yield
+  .col-xs-12
+    = yield
   .builder-after
     ?

@@ -10,32 +10,6 @@
   margin-bottom: 20px;
 }
 
-.survey-nb-row {
-  .col-xs-4 {
-    text-align: center;
-    padding: 5px;
-    color: black;
-    background-color: $theme-green;
-    &#current-question {
-      background-color: $background-gray;
-    }      
-    &.inactive {
-      color: white;
-      background-color: $background-gray;
-    }
-    
-    &#go-left {
-      border-top-left-radius: 5px;
-      border-bottom-left-radius: 5px;
-    }
-
-    &#go-right {
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-  }
-}
-
 .cell-1#status-change-dropdown {
   position: relative;
   cursor: pointer;

@@ -5,6 +5,31 @@ class SurveyQuestion < ActiveRecord::Base
       acc
     end
   end
+
+  def viewbox_list
+    unless Struct.const_defined? 'SurveyQuestionVbStruct'
+      Struct.new('SurveyQuestionVbStruct', :partial_name, :title, :box_key, :shown) do
+        def initialize(*)
+          super
+          self.shown = true
+        end
+      end
+    end    
+    l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title'),
+         Struct::SurveyQuestionVbStruct.new('add_question_type', 'Set Question Type', 'sq-question-type'),
+         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt')]
+    v = Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget')
+
+    # Don't show this box for new survey qns because budgeting is the not the default choice 
+    if id.nil? || question_type != QuestionType::BUDGETING
+      v.shown = false
+    end
+
+    l.push v
+    l.push Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas')
+
+    l
+  end
   
   def self.valid_type?(id)
     id.to_i >= 0 and id.to_i <= QuestionType.max_type

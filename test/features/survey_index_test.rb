@@ -8,7 +8,7 @@ class SurveyIndexTest < Capybara::Rails::TestCase
   
   test 'index page Backbone' do
     visit '/surveys'
-    page.all('.cell-1')
-    assert_equal 4*Survey.count, page.all('.cell-1').count
+    sleep 1
+    assert_equal Survey.count, page.all('#survey-list-app .row').count
   end
 end
