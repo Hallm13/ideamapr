@@ -1,9 +1,27 @@
 #thankyou-screen {
   display: none;
 }
+
+.ranked-idea-row {
+  position: relative;
+  .ranked-index {
+    position: absolute;
+    left: 50%;
+    top: -15px;
+    background: white;
+    padding: 5px 10px;
+    @include solid-gray-border();
+  }
+
+  .idea.col-xs-10 {
+    margin-top: 20px;
+    @include solid-gray-border();
+  }
+}
+  
 .controls-box {
-  float: left;
   padding: 0 20px;
+  text-align: center;
   .move-to-ranked, .ranking-sign {
     cursor: pointer;
     padding: 5px;
@@ -69,3 +87,16 @@
   }
 }
 
+/* Common formatting */
+.idea-box .details {
+  @include solid-gray-border();
+  padding: 5px;
+}
+
+/* Procon ideas */
+.blank-button {
+  text-align: center;
+  font-family: 'MontserratBold', sans-serif;
+  background-color: white;
+  padding: 5px 10px;  
+}

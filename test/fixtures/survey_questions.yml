@@ -15,3 +15,6 @@ sq_pre_5:
   question_prompt: pre5 - assign to top
   question_type: <%= SurveyQuestion::QuestionType::RANKING %>
   created_at: <%= Time.now - 10.hours %>
+sq_no_ideas:
+  title: question with no ideas
+  question_type: <%= SurveyQuestion::QuestionType::RANKING %>

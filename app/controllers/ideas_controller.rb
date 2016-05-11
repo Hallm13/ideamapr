@@ -21,7 +21,11 @@ class IdeasController < ApplicationController
     else
       if @question
         excluded_ids = @question.ideas.pluck(:id)
-        @ideas = Idea.where('id not in (?)', excluded_ids)
+        if excluded_ids.blank?
+          @ideas = Idea.all
+        else
+          @ideas = Idea.where('id not in (?)', excluded_ids)
+        end
       else
         @ideas = Idea.all
       end

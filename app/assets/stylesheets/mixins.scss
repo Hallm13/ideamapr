@@ -1,3 +1,6 @@
 @mixin solid-bottom-border() {
   border-bottom: solid 5px $form-border-gray;
 }
+@mixin solid-gray-border() {
+  border: solid 1px $form-border-gray;
+}

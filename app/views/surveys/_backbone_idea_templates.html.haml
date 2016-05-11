@@ -1,0 +1,39 @@
+%script#ranking-idea-template{type: 'text/template'}
+  .row.ranked-idea-row
+    .ranked-index
+      <%- index %>
+    .controls-box.col-xs-1
+      .move-to-ranked
+        *^*
+      .plus-sign.ranking-sign
+        +
+      .minus-sign.ranking-sign
+        \-
+    .idea.col-xs-10
+      .row
+        .idea-title.col-xs-12
+          <%- title %>
+      .row
+        .idea-description.col-xs-12
+          <%- description %>
+      
+%script#procon-idea-template{type: 'text/template'}
+  .details.row
+    .col-xs-12
+      .row
+        .idea-title.col-xs-12
+          <%- title %>
+      .row
+        .idea-description.col-xs-12
+          <%- description %>
+  .row.bold-text.procon-list
+    .col-xs-6
+      Pros
+    .col-xs-6
+      Cons
+    .row#procon-list
+  .row
+    .col-xs-6.blank-button
+      Add Pro
+    .col-xs-6.blank-button
+      Add Con

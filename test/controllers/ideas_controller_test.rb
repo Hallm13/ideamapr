@@ -14,9 +14,17 @@ class IdeasControllerTest < ActionController::TestCase
        assert_equal 'ideas', assigns(:selected_section)
      end
      it "activates selection when asked" do
-       get :index, {add_to_survey_question: survey_questions(:sq_1).id}
+       sq = survey_questions :sq_1
+       get :index, {add_to_survey_question: sq.id}
+
+       assert_equal (Idea.count - sq.ideas.count), assigns(:ideas).count
        refute_nil assigns(:question)
        assert_select('.fa.fa-check.active-icon')
+     end
+     it 'returns all ideas for questions that have none' do
+       sq = survey_questions :sq_no_ideas
+       get :index, {add_to_survey_question: sq.id}
+       assert_equal Idea.count, assigns(:ideas).count
      end
 
      describe 'getting ideas for a survey' do

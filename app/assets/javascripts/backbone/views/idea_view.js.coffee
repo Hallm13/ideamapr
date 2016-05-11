@@ -1,5 +1,5 @@
 IdeaMapr.Views.IdeaView = Backbone.View.extend
-  className: 'idea-box row',
+  className: 'idea-box col-xs-12',
   
   initialize: ->
     _.bindAll(this, 'reveal_idea')
@@ -41,7 +41,7 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
     this.$el.html(template(data))
     switch qn_type
       when 0
-        this.$('textarea').hide()
+        this.$('.procon-list').hide()
       when 1
         if this.model.get('idea_rank') < 0
           this.$('.ranking-sign').hide()

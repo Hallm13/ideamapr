@@ -69,9 +69,11 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     view_self = this
     this.collection.each (question_object, idx) ->
       switch question_object.get('question_type')
-        when 0  # Procon
-          sq_view = new IdeaMapr.Views.SurveyQuestionView
+        when 0  # Pro/Con
+          c = new IdeaMapr.Collections.ProConIdeaCollection(question_object.attributes.ideas)
+          sq_view = new IdeaMapr.Views.SQProConView
             model: question_object
+            collection: c
         when 1 # Ranking
           c = new IdeaMapr.Collections.RankedIdeaCollection(question_object.attributes.ideas)
           c.post_initialize()
