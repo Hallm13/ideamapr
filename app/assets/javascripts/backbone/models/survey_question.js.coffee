@@ -1,5 +1,6 @@
 IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
   defaults: ->
+    answered: false
   urlRoot: '/survey_question',
     
   getResponseData: ->

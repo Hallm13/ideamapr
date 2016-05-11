@@ -39,8 +39,9 @@
         .col-xs-4#go-right.active
           Next
           
-%script#sq-template{type: 'text/template'}
-  <%- title %>
+%script#sq-ranking-template{type: 'text/template'}
+  .question-prompt
+    <%- question_prompt %>    
   #idea-list
 
 = render partial: 'backbone_templates'

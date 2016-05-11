@@ -15,6 +15,9 @@ funcs = ->
   # The data fetches trigger the events cascade
   # These two can run in parallel
   shown_survey.fetch()
+
+  # SurveyPublicView listens to this collections and starts the rendering
+  # process when it is fetched.
   sq_list.getQuestions survey_id
       
 $(document).on('ready page:load', funcs)

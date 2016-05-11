@@ -16,6 +16,7 @@ class SurveyQuestionsController < ApplicationController
       # in the before filter for JSON requests, for Backbone processing.
       set = @survey&.survey_questions
       set ||= {}
+
       render json: set, include: [:ideas]
     else
       if @survey

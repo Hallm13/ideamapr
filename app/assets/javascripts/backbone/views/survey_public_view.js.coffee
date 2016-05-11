@@ -46,6 +46,8 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
 
   render: ->
     # App contains many questions, based on the sqn collection it has
+    # Render is triggered after all the survey question screens have been initialized
+    
     view_self = this
     navbar_view = new IdeaMapr.Views.SurveyNavbarView
       collection: this.collection
@@ -61,10 +63,21 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     this
 
   set_questions: ->
+    # A different question view is created and appended
+    # To the public survey, for each type of question retrieved
+    
     view_self = this
     this.collection.each (question_object, idx) ->
-      sq_view = new IdeaMapr.Views.SurveyQuestionView
-        model: question_object
+      switch question_object.get('question_type')
+        when 0  # Procon
+          sq_view = new IdeaMapr.Views.SurveyQuestionView
+            model: question_object
+        when 1 # Ranking
+          c = new IdeaMapr.Collections.RankedIdeaCollection(question_object.attributes.ideas)
+          c.post_initialize()
+          sq_view = new IdeaMapr.Views.SQRankingView
+            model: question_object
+            collection: c
 
       # the first screen is the intro screen - the rest are questions
       view_self.screens[1 + idx] = sq_view

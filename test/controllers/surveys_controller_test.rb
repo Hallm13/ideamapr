@@ -14,7 +14,7 @@ class SurveysControllerTest < ActionController::TestCase
     end
   end
   
-  describe '#show' do
+  describe '#show: admin' do
     before do
       @survey = surveys(:survey_1)
       @survey.regenerate_public_link
@@ -25,24 +25,6 @@ class SurveysControllerTest < ActionController::TestCase
       get :show, id: @survey.id
       assert_template :show
     end
-    
-    it 'works for public with token' do
-      sign_out admins(:admin_1)
-      assert_difference('Respondent.count', 1) do
-        s = surveys(:published_survey)
-        s.regenerate_public_link
-        get :public_show, public_link: s.public_link, step: 1
-      end
-      
-      assert_template :public_show
-      assert_match Respondent.last.cookie_key, response.body
-    end
-    
-    it 'does not work for public without token' do
-      sign_out admins(:admin_1)
-      get :public_show, public_link: 'notatoken'
-      assert_redirected_to '/404.html'
-    end
 
     it 'blocks for unpublished surveys via token' do
       s = surveys(:survey_1)
@@ -52,6 +34,33 @@ class SurveysControllerTest < ActionController::TestCase
     end
   end
 
+  describe '#show: public' do
+    before do
+      sign_out admins(:admin_1)
+      @public_svy = surveys(:published_survey)
+      @public_svy.regenerate_public_link
+    end
+    
+    it 'works with token' do
+      assert_difference('Respondent.count', 1) do
+        get :public_show, public_link: @public_svy.public_link
+      end
+      
+      assert_template :public_show
+      assert_match Respondent.last.cookie_key, response.body
+    end
+    
+    it 'does not work without token' do
+      get :public_show, public_link: 'notatoken'
+      assert_redirected_to '/404.html'
+    end
+
+    it 'works with xhr' do
+      xhr :get, :public_show, public_link: @public_svy.public_link
+      assert_match /^{/, response.body
+    end
+  end
+  
   describe '#edit' do
     describe '404 errors' do      
       it 'is triggered by lack of proper id' do
@@ -89,8 +98,8 @@ class SurveysControllerTest < ActionController::TestCase
       get :edit, id: surveys(:published_survey).id, survey: {components: new_survey_question_id_list}
       assert_template :edit
 
-      # sq_pre_4 is already assigned
-      assert_select('.fa-trash-o', 4)
+      # sq_pre_5 is already assigned
+      assert_select '.fa-trash-o', 3
     end
   end
   

@@ -1,6 +1,5 @@
 IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
   initialize:->
-    this.on('change:grant_top', this.reset_and_sort)
 
   reset_and_sort: (model) ->
     # If the cb is fired when the top flag is taken away

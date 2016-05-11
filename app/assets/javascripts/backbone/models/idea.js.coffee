@@ -3,8 +3,6 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     pro: 0
     con: 0
     title: null
-    idea_rank: -1
-    grant_top: false
     
   urlRoot: '/ideas',
 
@@ -14,10 +12,6 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
   increment_note: (type) ->
     if type == 'pro' || type == 'con'
       this.set(type, this.get(type) + 1)
-
-  grant_top: ->
-    this.set('grant_top', true)
-    this
 
   set_question_type: (type_int) ->
     this.qn_type = type_int
@@ -34,3 +28,8 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     obj['idea_id'] = this.get('id')
     obj
     
+  shown_rank: ->
+    if this.get('idea_rank') < 0
+      return ''
+    else
+      return this.get('idea_rank')

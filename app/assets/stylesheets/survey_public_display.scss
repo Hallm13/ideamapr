@@ -1,6 +1,41 @@
 #thankyou-screen {
   display: none;
 }
+.controls-box {
+  float: left;
+  padding: 0 20px;
+  .move-to-ranked, .ranking-sign {
+    cursor: pointer;
+    padding: 5px;
+    font-family: MontserratBold;
+    font-size: 1.5em;
+    &.plus-sign {
+      color: $theme-green;
+    }
+    &.minus-sign {
+      color: $theme-red;
+    }
+  }
+}
+
+#ranked-idea-list {
+  border: dashed 1px $theme-green;
+  min-height: 5em;
+  .unranked {
+    text-align: center;
+    color: $theme-green;
+    line-height: 500%;
+  }
+}
+
+.question-prompt {
+  min-height: 5em;
+  line-height: 500%;
+  font-family: 'MontserratBold', sans-serif;
+  text-align: center;
+  @include solid-bottom-border();
+  margin-bottom: 10px;
+}
 
 .survey-nb-row {
   .col-xs-4 {

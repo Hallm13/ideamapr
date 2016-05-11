@@ -12,5 +12,6 @@ sq_pre_4:
   created_at: <%= Time.now - 1.hours %>
 sq_pre_5:
   title: pre5 - this is belongs to published survey and is older
+  question_prompt: pre5 - assign to top
   question_type: <%= SurveyQuestion::QuestionType::RANKING %>
   created_at: <%= Time.now - 10.hours %>
