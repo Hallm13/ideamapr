@@ -1,11 +1,7 @@
 .row
-  - if @question
-    = hidden_field_tag :for_survey_question_id, @question.id
-    .text-center
-      Adding Ideas to Question #{@question.title}
-  - else
+  %a{href: new_idea_url}
     %button.btn.btn-primary
-      = link_to t(:add_button_text), edit_idea_url(id: 0)
+      = t(:add_button_text)
       
 .entity-set  
   - @ideas.each do |idea|

@@ -12,7 +12,7 @@ class Survey < ActiveRecord::Base
         def initialize(*args)
           super
           self.shown = true
-          self.expected_length ||= -1 
+          @expected_length = args[3] if args.size > 3
         end
       end
     end

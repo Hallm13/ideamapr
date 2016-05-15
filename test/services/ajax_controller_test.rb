@@ -7,7 +7,8 @@ module Ajax
     
     test 'get survey question map' do
       data = Ajax::Library.route_action("survey_question/get_prompt_map/")
-      assert_equal 5, data[:data].keys.size
+
+      assert_equal 6, data[:data].keys.size
     end
 
     test 'getting help text' do

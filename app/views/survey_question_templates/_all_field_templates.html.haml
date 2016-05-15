@@ -1,0 +1,10 @@
+%script#details-collection-template{type: 'text/template'}
+  #options-list.row
+  .row
+    .col-xs-12
+      %button#add-button.btn.btn-primary
+        Add Another
+// 5 = radio
+= render partial: 'survey_question_templates/type_5_public_template'
+// 6 = free field
+= render partial: 'survey_question_templates/type_6_public_template'

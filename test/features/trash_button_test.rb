@@ -30,20 +30,17 @@ class TrashButtonTest < Capybara::Rails::TestCase
     visit x
     assert_equal 1, page.all('.survey_question-box').count
   end
-  test 'trash button for survey' do
-    visit @base_url
-    assert_equal 1, page.all('.survey_question-box').count
-    page.find("#qn-box-0").find('.fa-trash-o').trigger('click')
-    visit @base_url
-    page.find('.survey-question-list')
-    assert_equal 0, page.all('.survey_question-box').count
-  end
-  test 'trash button for survey question' do
-    visit @sq_base_url
-    assert_equal 1, page.all('.idea-box').count
-    page.find("#idea-box-0").find('.col-xs-2.delete-box').find('.fa-trash-o').trigger('click')
+  
+  test 'remove idea in survey question' do
     visit @sq_base_url
 
-    assert_equal 0, page.all('.idea-box').count
+    elt = page.find('#unassigned-ideas')
+    len = elt.all('.idea-box').size
+
+    # Move an idea out of the assigned list - there's one assigned in the fixtures
+    page.find("#selected-list").all('.idea-box')[0].click
+
+    newlen = page.find('#unassigned-ideas').all('.idea-box').size
+    assert_equal len + 1, newlen
   end  
 end

@@ -1,3 +1,3 @@
 .relative-container
-  = text_field_tag 'survey_question[title]', @question.title, class: 'form-control watched-box', autofocus: true, 'data-expected-length' => 10
-  = label_tag 'survey_question[title]', 'min length 10', class: 'placeholder-label'
+  = text_field_tag 'survey_question[title]', @question.title, class: 'form-control watched-box', autofocus: true, 'data-expected-length' => vb.expected_length
+  = label_tag 'survey_question[title]', "min length #{vb.expected_length}", class: 'placeholder-label'

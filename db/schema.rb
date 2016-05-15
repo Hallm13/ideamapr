@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160511173820) do
+ActiveRecord::Schema.define(version: 20160602165503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160511173820) do
     t.string   "groupable_type"
     t.integer  "groupable_id"
     t.float    "budget"
+    t.integer  "ranking"
   end
 
   create_table "ideas", force: :cascade do |t|
@@ -61,6 +62,13 @@ ActiveRecord::Schema.define(version: 20160511173820) do
   create_table "question_assignments", force: :cascade do |t|
     t.integer  "survey_id"
     t.integer  "survey_question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "question_details", force: :cascade do |t|
+    t.integer  "survey_question_id"
+    t.text     "details_list"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

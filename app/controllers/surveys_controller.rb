@@ -2,10 +2,16 @@ class SurveysController < ApplicationController
   include CookieJar
   include SqlOptimizers
   include RelationalLogic
-  
+
+  before_action :set_menubar_variables
   before_action :authenticate_admin!, except: :public_show 
   before_action :params_check, except: :index
 
+  def new
+    set_dropdown
+    @level2_menu = :create_survey
+  end
+  
   def index
     @surveys = Survey.all
     if request.xhr?
@@ -17,7 +23,6 @@ class SurveysController < ApplicationController
       render json: ({data: data, allowed_states: Survey.new.status_enum})
 
     else
-      @selected_section = 'surveys'
       # Deliver custom Backbone app js 
       render :index, layout: 'survey_index_layout'
     end
@@ -40,12 +45,7 @@ class SurveysController < ApplicationController
 
   def edit
     set_dropdown
-
-    if params[:id] == '0'
-      @survey = Survey.new
-    else
-      create_survey_qn_array
-    end
+    create_survey_qn_array
   end
   
   def update
@@ -55,9 +55,6 @@ class SurveysController < ApplicationController
     if request.xhr? && (x = Survey::SurveyStatus.id(params[:displayed_survey_status]))
       @survey.update_attributes status: x
     elsif params[:survey]
-      attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
-      @survey.attributes= attrs
-      
       unless @survey.owner_id
         # Only set owner when the survey is created.
         @survey.owner_id = current_admin.id
@@ -75,6 +72,7 @@ class SurveysController < ApplicationController
     end
     survey_render_wrap(status: saved, xhr: request.xhr?)
   end
+  alias :create :update
   
   private
   def render_json_payload
@@ -99,35 +97,47 @@ class SurveysController < ApplicationController
   
   def params_check
     status = true
-    status &= params[:id] unless params[:action].to_sym == :public_show
 
     if status
       case params[:action].to_sym
+      when :new
+        @survey = Survey.new
       when :public_show
         status &= (params[:public_link] && (@survey = Survey.find_by_public_link(params[:public_link])) &&
                    @survey.status == Survey::SurveyStatus::PUBLISHED)
-      when :show
+      when :show, :edit
         status &= (@survey = Survey.find_by_id params[:id])
-      when :edit, :update
-        unless params[:id] == '0'
-          status &= (@survey = Survey.find_by_id params[:id])
+      when :create
+        status &= params[:survey]
+        if status
+          @survey = Survey.new 
+          attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
+          @survey.attributes= attrs
+        end
+      when :update
+        status &= params[:survey]
+        status &= (@survey = Survey.find_by_id params[:id])
+        if status
+          attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
+          @survey.attributes= attrs
         end
       end
     end
     
-    if params[:id] == '0'
-      @survey = Survey.new
-    end
     if !status
       redirect_to page_404
     end
 
     status
   end
+
+  def set_menubar_variables
+    @navbar_active_section = :surveys
+  end
   
   def set_dropdown
     @survey_status_select = Survey::SurveyStatus.option_array
-    @select_default = @survey.status
+    @select_default = @survey.status || 0
   end
 
   def survey_render_wrap(status:, xhr:)
@@ -136,14 +146,7 @@ class SurveysController < ApplicationController
         render json: @survey, status: 201
       else
         flash[:alert] = nil
-        case params[:redirect]
-        when 'goto-contained'
-          redirect_to survey_questions_url(add_to_survey: @survey.id)
-        when 'edit'
-          redirect_to edit_survey_url(id: @survey.id)
-        else
-          redirect_to survey_url(@survey)
-        end
+        redirect_to survey_url(@survey)
       end
     else
       if xhr

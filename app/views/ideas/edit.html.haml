@@ -7,8 +7,11 @@
         = "Edit Idea: #{@idea.title}"
 
 = form_tag("/ideas/#{@idea.id || '0'}", method: :post) do
-  = hidden_field_tag '_method', 'put'        
-  - @idea.viewbox_list.each_with_index do |vb, idx|
-    = render partial: vb.partial_name, layout: 'builder_box', locals: {is_hidden: !vb.shown, build_box_title: vb.title, box_index: idx, box_key: vb.box_key}
+  = hidden_field_tag '_method', 'put'
+  - idx = 0
+  - @idea.viewbox_list.each do |vb|
+    - if vb.shown
+      = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
+      - idx += 1
   = submit_tag 'Save', class: 'btn btn-primary'
 

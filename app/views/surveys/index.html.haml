@@ -1,6 +1,7 @@
 .row
-  .btn.btn-primary
-    = link_to t(:add_button_text), edit_survey_url(id: 0)
+  %a{href: new_survey_url}
+    .btn.btn-primary
+      = t(:add_button_text)
 
 .entity-set
   .row.table-headers

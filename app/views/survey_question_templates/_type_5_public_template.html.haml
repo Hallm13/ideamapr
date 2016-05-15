@@ -1,0 +1,6 @@
+%script#type-5-public-template{type: 'text/template'}
+  %span#move-up
+    
+  %input{type: 'radio'}
+  %span.editable-text{contentEditable: 'true', onclick: 'document.execCommand(\'selectAll\',false,null)'}
+    <%- text %>

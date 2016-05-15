@@ -1,5 +1,7 @@
 %h1
   Idea #{@idea.title}
+  %a{href: edit_idea_url(@idea)}
+    %i.fa.fa-pencil.active-icon
 
 .field
   .field-title

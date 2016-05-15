@@ -1,0 +1,71 @@
+.editable-text {
+  padding: 5px;
+  &.edited {
+    color: $theme-green;
+  }
+}
+
+.details-component {
+  margin-bottom: 10px;
+
+}
+.ranking-control {
+  display: none;
+  position: absolute;
+  top: 15px;
+  left: -20px;
+  
+  .control-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    left: -10px;    
+  }
+  
+  #move-up {
+    background: turquoise;
+    margin-bottom: 10px;
+  }
+  #move-out {
+    background: goldenrod;
+    margin-bottom: 10px;
+  }
+  #move-down {
+    background: coral;
+  }
+}
+
+.field-example {
+  margin-bottom: 5px;
+  .text-entry-box {
+    width: 100px;
+    margin-left: 5px;
+    background-color: gray;
+  }
+}
+
+.showing-controls {
+  background-color: beige;
+}
+
+.square-button {
+  padding: 5px;
+  border-radius: 5px;
+  &.green {
+    background-color: $theme-green;
+  }
+  &.red {
+    background-color: $theme-red;
+  }
+  color: white;
+  cursor: pointer;
+}
+
+.idea-box {
+  padding: 10px 15px;
+  
+  .title-box {
+    display: inline-block;
+  }
+}
+

@@ -11,20 +11,12 @@ class IdeasControllerTest < ActionController::TestCase
      it 'works plainly' do
        get :index
        assert_template :index
-       assert_equal 'ideas', assigns(:selected_section)
+       assert_equal :ideas, assigns(:navbar_active_section)
      end
-     it "activates selection when asked" do
-       sq = survey_questions :sq_1
-       get :index, {add_to_survey_question: sq.id}
 
-       assert_equal (Idea.count - sq.ideas.count), assigns(:ideas).count
-       refute_nil assigns(:question)
-       assert_select('.fa.fa-check.active-icon')
-     end
-     it 'returns all ideas for questions that have none' do
-       sq = survey_questions :sq_no_ideas
-       get :index, {add_to_survey_question: sq.id}
-       assert_equal Idea.count, assigns(:ideas).count
+     it 'for admins, new survey questions gets all ideas' do
+       xhr :get, :index, for_survey_question: '0'
+       assert_equal Idea.count, JSON.parse(response.body).size
      end
 
      describe 'getting ideas for a survey' do
@@ -41,7 +33,18 @@ class IdeasControllerTest < ActionController::TestCase
                 assigns(:ideas).first.id
        end
 
+       it 'separates ideas on assignment basis' do
+         # has idea_3 assigned to it
+         xhr :get, :index, {for_survey_question: survey_questions(:sq_1).id}
+
+         resp = JSON.parse response.body
+         t = resp.select { |i| /idea 3/.match(i['title'])}.first
+
+         assert t['is_assigned']
+       end
+
        it 'is not authenticated for XHR requests for published surveys' do
+         sign_out :admin
          xhr :get, :index, {for_survey: surveys(:published_survey).id}
        end
      end
@@ -68,14 +71,19 @@ class IdeasControllerTest < ActionController::TestCase
     end
   end
 
+  test '#new' do
+    get :new
+    assert_template :new
+  end
+  
   describe '#create' do
     it 'is successful' do
-      put :update, id: 0, idea: {title: 'is a long title', description: "is a long title and description"}
+      post :create, idea: {title: 'is a long title', description: "is a long title and description"}
       assert_redirected_to idea_path(Idea.last)
     end
 
     it 'shows errors' do
-      put :update, id: 0, idea: {title: 'is a', description: "is"}
+      post :create, idea: {title: 'is a', description: "is"}
       assert_template :edit
       assert_match /Idea /, response.body
     end

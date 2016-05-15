@@ -1,5 +1,7 @@
 %h1
   Question: #{@question.title}
+  %a{href: edit_survey_question_url(@question)}
+    %i.fa.fa-pencil.active-icon
 
 .field
   .field-title
@@ -11,3 +13,5 @@
       Question Budget
       .field-value
         = @question.budget
+  - if @question.question_type >= 5
+    = @question.question_detail.details_list.join(';')

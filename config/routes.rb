@@ -1,14 +1,16 @@
 IdeaMapr::Application.routes.draw do
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :admins, only: [:sessions, :passwords]
   devise_for :users, only: :sessions
   
   resources :users, path: 'profiles'
 
-  resources :ideas, except: [:new, :create]
+  resources :ideas
   resources :survey_responses, only: [:update]
-  resources :survey_questions, except: [:new, :create]
+  resources :survey_questions
+  resources :question_details, only: [:index, :create]
 
-  resources :surveys, only: [:show, :index, :update, :edit] do
+  resources :surveys do
     collection do
       post '/update', action: 'update'
     end

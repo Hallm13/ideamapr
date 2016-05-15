@@ -11,6 +11,7 @@ class SurveysControllerTest < ActionController::TestCase
     it 'works' do
       get :index
       assert assigns(:surveys)
+      assert_equal :surveys, assigns(:navbar_active_section)
     end
   end
   
@@ -70,8 +71,8 @@ class SurveysControllerTest < ActionController::TestCase
     end
 
     it 'works for id 0' do
-      get :edit, id: '0'
-      assert_template :edit
+      get :new
+      assert_template :new
       assert assigns(:survey_status_select)
       assert_match 'Create', response.body
       assert_select('.builder-box') do |elts|
@@ -113,7 +114,7 @@ class SurveysControllerTest < ActionController::TestCase
       it 'validates Survey titles' do
         title = 'short'
         refute_difference('Survey.count') do
-          post :update, id: '0', survey: {title: title, status: 0}
+          post :create, survey: {title: title, status: 0}
         end
 
         refute_nil flash[:alert]
@@ -125,8 +126,7 @@ class SurveysControllerTest < ActionController::TestCase
       title = 'is a valid long title'
       
       assert_difference('Survey.count', 1) do 
-        post :update, id: '0', survey: {title: title, introduction: 'is an introduction long and good',
-                                        status: 0}
+        post :create, survey: {title: title, introduction: 'is an introduction long and good', status: 0}
       end
       
       s = Survey.last
@@ -147,15 +147,6 @@ class SurveysControllerTest < ActionController::TestCase
 
       get :show, id: surveys(:survey_1).id
       assert_match /draft/i, response.body
-    end
-    
-    it 'works to select questions' do
-      assert_difference('Survey.count', 1) do 
-        post :update, id: '0', survey: {title: 'is a valid long title', introduction: 'is an introduction long and good',
-                                        status: 0}, redirect: 'goto-contained'
-      end
-      s = Survey.last
-      assert_redirected_to survey_questions_url(add_to_survey: s.id)
     end
 
     it 'updates status with json' do

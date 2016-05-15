@@ -3,7 +3,7 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
   def setup
     Capybara.default_driver = :webkit
     login_as admins(:admin_1), scope: :admin
-    visit '/surveys/0/edit'
+    visit '/surveys/new'
   end
 
   test 'turning green' do
@@ -22,11 +22,11 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
   end
 
   test 'showing budget screen' do
-    visit '/survey_questions/0/edit'
+    visit '/survey_questions/new'
     refute page.has_content? 'Set Budget'
 
     page.find('#survey_question_question_type').select 'Budgeting'
-    assert page.has_content? 'Set Budget'
+    assert page.has_content? 'Perform a budgeting'
   end
   
   def teardown

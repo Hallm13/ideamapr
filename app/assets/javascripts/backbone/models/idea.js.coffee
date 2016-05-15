@@ -3,18 +3,22 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     pro: 0
     con: 0
     title: null
+    promoted: 0
+    ranked: 0
+    index: 0
     
   urlRoot: '/ideas',
 
   initialize: ->
     this.on('move-top', this.grant_top)
 
+  make_example: ->
+    @set('title', 'Example Idea')
+    @set('description', 'Add ideas like this one by clicking + below.')
+    
   increment_note: (type) ->
     if type == 'pro' || type == 'con'
       this.set(type, this.get(type) + 1)
-
-  set_question_type: (type_int) ->
-    this.qn_type = type_int
 
   getResponseData: ->
     if this.qn_type == 0 # pro/con

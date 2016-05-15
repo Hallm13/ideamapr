@@ -1,0 +1,24 @@
+// 0 = pro/con
+= render 'survey_question_templates/type_0_public_template'
+// 1 = ranking
+= render 'survey_question_templates/type_1_public_template'
+// 3 = budget
+= render partial: 'survey_question_templates/type_3_public_template'
+// 5 = radio
+= render partial: 'survey_question_templates/type_5_public_template'
+// 6 = free field
+= render partial: 'survey_question_templates/type_6_public_template'
+
+%script#idea-search-template{type: 'text/template'}
+  .title-box
+    <%- title %>
+  %span.square-button.green
+    +
+    
+%script#admin-search-idea-list{type: 'text/template'}
+  .row
+    .col-xs-12
+      <%- available_count %> ideas left, 'cos you added <%- added_count %>
+    .col-xs-12
+      %input{type: 'text', name: 'idea-search', id: 'idea-search', placeholder: 'Search by'}
+  #unassigned-ideas.row

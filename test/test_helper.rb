@@ -7,8 +7,11 @@ require 'rails/test_help'
 require 'mocha/mini_test'
 require 'webmock/minitest'
 
-require 'minitest/rails/capybara'
+require 'capybara'
+require 'capybara/rails'
 require 'capybara/webkit'
+require 'minitest/rails/capybara'
+Capybara.javascript_driver = :webkit
 
 Dir[Rails.root.join('test/support/**/*.rb')].each { |f| require f }
 WebMock.disable_net_connect!(:allow_localhost => true)
@@ -25,6 +28,10 @@ class ActionController::TestCase
 
   # Some controllers will need Devise
   include Devise::TestHelpers
+end
+
+Capybara.configure do |config|
+  config.javascript_driver = :webkit
 end
 
 class Capybara::Rails::TestCase
@@ -44,6 +51,8 @@ end
 # Shut some CircleCI warnings down
 Capybara::Webkit.configure do |config|
   config.allow_url("http://www.gravatar.com/avatar/28e09f805ab4e232218fc8bd12c8fb78?s=30")
+  config.allow_url("test.local")
+  config.ignore_ssl_errors
 end
 
 # Forces all threads to share the same connection. This works on

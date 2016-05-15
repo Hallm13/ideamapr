@@ -29,3 +29,10 @@ en:
   access_denied_message: "Please sign in to access that page."
   message_404: "You appear to want something that's not there."
   add_button_text: '+ Add'
+  ideas: 'Ideas'
+  survey_questions: 'Questions'
+  surveys: 'Surveys'
+  create_idea: 'Create Idea'
+  create_survey: 'Create Survey'
+  create_survey_question: 'Create Question'
+  edit_survey_question: 'Edit Question'  

@@ -14,7 +14,7 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
         displayed_survey_status: $(evt.target).data('label')
         
       this.render()
-      this    
+      this
 
   shut_dropdown: ->
     this.$el.find('.dd-choice-list').hide()
@@ -25,7 +25,7 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
 
     view_self = this
     dd_container = $('<div>').addClass('dd-choice-list')
-    view_self.$('#status-change-dropdown').append dd_container    
+    view_self.$('#status-change-dropdown').append dd_container
     show_list.forEach (label, idx) ->
       dd_container.append($('<div>').addClass('dd-choice').data('label', label).text(label))
     this

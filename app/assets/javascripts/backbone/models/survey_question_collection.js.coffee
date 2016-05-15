@@ -21,3 +21,4 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
     this.fetch()
 
     this
+

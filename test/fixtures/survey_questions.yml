@@ -1,6 +1,7 @@
 sq_1:
   title: this is a good long title
-  question_type: <%= SurveyQuestion::QuestionType::PROCON %>
+  question_prompt: this is a good prompt
+  question_type: <%= SurveyQuestion::QuestionType::RANKING %>
 sq_2:
   title: this is a good long title 2
   question_type: <%= SurveyQuestion::QuestionType::PROCON %>
@@ -18,3 +19,6 @@ sq_pre_5:
 sq_no_ideas:
   title: question with no ideas
   question_type: <%= SurveyQuestion::QuestionType::RANKING %>
+sq_with_radio_choice:
+  title: has radio choices
+  question_type: <%= SurveyQuestion::QuestionType::RADIO_CHOICES %>

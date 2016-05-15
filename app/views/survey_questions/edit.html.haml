@@ -1,17 +1,17 @@
 .row
   .col-xs-12
-    - if @question.id.nil? 
-      Create Question
-    - else
-      .page-title
-        = "Edit Question: #{@question.title}"
-  
+    .page-title
+      = "Edit #{@question.question_type_name} Question: #{@question.title}"
+#debug-message
+        
 = form_tag("/survey_questions/#{@question.id || '0'}", method: :post, id: :container_update) do
   = hidden_field_tag '_method', 'put'        
-  = hidden_field_tag :redirect, '', id: :redirect
-  = hidden_field_tag :survey_question_id, @question.id
+  = hidden_field_tag :survey_question_id, (@question.id || 0)
+  = hidden_field_tag :saved_question_type, (@question.id ? @question.question_type : '')
 
-  - @question.viewbox_list.each_with_index do |vb, idx|
-    = render partial: vb.partial_name, layout: 'builder_box', locals: {is_hidden: !vb.shown, build_box_title: vb.title, box_index: idx, box_key: vb.box_key}
-
-  = submit_tag 'Save', class: 'btn btn-primary'
+  - idx = 0
+  - @question.viewbox_list.each do |vb|
+    - unless vb.partial_name == 'add_question_type' || !vb.shown
+      = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
+      - idx += 1      
+  = submit_tag 'Save', class: 'btn btn-primary', id: 'survey-question-save'

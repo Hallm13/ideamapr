@@ -8,16 +8,22 @@
   .brand-header
     = t(:site_brand)
     
-.row.nav-secondary
+.row.primary-level
   .col-xs-6.col-xs-offset-3
-    .secondary-item-border.col-xs-4{class: is_selected(:ideas)}
+    .secondary-item-border.col-xs-4{class: is_active(:ideas)}
       .secondary-item
-        = link_to "Ideas", ideas_url
-    .secondary-item-border.col-xs-4{class: is_selected(:questions)}
+        = link_to t(:ideas), ideas_url
+    .secondary-item-border.col-xs-4{class: is_active(:survey_questions)}
       .secondary-item
-        = link_to "Questions", survey_questions_url
-    .secondary-item-border.col-xs-4{class: is_selected(:surveys)}
+        = link_to t(:survey_questions), survey_questions_url
+    .secondary-item-border.col-xs-4{class: is_active(:surveys)}
       .secondary-item
-        = link_to "Surveys", surveys_url
-    
-    
+        = link_to t(:surveys), surveys_url
+
+- if @level2_menu
+  .row.secondary-level
+    .col-xs-4.col-xs-offset-4.strike-padding
+      .secondary-item
+        %span.active-text
+          = "#{t(@navbar_active_section)}"
+        = "> #{t(@level2_menu)}"

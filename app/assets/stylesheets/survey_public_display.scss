@@ -22,6 +22,20 @@
 .controls-box {
   padding: 0 20px;
   text-align: center;
+  .ranking-sign {
+    background-position-x: -22px;
+    background-position-y: -22px;
+    min-height: 50px;
+    &.up {
+      background-image: image-url('icons/up_chevron.png');
+      padding-top: 15px;
+    }
+    &.down {
+      padding-top: 10px;
+      background-image: image-url('icons/down_chevron.png');
+    }    
+  }
+  
   .move-to-ranked, .ranking-sign {
     cursor: pointer;
     padding: 5px;

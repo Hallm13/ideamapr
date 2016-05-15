@@ -12,37 +12,23 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       get :edit, id: survey_questions(:sq_blank).id
       assert_template :edit
 
-      assert_select('option') do |elts|
-        assert_equal SurveyQuestion::QuestionType.option_array.size, elts.size
-      end
-    end
-    it 'works plainly with ideas' do
-      get :edit, id: survey_questions(:sq_1).id
-      assert_select('.idea-box', count: survey_questions(:sq_1).ideas.size)
+      assert_select('option', count: 0)
     end
   end
   
   describe 'new and create loop' do
     it 'works with correct params' do
-      get :edit, {id: 0, step_command: :idea_add}
-
+      get :new
       assert_select 'input[name=\'survey_question[title]\']'
 
       assert_difference('SurveyQuestion.count', 1) do
-        put(:update, {id: 0, survey_question: {title: 'this is a question title'}})
+        post :create, {survey_question: {title: 'this is a question title', question_type: 1}}
       end
+
+      assert_match /rank these ideas/i, SurveyQuestion.last.question_prompt
       assert_redirected_to survey_question_path(SurveyQuestion.last)
     end
     
-    it 'works to select ideas' do
-      assert_difference('SurveyQuestion.count', 1) do 
-        put(:update, {id: 0, survey_question: {title: 'this is a question title'},
-                      redirect: 'goto-contained'})
-      end
-      s = SurveyQuestion.last
-      assert_redirected_to ideas_url(add_to_survey_question: s.id)
-    end
-
     it 'works to add ideas to existing sq' do
       sq = survey_questions(:sq_1)
 
@@ -53,13 +39,23 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       end
       assert_equal idea_sz + 1, sq.ideas.count
       assert_redirected_to survey_question_url(sq)
-    end      
+    end
+
+    it 'can refresh question details' do
+      sq = survey_questions(:sq_with_radio_choice)
+      old_id = sq.question_detail.id
+      put(:update, {id: sq.id, survey_question: {title: 'this is a new test title'}, question_details: (['1', 'a'].to_json)})
+
+      assert sq.reload.question_detail.present?
+      refute_equal old_id, sq.question_detail.id
+    end
   end
 
   describe "#index" do
     it "shows all survey qns" do
       get :index
       assert_select('.question-row', SurveyQuestion.count)
+      assert_equal :survey_questions, assigns(:navbar_active_section)
     end
 
     it 'does not require auth when the survey is public and the request is XHR' do
@@ -83,7 +79,10 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
     end
 
     it 'model validation are required' do
-      put(:update, {id: 0, survey_question: {title: 'shor'}})
+      post :create, {survey_question: {title: 'shor'}}
+      assert_template :new
+
+      put :update, {id: survey_questions(:sq_1), survey_question: {title: 'shor'}}
       assert_template :edit
     end
 
