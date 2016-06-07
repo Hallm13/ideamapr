@@ -82,12 +82,15 @@ class SurveyQuestionsController < ApplicationController
 
     idea_ids = question_details = nil
     # We either got ideas or fields for a survey question
-    if params[:question_details] && (@question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
-       @question.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS)
-      question_details = JSON.parse(params[:question_details])
-    elsif params[:survey_question][:components]
-      idea_ids = params[:survey_question][:components]&.map { |i| i.to_i} || []
-    end
+    if params[:question_details]
+      component_array = (JSON.parse(params[:question_details]))['details']
+      if @question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
+         @question.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
+        question_details = component_array
+      else 
+        idea_ids = component_array&.map { |i| i['id']} || []
+      end
+    end    
     
     if (saved = @question.valid?)
       ActiveRecord::Base.transaction do      

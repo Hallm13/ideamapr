@@ -13,5 +13,13 @@
       Question Budget
       .field-value
         = @question.budget
+  - if @question.question_type == 1 || @question.question_type == 3
+    .field-title
+      Number of Ideas
+    .field-value
+      = @question.idea_assignments.count
   - if @question.question_type >= 5
-    = @question.question_detail.details_list.join(';')
+    .field-title
+      Choices
+    .field-value
+      = @question.question_detail.details_list.map {|rec| rec['text']}.join('; ')

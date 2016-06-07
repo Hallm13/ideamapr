@@ -23,22 +23,14 @@ class IdeasController < ApplicationController
                            @question.ideas.pluck(:id)
                          end
         @all_ideas = @all_ideas.map do |i|
-          {title: i.title, description: i.description}.merge({is_assigned: selected_ideas.include?(i.id)})
+          {id: i.id, title: i.title, description: i.description}.merge({is_assigned: selected_ideas.include?(i.id)})
         end
       else
         @all_ideas = []
       end
     else
-      if @question
-        excluded_ids = @question.ideas.pluck(:id)
-        if excluded_ids.blank?
-          @ideas = Idea.all
-        else
-          @ideas = Idea.where('id not in (?)', excluded_ids)
-        end
-      else
-        @ideas = Idea.all
-      end
+      # There is neither a survey or an SQ specified in the params, to key ideas against
+      @all_ideas = Idea.all
     end
 
     render (request.xhr? ? ({json: @all_ideas}) : ('index'))
