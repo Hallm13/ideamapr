@@ -1,20 +1,30 @@
+defaults: &defaults
+  ordering: 0
+  
 ia_3_sq_1:
+  <<: *defaults
   idea: idea_3
   groupable_type: SurveyQuestion
   groupable: sq_1
+  
 ia_3_sq_pre_4:
+  <<: *defaults
   idea: idea_3
   groupable_type: SurveyQuestion
   groupable: sq_pre_4
 ia_3_sq_pre_5:
+  <<: *defaults
   idea: idea_3
   groupable_type: SurveyQuestion
   groupable: sq_pre_5
 ia_1_sq_pre_4:
+  <<: *defaults
   idea: idea_1
   groupable_type: SurveyQuestion
   groupable: sq_pre_4
+  ordering: 1
 ia_1_s_1:
+  <<: *defaults
   idea: idea_1
   groupable_type: Survey
   groupable: survey_1

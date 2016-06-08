@@ -10,8 +10,22 @@ class RelationalLogicTest < ActiveSupport::TestCase
         update_has_many! s, 'Idea', 'IdeaAssignment', [ideas(:idea_1).id, ideas(:idea_2).id],
                          foreign_key: 'groupable_id', polymorphic: true
       end
+
+      by_ordering = s.idea_assignments.order(ordering: :asc)
+      assert_equal 2, by_ordering.last.ordering #sq_1 already has one idea in the fixtures
     end
 
+    it 'works to delete existing containeds' do
+      s=survey_questions(:sq_1)
+      assert_difference('s.ideas.count', 1) do
+        update_has_many! s, 'Idea', 'IdeaAssignment', [ideas(:idea_1).id, ideas(:idea_2).id],
+                         foreign_key: 'groupable_id', polymorphic: true, should_delete: true
+      end
+
+      by_ordering = s.idea_assignments.order(ordering: :asc)
+      assert_equal 1, by_ordering.last.ordering #sq_1 already has one idea in the fixtures
+    end
+    
     it 'works when added ids are faulty' do
       s = survey_questions(:sq_1)
       assert_difference('s.ideas.count', 2) do

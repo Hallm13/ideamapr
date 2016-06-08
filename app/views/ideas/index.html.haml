@@ -4,7 +4,7 @@
       = t(:add_button_text)
       
 .entity-set  
-  - @ideas.each do |idea|
+  - @all_ideas.each do |idea|
     .row.question-row{class: hide_by_contained(idea, @question)}
       .col-xs-10
         .cell-1

@@ -11,19 +11,22 @@ class IdeasController < ApplicationController
   
   def index
     if params[:for_survey]
-      @ideas = @survey.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc)
+      @all_ideas = @survey.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc)
     elsif params[:for_survey_question]
       # To index by a survey question, you need to have provided the survey also unless you are an admin
       if current_admin || @survey.questions.include?(@question)
         @all_ideas = Idea.all
-        selected_ideas = if params[:for_survey_question].to_i == 0
+        selected_idea_assignments = if params[:for_survey_question].to_i == 0
                            # new survey questions have no ideas
                            []
                          else
-                           @question.ideas.pluck(:id)
+                           @question.idea_assignments.pluck(:idea_id, :ordering)
                          end
+        existing_ids = selected_idea_assignments.inject({}) { |memo, pair| memo[pair[0]] = pair[1]; memo; }
+                             
         @all_ideas = @all_ideas.map do |i|
-          {id: i.id, title: i.title, description: i.description}.merge({is_assigned: selected_ideas.include?(i.id)})
+          {id: i.id, title: i.title, description: i.description}.merge({is_assigned: existing_ids.keys.include?(i.id),
+                                                                        idea_rank: existing_ids[i.id]})
         end
       else
         @all_ideas = []

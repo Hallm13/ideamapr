@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160602165503) do
+ActiveRecord::Schema.define(version: 20160608172336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20160602165503) do
     t.integer  "groupable_id"
     t.float    "budget"
     t.integer  "ranking"
+    t.integer  "ordering"
   end
 
   create_table "ideas", force: :cascade do |t|

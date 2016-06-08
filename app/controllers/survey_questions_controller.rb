@@ -96,8 +96,10 @@ class SurveyQuestionsController < ApplicationController
       ActiveRecord::Base.transaction do      
         saved &= @question.save
 
-        if idea_ids.present?
-          update_has_many! @question, 'Idea', 'IdeaAssignment', idea_ids, polymorphic: true, foreign_key: 'groupable_id'
+        if !idea_ids.nil?
+          update_has_many!(@question, 'Idea', 'IdeaAssignment', idea_ids, polymorphic: true, foreign_key: 'groupable_id',
+                           should_delete: true)
+          
           # For idea questions, that have budgets assigned...
           if @question.question_type == SurveyQuestion::QuestionType::BUDGETING &&
              !(params[:survey_question][:budgets]&.keys.blank?)
@@ -112,7 +114,7 @@ class SurveyQuestionsController < ApplicationController
             IdeaAssignment.import new_assignments,
                                   on_duplicate_key_update: { conflict_target: :id, columns: [:budget] }
           end
-        elsif question_details.present?
+        elsif !question_details.nil?
           # There might be a record of Question Details already - delete it and refresh.
           if @question.question_detail.present?
             saved &= @question.question_detail.delete
