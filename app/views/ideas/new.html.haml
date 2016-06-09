@@ -2,12 +2,12 @@
   .col-xs-12
     Create Idea
     
-= form_tag("/ideas", method: :post, id: :container_update) do
+= form_tag("/ideas", method: :post, id: :idea_new) do
   - idx = 0
   - @idea.viewbox_list.each do |vb|
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
       - idx += 1
-  = submit_tag 'Save', class: 'btn btn-primary', id: 'survey-question-save'
+  = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'
 
 

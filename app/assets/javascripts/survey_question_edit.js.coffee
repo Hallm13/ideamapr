@@ -15,7 +15,7 @@ functions = ->
       else
         alert('hey! cannot find idea list app. :(')
       
-  if $('form#container_update') and $('#survey_question_id')
+  if ($('form#survey_new') || $('form#survey_edit')) and $('#survey_question_id')
     # We are creating or editing a survey qn
     qn_id = $('#survey_question_id').val()
 
@@ -81,17 +81,22 @@ functions = ->
       
     )
 
-    $('#survey-question-save').click (evt) ->
+    $('#object-save').click (evt) ->
       # Gather the collected fields or ideas models for unpacking by the controller
-
-      # Question type is saved in diff fields for new and for existing survey qns
-      qt = (if (typeof $('#survey_question_question_type').val() == 'undefined') then $('#saved_question_type').val() else
-        $('#survey_question_question_type').val())        
-      qd_elt = $('<input type=hidden>').attr('name', 'question_details')
+      # Validate all the text boxes
       
-      json_str = JSON.stringify(window.data_container.serialize_models())
-      qd_elt.val json_str
-      $('form#container_update').append qd_elt
-      true
+      if window.run_validations()
+        # Question type is saved in diff fields for new and for existing survey qns
+        qt = (if (typeof $('#survey_question_question_type').val() == 'undefined') then $('#saved_question_type').val() else
+          $('#survey_question_question_type').val())        
+        qd_elt = $('<input type=hidden>').attr('name', 'question_details')
+        
+        json_str = JSON.stringify(window.data_container.serialize_models())
+        qd_elt.val json_str
+        $('form#container_update').append qd_elt
+        true
+      else
+        evt.stopPropagation()
+        false
       
 $(document).on('ready page:load', functions)

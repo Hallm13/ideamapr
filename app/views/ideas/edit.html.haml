@@ -13,5 +13,4 @@
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
       - idx += 1
-  = submit_tag 'Save', class: 'btn btn-primary'
-
+  = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'

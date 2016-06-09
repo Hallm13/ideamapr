@@ -17,7 +17,45 @@ window.set_prompt = (css_select) ->
         window.set_prompt(window.selector) # recursion
     )
 
+show_error_boxes = (arr_elts) ->
+  arr_elts.forEach (e, i) -> 
+    error_boxes = $(e).find('+ .error-box')
+    if error_boxes.length == 0
+      $(e).after($('<div>').addClass('error-box'))
+      error_box = $(e).find('+ .error-box')
+    else
+      error_box = error_boxes[0]
+
+    $(error_box).text('This box does not validate.')
+    $(error_box).show()
+  true
+
+window.run_validations = ->
+  all_valid = true
+  error_list = []
+  $('input.validated-box,textarea.validated-box').each (idx, elt) ->
+    this_valid = $(elt).val().trim().length >= $(elt).data('expected-length')
+    all_valid = all_valid && this_valid
+    if !this_valid
+      error_list.push elt
+
+  if !all_valid
+    show_error_boxes error_list
+    false
+  else
+    true
+
 functions = ->
+  $('.validated-box').focus (evt) ->
+    $('.error-box').hide('medium')
+    
+  $('.validated-box').keyup (evt) ->
+    exp_length = $(evt.target).data('expected-length')
+    if $(evt.target).val().trim().length >= exp_length
+      $(evt.target).css('background-color', '#DFF2C2')
+    else
+      $(evt.target).css('background-color', '#FFF')
+    
   if $('.builder-box').length != 0
     # initialize the page.
     window.set_prompt('#helper_edit')
@@ -31,26 +69,6 @@ functions = ->
           $(elt).removeClass('with-text')
         else
           $(elt).addClass('with-text')
-
-    fade_on_delete = ($elt) ->
-      (d, s, x) ->        
-        if d['status'] == 'success'
-          $elt.hide(500)
-          $elt.remove()
-    $('.delete-box').click (evt) ->
-      contained = $(this).data('contained')
-      container = $(this).data('container')
-      
-      container_id = $('#' + container + '_id').val()
-      qori_box = $(evt.target).closest('.' + contained + '-box')      
-      delete_it_id = qori_box.find('#' + container + '_components_').val()
-
-      # this ajax call will always return success by design.
-      $.post('/ajax_api',
-        'payload' : container + '/delete_' + contained + '/' + container_id + '/' + delete_it_id
-        fade_on_delete(qori_box)
-        
-    )      
   
     $('.builder-after').click (evt) ->
       help_box = $(this).closest('.builder-box').find('.help-text')
@@ -60,12 +78,5 @@ functions = ->
           help_box.text(window.cms_list.where({key: 'help_text_'+id})[0].get('cms_text'))
       help_box.toggle()
       
-    # Enable a transition from containeR to containeD
-    $('#select-contained').click (evt) ->
-      btn = $(evt.target)
-      $('form#container_update #redirect').val('goto-contained')
-      $('form#container_update').submit()
-
-          
 $(document).on('page:load ready', functions)
 

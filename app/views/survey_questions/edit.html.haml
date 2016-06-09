@@ -14,4 +14,4 @@
     - unless vb.partial_name == 'add_question_type' || !vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
       - idx += 1      
-  = submit_tag 'Save', class: 'btn btn-primary', id: 'survey-question-save'
+  = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'

@@ -10,4 +10,7 @@ describe "Details Collection", ->
     dc2.set('text', 'abc')
     coll.add dc1
     coll.add dc2
-    expect(_.isEqual(coll.detailsString(), ['123','abc'])).toBe(true)
+    view = new IdeaMapr.Views.SurveyQuestionDetailsView
+      collection: coll
+    
+    expect(JSON.stringify(view.serialize_models()['details'])).toBe(JSON.stringify([{"text":"123","is_edited":false,"ready_for_render":0,"is_promoted":false},{"text":"abc","is_edited":false,"ready_for_render":0,"is_promoted":false}]))

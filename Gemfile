@@ -71,14 +71,15 @@ group :development, :test do
 
   # Can unset when https://github.com/phusion/passenger/issues/1392 is closed.
   gem 'capistrano-passenger', '0.0.2'
-  gem 'jasmine-rails'
   gem 'capistrano-sidekiq'
+  gem 'jasmine-rails'
 end
 
 gem 'dotenv'
 
 #testing with minitest
 group :test do
+  gem 'jasmine-fixtures'
   gem 'capybara-webkit'
   gem 'poltergeist'
   gem 'mocha'

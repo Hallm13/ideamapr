@@ -29,8 +29,9 @@ class IdeasControllerTest < ActionController::TestCase
        it 'gets the ideas for a survey' do
          s=surveys(:published_survey)
          get :index, {for_survey: s.id}
+
          assert s.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc).first.id,
-                assigns(:ideas).first.id
+                assigns(:all_ideas).first.id
        end
 
        it 'separates ideas on assignment basis' do
