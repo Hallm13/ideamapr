@@ -120,7 +120,7 @@ class SurveyQuestionsController < ApplicationController
             saved &= @question.question_detail.delete
           end
 
-          saved &= QuestionDetail.create survey_question: @question, details_list: question_details
+          saved &= QuestionDetail.create survey_question: @question, details_list: (question_details.reject {|i| /click to add/i.match(i['text'])})
         end
       end
     end
@@ -139,8 +139,13 @@ class SurveyQuestionsController < ApplicationController
     case params[:action]
     when 'new'
       @question = SurveyQuestion.new
+
+      # For use in view helpers
+      @form_object = @question
     when 'edit'
       status &= (params[:id] and (@question = SurveyQuestion.find_by_id(params[:id])))
+      # For use in view helpers
+      @form_object = @question
     when 'update', 'create'
       status &= (params[:action] == 'create' && params[:id].nil?) || (@question = SurveyQuestion.find_by_id(params[:id]))
       status &= !params[:survey_question].nil?

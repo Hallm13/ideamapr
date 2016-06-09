@@ -3,15 +3,15 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
   def setup
     Capybara.default_driver = :webkit
     login_as admins(:admin_1), scope: :admin
-    visit '/surveys/new'
+    visit '/ideas/new'
   end
 
   test 'turning green' do
-    elt = page.all('.watched-box')[0]
+    elt = page.all('.validated-box')[0]
     elt.set 'abcdefghijklmno'
-    assert_match /background-color: rgb.\d+, \d+, \d+/, page.all('.builder-before')[0]['style']
+    assert_match /background-color: rgb.\d+, \d+, \d+/, page.all('.validated-box')[0]['style']
     elt.set 'abc'
-    assert_match /white/, page.all('.builder-before')[0]['style']
+    assert_match /rgb.255..255..255/, page.all('.validated-box')[0]['style']
   end
 
   test 'helper text' do

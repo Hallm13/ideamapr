@@ -4,7 +4,7 @@
     
 = form_tag("/ideas", method: :post, id: :idea_new) do
   - idx = 0
-  - @idea.viewbox_list.each do |vb|
+  - Idea.viewbox_list.each do |vb|
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
       - idx += 1

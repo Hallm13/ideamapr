@@ -15,7 +15,7 @@ class SurveyQuestionEditTest < Capybara::Rails::TestCase
       
       ed_boxes.last.click
       ed_boxes.last.send_keys 'field X'
-      page.find('#survey-question-save').click
+      page.find('#object-save').click
 
       assert_equal "/survey_questions/#{survey_questions(:sq_with_radio_choice).id}", page.current_path
       assert_match 'field X', page.body

@@ -5,7 +5,7 @@
 = form_tag("/survey_questions", method: :post, id: :container_update) do
   = hidden_field_tag :survey_question_id, (@question.id || 0)
   - idx = 0
-  - @question.viewbox_list.each do |vb|
+  - SurveyQuestion.viewbox_list.each do |vb|
     = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
   = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'
   %input{name: 'commit', value: 'Save And Add Ideas', type: :submit, class: 'btn btn-primary', id: 'component-word'}

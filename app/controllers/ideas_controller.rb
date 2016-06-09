@@ -71,8 +71,12 @@ class IdeasController < ApplicationController
     case params[:action].to_sym
     when :new
       @idea = Idea.new
+      # For use in view helpers
+      @form_object = @idea      
     when :show, :edit
       status &= (params[:id].present? and @idea=Idea.find_by_id(params[:id]))
+      # For use in view helpers
+      @form_object = @idea
     when :index
       status &= (params[:for_survey].nil? || (@survey = Survey.find_by_id(params[:for_survey])))
       status &= (params[:for_survey_question].nil? || params[:for_survey_question].to_i == 0 ||

@@ -1,7 +1,7 @@
 class Idea < ActiveRecord::Base
-  def viewbox_list
+  def self.viewbox_list
     unless Struct.const_defined? 'IdeaVbStruct'
-      Struct.new('IdeaVbStruct', :partial_name, :title, :box_key, :shown, :expected_length) do
+      Struct.new('IdeaVbStruct', :partial_name, :title, :box_key, :shown, :expected_length, :help_text) do
         def initialize(*args)
           super
           self.shown = true
@@ -10,8 +10,8 @@ class Idea < ActiveRecord::Base
       end
     end
     
-    [Struct::IdeaVbStruct.new('title', 'Idea Title', 'idea-title', true, 10),
-     Struct::IdeaVbStruct.new('description', 'Edit Description', 'idea-description', true, 15),
+    [Struct::IdeaVbStruct.new('title', 'Idea Title', 'idea-title', true, 10, 'Add a title for the idea'),
+     Struct::IdeaVbStruct.new('description', 'Edit Description', 'idea-description', true, 15, 'Add a description for the idea')
     ]
   end
   

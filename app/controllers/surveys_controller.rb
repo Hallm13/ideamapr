@@ -102,11 +102,15 @@ class SurveysController < ApplicationController
       case params[:action].to_sym
       when :new
         @survey = Survey.new
+        # For use in view helpers
+        @form_object = @survey
       when :public_show
         status &= (params[:public_link] && (@survey = Survey.find_by_public_link(params[:public_link])) &&
                    @survey.status == Survey::SurveyStatus::PUBLISHED)
       when :show, :edit
         status &= (@survey = Survey.find_by_id params[:id])
+        # For use in view helpers
+        @form_object = @survey
       when :create
         status &= params[:survey]
         if status

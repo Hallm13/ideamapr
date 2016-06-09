@@ -6,9 +6,9 @@ class SurveyQuestion < ActiveRecord::Base
     end
   end
 
-  def viewbox_list
+  def self.viewbox_list
     unless Struct.const_defined? 'SurveyQuestionVbStruct'
-      Struct.new('SurveyQuestionVbStruct', :partial_name, :title, :box_key, :shown, :expected_length) do
+      Struct.new('SurveyQuestionVbStruct', :partial_name, :title, :box_key, :shown, :expected_length, :help_text) do
         def initialize(*args)
           super
           @expected_length = args[3] if args.size > 3
@@ -20,28 +20,16 @@ class SurveyQuestion < ActiveRecord::Base
         end
       end
     end    
-    l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title', 10),
+    l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title', 10, 'Add a title for your survey'),
          Struct::SurveyQuestionVbStruct.new('add_question_type', 'Set Question Type', 'sq-question-type'),
          Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 15)]
 
     v = Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget')
     l.push v
-    # Don't show this box for new survey qns because budgeting is the not the default choice 
-    if id.nil? || question_type != QuestionType::BUDGETING
-      v.shown = false
-    end
 
     l += [Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas'),
           Struct::SurveyQuestionVbStruct.new('add_fields', 'Add Fields', 'sq-add-fields')]
     
-    # Show this box for new survey qns because idea choices are defaults
-    if question_type.present? and (question_type == QuestionType::RADIO_CHOICES || question_type == QuestionType::TEXT_FIELDS)
-      l[l.size-2].shown = false
-    end
-    
-    if id.nil? or (question_type != QuestionType::RADIO_CHOICES && question_type != QuestionType::TEXT_FIELDS)
-      l.last.shown = false
-    end
     
     l
   end

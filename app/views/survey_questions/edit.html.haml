@@ -10,7 +10,7 @@
   = hidden_field_tag :saved_question_type, (@question.id ? @question.question_type : '')
 
   - idx = 0
-  - @question.viewbox_list.each do |vb|
+  - SurveyQuestion.viewbox_list.each do |vb|
     - unless vb.partial_name == 'add_question_type' || !vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
       - idx += 1      
