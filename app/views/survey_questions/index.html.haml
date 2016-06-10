@@ -1,11 +1,7 @@
 .row
-  - if @survey
-    .text-center
-      Adding Questions to Survey #{@survey.title}
-  - else
-    %a{href: new_survey_question_url}        
-      %button.btn.btn-primary
-        = t(:add_button_text)
+  %a{href: new_survey_question_url}        
+    %button.btn.btn-primary
+      = t(:add_button_text)
 
 .entity-set
   .row.table-headers
@@ -26,10 +22,3 @@
         = SurveyQuestion::QuestionType.name(question.question_type) || 'Not set'
     .col-xs-2
       = edit_or_select(question)
-
-- if @survey
-  = form_tag "/surveys/#{@survey.id}", 'data-container-target' => 'survey' do
-    = hidden_field_tag "_method", "put"
-    = hidden_field_tag "redirect", "edit"
-    = submit_tag 'Finish', class: 'btn btn-primary', id: 'add-multi-select'
-

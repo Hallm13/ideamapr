@@ -12,8 +12,3 @@
       .col-xs-2
         = edit_or_select(idea)
 
-- if @question
-  = form_tag "/survey_questions/#{@question.id}", 'data-container-target' => 'survey_question' do
-    = hidden_field_tag "_method", "put"
-    = hidden_field_tag "redirect", "edit"
-    = submit_tag 'Finish', class: 'btn btn-primary', id: 'add-multi-select'
