@@ -32,6 +32,12 @@ class Survey < ActiveRecord::Base
     def self.max_type
       2
     end
+
+    def self.valid?(id)
+      id = id.to_i
+      [0, 1, 2].include? id
+    end
+    
     def self.option_array
       [['Draft', 0], ['Published', 1], ['Closed', 2]]
     end

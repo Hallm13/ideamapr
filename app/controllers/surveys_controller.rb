@@ -16,12 +16,11 @@ class SurveysController < ApplicationController
     @surveys = Survey.all
     if request.xhr?
       data = @surveys.map do |s|
-        {id: s.id, title: s.title, displayed_survey_status: Survey::SurveyStatus.name(s.status),
+        {id: s.id, title: s.title, status: s.status,
          survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}
       end
 
-      render json: ({data: data, allowed_states: Survey.new.status_enum})
-
+      render json: data
     else
       # Deliver custom Backbone app js 
       render :index, layout: 'survey_index_layout'
@@ -52,14 +51,19 @@ class SurveysController < ApplicationController
     set_dropdown
 
     saved = true
-    if request.xhr? && (x = Survey::SurveyStatus.id(params[:displayed_survey_status]))
-      @survey.update_attributes status: x
-    elsif params[:survey]
-      unless @survey.owner_id
+    if request.xhr? && Survey::SurveyStatus.valid?(params[:status])
+      @survey.update_attributes status: params[:status]
+    else 
+      if @survey.nil?
+        # This implies we are in the create action
+        @survey = Survey.new 
         # Only set owner when the survey is created.
         @survey.owner_id = current_admin.id
         @survey.owner_type = 'Admin'      
       end
+
+      attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
+      @survey.attributes= attrs
 
       sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
       if (saved = @survey.valid?)
@@ -113,18 +117,9 @@ class SurveysController < ApplicationController
         @form_object = @survey
       when :create
         status &= params[:survey]
-        if status
-          @survey = Survey.new 
-          attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
-          @survey.attributes= attrs
-        end
       when :update
         status &= params[:survey]
         status &= (@survey = Survey.find_by_id params[:id])
-        if status
-          attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
-          @survey.attributes= attrs
-        end
       end
     end
     

@@ -1,11 +1,9 @@
 funcs = ->
-  survey_list = new IdeaMapr.Models.SurveyIndexModel()
-  survey_list.fetch()
-      
+  survey_list = new IdeaMapr.Collections.SurveyIndexList()
   app = new IdeaMapr.Views.SurveyListAppView(
-    model: survey_list,
+    collection: survey_list,
     el: $('#survey-list-app'),
   )
-
+  survey_list.fetch()
       
 $(document).on('ready page:load', funcs)
