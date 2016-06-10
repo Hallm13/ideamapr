@@ -11,23 +11,18 @@ class SurveyQuestionsController < ApplicationController
   
   def index
     rendered = false
-    
-    if request.xhr?
-      # For non JSON requests, we need the @survey object for rendering purposes which is set
-      # in the before filter for JSON requests, for Backbone processing.
-      set = @survey&.survey_questions
-      set ||= {}
 
-      render json: set, include: [:ideas]
+    if @survey&.published? && !current_admin
+      @questions = @survey.survey_questions
     else
-      if @survey
-        excluded_ids = @survey.survey_questions.pluck(:id)
-        @questions = SurveyQuestion.where('id not in (?)', excluded_ids)
-      else
-        @questions = SurveyQuestion.all
-      end
-      render 'index'
+      @questions = SurveyQuestion.all
     end
+
+    if @survey
+      @excluded_qn_list = @survey.question_assignments.pluck(:survey_question_id, :ordering)
+    end
+    
+    render (request.xhr? ? ({json: json_payload}) : 'index')
   end
 
   def new
@@ -80,8 +75,9 @@ class SurveyQuestionsController < ApplicationController
       @question.set_default_prompt
     end
 
-    idea_ids = question_details = nil
+    idea_ids = question_details = nil    
     # We either got ideas or fields for a survey question
+
     if params[:question_details]
       component_array = (JSON.parse(params[:question_details]))['details']
       if @question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
@@ -155,12 +151,8 @@ class SurveyQuestionsController < ApplicationController
     when 'show'
       status &= params[:id] and (@question = SurveyQuestion.find_by_id params[:id])
     when 'index'
-      unless request.xhr?
-        status &= (params[:for_survey].nil? || (@survey = Survey.find_by_id(params[:for_survey])))
-        if params[:add_to_survey]
-          status &= (@survey = Survey.find_by_id params[:add_to_survey])
-        end
-      end
+      # We have already passed the public survey test which would have assigned @survey
+      status &= !@survey.nil? || (params[:for_survey].blank? || (@survey = Survey.find_by_id(params[:for_survey])))
     end
     
     if !status
@@ -182,5 +174,19 @@ class SurveyQuestionsController < ApplicationController
       else
         @question.idea_assignments.count
       end
+  end
+
+  def json_payload
+    # Create a payload, mainly for Backbone app consumption, that allows display in multiple sections
+
+    rev_index = @excluded_qn_list&.inject({}) do |memo, pair|
+      memo[pair[0]] = pair[1] # key = qn id; val = ordering
+      memo
+    end
+    
+    @questions.map do |qn|
+      {id: qn.id, title: qn.title}.merge(rev_index.nil? ? {} : {question_rank: rev_index[qn.id],
+                                                                is_assigned: rev_index.keys.include?(qn.id)})
+    end
   end
 end

@@ -1,4 +1,4 @@
-# Set the helper text for question types  
+# Set the helper text for question types
 window.set_prompt = (css_select) ->
   if typeof(window.cms_list) == 'undefined'
     window.cms_list = new IdeaMapr.Models.CmsList()
@@ -12,13 +12,13 @@ window.set_prompt = (css_select) ->
   else
     $.post('/ajax_api',
         'payload' : 'survey_question/get_prompt_map/'
-      (d, s, x) -> 
+      (d, s, x) ->
         window.prompt_map = d
         window.set_prompt(window.selector) # recursion
     )
 
 show_error_boxes = (arr_elts) ->
-  arr_elts.forEach (e, i) -> 
+  arr_elts.forEach (e, i) ->
     error_boxes = $(e).find('+ .error-box')
     if error_boxes.length == 0
       $(e).after($('<div>').addClass('error-box'))
@@ -75,7 +75,7 @@ functions = ->
       id = $(this).closest('.builder-box').find('.hidden').data('box-key')
   
       if help_box.text() == ''
-          help_box.text(window.cms_list.where({key: 'help_text_'+id})[0].get('cms_text'))
+        help_box.text(window.cms_list.where({key: 'help_text_'+id})[0].get('cms_text'))
       help_box.toggle()
       
 $(document).on('page:load ready', functions)

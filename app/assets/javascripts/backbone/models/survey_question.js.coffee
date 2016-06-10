@@ -3,6 +3,7 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
     answered: false
   urlRoot: '/survey_question',
     
+  make_example: ->
   getResponseData: ->
     obj =
       sqn_id: this.get('id')

@@ -4,14 +4,12 @@
       = "Edit #{@question.question_type_name} Question: #{@question.title}"
 #debug-message
         
-= form_tag("/survey_questions/#{@question.id || '0'}", method: :post, id: :container_update) do
+= form_tag("/survey_questions/#{@question.id || '0'}", method: :post, id: :survey_question_edit) do
   = hidden_field_tag '_method', 'put'        
   = hidden_field_tag :survey_question_id, (@question.id || 0)
   = hidden_field_tag :saved_question_type, (@question.id ? @question.question_type : '')
 
-  - idx = 0
   - SurveyQuestion.viewbox_list.each do |vb|
     - unless vb.partial_name == 'add_question_type' || !vb.shown
-      = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
-      - idx += 1      
+      = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}
   = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'

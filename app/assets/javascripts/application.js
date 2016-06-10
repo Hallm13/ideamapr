@@ -24,3 +24,4 @@
 //= require multi_select
 //= require survey_display
 //= require survey_question_edit
+//= require survey_edit

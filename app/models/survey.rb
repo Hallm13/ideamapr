@@ -69,6 +69,9 @@ class Survey < ActiveRecord::Base
   def has_state?(sym)
     Survey::SurveyStatus.const_defined?(sym.to_s.upcase) && status == "Survey::SurveyStatus::#{sym.upcase}".constantize
   end
+  def published?
+    has_state?(:published)
+  end
 
   def publish
     self.status = SurveyStatus::PUBLISHED

@@ -61,11 +61,10 @@
   cursor: pointer;
 }
 
-.idea-box {
+.question-box,.idea-box {
   padding: 10px 15px;
-  
-  .title-box {
-    display: inline-block;
-  }
+}  
+.title-box {
+  display: inline-block;
 }
 

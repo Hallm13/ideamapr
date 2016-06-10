@@ -2,12 +2,11 @@
   .col-xs-12
     Create Survey
     
-= form_tag("/surveys", method: :post, id: :container_update) do
-  - idx = 0
+= form_tag("/surveys", method: :post, id: :survey_new) do
+  = hidden_field_tag :survey_id, (@survey.id || '')
   - @survey.viewbox_list.each do |vb|
     - if vb.shown
-      = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb, box_index: idx}
-      - idx += 1      
-  = submit_tag 'Save', class: 'btn btn-primary', id: 'survey-save'
+      = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}
+  = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'
   %input{name: 'commit', value: 'Save And Add Questions', type: :submit, class: 'btn btn-primary', id: 'component-word'}
 
