@@ -38,6 +38,8 @@ module RelationalLogic
     if !should_delete
       existing_ids = obj.send("#{added_table}".to_sym).pluck(:id)
       add_ids = model_ids - existing_ids
+
+      #TODO - do something like remove_ids = existing_ids - model_ids; and use it to smartly remove existing assignments
     else
       current_obj_thru_recs.send(:all).send(:each) { |r| r.delete}
       add_ids = model_ids

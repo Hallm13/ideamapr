@@ -35,4 +35,8 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
     view_self.$('#status-change-dropdown').append dd_container
     for key of show_list_keys
       dd_container.append($('<div>').addClass('dd-choice').data('status-key', key).text(@allowed_list[key]))
+      
+    # Remove the public link if it's not published
+    if @model.get('status') != 1
+      @$el.find('#public-link').remove()
     @

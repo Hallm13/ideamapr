@@ -49,29 +49,22 @@ module SurveyQuestionsHelper
     end
   end
   
-  def edit_or_select(q_or_i)
+  def edit_view_icons(q_or_i)
     @curr_obj = q_or_i
     @target_obj = (q_or_i.is_a?(Idea)) ? 'idea' : 'survey_question'
     
     output = '<div class="cell-1">'
 
-    in_select = ((params[:controller] == 'survey_questions' && !@survey.nil?) or
-      (params[:controller] == 'ideas' && !@question.nil?))
-
-    output += set_icon(:select, in_select) + set_icon(:edit, in_select) + set_icon(:view, in_select) 
+    output += set_icon(:edit) + set_icon(:view) 
 
     output += '</div>'
     raw output
   end
 
-  def set_icon(type, in_select)
+  def set_icon(type)
     output = ''
-    output += "<i class='fa fa-#{fa_symbol[type]}"
-    active = (in_select && type == :select) || (!in_select && type!= :select)
-
-    output += active ? ' active-icon' : ' inactive-icon'
-    output += "' data-action-target='#{action_target[type]}'></i>"
-
+    output += "<i class='fa fa-#{fa_symbol[type]} active-icon' "
+    output += "data-action-target='#{action_target[type]}'></i>"
     
     output
   end

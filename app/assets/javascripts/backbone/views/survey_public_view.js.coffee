@@ -1,10 +1,11 @@
 IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
   initialize: ->
     _.bindAll(this, 'render')
-    this.listenTo(this, "questions_set", this.render)
-    this.listenTo(this.collection, "sync", this.set_questions)
-    this.listenTo(this.model, "survey:selection_changed", this.change_hidden_class)
-    this.screens =
+    @listenTo(@, "questions_set", @render)
+    @listenTo(@collection, "sync", @set_questions)
+    @listenTo(@model, "survey:selection_changed", @change_hidden_class)
+
+    @screens =
       0: '#welcome-screen'
       
     this
@@ -23,72 +24,64 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
   events:
     'click #save-response': (evt) ->
       obj =
-        responses: this.collection.map (elt, idx) ->
+        responses: @collection.map (elt, idx) ->
           elt.getResponseData()
 
       sid = $('#survey_id').data('survey-id')
       obj['survey_id'] = sid
       obj['cookie_key'] = $('#cookie_key').val()
-      this.handle_post(obj)
+      @handle_post(obj)
 
   handle_toggle: (tgt) ->
+    # tgt will be a string for the first and last strings
     if typeof(tgt) == 'string'
       $(tgt).toggle()
     else
       tgt.toggle_view()
       
   change_hidden_class: ->
-    hide_target =  this.screens[this.model.get('previous_selection')]
-    show_target =  this.screens[this.model.get('selected_screen')]
-    this.handle_toggle hide_target
-    this.handle_toggle show_target
-    this
+    @handle_toggle @screens[@model.get('previous_selection')]
+    @handle_toggle @screens[@model.get('current_question')]
+    @
 
   render: ->
-    # App contains many questions, based on the sqn collection it has
     # Render is triggered after all the survey question screens have been initialized
-    
     view_self = this
     navbar_view = new IdeaMapr.Views.SurveyNavbarView
-      collection: this.collection
-      model: this.model
+      collection: @collection
+      model: @model
       
-    this.$('#survey-navbar').append(navbar_view.render().el)
+    @$('#survey-navbar').append(navbar_view.render().el)
 
-    intro_html = _.template($('#survey-intro-template').html())(this.model.attributes)
-    this.$('#survey-intro').html intro_html
-    thankyou_html = _.template($('#survey-thankyou-template').html())(this.model.attributes)
-    this.$('#survey-thankyou').html thankyou_html
+    intro_html = _.template($('#survey-intro-template').html())(@model.attributes)
+    @$('#survey-intro').html intro_html
+    @screens[0] = '#survey-intro' # The underlying logic is smart and will use the selector when its there to toggle.
     
-    this
+    thankyou_html = _.template($('#survey-thankyou-template').html())(@model.attributes)
+    @$('#survey-thankyou').html thankyou_html
+    
+    @
 
   set_questions: ->
-    # A different question view is created and appended
+    # A question view object is created and appended
     # To the public survey, for each type of question retrieved
     
-    view_self = this
-    this.collection.each (question_object, idx) ->
-      switch question_object.get('question_type')
-        when 0  # Pro/Con
-          c = new IdeaMapr.Collections.ProConIdeaCollection(question_object.attributes.ideas)
-          sq_view = new IdeaMapr.Views.SQProConView
-            model: question_object
-            collection: c
-        when 1 # Ranking
-          c = new IdeaMapr.Collections.RankedIdeaCollection(question_object.attributes.ideas)
-          c.post_initialize()
-          sq_view = new IdeaMapr.Views.SQRankingView
-            model: question_object
-            collection: c
+    view_self = @
+    @question_count = 0
+    @collection.each (question_object, idx) ->
+      sq_view = new IdeaMapr.Views.SurveyQuestionView
+        model: question_object
 
       # the first screen is the intro screen - the rest are questions
       view_self.screens[1 + idx] = sq_view
-      view_self.question_count = 1 +idx
+      view_self.question_count += 1
       view_self.$('#sq-list').append(sq_view.render().el)
-      
-    this.screens[1 + this.question_count] = '#thankyou-screen'
-    this.trigger 'questions_set'
+
+    # One screen for each qn + intro + thank you
+    @model.set('number_of_screens', 2 + @question_count)
+    @screens[1 + @question_count] = '#survey-thankyou' # This selector is used to make the thank you screen in initialize().
+    @trigger 'questions_set'
     
   append_qn_template: (view) ->
-    this.$el.append view.render().el
+    @$el.append view.render().el
 

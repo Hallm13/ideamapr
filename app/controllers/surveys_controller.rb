@@ -16,7 +16,7 @@ class SurveysController < ApplicationController
     @surveys = Survey.all
     if request.xhr?
       data = @surveys.map do |s|
-        {id: s.id, title: s.title, status: s.status,
+        {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
          survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}
       end
 
@@ -57,7 +57,8 @@ class SurveysController < ApplicationController
       if @survey.nil?
         # This implies we are in the create action
         @survey = Survey.new 
-        # Only set owner when the survey is created.
+        # Only set owner and draft status when the survey is created.
+        @survey.status = 0        
         @survey.owner_id = current_admin.id
         @survey.owner_type = 'Admin'      
       end
@@ -65,10 +66,10 @@ class SurveysController < ApplicationController
       attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
       @survey.attributes= attrs
 
-      sqn_ids = params[:survey][:components]&.map { |i| i.to_i} || []
+      sqn_ids = params[:question_list].nil? ? [] :
+                  (JSON.parse(params[:question_list])).map { |hash| hash['id'].to_i}
       if (saved = @survey.valid?)
         ActiveRecord::Base.transaction do
-          @survey.status ||= 0
           saved &= @survey.save
           saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
         end
@@ -80,8 +81,9 @@ class SurveysController < ApplicationController
   
   private
   def render_json_payload
-    render json: (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').
-                   merge({number_of_screens: 2 + @survey.survey_questions.count}))
+    json = (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').
+             merge({number_of_screens: 2 + @survey.survey_questions.count}))    
+    render json: json
   end
   
   def create_survey_qn_array

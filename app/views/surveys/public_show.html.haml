@@ -12,12 +12,13 @@
 %script#survey-intro-template{type: 'text/template'}
   .screen#welcome-screen
     .row
-      .col-xs-12
+      .col-xs-offset-3.col-xs-6
         .public-title
           Introduction
     .row       
-      .col-xs-offset-2.col-xs-8.public-body
-        <%- introduction %>
+      .col-xs-offset-2.col-xs-8
+        .public-body
+          <%- introduction %>
 %script#survey-thankyou-template{type: 'text/template'}
   .screen#thankyou-screen
     .row
@@ -27,7 +28,8 @@
     .row       
       .col-xs-offset-2.col-xs-8.public-body
         <%- thankyou_note %>
-      
+
+// navbar template
 %script#survey-nb-template{type: 'text/template'}
   .row.survey-nb-row
     .col-xs-offset-3.col-xs-6
@@ -35,7 +37,7 @@
         .col-xs-4#go-left.active
           Previous
         .col-xs-4#current-question
-          <%- current_question_index %> of <%- total_questions %> Questions
+          <%- current_question_index %> of <%- total_screens %> steps
         .col-xs-4#go-right.active
           Next
           

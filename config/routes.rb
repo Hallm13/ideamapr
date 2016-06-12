@@ -13,11 +13,10 @@ IdeaMapr::Application.routes.draw do
   resources :surveys do
     collection do
       post '/update', action: 'update'
+      get '/public_show/:public_link', action: 'public_show', as: 'public_show'
     end
   end
-  resource :survey do
-    get '/public_show/:public_link', action: 'public_show', as: 'public_show'
-  end
+  
   post '/ajax_api' => 'ajax#multiplex'
   get '/ajax_api' => 'ajax#multiplex'
   

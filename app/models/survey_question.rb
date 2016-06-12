@@ -54,12 +54,12 @@ class SurveyQuestion < ActiveRecord::Base
     end
     
     def self.prompts
-      {'Pro/Con' => 'Supply pros and cons for these ideas',
-       'Ranking' => 'Rank these ideas in order of importance',
-       'Budgeting' => 'Perform a budgeting exercise with these ideas',
-       'Top Priority' => 'Tell us which idea you pick as the top priority',
-       'Non-idea: Radio' => 'Select one of the following.',
-       'Non-idea: Fields' => 'Fill in the following fields.'
+      {0 => 'Supply pros and cons for these ideas',
+       1 => 'Rank these ideas in order of importance',
+       3 => 'Perform a budgeting exercise with these ideas',
+       4 => 'Tell us which idea you pick as the top priority',
+       5 => 'Select one of the following.',
+       6 => 'Fill in the following fields.'
       }
     end
     
@@ -74,15 +74,11 @@ class SurveyQuestion < ActiveRecord::Base
     end
 
     def self.default_prompt(id)
-      (_n = name(id)) ? prompts[_n] : nil
+      prompts[id]
     end
     
     def self.name(id)
-      if id.nil?
-        nil
-      else
-        option_array.select { |i| i[1] == id }.first&.first
-      end
+      option_array.select { |i| i[1] == id }.first&.first
     end
   end
   

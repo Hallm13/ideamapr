@@ -21,6 +21,6 @@
 //= require backbone/idea_mapr
 //= require everything
 //= require forms
-//= require survey_display
+//= require survey_public_display
 //= require survey_question_edit
 //= require survey_edit

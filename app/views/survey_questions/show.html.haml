@@ -8,6 +8,10 @@
     Question Type
   .field-value
     #{SurveyQuestion::QuestionType.name(@question.question_type)}
+  .field-title
+    Question Prompt
+  .field-value
+    #{@question.question_prompt}
   - if @question.question_type_name == 'Budgeting'
     .field-title
       Question Budget
