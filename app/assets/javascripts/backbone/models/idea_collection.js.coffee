@@ -39,10 +39,10 @@ IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
     
   urlRoot: '/ideas',
   url: ->
-    if typeof @survey_id == 'undefined'
-      @urlRoot + '?for_survey_question=' + @survey_question_id
+    if typeof @survey_token != 'undefined'
+      @urlRoot + '?for_survey=' + @survey_token
     else
-      @urlRoot + '?for_survey=' + @survey_id
+      @urlRoot + '?for_survey_question=' + @survey_question_id
 
   comparator: (m) ->
     m.get('idea_rank')

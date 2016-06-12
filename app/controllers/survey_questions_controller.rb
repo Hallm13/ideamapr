@@ -1,7 +1,5 @@
 class SurveyQuestionsController < ApplicationController
   include RelationalLogic
-  include PublishedDataChecks
-
   before_action :set_menubar_variables
   before_action :set_public_survey_or_admin!
   before_action :params_check
@@ -152,7 +150,7 @@ class SurveyQuestionsController < ApplicationController
       status &= params[:id] and (@question = SurveyQuestion.find_by_id params[:id])
     when 'index'
       # We have already passed the public survey test which would have assigned @survey
-      status &= !@survey.nil? || (params[:for_survey].blank? || (@survey = Survey.find_by_id(params[:for_survey])))
+      status &= @survey.present? || (params[:for_survey].blank? || (@survey = Survey.find_by_id(params[:for_survey])))
     end
     
     if !status
@@ -190,4 +188,35 @@ class SurveyQuestionsController < ApplicationController
                                      is_assigned: rev_index.keys.include?(qn.id)})
     end
   end
+  
+  def set_public_survey_or_admin!
+    # Published surveys can have their questions revealed
+    # if the survey's token is presented (via JSON)
+
+    if params[:for_survey].nil?
+      return authenticate_admin!
+    end
+    
+    if request.xhr?
+      s = Survey.find_by_public_link(params[:for_survey])
+      if s && s.status == Survey::SurveyStatus::PUBLISHED
+        @survey = s
+        Rails.logger.debug 'Found public survey for sq index'
+        return true
+      end
+
+      if s.nil?
+        s = Survey.find_by_id params[:for_survey]
+      end
+      if s.nil?
+        # if the survey can't be found, it doesn't matter who's logged in
+        return false
+      end
+    else
+      s = Survey.find_by_id(params[:for_survey]) || Survey.find_by_public_link(params[:for_survey])
+    end
+    
+    @survey = s
+    authenticate_admin!
+  end  
 end

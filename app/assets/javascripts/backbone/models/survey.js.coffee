@@ -1,7 +1,26 @@
 IdeaMapr.Models.Survey = Backbone.Model.extend
   initialize: ->
     @listenTo(this, 'survey:recrement_question', @recrement_selection)
+    @listenTo(@, 'sync', _.once(@fetch_idea_lists))
+        
+  fetch_idea_lists: ->
+    # This is triggered when the sync is done the first time, in order to fetch ideas.
+    @idea_list = new IdeaMapr.Models.IdeaListOfLists()
+    @idea_list.survey_token = @.get('public_link')
+    @idea_list.fetch
+      success: @populate_idea_collections
 
+  populate_idea_collections: (model, response, options) ->
+    # Survey takes the list of idea lists and stores them in an array to communicate to the individual
+    # Survey questions - is this too complicated?
+
+    model_self = @
+    @idea_lists = []
+    _.each(model.get('list_of_lists'), (idealist) ->
+      model_self.idea_lists.push new IdeaMapr.Collections.IdeaCollection(idealist)
+    )
+    @
+    
   defaults: ->
     current_question: 0
     public_link: 'none'

@@ -1,18 +1,29 @@
 class IdeasController < ApplicationController
-  include PublishedDataChecks
-
   before_action :set_menubar_variables
-  before_action :set_public_survey_or_admin!
   before_action :params_check
 
   def new
     @level2_menu = :create_idea
   end
   
-  def index
+  def double_bundle
     if params[:for_survey]
-      @all_ideas = @survey.survey_questions.order(created_at: :desc).first.ideas.order(created_at: :desc)
-    elsif params[:for_survey_question]
+      # This is going to be a list of lists ... for a survey ... so it has to be returned as if it's a
+      # model. All ideas for a survey - would an admin ever ask for this? TODO
+      list_of_lists = @survey.question_assignments.order(:ordering).map do |sq_assign|
+        # TODO this is _so_ inefficient. N+1 queries, etc.
+        sq = sq_assign.survey_question
+        ideas = Idea.where('id in (?)', sq.idea_assignments.order(:ordering).pluck(:idea_id))
+      end
+      @all_ideas = {list_of_lists: list_of_lists}
+    else
+      @all_ideas = {list_of_lists: []}
+    end
+    render (request.xhr? ? ({json: @all_ideas}) : ('index'))    
+  end
+  
+  def index
+    if params[:for_survey_question]
       # To index by a survey question, you need to have provided the survey also unless you are an admin
       if current_admin || @survey.questions.include?(@question)
         @all_ideas = Idea.all
@@ -77,8 +88,11 @@ class IdeasController < ApplicationController
       status &= (params[:id].present? and @idea=Idea.find_by_id(params[:id]))
       # For use in view helpers
       @form_object = @idea
+    when :double_bundle
+      status &= (params[:for_survey].present? &&
+                 (@survey = Survey.find_by_public_link(params[:for_survey])) &&
+                 (@survey.published? || current_admin))
     when :index
-      status &= (params[:for_survey].nil? || (@survey = Survey.find_by_id(params[:for_survey])))
       status &= (params[:for_survey_question].nil? || params[:for_survey_question].to_i == 0 ||
                  (@question = SurveyQuestion.find_by_id(params[:for_survey_question])))
     when :create, :update
