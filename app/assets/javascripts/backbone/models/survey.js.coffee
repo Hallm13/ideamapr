@@ -1,6 +1,7 @@
 IdeaMapr.Models.Survey = Backbone.Model.extend
   initialize: ->
-    @listenTo(this, 'survey:recrement_question', @recrement_selection)
+    _.bindAll(@, 'populate_idea_collections')
+    @listenTo(@, 'survey:recrement_question', @recrement_selection)
     @listenTo(@, 'sync', _.once(@fetch_idea_lists))
         
   fetch_idea_lists: ->
@@ -19,6 +20,8 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     _.each(model.get('list_of_lists'), (idealist) ->
       model_self.idea_lists.push new IdeaMapr.Collections.IdeaCollection(idealist)
     )
+
+    @trigger('survey:has_ideas')
     @
     
   defaults: ->

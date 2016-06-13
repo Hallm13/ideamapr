@@ -13,7 +13,16 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
       @$el.addClass 'myhidden'
       
   render: ->
-    sq_html =  _.template($('#survey-question-template').html())(@model.attributes)
+    data = @model.attributes
+    sq_html =  _.template($('#survey-question-template').html())(data)
     @$el.html sq_html
     
     @    
+
+  append_idea_template: (idea_coll) ->
+    console.log('Recd: ' + idea_coll.models.length)
+    idea_list_view = new IdeaMapr.Views.PublicIdeaListView
+      collection: idea_coll
+    idea_list_view.question_type = @model.get('question_type')
+      
+    @$('#idea-list').append(idea_list_view.render().el)

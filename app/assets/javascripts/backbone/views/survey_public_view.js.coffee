@@ -1,15 +1,22 @@
 IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
   initialize: ->
     _.bindAll(this, 'render')
-    @listenTo(@, "questions_set", @render)
+
+    @listenTo(@, "semaphore_set", @render)
     @listenTo(@collection, "sync", @set_questions)
     @listenTo(@model, "survey:selection_changed", @change_hidden_class)
-
+    @listenTo(@model, 'survey:has_ideas', @semaphore_increment, 'survey')
+    
     @screens =
       0: '#welcome-screen'
-      
-    this
+    @semaphore_value = 0
+    @
 
+  semaphore_increment: (type) ->
+    @semaphore_value += 1
+    if @semaphore_value == 2
+      @trigger('semaphore_set')
+      
   handle_post: (obj) ->
     $.ajax
       type: 'PUT'
@@ -46,6 +53,8 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
 
   render: ->
     # Render is triggered after all the survey question screens have been initialized
+    # This is only triggered after both sqns and ideas have been fetched.
+    
     view_self = this
     navbar_view = new IdeaMapr.Views.SurveyNavbarView
       collection: @collection
@@ -56,7 +65,10 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     intro_html = _.template($('#survey-intro-template').html())(@model.attributes)
     @$('#survey-intro').html intro_html
     @screens[0] = '#survey-intro' # The underlying logic is smart and will use the selector when its there to toggle.
-    
+
+    _.each(i for i in [0..@question_count-1], (i) ->
+      view_self.screens[i+1].append_idea_template(view_self.model.idea_lists[i])
+    )
     thankyou_html = _.template($('#survey-thankyou-template').html())(@model.attributes)
     @$('#survey-thankyou').html thankyou_html
     
@@ -80,8 +92,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     # One screen for each qn + intro + thank you
     @model.set('number_of_screens', 2 + @question_count)
     @screens[1 + @question_count] = '#survey-thankyou' # This selector is used to make the thank you screen in initialize().
-    @trigger 'questions_set'
+    @semaphore_increment('sq')
     
   append_qn_template: (view) ->
     @$el.append view.render().el
-
