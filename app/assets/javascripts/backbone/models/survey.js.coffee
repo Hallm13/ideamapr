@@ -17,8 +17,11 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
 
     model_self = @
     @idea_lists = []
-    _.each(model.get('list_of_lists'), (idealist) ->
-      model_self.idea_lists.push new IdeaMapr.Collections.IdeaCollection(idealist)
+    _.each(model.get('list_of_lists'), (component_hash) ->
+      if component_hash['type'] == 'idea'
+        model_self.idea_lists.push new IdeaMapr.Collections.IdeaCollection(component_hash['data'])
+      else
+        model_self.idea_lists.push new IdeaMapr.Collections.DetailsCollection(component_hash['data'])
     )
 
     @trigger('survey:has_ideas')

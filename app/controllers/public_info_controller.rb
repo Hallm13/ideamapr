@@ -8,7 +8,12 @@ class PublicInfoController < ApplicationController
       list_of_lists = @survey.question_assignments.order(:ordering).map do |sq_assign|
         # TODO this is _so_ inefficient. N+1 queries, etc.
         sq = sq_assign.survey_question
-        ideas = Idea.where('id in (?)', sq.idea_assignments.order(:ordering).pluck(:idea_id))
+        if sq.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
+           sq.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
+          {type: 'detail', data: sq.question_detail.details_list}
+        else
+          {type: 'idea', data: Idea.where('id in (?)', sq.idea_assignments.order(:ordering).pluck(:idea_id))}
+        end
       end
       @all_ideas = {list_of_lists: list_of_lists}
     else
