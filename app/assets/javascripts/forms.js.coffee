@@ -45,7 +45,12 @@ window.run_validations = ->
   else
     true
 
-functions = ->
+forms_functions = ->
+  $('.active-icon').click (evt) ->
+    evt.stopPropagation()
+    url = $(evt.target).data('action-target')
+    window.location.href = url
+    
   $('.validated-box').focus (evt) ->
     $('.error-box').hide('medium')
     
@@ -78,5 +83,5 @@ functions = ->
         help_box.text(window.cms_list.where({key: 'help_text_'+id})[0].get('cms_text'))
       help_box.toggle()
       
-$(document).on('page:load ready', functions)
+$(document).on('page:load ready', forms_functions)
 

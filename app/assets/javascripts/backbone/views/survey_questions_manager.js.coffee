@@ -25,15 +25,13 @@ IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
     @
 
   redistribute: (m) ->
-    # Move the model into or out of the assigned idea list, and re-distribute ranks
+    # Move the model into or out of the assigned question list, and re-distribute ranks
     if m.get('promoted') == 1
-      m.set('ranking', @assigned_collection.models.length)
+      m.set('question_rank', @assigned_collection.models.length)
       @assigned_collection.add m      
       @selected_view.example_count -= 1
       @search_view.added_count += 1
       @to_search_collection.remove m
-      m.set('promoted', 0)
-      @render()
     else if m.get('promoted') == -1
       # It came from the assigned list
       @to_search_collection.add m
@@ -41,8 +39,10 @@ IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
       @assigned_collection.reset_ranks()
       @selected_view.example_count += 1
       @search_view.added_count -= 1
-      m.set('promoted', 0)
+      
+    unless m.get('promoted') == 0
       @render()
+      m.set('promoted', 0)
     
   distribute: (opts) ->
     # Now I have the questions, they have to be assigned to the two avlbl views

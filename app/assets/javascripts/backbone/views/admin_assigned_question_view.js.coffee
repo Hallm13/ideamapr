@@ -1,5 +1,4 @@
 # It could be possible to rename this parent class into a generic name.
-
 IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   className: 'col-xs-12 question-box',
   tagName: 'div',
@@ -36,7 +35,7 @@ IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEdit
     @
 
   render: ->
-    template_id = '#survey-question-list-template'
+    template_id = '#survey-question-template'
     html = _.template($(template_id).html())(@model.attributes)
     @$el.html html
 
@@ -47,6 +46,6 @@ IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEdit
     down_div = $('<div>').attr('id', 'move-down').addClass('control-icon')
     
     control_div.append(up_div).append(out_div).append(down_div)
-    @$el.find('.idea-row').prepend(control_div)
+    @$el.find('.question-row').prepend(control_div)
     
     @

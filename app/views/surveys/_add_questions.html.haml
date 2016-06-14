@@ -7,9 +7,11 @@
     <%- title %>
   %span.square-button.green
     +
-%script{type: 'text/template', id: 'survey-question-list-template'}
-  .title-box
-    <%- title %>
+%script{type: 'text/template', id: 'survey-question-template'}
+  .question-row
+    .title-box
+      <%- title %>
+    
 %script#admin-search-question-list{type: 'text/template'}
   .row
     .col-xs-12

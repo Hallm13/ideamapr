@@ -1,46 +1,27 @@
 class IdeasController < ApplicationController
   before_action :set_menubar_variables
+  before_action :authenticate_admin!
   before_action :params_check
 
   def new
     @level2_menu = :create_idea
   end
-  
-  def double_bundle
-    if params[:for_survey]
-      # This is going to be a list of lists ... for a survey ... so it has to be returned as if it's a
-      # model. All ideas for a survey - would an admin ever ask for this? TODO
-      list_of_lists = @survey.question_assignments.order(:ordering).map do |sq_assign|
-        # TODO this is _so_ inefficient. N+1 queries, etc.
-        sq = sq_assign.survey_question
-        ideas = Idea.where('id in (?)', sq.idea_assignments.order(:ordering).pluck(:idea_id))
-      end
-      @all_ideas = {list_of_lists: list_of_lists}
-    else
-      @all_ideas = {list_of_lists: []}
-    end
-    render (request.xhr? ? ({json: @all_ideas}) : ('index'))    
-  end
-  
+    
   def index
     if params[:for_survey_question]
-      # To index by a survey question, you need to have provided the survey also unless you are an admin
-      if current_admin || @survey.questions.include?(@question)
-        @all_ideas = Idea.all
-        selected_idea_assignments = if params[:for_survey_question].to_i == 0
-                           # new survey questions have no ideas
-                           []
-                         else
-                           @question.idea_assignments.pluck(:idea_id, :ordering)
-                         end
-        existing_ids = selected_idea_assignments.inject({}) { |memo, pair| memo[pair[0]] = pair[1]; memo; }
-                             
-        @all_ideas = @all_ideas.map do |i|
-          {id: i.id, title: i.title, description: i.description}.merge({is_assigned: existing_ids.keys.include?(i.id),
-                                                                        idea_rank: existing_ids[i.id]})
+      @all_ideas = Idea.all
+      selected_idea_assignments =
+        if params[:for_survey_question].to_i == 0
+          # new survey questions have no ideas
+          []
+        else
+          @question.idea_assignments.pluck(:idea_id, :ordering)
         end
-      else
-        @all_ideas = []
+      existing_ids = selected_idea_assignments.inject({}) { |memo, pair| memo[pair[0]] = pair[1]; memo; }
+                             
+      @all_ideas = @all_ideas.map do |i|
+        {id: i.id, title: i.title, description: i.description}.merge({is_assigned: existing_ids.keys.include?(i.id),
+                                                                      idea_rank: existing_ids[i.id]})
       end
     else
       # There is neither a survey or an SQ specified in the params, to key ideas against

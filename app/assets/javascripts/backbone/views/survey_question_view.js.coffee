@@ -20,7 +20,6 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
     @    
 
   append_idea_template: (idea_coll) ->
-    console.log('Recd: ' + idea_coll.models.length)
     idea_list_view = new IdeaMapr.Views.PublicIdeaListView
       collection: idea_coll
     idea_list_view.question_type = @model.get('question_type')

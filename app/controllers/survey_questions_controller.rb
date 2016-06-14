@@ -181,12 +181,13 @@ class SurveyQuestionsController < ApplicationController
       memo[pair[0]] = pair[1] # key = qn id; val = ordering
       memo
     end
-    
-    @questions.map do |qn|
+
+    jp = @questions.map do |qn|
       {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type}.
         merge(rev_index.nil? ? {} : {question_rank: rev_index[qn.id],
                                      is_assigned: rev_index.keys.include?(qn.id)})
     end
+    jp
   end
   
   def set_public_survey_or_admin!

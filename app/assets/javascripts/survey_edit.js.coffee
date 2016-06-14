@@ -5,7 +5,7 @@ functions = ->
 
     # Init Backbone apps
     questions = new IdeaMapr.Collections.SurveyQuestionCollection()
-    questions.survey_id = survey_id
+    questions.survey_token = survey_id
     window.sq_list = new IdeaMapr.Views.SurveyQuestionsManager
       collection: questions
       el: $('#question-list-app')
