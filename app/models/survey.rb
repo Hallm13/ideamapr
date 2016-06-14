@@ -71,7 +71,9 @@ class Survey < ActiveRecord::Base
   belongs_to :owner, polymorphic: true, inverse_of: :surveys
   
   has_secure_token :public_link
-
+  has_many :responses, dependent: :destroy
+  has_many :individual_answers, foreign_key: :survey_public_link, primary_key: :public_link, dependent: :destroy
+  
   def has_state?(sym)
     Survey::SurveyStatus.const_defined?(sym.to_s.upcase) && status == "Survey::SurveyStatus::#{sym.upcase}".constantize
   end

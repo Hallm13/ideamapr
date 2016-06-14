@@ -17,6 +17,7 @@ class SurveysController < ApplicationController
     if request.xhr?
       data = @surveys.map do |s|
         {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
+         individual_answer_count: s.individual_answers.count,
          survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}
       end
 

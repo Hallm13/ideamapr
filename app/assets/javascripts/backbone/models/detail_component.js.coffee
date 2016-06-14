@@ -18,3 +18,7 @@ IdeaMapr.Models.DetailComponent = Backbone.Model.extend
       @.set('is_edited', false)
       @.set('ready_for_render', @.get('ready_for_render') + 1)
     
+  response_data: ->
+    _.keys(@.attributes['response_data'])
+  set_response_data: (type, data) ->
+    @.attributes['response_data'][type] = data

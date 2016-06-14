@@ -1,7 +1,7 @@
 IdeaMapr.Models.Idea = Backbone.Model.extend
   defaults: ->
-    pro: 0
-    con: 0
+    response_data:
+      answered: false
     title: null
     promoted: 0
     ranked: 0
@@ -20,20 +20,19 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     if type == 'pro' || type == 'con'
       this.set(type, this.get(type) + 1)
 
-  getResponseData: ->
-    if this.qn_type == 0 # pro/con
-      obj =
-        pro: this.get('pro')
-        con: this.get('con')
-    else if this.qn_type == 1 # ranking
-      obj =
-        rank: this.get('idea_rank')
-
-    obj['idea_id'] = this.get('id')
-    obj
     
   shown_rank: ->
     if this.get('idea_rank') < 0
       return ''
     else
       return this.get('idea_rank')
+      
+  response_data: ->
+    rd = @.attributes['response_data']
+    rd['idea_id'] = @get('id')
+    rd
+      
+  set_response_data: (type, data) ->
+    @.attributes['response_data']['answered'] = true
+    @.attributes['response_data'][type] = data
+

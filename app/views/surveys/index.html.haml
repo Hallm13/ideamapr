@@ -10,7 +10,7 @@
     .col-xs-2
       Status
     .col-xs-2
-      Completed Surveys
+      Indiv Answers Submitted
     .col-xs-2
       Completion Rate
 
@@ -28,7 +28,7 @@
       %i.fa.fa-chevron-down
   .col-xs-2
     .cell-1
-      560
+      <%- individual_answer_count %>
   .col-xs-2
     .cell-1
       %a{href: "/surveys/public_show/<%- public_link %>".html_safe, id: 'public-link'}

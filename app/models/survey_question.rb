@@ -98,6 +98,13 @@ class SurveyQuestion < ActiveRecord::Base
     self.question_prompt = QuestionType.default_prompt(question_type)
   end
 
+  def response_length
+    # Number of idea assignments or details
+    idea_ct = idea_assignments.count
+    details_length = question_detail&.details_list&.size || 0
+    [idea_ct, details_length].max
+  end
+
   rails_admin do
     compact_show_view=false
     object_label_method do

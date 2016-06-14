@@ -17,28 +17,6 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     if @semaphore_value == 2
       @trigger('semaphore_set')
       
-  handle_post: (obj) ->
-    $.ajax
-      type: 'PUT'
-      url: '/survey_responses/0'
-      contentType: 'application/json'
-      data: JSON.stringify(obj)
-      success: (d, s, x) ->
-        a = 1+2
-        window.location.href = '/survey/thank_you'        
-        # what is this
-      
-  events:
-    'click #save-response': (evt) ->
-      obj =
-        responses: @collection.map (elt, idx) ->
-          elt.getResponseData()
-
-      sid = $('#survey_id').data('survey-id')
-      obj['survey_id'] = sid
-      obj['cookie_key'] = $('#cookie_key').val()
-      @handle_post(obj)
-
   handle_toggle: (tgt) ->
     # tgt will be a string for the first and last strings
     if typeof(tgt) == 'string'

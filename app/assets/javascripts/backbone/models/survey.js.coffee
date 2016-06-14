@@ -19,9 +19,13 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     @idea_lists = []
     _.each(model.get('list_of_lists'), (component_hash) ->
       if component_hash['type'] == 'idea'
-        model_self.idea_lists.push new IdeaMapr.Collections.IdeaCollection(component_hash['data'])
+        ic = new IdeaMapr.Collections.IdeaCollection(component_hash['data'])
+        ic.survey_token = model_self.get('public_link')
+        model_self.idea_lists.push ic
       else
-        model_self.idea_lists.push new IdeaMapr.Collections.DetailsCollection(component_hash['data'])
+        dc = new IdeaMapr.Collections.DetailsCollection(component_hash['data'])
+        dc.survey_token = model_self.get('public_link')
+        model_self.idea_lists.push dc
     )
 
     @trigger('survey:has_ideas')
