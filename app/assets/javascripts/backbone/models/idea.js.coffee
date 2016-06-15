@@ -1,5 +1,6 @@
 IdeaMapr.Models.Idea = Backbone.Model.extend
   defaults: ->
+    answered: false
     response_data:
       answered: false
     title: null
@@ -33,6 +34,7 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     rd
       
   set_response_data: (type, data) ->
+    @.set('answered', true)
     @.attributes['response_data']['answered'] = true
     @.attributes['response_data'][type] = data
 

@@ -1,10 +1,24 @@
 IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
+  initialize: ->
+    coll_self = @
+    @listenTo(@, 'change:answered', (model) ->
+      @.trigger('survey_question_collection:received_answer')
+    )
+    
+  urlRoot: '/survey_questions',
+  url: ->
+    if typeof @survey_token == 'undefined'
+      @urlRoot
+    else
+      @urlRoot + '?for_survey=' + @survey_token
+
+  model: IdeaMapr.Models.SurveyQuestion
   reset_ranks: ->
     start = 1
     _.each(@models, (m) ->
       m.set('question_rank', start)
       start += 1
-    )  
+    )
   append_rank: (m) ->
     m.set('question_rank', @models.length)
     
@@ -32,20 +46,11 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
         if fix_model != null
           m.set('question_rank', fix_model.get('question_rank'))
           fix_model.set('question_rank', change_model.get('question_rank') + 1)
-          fix_model = null          
+          fix_model = null
     )
     @.sort()
     @
     
-  urlRoot: '/survey_questions',
-  url: ->
-    if typeof @survey_token == 'undefined'
-      @urlRoot
-    else
-      @urlRoot + '?for_survey=' + @survey_token
-
   comparator: (m) ->
     m.get('question_rank')
-        
-  model: IdeaMapr.Models.SurveyQuestion
 

@@ -1,5 +1,6 @@
 IdeaMapr.Models.DetailComponent = Backbone.Model.extend
   defaults:
+    answered: false
     text: 'Click to Add'
     is_edited: false
     ready_for_render: 0
@@ -27,6 +28,7 @@ IdeaMapr.Models.DetailComponent = Backbone.Model.extend
     rd
 
   set_response_data: (type, data) ->
+    @.set('answered', true)
     @.attributes['response_data']['answered'] = true
     @.attributes['response_data'][type] = data
     if type == 'checked' and data == true

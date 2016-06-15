@@ -8,6 +8,11 @@ IdeaMapr.Collections.DetailsCollection = Backbone.Collection.extend
     @listenTo(@, 'change:is_promoted', @reset_and_sort)
     @listenTo(@, 'change:radio_selected', @unselect_others)
 
+    coll_self = @
+    @listenTo(@, 'change:answered', (model) ->
+      coll_self.trigger('idea_or_details:received_answer')
+    )
+    
   unselect_others: (model, options) ->
     # When the user selects one of the radio buttons, the models for the rest should
     # record them as unselected

@@ -1,7 +1,7 @@
 IdeaMapr.Models.Survey = Backbone.Model.extend
   initialize: ->
     _.bindAll(@, 'populate_idea_collections')
-    @listenTo(@, 'survey:recrement_question', @recrement_selection)
+    @listenTo(@, 'survey:recrement_question', @recrement_question)
     @listenTo(@, 'sync', _.once(@fetch_idea_lists))
         
   fetch_idea_lists: ->
@@ -42,7 +42,7 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     else
       @urlRoot + 'public_show/' + @get('public_link')
     
-  recrement_selection: (options) ->
+  recrement_question: (options) ->
     @set('previous_selection', @get('current_question'))
     if options.direction == -1
       @set('current_question', (@get('current_question') - 1 + @get('number_of_screens')) % @get('number_of_screens'))

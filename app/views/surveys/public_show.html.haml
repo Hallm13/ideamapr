@@ -3,9 +3,10 @@
 
 #survey-public-view
   #survey-navbar
-  #survey-intro
+  #survey-intro.survey-sections
   #sq-list
-  #survey-thankyou
+  #survey-summary.survey-sections
+  #survey-thankyou.survey-sections
 
 %script#survey-intro-template{type: 'text/template'}
   .screen#welcome-screen
@@ -17,6 +18,13 @@
       .col-xs-offset-2.col-xs-8
         .public-body
           <%- introduction %>
+%script#survey-summary-template{type: 'text/template'}
+  .screen#summary-screen
+    .row
+      .col-xs-12
+        Summary (<%- question_count %> Total Questions; <%- answered_qns_count %> are answered)
+        #summary-data
+    
 %script#survey-thankyou-template{type: 'text/template'}
   .screen#thankyou-screen
     .row

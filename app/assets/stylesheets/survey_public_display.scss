@@ -42,8 +42,11 @@
     padding: 10px 5px;
   }
   
-  #survey-thankyou {
+  .survey-sections {
     display: none;
+  }
+  .survey-sections#survey-intro {
+    display: block;
   }
 }
 
