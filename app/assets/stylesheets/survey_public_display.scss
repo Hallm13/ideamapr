@@ -115,9 +115,14 @@
 }
 
 /* Common formatting */
-.idea-box .details {
-  @include solid-gray-border();
-  padding: 5px;
+.idea-box {
+  .details {
+    @include solid-gray-border();
+    padding: 5px;
+  }
+  .editable-text {
+    cursor: pointer;
+  }
 }
 
 /* Procon ideas */

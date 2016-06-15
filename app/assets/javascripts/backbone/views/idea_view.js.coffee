@@ -5,10 +5,6 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
     _.bindAll(this, 'reveal_idea')
     @listenTo(@model, "idea:finish_move_to_top", @reveal_idea)
     
-    this.type_names =
-      0: 'procon'
-      1: 'ranking'
-      
   events:
     'click .addnote': (evt) ->
       $(evt.target).closest('.note-holder').find('textarea').toggle()

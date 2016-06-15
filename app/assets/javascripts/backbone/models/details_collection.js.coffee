@@ -6,6 +6,17 @@ IdeaMapr.Collections.DetailsCollection = Backbone.Collection.extend
   initialize: ->
     @listenTo(@, 'sync', @assign_ranking_with_dummy)
     @listenTo(@, 'change:is_promoted', @reset_and_sort)
+    @listenTo(@, 'change:radio_selected', @unselect_others)
+
+  unselect_others: (model, options) ->
+    # When the user selects one of the radio buttons, the models for the rest should
+    # record them as unselected
+    console.log 'starting unselect'
+    return if model.get('radio_selected') == false
+    model.set('radio_selected', false)
+    @.each (m) ->
+      if m.get('idea_rank') != model.get('idea_rank')
+        m.attributes['response_data']['checked'] = false
 
   reset_and_sort: (model, options) ->
     if model.get('is_promoted') == false

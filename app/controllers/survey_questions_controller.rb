@@ -80,7 +80,13 @@ class SurveyQuestionsController < ApplicationController
       component_array = (JSON.parse(params[:question_details]))['details']
       if @question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
          @question.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
-        question_details = component_array
+
+        # the array of fields should be annotated with ids, so they can be consumed correctly
+        # later when loaded in Backbone as a collection
+        question_details = component_array.each_with_index.map do |item, idx|
+          item['id'] = idx
+          item
+        end
       else 
         idea_ids = component_array&.map { |i| i['id']} || []
       end

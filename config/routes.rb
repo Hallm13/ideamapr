@@ -1,7 +1,6 @@
 IdeaMapr::Application.routes.draw do
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
   devise_for :admins, only: [:sessions, :passwords]
-  devise_for :users, only: :sessions
   
   resources :users, path: 'profiles'
 
