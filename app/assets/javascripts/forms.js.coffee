@@ -29,6 +29,13 @@ show_error_boxes = (arr_elts) ->
     $(error_box).text('This box does not validate.')
     $(error_box).show()
   true
+  
+set_expected_color = (tgt) ->
+  exp_length = $(tgt).data('expected-length')
+  if $(tgt).val().trim().length >= exp_length
+      $(tgt).css('background-color', '#DFF2C2')
+    else
+      $(tgt).css('background-color', '#FFF')
 
 window.run_validations = ->
   all_valid = true
@@ -55,11 +62,7 @@ forms_functions = ->
     $('.error-box').hide('medium')
     
   $('.validated-box').keyup (evt) ->
-    exp_length = $(evt.target).data('expected-length')
-    if $(evt.target).val().trim().length >= exp_length
-      $(evt.target).css('background-color', '#DFF2C2')
-    else
-      $(evt.target).css('background-color', '#FFF')
+    set_expected_color evt.target
     
   if $('.builder-box').length != 0
     # initialize the page.
@@ -69,6 +72,9 @@ forms_functions = ->
     $('input,textarea').each (idx, elt) ->
       if $(elt).val().trim().length > 0
         $(elt).addClass('with-text')
+      if $(elt).hasClass('validated-box')
+        set_expected_color elt
+        
       $(elt).keyup (evt) ->
         if $(elt).val().trim().length == 0
           $(elt).removeClass('with-text')

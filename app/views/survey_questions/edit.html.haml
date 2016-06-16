@@ -1,9 +1,4 @@
-.row
-  .col-xs-12
-    .page-title
-      = "Edit #{@question.question_type_name} Question: #{@question.title}"
 #debug-message
-        
 = form_tag("/survey_questions/#{@question.id || '0'}", method: :post, id: :survey_question_edit) do
   = hidden_field_tag '_method', 'put'        
   = hidden_field_tag :survey_question_id, (@question.id || 0)

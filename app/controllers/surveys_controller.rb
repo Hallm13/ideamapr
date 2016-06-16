@@ -44,6 +44,7 @@ class SurveysController < ApplicationController
   end
 
   def edit
+    @level2_menu = :edit_survey
     set_dropdown
     create_survey_qn_array
   end

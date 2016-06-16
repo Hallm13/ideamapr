@@ -20,7 +20,11 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
         
       @render()
       this
-
+    'click .goto-edit': (evt) ->
+      l = $(evt.target).closest('.goto-edit').data('goto-target-template')
+      actual_url = l.replace(/0id0/, @model.get('id'))
+      window.location.href = actual_url
+      
   shut_dropdown: ->
     @$el.find('.dd-choice-list').hide()
     

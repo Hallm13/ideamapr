@@ -5,31 +5,26 @@
 
 .entity-set
   .row.table-headers
-    .col-xs-6
+    .col-xs-8
       Survey Name
     .col-xs-2
-      Status
+      Link (if published)
     .col-xs-2
       Indiv Answers Submitted
-    .col-xs-2
-      Completion Rate
 
   #survey-list-app
 %script#survey-listing-template{type: 'text/template'}
-  .col-xs-6
+  .col-xs-8.goto-edit{'data-goto-target-template' => edit_survey_path(id: '0id0')}
     .cell-1
       %a{href: raw('<%- survey_show_url %>')}
         <%- title %>
-      %a{href: raw('<%= survey_edit_url %>')}
+      %a{href: raw('<%- survey_edit_url %>')}
         %i.fa.fa-pencil.active-icon{style: 'float: right'}
-  .col-xs-2.survey-dropdown-cell
-    .cell-1#status-change-dropdown      
-      <%- displayed_survey_status %>
-      %i.fa.fa-chevron-down
-  .col-xs-2
-    .cell-1
-      <%- individual_answer_count %>
   .col-xs-2
     .cell-1
       %a{href: "/surveys/public_show/<%- public_link %>".html_safe, id: 'public-link'}
         Link
+  .col-xs-2.survey-dropdown-cell
+    .cell-1#status-change-dropdown      
+      <%- displayed_survey_status %>
+      %i.fa.fa-chevron-down

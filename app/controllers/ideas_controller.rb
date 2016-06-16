@@ -32,6 +32,7 @@ class IdeasController < ApplicationController
   end
 
   def edit
+    @level2_menu = :edit_idea    
   end
 
   def show

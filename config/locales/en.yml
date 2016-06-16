@@ -33,6 +33,8 @@ en:
   survey_questions: 'Questions'
   surveys: 'Surveys'
   create_idea: 'Create Idea'
+  edit_idea: 'Edit Idea'
   create_survey: 'Create Survey'
+  edit_survey: 'Edit Survey'
   create_survey_question: 'Create Question'
   edit_survey_question: 'Edit Question'  

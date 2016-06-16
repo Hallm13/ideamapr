@@ -1,7 +1,3 @@
-.row
-  .col-xs-12
-    Create Question
-    
 = form_tag("/survey_questions", method: :post, id: :survey_question_new) do
   = hidden_field_tag :survey_question_id, (@question.id || 0)
   - SurveyQuestion.viewbox_list.each do |vb|

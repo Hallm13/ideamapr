@@ -190,3 +190,10 @@ form {
 .error-box {
   color: $theme-red;
 }
+
+.goto-edit .cell-1 {
+  cursor: pointer;
+  &:hover {
+    background-color: $hover-blue;
+  }
+}

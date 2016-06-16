@@ -1,3 +1,6 @@
+# This manages the list of surveys on the admin survey index page;
+# It needs to listen to each survey row, to manage the behavior of clicks on the dropdown
+
 IdeaMapr.Views.SurveyListAppView = Backbone.View.extend
   initialize: ->
     _.bindAll(@, 'render')
