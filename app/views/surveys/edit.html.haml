@@ -10,7 +10,7 @@
   = hidden_field_tag '_method', 'put'
   = hidden_field_tag :survey_id, @survey.id
 
-  - @survey.viewbox_list.each do |vb|
+  - Survey.viewbox_list.each do |vb|
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}
 

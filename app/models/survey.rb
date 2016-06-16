@@ -6,24 +6,22 @@ class Survey < ActiveRecord::Base
     end
   end
   
-  def viewbox_list
+  def self.viewbox_list
     unless Struct.const_defined? 'VbStruct'
-      Struct.new('VbStruct', :partial_name, :title, :box_key, :shown, :expected_length) do
+      Struct.new('VbStruct', :partial_name, :title, :box_key, :expected_length, :help_text, :shown) do
         def initialize(*args)
           super
           self.shown = true
-          @expected_length = args[3] if args.size > 3
         end
       end
     end
     
-    l = [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', true, 10),
-         Struct::VbStruct.new('intro_field', 'Edit Introduction', 'survey-create-intro', true, 15),
-         Struct::VbStruct.new('add_questions', 'Add Questions', 'survey-add-questions'),
-         Struct::VbStruct.new('thankyou_field', 'Thank You Note', 'survey-thank-you-note') ]
-
-    l
+    [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', 10, 'Add a survey title'),
+     Struct::VbStruct.new('intro_field', 'Edit Introduction', 'survey-create-intro', 15, 'Add an introduction'),
+     Struct::VbStruct.new('add_questions', 'Add Questions', 'survey-add-questions', -1, 'Add Questions in Ranked Order'),
+     Struct::VbStruct.new('thankyou_field', 'Thank You Note', 'survey-thank-you-note', -1, 'Add a Thank You Note') ]
   end
+  
   class SurveyStatus
     DRAFT=0
     PUBLISHED=1

@@ -8,27 +8,22 @@ class SurveyQuestion < ActiveRecord::Base
 
   def self.viewbox_list
     unless Struct.const_defined? 'SurveyQuestionVbStruct'
-      Struct.new('SurveyQuestionVbStruct', :partial_name, :title, :box_key, :shown, :expected_length, :help_text) do
+      Struct.new('SurveyQuestionVbStruct', :partial_name, :title, :box_key, :expected_length, :help_text, :shown) do
         def initialize(*args)
           super
-          @expected_length = args[3] if args.size > 3
           self.shown = true
-        end
-
-        def expected_length
-          @expected_length || -1
         end
       end
     end    
     l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title', 10, 'Add a title for your survey'),
-         Struct::SurveyQuestionVbStruct.new('add_question_type', 'Set Question Type', 'sq-question-type'),
-         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 15)]
+         Struct::SurveyQuestionVbStruct.new('add_question_type', 'Set Question Type', 'sq-question-type', -1, 'Types are either those that contain lists of ideas, or those that collect information from the participant'),
+         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 15, 'The prompt is shown at the top of the survey question screen')]
 
-    v = Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget')
+    v = Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget', -1, 'This is used in budget questions, as the maximum available spend')
     l.push v
 
-    l += [Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas'),
-          Struct::SurveyQuestionVbStruct.new('add_fields', 'Add Fields', 'sq-add-fields')]
+    l += [Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas', -1, 'Select ideas and set ranked order'),
+          Struct::SurveyQuestionVbStruct.new('add_fields', 'Add Fields', 'sq-add-fields', -1, 'Select fields and set ranked order')]
     
     
     l

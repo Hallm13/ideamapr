@@ -28,6 +28,9 @@ sq_edit_functions = ->
       new_survey_qn = false
       qn_type = $('#saved_question_type').val()
 
+    if qn_type != 3 # It's not budgeting
+      $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()
+      
     # For new survey qns, init all Backbone apps
     if new_survey_qn || qn_type == '5' || qn_type == '6'
       coll = new IdeaMapr.Collections.DetailsCollection()
