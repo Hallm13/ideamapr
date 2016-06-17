@@ -1,5 +1,6 @@
 IdeaMapr.Models.Idea = Backbone.Model.extend
   defaults: ->
+    spend_amount: 0
     answered: false
     response_data:
       answered: false

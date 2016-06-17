@@ -47,6 +47,8 @@ sq_edit_functions = ->
       coll.fetch()
       
     if new_survey_qn || qn_type == '1' || qn_type == '3' || qn_type == '0'
+      if qn_type == '1' || qn_type == '3' || qn_type == '0'
+        $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
       ideas = new IdeaMapr.Collections.IdeaCollection()
       ideas.survey_question_id = qn_id
       window.idea_list = new IdeaMapr.Views.IdeaManager

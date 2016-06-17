@@ -39,9 +39,12 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @$el.html html
 
     # Add content editable controls to non idea types
-    if @question_type == 5 or @question_type == 6
+    if @question_type == '5' or @question_type == '6'
       @$el.attr('contentEditable', 'true')
       @$el.attr('onclick', "document.execCommand('selectAll',false,null)")
+    if @question_type == '3'
+      @$el.find('.amount-box').attr('contentEditable', 'true')
+      @$el.find('.amount-box').attr('onclick', "document.execCommand('selectAll',false,null)")
       
     # Add the ranking controls, so that only admins can see this.
     control_div = $('<div>').addClass('ranking-control')

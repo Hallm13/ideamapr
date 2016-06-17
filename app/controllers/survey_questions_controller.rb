@@ -45,11 +45,7 @@ class SurveyQuestionsController < ApplicationController
 
   def update
     if save_question
-      if /and add/i.match(params[:commit])
-        redirect_to edit_survey_question_url(@question)
-      else
         redirect_to survey_question_url(@question)
-      end
     else
       set_dropdown_options
       flash.now[:alert] = t(:resource_creation_failure, resource_name: 'Survey Question')

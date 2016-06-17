@@ -1,12 +1,13 @@
 %script#type-3-public-template{type: 'text/template'}
   .row.budget-idea-row.idea-row
-    .col-xs-2
-      Budget Idea
-    .idea.col-xs-10
-      .row
-        .idea-title.col-xs-12
-          <%- title %>
-      .row
-        .idea-description.col-xs-12
-          <%- description %>
-      
+    .idea.col-xs-12
+      .idea-title
+        <%- title %>
+      .idea-description
+        <%- description %>
+    .col-xs-12.budget-line
+      .spend-amount
+        = precede '$' do
+          %span.amount-box <%- spend_amount %>
+      .add-to-cart.site-button
+        Add to Cart

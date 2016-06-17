@@ -50,6 +50,35 @@
   }
 }
 
+/* Idea styling */
+.idea-row {
+  .idea {
+    padding: 5px;
+    @include solid-gray-border();
+  }
+
+  .idea-title {
+    margin-bottom: 5px;
+    @include bold-title();
+  }
+
+  .budget-line {
+    padding-top: 10px;
+    color: $theme-green;
+    @include bold-title();
+
+    .add-to-cart {
+      display: inline-block;
+    }
+    
+    .spend-amount {
+      display: inline-block;
+      padding-top: 5px;
+      padding-right: 10px;
+    }
+  }  
+}
+    
 .ranked-idea-row {
   position: relative;
   .ranked-index {
@@ -118,6 +147,19 @@
 }
 
 /* Common formatting */
+.site-button {
+  cursor: pointer;
+  text-align: center;
+  font-family: 'MontserratBold', sans-serif;
+  background-color: white;
+  color: $theme-green;
+  padding: 5px 10px;
+  @include solid-gray-border();
+  &:hover {
+    @include solid-border($theme-green, 5px)
+  }
+}
+
 .idea-box {
   .details {
     @include solid-gray-border();
@@ -126,12 +168,4 @@
   .editable-text {
     cursor: pointer;
   }
-}
-
-/* Procon ideas */
-.blank-button {
-  text-align: center;
-  font-family: 'MontserratBold', sans-serif;
-  background-color: white;
-  padding: 5px 10px;  
 }
