@@ -8,9 +8,11 @@
   %span.square-button.green
     +
 %script{type: 'text/template', id: 'survey-question-template'}
-  .question-row
-    .title-box
+  .question-row.any-card-row.row
+    .title-box.col-xs-12
       <%- title %>
+    .description-box.col-xs-12
+
     
 %script#admin-search-question-list{type: 'text/template'}
   .row

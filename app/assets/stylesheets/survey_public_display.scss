@@ -51,6 +51,21 @@
 }
 
 /* Idea styling */
+.idea-box {
+  .details {
+    @include solid-gray-border();
+    padding: 5px;
+  }
+  .editable-text {
+    cursor: pointer;
+  }
+}
+
+.any-card-row {
+  padding: 35px 0;
+  min-height: 165px;
+}
+
 .idea-row {
   .idea {
     padding: 5px;
@@ -97,20 +112,29 @@
 }
   
 .controls-box {
-  padding: 0 20px;
+  padding: 0;
   text-align: center;
   .ranking-sign {
-    background-position-x: -22px;
-    background-position-y: -22px;
-    min-height: 50px;
-    &.up {
+    background-position-x: -15px;
+    background-position-y: -8px;
+    background-size: 66px;
+    
+    background-repeat: no-repeat;
+    min-height: 40px;
+    &#up {
       background-image: image-url('icons/up_chevron.png');
-      padding-top: 15px;
+      padding-bottom: 3px;
+      color: $theme-green;
     }
-    &.down {
-      padding-top: 10px;
+    &#down {
+      color: $theme-red;
+      padding-top: 3px;
       background-image: image-url('icons/down_chevron.png');
-    }    
+      background-position-y: -14px;
+    }
+    &#out {
+      padding: 36px 5px;
+    }
   }
   
   .move-to-ranked, .ranking-sign {
@@ -118,12 +142,6 @@
     padding: 5px;
     font-family: MontserratBold;
     font-size: 1.5em;
-    &.plus-sign {
-      color: $theme-green;
-    }
-    &.minus-sign {
-      color: $theme-red;
-    }
   }
 }
 
@@ -160,12 +178,3 @@
   }
 }
 
-.idea-box {
-  .details {
-    @include solid-gray-border();
-    padding: 5px;
-  }
-  .editable-text {
-    cursor: pointer;
-  }
-}

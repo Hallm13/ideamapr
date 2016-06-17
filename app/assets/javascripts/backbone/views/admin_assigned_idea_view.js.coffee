@@ -11,7 +11,7 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
           container = $(evt.target).closest('.idea-row')
 
         container.addClass('showing-controls')
-        container.closest('.idea-box').find('.ranking-control').show({duration: 'medium'})
+        container.closest('.idea-box').find('.controls-box').show({duration: 'medium'})
       
       'mouseleave .idea-row': (evt) ->
         if $(evt.target).hasClass('idea-row')
@@ -19,9 +19,9 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
         else
           container = $(evt.target).closest('.idea-row')
         container.removeClass('showing-controls')
-        container.closest('.idea-box').find('.ranking-control').hide()
+        container.closest('.idea-box').find('.controls-box').hide()
         
-      'click #move-out': (evt) ->
+      'click #out': (evt) ->
         @model.set('promoted', -1)
         
     @events = _.extend({}, @base_events, my_events)
@@ -46,13 +46,9 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
       @$el.find('.amount-box').attr('contentEditable', 'true')
       @$el.find('.amount-box').attr('onclick', "document.execCommand('selectAll',false,null)")
       
-    # Add the ranking controls, so that only admins can see this.
-    control_div = $('<div>').addClass('ranking-control')
-    up_div = $('<div>').attr('id', 'move-up').addClass('control-icon')
-    out_div = $('<div>').attr('id', 'move-out').addClass('control-icon')
-    down_div = $('<div>').attr('id', 'move-down').addClass('control-icon')
-    
-    control_div.append(up_div).append(out_div).append(down_div)
-    @$el.find('.idea-row').prepend(control_div)
+    div_array = @create_controls()
+    @$el.find('.idea-row').prepend div_array[0]
+    @$el.find('.idea-row').append div_array[1]
+
     
     @

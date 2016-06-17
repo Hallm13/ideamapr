@@ -9,29 +9,39 @@
   margin-bottom: 10px;
 
 }
-.ranking-control {
-  display: none;
-  position: absolute;
-  top: 15px;
-  left: -20px;
+
+.controls-box {
+  &.active {
+    display: none;
+    position: absolute;
+    top: 20%;
+    left: -35px;
+    width: 35px;
+    height: 60%;
+    
+    background: beige;
+
+    &.right-margin {
+      left: inherit;
+      background: goldenrod;
+      right: 0;
+    }
+    .margin {
+      margin: 30% 0;
+      height: 80%;
+    }
+    
+    #up {
+      padding-top: 11px;
+      padding-left: 7px;
+    }
+  }
   
   .control-icon {
     width: 20px;
     height: 20px;
     cursor: pointer;
     left: -10px;    
-  }
-  
-  #move-up {
-    background: turquoise;
-    margin-bottom: 10px;
-  }
-  #move-out {
-    background: goldenrod;
-    margin-bottom: 10px;
-  }
-  #move-down {
-    background: coral;
   }
 }
 
@@ -63,7 +73,13 @@
 
 .question-box,.idea-box {
   padding: 10px 15px;
-}  
+}
+.idea-box {
+  .idea-row {
+    position: relative;
+  }
+}
+
 .title-box {
   display: inline-block;
 }

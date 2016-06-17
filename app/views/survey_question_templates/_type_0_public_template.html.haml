@@ -1,20 +1,17 @@
 %script#type-0-public-template{type: 'text/template'}
-  .row.ranking-idea-row.idea-row
-    .col-xs-2
-      Pro/Con Idea
-    .idea.col-xs-10
-      .row
-        .idea-title.col-xs-12
-          <%- title %>
-      .row
-        .idea-description.col-xs-12
-          <%- description %>
-  .row
+  .row.procon-idea-row.idea-row.any-card-row
+    .idea-title.col-xs-12
+      <%- title %>
+    .idea-description.col-xs-12
+      <%- description %>
+
     .col-xs-6.note-holder
       = text_area_tag :current_pro, ''
+    .col-xs-6.note-holder
+      = text_area_tag :current_con, ''
+    .col-xs-6.note-holder
       %button.addpro.addnote
         Add Pro
     .col-xs-6.note-holder
-      = text_area_tag :current_con, ''
       %button.addcon.addnote
         Add Con
