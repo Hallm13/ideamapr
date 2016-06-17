@@ -10,16 +10,13 @@
     .col-xs-2
       Link (if published)
     .col-xs-2
-      Indiv Answers Submitted
+      Status
 
   #survey-list-app
 %script#survey-listing-template{type: 'text/template'}
   .col-xs-8.goto-edit{'data-goto-target-template' => edit_survey_path(id: '0id0')}
     .cell-1
-      %a{href: raw('<%- survey_show_url %>')}
-        <%- title %>
-      %a{href: raw('<%- survey_edit_url %>')}
-        %i.fa.fa-pencil.active-icon{style: 'float: right'}
+      <%- title %>
   .col-xs-2
     .cell-1
       %a{href: "/surveys/public_show/<%- public_link %>".html_safe, id: 'public-link'}

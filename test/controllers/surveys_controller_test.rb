@@ -88,20 +88,6 @@ class SurveysControllerTest < ActionController::TestCase
       assert assigns(:survey_status_select)
       assert_equal 1, assigns(:survey_qns).count
     end
-
-    it 'works with combining survey questions' do
-      get :edit, id: surveys(:survey_1).id, survey: {components: new_survey_question_id_list}
-      assert_template :edit
-      assert_select('.fa-trash-o', 3)
-    end
-    
-    it 'works with adding survey questions' do
-      get :edit, id: surveys(:published_survey).id, survey: {components: new_survey_question_id_list}
-      assert_template :edit
-
-      # sq_pre_5 is already assigned
-      assert_select '.fa-trash-o', 3
-    end
   end
   
   describe '#update' do
@@ -137,28 +123,37 @@ class SurveysControllerTest < ActionController::TestCase
 
     it 'works when questions are added' do
       s=surveys(:survey_1)
-      assert_difference('s.survey_questions.count', 2) do 
-        post :update, id: s.id, survey: {title: 'is a valid long',
-                                         introduction: 'is an introduction long and good',
-                                         status: 0, components: new_survey_question_id_list}
+      set_title = 'is a valid long'
+
+      # One question goes away, two are added
+      assert_difference('s.survey_questions.count', 1) do 
+        post :update, id: s.id, survey: {title: set_title,
+                                         introduction: 'is an introduction long and good adding 2 qns',
+                                         status: 0}, question_list: new_survey_question_recs.to_json
       end
 
-      assert_redirected_to survey_url(surveys(:survey_1))
+      assert_redirected_to survey_url(s)
+      assert_equal set_title, s.reload.title
 
-      get :show, id: surveys(:survey_1).id
-      assert_match /draft/i, response.body
+      # Questions are ordered correctly.
+      assert_equal 2, s.question_assignments.count
+
+      # in the method below, we have ordered sq_2 higher than sq_1
+      assert_equal survey_questions(:sq_2).id, s.question_assignments.order(ordering: :asc).first.survey_question_id
     end
 
     it 'updates status with json' do
       refute_equal Survey::SurveyStatus::CLOSED, surveys(:survey_1).status
-      xhr :post, :update, id: surveys(:survey_1).id, survey: {}, displayed_survey_status: 'Closed'
+      xhr :post, :update, id: surveys(:survey_1).id, survey: {}, status: Survey::SurveyStatus::CLOSED
       s = Survey.find surveys(:survey_1).id
       assert_equal Survey::SurveyStatus::CLOSED, s.status
     end
   end
 
   private
-  def new_survey_question_id_list
-    [survey_questions(:sq_1).id, survey_questions(:sq_2).id, -1]
+  def new_survey_question_recs
+    [{'id' => survey_questions(:sq_1).id, 'question_rank' => '1'},
+     {'id' => survey_questions(:sq_2).id, 'question_rank' => '0'},
+     {'id' => -1, 'question_rank' => '5'}]
   end
 end

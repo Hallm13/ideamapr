@@ -26,7 +26,9 @@ module RelationalLogic
   end
 
   def update_has_many!(obj, model, through_model, model_ids, opts = {})
-    # obj has_many model's (through ...), update to reflect model_ids instead
+    # obj has_many model's (through ...), update to reflect model_ids
+    # instead, which must be ordered according to the desired ordering
+    
     fkey = opts[:foreign_key] || "#{obj.class.to_s.underscore}_id"
     polymorphic_type = opts[:polymorphic] ? obj.class : nil
     should_delete = opts[:should_delete].nil? ? false : opts[:should_delete]
@@ -38,9 +40,10 @@ module RelationalLogic
     if !should_delete
       existing_ids = obj.send("#{added_table}".to_sym).pluck(:id)
       add_ids = model_ids - existing_ids
-
-      #TODO - do something like remove_ids = existing_ids - model_ids; and use it to smartly remove existing assignments
     else
+      # TODO: it's a lot easier to delete existing assignments, because the ordering might have changed.
+      # TODO: But it could be faster to do updates on columns of existing records instead
+      
       current_obj_thru_recs.send(:all).send(:each) { |r| r.delete}
       add_ids = model_ids
     end

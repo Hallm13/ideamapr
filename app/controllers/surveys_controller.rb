@@ -69,11 +69,12 @@ class SurveysController < ApplicationController
       @survey.attributes= attrs
 
       sqn_ids = params[:question_list].nil? ? [] :
-                  (JSON.parse(params[:question_list])).map { |hash| hash['id'].to_i}
+                  (JSON.parse(params[:question_list])).sort_by { |i| i['question_rank']}.
+                  map { |hash| hash['id'].to_i}
       if (saved = @survey.valid?)
         ActiveRecord::Base.transaction do
           saved &= @survey.save
-          saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids)
+          saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids, should_delete: true)
         end
       end
     end
@@ -140,7 +141,7 @@ class SurveysController < ApplicationController
   
   def set_dropdown
     @survey_status_select = Survey::SurveyStatus.option_array
-    @select_default = @survey.status || 0
+    @select_default = @survey&.status || 0
   end
 
   def survey_render_wrap(status:, xhr:)

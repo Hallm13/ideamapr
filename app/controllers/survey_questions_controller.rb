@@ -73,7 +73,8 @@ class SurveyQuestionsController < ApplicationController
     # We either got ideas or fields for a survey question
 
     if params[:question_details]
-      component_array = (JSON.parse(params[:question_details]))['details']
+      component_array = (JSON.parse(params[:question_details]))['details'].sort_by { |i| i['idea_rank']}
+      
       if @question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
          @question.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
 
@@ -84,7 +85,7 @@ class SurveyQuestionsController < ApplicationController
           item
         end
       else 
-        idea_ids = component_array&.map { |i| i['id']} || []
+        idea_ids = component_array&.map { |i|  i['id'] } || []
       end
     end    
     
@@ -92,7 +93,7 @@ class SurveyQuestionsController < ApplicationController
       ActiveRecord::Base.transaction do      
         saved &= @question.save
 
-        if !idea_ids.nil?
+        if idea_ids.present?
           update_has_many!(@question, 'Idea', 'IdeaAssignment', idea_ids, polymorphic: true, foreign_key: 'groupable_id',
                            should_delete: true)
           
@@ -110,13 +111,15 @@ class SurveyQuestionsController < ApplicationController
             IdeaAssignment.import new_assignments,
                                   on_duplicate_key_update: { conflict_target: :id, columns: [:budget] }
           end
-        elsif !question_details.nil?
+        elsif question_details.present?
           # There might be a record of Question Details already - delete it and refresh.
           if @question.question_detail.present?
             saved &= @question.question_detail.delete
           end
 
-          saved &= QuestionDetail.create survey_question: @question, details_list: (question_details.reject {|i| /click to add/i.match(i['text'])})
+          # Backbone app will send the example fields as well that need to be filtered away here.
+          saved &= QuestionDetail.create survey_question: @question,
+                                         details_list: (question_details.reject {|i| /click to add/i.match(i['text'])})
         end
       end
     end
