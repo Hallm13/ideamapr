@@ -41,15 +41,32 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_equal idea_sz + 1, sq.ideas.count
       assert_redirected_to survey_question_url(sq)
     end
-
-    it 'can refresh question details' do
+  end
+  describe '#update' do
+    it 'can refresh details for non-idea question type' do
       sq = survey_questions(:sq_with_radio_choice)
       old_id = sq.question_detail.id
       put(:update, {id: sq.id, survey_question: {title: 'this is a new test title'},
-                    question_details: ({details: ['1', 'a']}).to_json})
+                    question_details: ({details: [{'text' => 'a'}, {'text' => 'a'}]}).to_json})
 
       assert sq.reload.question_detail.present?
+
+      # We deleted the old detail and created a new record.
       refute_equal old_id, sq.question_detail.id
+    end
+
+    it 'can add budget for budget idea type' do
+      sq = survey_questions(:sq_budget_type)
+
+      # idea_1 is already assigned without a budget
+      model = "\\'SurveyQuestion\\'"
+      
+      refute_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count") do
+        put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn'},
+                      question_details:
+                        ({question_type: '3', details: [{'id' => ideas(:idea_1).id, 'budget' => '42.42'}]}).to_json}
+        
+      end
     end
   end
 

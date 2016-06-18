@@ -14,6 +14,9 @@ IdeaMapr.Views.ComponentView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     
     @$el.html(t(@model.attributes))
 
+    @$el.find('.editable-text').attr('contentEditable', 'true')
+    @$el.find('.editable-text').attr('onclick', "document.execCommand('selectAll',false,null)")
+    
     if @model.get('is_edited')
       @$el.find('.editable-text').addClass 'edited'
 

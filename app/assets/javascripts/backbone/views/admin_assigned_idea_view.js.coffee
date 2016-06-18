@@ -3,7 +3,10 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
   tagName: 'div',
 
   extend_events: ->
-    my_events = 
+    my_events =
+      'keyup .amount-box': (evt) ->
+        @model.set('cart_amount', $(evt.target).text())
+    
       'mouseenter .idea-row': (evt) ->
         if $(evt.target).hasClass('idea-row')
           container = $(evt.target)

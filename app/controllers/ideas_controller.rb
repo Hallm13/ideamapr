@@ -15,13 +15,22 @@ class IdeasController < ApplicationController
           # new survey questions have no ideas
           []
         else
-          @question.idea_assignments.pluck(:idea_id, :ordering)
+          @question.idea_assignments.pluck(:idea_id, :ordering, :budget)
         end
-      existing_ids = selected_idea_assignments.inject({}) { |memo, pair| memo[pair[0]] = pair[1]; memo; }
-                             
+      assignments_rev_index =
+        selected_idea_assignments.inject({}) do |memo, rec_data|
+        memo[rec_data[0]] = {ordering: rec_data[1], budget: rec_data[2]}
+        memo
+      end
+
       @all_ideas = @all_ideas.map do |i|
-        {id: i.id, title: i.title, description: i.description}.merge({is_assigned: existing_ids.keys.include?(i.id),
-                                                                      idea_rank: existing_ids[i.id]})
+        base_info = {id: i.id, title: i.title, description: i.description}
+        if (already_assigned = assignments_rev_index.keys.include?(i.id))
+          base_info.merge!({is_assigned: already_assigned,
+                           idea_rank: assignments_rev_index[i.id][:ordering],
+                           cart_amount: assignments_rev_index[i.id][:budget]})
+        end
+        base_info
       end
     else
       # There is neither a survey or an SQ specified in the params, to key ideas against
@@ -70,11 +79,8 @@ class IdeasController < ApplicationController
       status &= (params[:id].present? and @idea=Idea.find_by_id(params[:id]))
       # For use in view helpers
       @form_object = @idea
-    when :double_bundle
-      status &= (params[:for_survey].present? &&
-                 (@survey = Survey.find_by_public_link(params[:for_survey])) &&
-                 (@survey.published? || current_admin))
     when :index
+      # XHR request for new SQ will send SQ id = 0
       status &= (params[:for_survey_question].nil? || params[:for_survey_question].to_i == 0 ||
                  (@question = SurveyQuestion.find_by_id(params[:for_survey_question])))
     when :create, :update

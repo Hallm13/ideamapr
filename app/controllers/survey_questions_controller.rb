@@ -30,17 +30,9 @@ class SurveyQuestionsController < ApplicationController
   
   def edit
     set_dropdown_options
-    set_existing_counts
     @level2_menu = :edit_survey_question
     
-    if params[:id] != '0'
-      @qn_idea_assignments = @question.idea_assignments
-    end
-    
-    if params[:survey_question]&.send(:[], :components)
-      @qn_ideas ||= []
-      @qn_ideas += Idea.where('id in (?)', params[:survey_question][:components]).to_a
-    end
+    @qn_idea_assignments = @question.idea_assignments
   end
 
   def update
@@ -98,11 +90,15 @@ class SurveyQuestionsController < ApplicationController
                            should_delete: true)
           
           # For idea questions, that have budgets assigned...
-          if @question.question_type == SurveyQuestion::QuestionType::BUDGETING &&
-             !(params[:survey_question][:budgets]&.keys.blank?)
-            new_assignments = @question.idea_assignments.all.map do |ia|
-              if params[:survey_question][:budgets].keys.include?(ia.idea_id.to_s)
-                ia.budget = params[:survey_question][:budgets][ia.idea_id.to_s].to_f
+          if @question.question_type == SurveyQuestion::QuestionType::BUDGETING
+            new_assignments = @question.idea_assignments.all.to_a.map do |ia|
+              idea_rev_index = component_array.inject({}) do |memo, hash|
+                memo[hash['id']] = hash
+                memo
+              end
+
+              if idea_rev_index.keys.include? ia.idea_id.to_s
+                ia.budget = idea_rev_index[ia.idea_id.to_s]['cart_amount'].to_f
               end
 
               ia
@@ -118,8 +114,9 @@ class SurveyQuestionsController < ApplicationController
           end
 
           # Backbone app will send the example fields as well that need to be filtered away here.
+          clean_qd = question_details.sort_by {|i| i['idea_rank']}.reject {|i| /click to add/i.match(i['text'])}
           saved &= QuestionDetail.create survey_question: @question,
-                                         details_list: (question_details.reject {|i| /click to add/i.match(i['text'])})
+                                         details_list: clean_qd
         end
       end
     end
@@ -168,15 +165,6 @@ class SurveyQuestionsController < ApplicationController
   def set_dropdown_options
     @question_type_select = SurveyQuestion::QuestionType.option_array
     @select_default = @question.question_type || 1 # default for new = Ranking... TODO change it maybe?
-  end
-
-  def set_existing_counts
-    @existing_ideas_count =
-      if params[:id] == 0
-        0
-      else
-        @question.idea_assignments.count
-      end
   end
 
   def json_payload

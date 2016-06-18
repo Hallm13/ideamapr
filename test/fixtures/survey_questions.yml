@@ -22,3 +22,6 @@ sq_no_ideas:
 sq_with_radio_choice:
   title: has radio choices
   question_type: <%= SurveyQuestion::QuestionType::RADIO_CHOICES %>
+sq_budget_type:
+  title: budget type
+  question_type: <%= SurveyQuestion::QuestionType::BUDGETING %>

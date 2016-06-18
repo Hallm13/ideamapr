@@ -1,11 +1,13 @@
 defaults: &defaults
   ordering: 0
+  budget: 0
   
 ia_3_sq_1:
   <<: *defaults
   idea: idea_3
   groupable_type: SurveyQuestion
   groupable: sq_1
+  budget: 42.42
   
 ia_3_sq_pre_4:
   <<: *defaults
@@ -28,4 +30,9 @@ ia_1_s_1:
   idea: idea_1
   groupable_type: Survey
   groupable: survey_1
-  
+ia_1_sq_budget_idea_1:
+  <<: *defaults
+  idea: idea_1
+  groupable_type: SurveyQuestion
+  groupable: sq_budget_type
+  ordering: 1

@@ -1,6 +1,6 @@
 IdeaMapr.Models.Idea = Backbone.Model.extend
   defaults: ->
-    spend_amount: 0
+    cart_amount: 0
     answered: false
     response_data:
       answered: false
@@ -12,7 +12,7 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
   urlRoot: '/ideas',
 
   initialize: ->
-    this.on('move-top', this.grant_top)
+    @on('move-top', @grant_top)
 
   make_example: ->
     @set('title', 'Example Idea')
@@ -20,14 +20,14 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     
   increment_note: (type) ->
     if type == 'pro' || type == 'con'
-      this.set(type, this.get(type) + 1)
+      @set(type, @get(type) + 1)
 
     
   shown_rank: ->
-    if this.get('idea_rank') < 0
+    if @get('idea_rank') < 0
       return ''
     else
-      return this.get('idea_rank')
+      return @get('idea_rank')
       
   response_data: ->
     rd = @.attributes['response_data']
