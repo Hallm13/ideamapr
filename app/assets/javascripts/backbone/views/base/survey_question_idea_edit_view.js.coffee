@@ -19,3 +19,20 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
     delete_control.append(out_div)
 
     return [control_div, delete_control]
+
+  add_controls: (evt, inside_selector) ->
+    if $(evt.target).hasClass(@top_container_selector)
+      container = $(evt.target)
+    else
+      container = $(evt.target).closest(@top_container_selector)
+    container.addClass('showing-controls')
+    container.closest(inside_selector).find('.controls-box').show({duration: 'medium'})
+
+  remove_controls: (evt, inside_selector) ->
+    if $(evt.target).hasClass(@top_container_selector)
+      container = $(evt.target)
+    else
+      container = $(evt.target).closest(@top_container_selector)
+    container.removeClass('showing-controls')
+    container.closest(inside_selector).find('.controls-box').hide()
+    
