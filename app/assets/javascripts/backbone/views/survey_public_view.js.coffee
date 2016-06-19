@@ -32,7 +32,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
 
   render: ->
     # Render is triggered after all the survey question screens have been initialized
-    # This is only triggered after both sqns and ideas have been fetched.
+    # This is only triggered after both sqns and ideas have been fetched, which only happens once.
     
     view_self = this
     navbar_view = new IdeaMapr.Views.SurveyNavbarView

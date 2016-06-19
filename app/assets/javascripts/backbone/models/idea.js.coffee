@@ -34,8 +34,19 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     rd['idea_id'] = @get('id')
     rd
       
-  set_response_data: (type, data) ->
-    @.set('answered', true)
-    @.attributes['response_data']['answered'] = true
-    @.attributes['response_data'][type] = data
-
+  init_type_specific_data: (qn_type) ->
+    data = @attributes
+    if qn_type == 0
+      unless data.hasOwnProperty('note_counts')
+        data['note_counts'] =
+          pro: @get('pro')
+          con: @get('con')
+        data['feedback'] =
+          pro: []
+          con: []
+    
+  add_feedback: (type, text) ->
+    @set('answered', true)
+    unless text.trim().length == 0
+      @attributes['feedback'][type].push text
+      @trigger('idea:new_procon')

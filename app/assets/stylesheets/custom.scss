@@ -88,6 +88,7 @@ form {
 }
 
 .btn {
+  @include bold-text();
   margin-top: 20px;
   display: block;
   width: 100%;
@@ -100,8 +101,6 @@ form {
        color: white;
        text-decoration: none;
      }
-  font-family: 'MontserratBold', sans-serif;
-  font-weight: bold;
   vertical-align: middle;
 }
 
@@ -114,8 +113,7 @@ form {
 }
 
 .brand-header {
-  font-family: 'MontserratBold';
-  font-weight: bold;
+  @include bold-text();
   text-align: center;
   color: $primary-highlight;
   width: 20%;
@@ -183,8 +181,7 @@ form {
 }
 
 .bold-text {
-  font-family: 'MontserratBold';
-  font-weight: bold;
+  @include bold-text();
 }
 
 .error-box {

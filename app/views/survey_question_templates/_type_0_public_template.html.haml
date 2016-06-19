@@ -1,17 +1,26 @@
 %script#type-0-public-template{type: 'text/template'}
   .row.procon-idea-row.idea-row.any-card-row
-    .idea-title.col-xs-12
-      <%- title %>
-    .idea-description.col-xs-12
-      <%- description %>
+    .idea.col-xs-12
+      .idea-title
+        <%- title %>
+      .idea-description
+        <%- description %>
 
-    .col-xs-6.note-holder
-      = text_area_tag :current_pro, ''
-    .col-xs-6.note-holder
-      = text_area_tag :current_con, ''
-    .col-xs-6.note-holder
-      %button.addpro.addnote
-        Add Pro
-    .col-xs-6.note-holder
-      %button.addcon.addnote
-        Add Con
+    .col-xs-12.proscons-title
+      .bold-text.text-center.col-xs-6
+        Pros
+      .bold-text.text-center.col-xs-6
+        Cons
+    .col-xs-12
+      .row#current-procon-list
+    .col-xs-12
+      .col-xs-5
+        .site-button#addpro
+          Add a Pro
+        .site-button#savepro
+          Save
+      .col-xs-5.col-xs-offset-2
+        .site-button#addcon
+          Add a Con
+        .site-button#savecon
+          Save

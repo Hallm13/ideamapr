@@ -11,7 +11,14 @@
   border: solid 1px $form-border-gray;
   border-radius: $border_radius;
 }
+
 @mixin bold-title {
-  font-family: MontserratBold;
+  font-family: MontserratBold, sans-serif;
+  font-weight: bold;
   font-size: 1.1em;
 }
+
+@mixin bold-text {
+  font-family: 'MontserratBold', sans-serif;
+  font-weight: bold;
+}  

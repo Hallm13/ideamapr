@@ -32,7 +32,7 @@
   }
 
   .question-title,.public-title {
-    font-family: MontserratBold;
+    @include bold-text();
     text-align: center;
     padding: 10px 0;
   }
@@ -138,9 +138,9 @@
   }
   
   .move-to-ranked, .ranking-sign {
+    @include bold-text();
     cursor: pointer;
     padding: 5px;
-    font-family: MontserratBold;
     font-size: 1.5em;
   }
 }
@@ -156,25 +156,49 @@
 }
 
 .question-prompt {
+  @include bold-text();
+  @include solid-bottom-border();
   min-height: 5em;
   line-height: 500%;
-  font-family: 'MontserratBold', sans-serif;
   text-align: center;
-  @include solid-bottom-border();
   margin-bottom: 10px;
 }
 
 /* Common formatting */
 .site-button {
+  @include solid-gray-border();
+  @include bold-text();
   cursor: pointer;
   text-align: center;
-  font-family: 'MontserratBold', sans-serif;
   background-color: white;
   color: $theme-green;
   padding: 5px 10px;
-  @include solid-gray-border();
   &:hover {
     @include solid-border($theme-green, 5px)
   }
 }
 
+.gray-bordered-box {
+  @include solid-gray-border();
+  padding: 5px;
+}
+
+#addpro {
+  position: relative;
+  #probox {
+    position: absolute;
+    top: 10px;
+  }
+}
+
+#addcon {
+  color: $theme-red;
+}
+#savepro, #savecon {
+  display: none;
+}
+
+.proscons-title {
+  margin: 10px;
+  @include bold-text();
+}

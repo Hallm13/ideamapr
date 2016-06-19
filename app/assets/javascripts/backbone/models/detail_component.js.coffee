@@ -34,3 +34,6 @@ IdeaMapr.Models.DetailComponent = Backbone.Model.extend
     if type == 'checked' and data == true
       console.log "set rd checked to " + data + " for idea rank " + @.get('idea_rank')
       @.set('radio_selected', true)
+      
+  init_type_specific_data: (qn_type) ->
+    @

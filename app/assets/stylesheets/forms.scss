@@ -23,8 +23,8 @@
   }
   
   .title {
+    @include bold-text();
     text-align: center;
-    font-family: MontserratBold;
     margin-bottom: 15px;
   }
   .help-text {
