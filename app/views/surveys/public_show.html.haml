@@ -37,15 +37,16 @@
 
 // navbar template
 %script#survey-nb-template{type: 'text/template'}
-  .row.survey-nb-row
-    .col-xs-offset-3.col-xs-6
-      .row
-        .col-xs-4#go-left.active
-          Previous
-        .col-xs-4#current-question
-          <%- current_question_index %> of <%- total_screens %> steps
-        .col-xs-4#go-right.active
-          Next
+  .col-xs-offset-3.col-xs-6
+    .row
+      .col-xs-4#go-left.active
+        Previous
+      .col-xs-4#current-question
+        <%- current_question_index %> of <%- total_screens %> steps
+        %i.fa.fa-chevron-down
+      .col-xs-4#go-right.active
+        Next
+    .row#other-sections{style: 'display: none'}
           
 %script#survey-question-template{type: 'text/template'}
   .col-xs-offset-3.col-xs-6

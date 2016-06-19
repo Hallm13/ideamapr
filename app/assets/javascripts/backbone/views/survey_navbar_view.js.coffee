@@ -1,4 +1,5 @@
 IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
+  className: 'row survey-nb-row'
   initialize: ->
     _.bindAll(@, 'render')
     _.bindAll(@, 'run_decorations')
@@ -17,14 +18,22 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     'click #go-left': (evt) ->
       if $(evt.target).hasClass('active')
         @model.trigger('survey:recrement_question', {direction: -1})
-
+    'click #current-question': (evt) ->
+      @$('#other-sections').toggle()
+    'click #other-sections .col-xs-4': (evt) ->
+      @model.trigger('survey:recrement_question', {direction: 1, move_to: $(evt.target).data('question-index')})
+      
   nav_text: (section, screen_index) ->
     if @nav_texts[screen_index]? &&
        @nav_texts[screen_index][section]?
       return @nav_texts[screen_index][section]
     else
       switch section
-        when "left" then return "Previous"
+        when "left"
+          if screen_index == 0
+            return ''
+          else
+            return 'Previous'  
         when "right" then return "Next"
       
   run_decorations: ->
@@ -42,6 +51,17 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       @$('#go-right').removeClass('active')
       @$('#go-right').addClass('inactive')
 
+  make_dropdown: ->
+    curr_qn = @model.get('current_question') + 1
+    total_screens = @model.get('number_of_screens')
+    hidden_row = @$('#other-sections')
+    range = (i for i in [1..total_screens])
+    for idx in range
+      unless idx == curr_qn
+        t = $('<div>').addClass('col-xs-offset-4 col-xs-4 clickable').attr('data-question-index', idx)
+        t.text(idx + " of " + total_screens)
+        hidden_row.append t
+        
   render: ->
     data =
       current_question_index: @model.get('current_question') + 1
@@ -49,5 +69,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       
     @$el.html(_.template($('#survey-nb-template').html())(data))
     @run_decorations()
+    @make_dropdown()
+    
     @
   

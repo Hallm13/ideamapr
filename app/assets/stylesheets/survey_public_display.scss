@@ -1,20 +1,33 @@
 #survey-public-view {
   .survey-nb-row {
+    position: relative;
+    
+    #other-sections {
+      position: absolute;
+      width: 100%;
+      z-index: 2;
+      .col-xs-4 {
+	background: white;
+      }
+    }
+    
     .col-xs-4 {
       text-align: center;
       padding: 11px 5px;
       color: black;
-      min-height: 40px;
+      min-height: 50px;
       cursor: pointer;
+      border: solid 5px $background-gray;
 
       &.active {
 	background-color: $theme-green;
+	border: solid 5px $theme-green;
       }
       &#current-question {
-	background-color: $background-gray;
+	background-color: white;
+	border: solid 5px $background-gray;
       }      
       &.inactive {
-	color: white;
 	background-color: $background-gray;
 	cursor: default;
       }
@@ -62,13 +75,12 @@
 }
 
 .any-card-row {
-  padding: 35px 0;
   min-height: 165px;
 }
 
 .idea-row {
   .idea {
-    padding: 5px;
+    padding: 5px 15px;
     @include solid-gray-border();
   }
 
@@ -199,6 +211,6 @@
 }
 
 .proscons-title {
-  margin: 10px;
+  margin: 10px 0;
   @include bold-text();
 }

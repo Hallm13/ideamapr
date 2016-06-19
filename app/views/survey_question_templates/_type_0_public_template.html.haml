@@ -7,20 +7,22 @@
         <%- description %>
 
     .col-xs-12.proscons-title
-      .bold-text.text-center.col-xs-6
-        Pros
-      .bold-text.text-center.col-xs-6
-        Cons
+      .row
+        .bold-text.text-center.col-xs-6
+          Pros
+        .bold-text.text-center.col-xs-6
+          Cons
     .col-xs-12
       .row#current-procon-list
-    .col-xs-12
-      .col-xs-5
-        .site-button#addpro
-          Add a Pro
-        .site-button#savepro
-          Save
-      .col-xs-5.col-xs-offset-2
-        .site-button#addcon
-          Add a Con
-        .site-button#savecon
-          Save
+    .col-xs-12.cancel-padding
+      .row
+        .col-xs-6
+          .site-button#addpro
+            Add a Pro
+          .site-button#savepro
+            Save
+        .col-xs-6
+          .site-button#addcon
+            Add a Con
+          .site-button#savecon
+            Save

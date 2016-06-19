@@ -1,4 +1,6 @@
 IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
+  className: 'row'
+  
   initialize: ->
     _.bindAll(@, 'render')
     @
