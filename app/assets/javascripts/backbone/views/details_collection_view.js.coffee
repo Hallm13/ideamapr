@@ -1,4 +1,4 @@
-IdeaMapr.Views.SurveyQuestionDetailsView = Backbone.View.extend
+IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
   initialize: ->
     _.bindAll(@, 'render')
     @existing_idea_count = 0

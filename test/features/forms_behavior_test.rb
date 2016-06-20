@@ -1,7 +1,7 @@
 require 'test_helper'
 class FormsBehaviorTest < Capybara::Rails::TestCase
   def setup
-    Capybara.default_driver = :webkit
+    Capybara.default_driver = :selenium
     login_as admins(:admin_1), scope: :admin
     visit '/ideas/new'
   end

@@ -1,6 +1,10 @@
 ht_one:
   key: help_text_survey-create-title
   cms_text: MyText
+  
+ht_three:
+  key: help_text_idea-create-title
+  cms_text: My Idea Title
 
 ht_two:
   key: help_text_survey-create-intro

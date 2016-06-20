@@ -1,3 +1,16 @@
+set_prompt = (css_select) ->
+  if window.prompt_map
+    prompt = window.prompt_map['data'][$('#survey_question_question_type option:selected').val()]
+    $(css_select).text prompt
+    console.log 'Answer: ' + prompt
+  else
+    $.post('/ajax_api',
+        'payload' : 'survey_question/get_prompt_map/'
+      (d, s, x) ->
+        window.prompt_map = d
+        set_prompt(css_select) # recursion
+    )
+
 sq_edit_functions = ->
   switch_qn_type = (switch_to) ->
     if switch_to == '5' || switch_to == '6'
@@ -24,6 +37,8 @@ sq_edit_functions = ->
     if typeof $('#saved_question_type').val() == 'undefined'
       new_survey_qn = true
       qn_type = 1
+      console.log 'New Question - setting to ' + qn_type
+      set_prompt('#helper-edit')      
     else
       new_survey_qn = false
       qn_type = $('#saved_question_type').val()
@@ -36,7 +51,7 @@ sq_edit_functions = ->
       coll = new IdeaMapr.Collections.DetailsCollection()
       coll.question_id = qn_id
       
-      window.field_details = new IdeaMapr.Views.SurveyQuestionDetailsView
+      window.field_details = new IdeaMapr.Views.DetailsCollectionView
         collection: coll
         el: $('#fields-list-app')
 
@@ -63,7 +78,7 @@ sq_edit_functions = ->
     $('#survey_question_question_type').change (evt) ->
       # When the question type is changed, on new views
       switch_qn_type $(evt.target).val()
-      window.set_prompt('#helper_edit')
+      set_prompt('#helper-edit')
 
       $('#survey_question_question_prompt').val('')
       # When choosing Budgeting type for questions show add'l controls

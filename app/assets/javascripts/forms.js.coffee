@@ -1,21 +1,9 @@
 # Set the helper text for question types
-window.set_prompt = (css_select) ->
+window.get_helper_texts = ->
   if typeof(window.cms_list) == 'undefined'
     window.cms_list = new IdeaMapr.Models.CmsList()
   cms_list.search_filter = 'help_text'
   cms_list.getById()
-
-  window.selector = css_select
-  if window.prompt_map
-    prompt = window.prompt_map['data'][$('#survey_question_question_type option:selected').text()]
-    $(css_select).text prompt
-  else
-    $.post('/ajax_api',
-        'payload' : 'survey_question/get_prompt_map/'
-      (d, s, x) ->
-        window.prompt_map = d
-        window.set_prompt(window.selector) # recursion
-    )
 
 show_error_boxes = (arr_elts) ->
   arr_elts.forEach (e, i) ->
@@ -66,7 +54,7 @@ forms_functions = ->
     
   if $('.builder-box').length != 0
     # initialize the page.
-    window.set_prompt('#helper_edit')
+    window.get_helper_texts('#helper_edit')
 
     $('form#container_update #redirect').val('')
     $('input,textarea').each (idx, elt) ->
@@ -86,7 +74,12 @@ forms_functions = ->
       id = $(this).closest('.builder-box').find('.hidden').data('box-key')
   
       if help_box.text() == ''
-        help_box.text(window.cms_list.where({key: 'help_text_'+id})[0].get('cms_text'))
+        candid = window.cms_list.where({key: 'help_text_'+id})
+        if candid.length > 0
+          help_box.text(candid[0].get('cms_text'))
+        else
+          help_box.text 'No help text supplied'
+          
       help_box.toggle()
       
 $(document).on('page:load ready', forms_functions)

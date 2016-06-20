@@ -96,9 +96,9 @@ class SurveyQuestionsController < ApplicationController
                 memo[hash['id']] = hash
                 memo
               end
-
-              if idea_rev_index.keys.include? ia.idea_id.to_s
-                ia.budget = idea_rev_index[ia.idea_id.to_s]['cart_amount'].to_f
+              
+              if idea_rev_index.keys.include? ia.idea_id
+                ia.budget = idea_rev_index[ia.idea_id]['cart_amount'].to_f
               end
 
               ia

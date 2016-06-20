@@ -64,9 +64,10 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       refute_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count") do
         put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn'},
                       question_details:
-                        ({question_type: '3', details: [{'id' => ideas(:idea_1).id, 'budget' => '42.42'}]}).to_json}
+                        ({question_type: '3', details: [{'id' => ideas(:idea_1).id, 'cart_amount' => '42.42'}]}).to_json}
         
       end
+      assert_equal 42.42, IdeaAssignment.order(created_at: :desc).first.budget
     end
   end
 

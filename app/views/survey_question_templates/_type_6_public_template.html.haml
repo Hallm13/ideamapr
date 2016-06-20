@@ -1,5 +1,6 @@
 %script#type-6-public-template{type: 'text/template'}
   .field-example
-    .editable-text{contentEditable: 'true', onclick: 'document.execCommand(\'selectAll\',false,null)'}
+    .editable-text.bold-text
       <%- text %>
     .text-entry-box
+      %input{type: 'text', placeholder: raw('<%- text %>')}
