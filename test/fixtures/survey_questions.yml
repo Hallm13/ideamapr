@@ -14,7 +14,7 @@ sq_pre_4:
 sq_pre_5:
   title: pre5 - this is belongs to published survey and is older
   question_prompt: pre5 - assign to top
-  question_type: <%= SurveyQuestion::QuestionType::RANKING %>
+  question_type: <%= SurveyQuestion::QuestionType::PROCON %>
   created_at: <%= Time.now - 10.hours %>
 sq_no_ideas:
   title: question with no ideas
