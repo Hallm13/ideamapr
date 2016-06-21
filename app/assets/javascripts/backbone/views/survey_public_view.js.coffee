@@ -33,7 +33,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       
   change_hidden_class: ->
     @handle_screen_toggle @screens[@model.get('previous_selection')]
-    @handle_screen_toggle @screens[@model.get('current_question')]
+    @handle_screen_toggle @screens[@model.get('current_screen')]
     @
 
   render: ->
@@ -80,9 +80,6 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       view_self.question_count += 1
       view_self.$('#sq-list').append(sq_view.render().el)
 
-    # One screen for each qn + intro + thank you
-    @model.set('number_of_screens', 3 + @question_count)
-    
     # These selectors are used to make the remaining screens in initialize().
     @screens[1 + @question_count] = '#survey-summary'
     @screens[2 + @question_count] = '#survey-thankyou'

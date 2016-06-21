@@ -84,6 +84,7 @@ class SurveysController < ApplicationController
   
   private
   def render_json_payload
+    # One screen for each qn + intro + summary
     json = (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').
              merge({number_of_screens: 2 + @survey.survey_questions.count}))    
     render json: json

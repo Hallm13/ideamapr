@@ -55,7 +55,10 @@ sq_edit_functions = ->
         el: $('#fields-list-app')
 
       # This set the type for the view and its collection
-      window.field_details.set_question_type qn_type
+      if new_survey_qn
+        window.field_details.set_question_type 5
+      else
+        window.field_details.set_question_type qn_type
       window.data_container = window.field_details
       coll.fetch()
       

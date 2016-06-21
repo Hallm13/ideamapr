@@ -40,19 +40,19 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     # make everything active (?)
     @$('.col-xs-4').removeClass('inactive')
     
-    @$('#go-left').text(@nav_text('left', @model.get('current_question')))
-    @$('#go-right').text(@nav_text('right', @model.get('current_question')))
+    @$('#go-left').text(@nav_text('left', @model.get('current_screen')))
+    @$('#go-right').text(@nav_text('right', @model.get('current_screen')))
 
-    if @model.get('current_question') == 0
+    if @model.get('current_screen') == 0
       @$('#go-left').addClass('inactive')
       @$('#go-left').removeClass('active')
       
-    if @model.get('current_question') == (@model.get('number_of_screens') - 1)
+    if @model.get('current_screen') == (@model.get('number_of_screens') - 1)
       @$('#go-right').removeClass('active')
       @$('#go-right').addClass('inactive')
 
   make_dropdown: ->
-    curr_qn = @model.get('current_question') + 1
+    curr_qn = @model.get('current_screen') + 1
     total_screens = @model.get('number_of_screens')
     hidden_row = @$('#other-sections')
     range = (i for i in [1..total_screens])
@@ -64,7 +64,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
         
   render: ->
     data =
-      current_question_index: @model.get('current_question') + 1
+      current_question_index: @model.get('current_screen') + 1
       total_screens: @model.get('number_of_screens')
       
     @$el.html(_.template($('#survey-nb-template').html())(data))

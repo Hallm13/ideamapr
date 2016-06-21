@@ -1,12 +1,11 @@
-IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
-  className: 'col-xs-12 idea-box',
-  tagName: 'div',
-     
+IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
+  top_container_class: 'idea-box'
   initialize: ->
     _.bindAll(@, 'render')
     @pro_text = ''
     @con_text = ''
-    
+    @top_container_selector = '.' + @top_container_class
+    @$el.addClass @top_container_class
     @listenTo(@model, 'idea:new_procon', @render)
     @
 

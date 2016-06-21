@@ -1,4 +1,7 @@
 IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
+  className: 'col-xs-12',
+  tagName: 'div',
+
   base_events:
     'click #up': (evt) ->
       @model.set('ranked', 1)
@@ -21,7 +24,7 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
     return [control_div, delete_control]
 
   add_controls: (evt, inside_selector) ->
-    if $(evt.target).hasClass(@top_container_selector)
+    if $(evt.target).hasClass(@top_container_class)
       container = $(evt.target)
     else
       container = $(evt.target).closest(@top_container_selector)
@@ -29,7 +32,7 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
     container.closest(inside_selector).find('.controls-box').show({duration: 'medium'})
 
   remove_controls: (evt, inside_selector) ->
-    if $(evt.target).hasClass(@top_container_selector)
+    if $(evt.target).hasClass(@top_container_class)
       container = $(evt.target)
     else
       container = $(evt.target).closest(@top_container_selector)

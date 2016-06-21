@@ -1,9 +1,10 @@
 IdeaMapr.Views.DetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
-  className: 'col-xs-12 component-box'
-  top_container_selector: '.component-box'
-  
+  top_container_class: 'component-box'
   initialize: ->
     _.bindAll(@, 'render')
+
+    @top_container_selector = '.' + @top_container_class
+    @$el.addClass @top_container_class
     @extend_events()
     @
     

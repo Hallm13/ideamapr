@@ -32,7 +32,7 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     @
     
   defaults: ->
-    current_question: 0
+    current_screen: 0
     public_link: 'none'
     
   urlRoot: '/surveys/',
@@ -43,14 +43,14 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
       @urlRoot + 'public_show/' + @get('public_link')
     
   recrement_question: (options) ->
-    @set('previous_selection', @get('current_question'))
+    @set('previous_selection', @get('current_screen'))
 
     if options.hasOwnProperty('move_to')
-      @set('current_question', options.move_to - 1)      
+      @set('current_screen', options.move_to - 1)      
     else
       if options.direction == -1
-        @set('current_question', (@get('current_question') - 1 + @get('number_of_screens')) % @get('number_of_screens'))
+        @set('current_screen', (@get('current_screen') - 1 + @get('number_of_screens')) % @get('number_of_screens'))
       else if options.direction == 1
-        @set('current_question', (@get('current_question') + 1) % @get('number_of_screens'))
+        @set('current_screen', (@get('current_screen') + 1) % @get('number_of_screens'))
       
     @trigger 'survey:selection_changed'

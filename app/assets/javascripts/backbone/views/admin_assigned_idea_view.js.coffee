@@ -1,8 +1,14 @@
 IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
-  className: 'col-xs-12 idea-box',
-  tagName: 'div',
-  top_container_selector: '.idea-box'
-  
+  top_container_class: 'idea-box'
+  initialize: ->
+    _.bindAll(@, 'render')
+    _.bindAll(@, 'extend_events')
+    @extend_events()
+    @top_container_selector = '.' + @top_container_class
+    @$el.addClass @top_container_class
+
+    @
+
   extend_events: ->
     my_events =
       'keyup .amount-box': (evt) ->
@@ -18,12 +24,6 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()
      
-  initialize: ->
-    _.bindAll(@, 'render')
-    _.bindAll(@, 'extend_events')
-    @extend_events()
-    @
-
   render: ->
     template_id = '#type-' + @question_type + '-public-template'
     html = _.template($(template_id).html())(@model.attributes)
