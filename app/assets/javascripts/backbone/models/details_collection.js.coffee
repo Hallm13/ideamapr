@@ -10,7 +10,8 @@ IdeaMapr.Collections.DetailsCollection = Backbone.Collection.extend
 
     coll_self = @
     @listenTo(@, 'change:answered', (model) ->
-      coll_self.trigger('idea_or_details:received_answer')
+      coll_self.answered = model.get('answered')
+      coll_self.trigger 'answered', coll_self
     )
     
   unselect_others: (model, options) ->

@@ -1,4 +1,4 @@
-IdeaMapr.Views.ComponentView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
+IdeaMapr.Views.DetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   className: 'col-xs-12 component-box'
   top_container_selector: '.component-box'
   
@@ -20,6 +20,9 @@ IdeaMapr.Views.ComponentView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         txt = $(evt.target).text()
         @model.set_edited_state(txt.trim())
         @
+      'click .editable-text': (evt) ->
+        $(evt.target).parent().find('input[type=radio]').prop('checked', true)
+        @model.set_response_data('checked', true)
         
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()
@@ -32,7 +35,7 @@ IdeaMapr.Views.ComponentView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     @$el.find('.editable-text').attr('contentEditable', 'true')
     @$el.find('.editable-text').attr('onclick', "document.execCommand('selectAll',false,null)")
     
-    if @model.get('is_edited')
+    if @model.is_edited
       @$el.find('.editable-text').addClass 'edited'
       
     div_array = @create_controls()

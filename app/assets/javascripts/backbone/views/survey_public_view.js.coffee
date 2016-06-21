@@ -23,7 +23,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
             
       @trigger('semaphore_set')
       
-  handle_toggle: (tgt) ->
+  handle_screen_toggle: (tgt) ->
     # tgt will be a string for the first and last strings
     console.log 'running toggle'
     if typeof(tgt) == 'string'
@@ -32,8 +32,8 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       tgt.toggle_view()
       
   change_hidden_class: ->
-    @handle_toggle @screens[@model.get('previous_selection')]
-    @handle_toggle @screens[@model.get('current_question')]
+    @handle_screen_toggle @screens[@model.get('previous_selection')]
+    @handle_screen_toggle @screens[@model.get('current_question')]
     @
 
   render: ->

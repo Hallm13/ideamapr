@@ -1,9 +1,7 @@
-IdeaMapr.Models.Idea = Backbone.Model.extend
+IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
   defaults: ->
     cart_amount: 0
     answered: false
-    response_data:
-      answered: false
     title: null
     promoted: 0
     ranked: 0
@@ -13,6 +11,9 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
 
   initialize: ->
     @on('move-top', @grant_top)
+    @.attributes['response_data'] =
+      answered: false
+      checked: false
 
   make_example: ->
     @set('title', 'Example Idea')
@@ -28,12 +29,7 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
       return ''
     else
       return @get('idea_rank')
-      
-  response_data: ->
-    rd = @.attributes['response_data']
-    rd['idea_id'] = @get('id')
-    rd
-      
+            
   init_type_specific_data: (qn_type) ->
     data = @attributes['response_data']
     if qn_type == 0

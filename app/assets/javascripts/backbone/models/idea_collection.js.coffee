@@ -9,8 +9,9 @@ IdeaMapr.Collections.IdeaCollection = Backbone.Collection.extend
   model: IdeaMapr.Models.Idea
   initialize: ->
     coll_self = @
-    @listenTo(@, 'change:answered', ->
-      coll_self.trigger('idea_or_details:received_answer')
+    @listenTo(@, 'change:answered', (model) ->
+      coll_self.answered = model.get('answered')
+      coll_self.trigger 'answered', coll_self
     )
     
   reset_ranks: ->

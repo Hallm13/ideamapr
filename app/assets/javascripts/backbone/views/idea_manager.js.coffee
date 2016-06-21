@@ -38,7 +38,7 @@ IdeaMapr.Views.IdeaManager = Backbone.View.extend
     # Move the model into or out of the assigned idea list, and re-distribute ranks
     if m.get('promoted') == 1
       m.set('idea_rank', @assigned_collection.models.length)
-      @assigned_collection.add m      
+      @assigned_collection.add m
       @selected_view.example_count -= 1
       @search_view.added_count += 1
       @to_search_collection.remove m
@@ -51,7 +51,7 @@ IdeaMapr.Views.IdeaManager = Backbone.View.extend
       @search_view.added_count -= 1
 
     unless m.get('promoted') == 0
-      @render()        
+      @render()
       m.set('promoted', 0)
     
   distribute: (opts) ->

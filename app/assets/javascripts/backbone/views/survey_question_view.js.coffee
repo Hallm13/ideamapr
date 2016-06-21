@@ -1,11 +1,17 @@
 IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
   initialize: ->
     _.bindAll(@, 'render')
+    @listenTo(@model, 'change:answered', (m) ->
+      @set_answered_display m
+    )
     @
     
   tagName: 'div',
   className: 'myhidden row'
 
+  set_answered_display: (m) ->
+    @$('.answered-status').text(m.get('answered'))
+    
   toggle_view: ->
     if @$el.hasClass 'myhidden'
       @$el.removeClass 'myhidden'
@@ -14,6 +20,9 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
       
   events:
     'click #save-response': ->
+      # Don't bother doing anything if the survey wasn't answered.
+      return if @model.get('answered') == false
+      
       qn_response = @collection.map (m) ->
         m.response_data()
         
@@ -39,14 +48,21 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
     view_self = @
 
     @collection = idea_or_details_coll    
-    @listenTo(idea_or_details_coll, 'idea_or_details:received_answer', ->
-      view_self.model.set('answered', true)
+    @listenTo(idea_or_details_coll, 'answered', (coll) ->
+      view_self.model.set('answered', coll.answered)
     )
     
     idea_or_details_coll.sqn_id = @model.get('id')
-    idea_list_view = new IdeaMapr.Views.PublicIdeaListView
-      collection: idea_or_details_coll
+    qn_type = @model.get('question_type')
+
+    if qn_type == 5 or qn_type == 6
+      idea_list_view = new IdeaMapr.Views.PublicDetailsCollectionView
+        collection: idea_or_details_coll
+    else
+      idea_list_view = new IdeaMapr.Views.PublicIdeaListView
+        collection: idea_or_details_coll
+        
     idea_list_view.question_id = @model.get('id')
-    idea_list_view.question_type = @model.get('question_type')
+    idea_list_view.question_type = qn_type
       
     @$('#idea-list').append(idea_list_view.render().el)

@@ -59,7 +59,9 @@ sq_edit_functions = ->
       window.field_details.set_question_type qn_type
       window.data_container = window.field_details
 
-      coll.fetch()
+      unless new_survey_qn
+        # There won't be any details to fetch, for new questions.
+        coll.fetch()
       
     if new_survey_qn || qn_type == '1' || qn_type == '3' || qn_type == '0'
       if qn_type == '1' || qn_type == '3' || qn_type == '0'
@@ -73,6 +75,7 @@ sq_edit_functions = ->
 
       # This sets the type for both the assigned and search views in one go
       window.idea_list.set_question_type qn_type
+      # This fetches the ideas so you can search on them.
       ideas.fetch()
 
     $('#survey_question_question_type').change (evt) ->

@@ -29,9 +29,6 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       @pro_text = $(evt.target).val()
     'keyup #current-con': (evt) ->
       @con_text = $(evt.target).val()
-    'click .editable-text': (evt) ->
-      $(evt.target).parent().find('input[type=radio]').prop('checked', true)
-      @model.set_response_data('checked', true)
       
   render: ->
     qn_type = @question_type

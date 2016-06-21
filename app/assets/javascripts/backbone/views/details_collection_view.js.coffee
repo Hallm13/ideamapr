@@ -1,13 +1,13 @@
 IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
   initialize: ->
     _.bindAll(@, 'render')
-    @existing_idea_count = 0
+    @existing_detail_count = 0
     
     @listenTo(@collection, 'ready_to_render', @render)
     @listenTo(@collection, 'change:ready_for_render', @render)
     @listenTo(@collection, 'empty_model', @render)
     
-    this
+    @
 
   set_question_type: (t) ->
     @collection.question_type = t
@@ -27,23 +27,23 @@ IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
   events:
     'click #add-button': (evt) ->
       m = new IdeaMapr.Models.DetailComponent()
-
+      m.set('idea_rank', @collection.models.length - 1)
       @collection.add m
       @collection.trigger('empty_model')
-      this
+      @
       
   render: ->
     t = _.template($('#details-collection-template').html())
     @$el.html(t())
     
     view_self = @
-    @existing_idea_count = 0
     
     @collection.each (model) ->
-      component_view = new IdeaMapr.Views.ComponentView
+      @existing_detail_count += 1      
+      component_view = new IdeaMapr.Views.DetailView
         model: model
       component_view.question_type = view_self.question_type
       view_self.$('#options-list').append(component_view.render().el)
       
-    this
+    @
   

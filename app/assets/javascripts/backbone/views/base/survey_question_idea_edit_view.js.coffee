@@ -35,4 +35,3 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
       container = $(evt.target).closest(@top_container_selector)
     container.removeClass('showing-controls')
     container.closest(inside_selector).find('.controls-box').hide()
-    

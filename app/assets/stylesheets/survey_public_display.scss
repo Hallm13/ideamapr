@@ -223,9 +223,11 @@
 }
 
 #save-response {
+  @include bold-text();
+  
   background: $button-background;
   color: white;
-  border-radius: 50px;
+  border-radius: 5px;
   width: 100%;
   text-align: center;
   padding: 10px 0;
