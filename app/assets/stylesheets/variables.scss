@@ -1,21 +1,29 @@
+/* Variables */
+
+/* Backgrounds */
 
 $form-background: #FFF;
+$background-gray: #F0F1F2;
+$dark-background-gray: #676D73;
+$button-background: #4183D7;
 
-/* Style guide Colors */
+/* Borders */
 
 $form-border-gray: #F0F1F2; /*4C3D3D*/
+
+/* General style guide */
+
+$hover-blue: #B9E0F1;
 $primary-highlight: #C54943;
 $theme-red: #C54943;
 $theme-green: #409599;
 
-$background-gray: #F0F1F2;
-$dark-background-gray: #676D73;
+/* Font colors */
+
 $text-gray: #676D73;
-$hover-blue: #B9E0F1;
+$theme-white: #FCFCFC;
 
-$style-white: #FCFCFC;
-
-/* interactivity */
+/* Interactivity */
 $primary-button-gradient-start: #a7d2d4;
 $primary-button-gradient-end: #409599;
 $selected-green: lightgreen;

@@ -35,18 +35,20 @@ IdeaMapr.Models.Idea = Backbone.Model.extend
     rd
       
   init_type_specific_data: (qn_type) ->
-    data = @attributes
+    data = @attributes['response_data']
     if qn_type == 0
-      unless data.hasOwnProperty('note_counts')
-        data['note_counts'] =
+      unless data.hasOwnProperty('type-0-data')
+        data['type-0-data'] = new Object
+        
+        data['type-0-data']['note_counts'] =
           pro: @get('pro')
           con: @get('con')
-        data['feedback'] =
+        data['type-0-data']['feedback'] =
           pro: []
           con: []
     
   add_feedback: (type, text) ->
     @set('answered', true)
     unless text.trim().length == 0
-      @attributes['feedback'][type].push text
+      @attributes['response_data']['type-0-data']['feedback'][type].push text
       @trigger('idea:new_procon')

@@ -57,10 +57,11 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     con_root.append $('<div>').addClass('row')
     root.append con_root
 
-    @model.get('feedback')['pro'].forEach (text_elt, idx) ->
+    # TODO: Hide this object schema in a method
+    @model.get('response_data')['type-0-data']['feedback']['pro'].forEach (text_elt, idx) ->
       div = $('<div>').addClass('col-xs-12').addClass('gray-bordered-box').text text_elt
       pro_root.find('.row').append div
-    @model.get('feedback')['con'].forEach (text_elt, idx) ->
+    @model.get('response_data')['type-0-data']['feedback']['con'].forEach (text_elt, idx) ->
       div = $('<div>').addClass('col-xs-12').addClass('gray-bordered-box').text text_elt
       con_root.find('.row').append div
 

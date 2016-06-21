@@ -12,16 +12,33 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
     else
       @$el.addClass 'myhidden'
       
+  events:
+    'click #save-response': ->
+      qn_response = @collection.map (m) ->
+        m.response_data()
+        
+      url = '/individual_answers'
+
+      d={}
+      d['survey_token'] = @model.survey_token 
+      d['sqn_id'] = @model.get('id')
+      d['response_data'] = JSON.stringify({data: qn_response})
+      $.post url, d, (d, s, x) ->
+        
   render: ->
     data = @model.attributes
     sq_html =  _.template($('#survey-question-template').html())(data)
     @$el.html sq_html
     
+    save_button = $('<div>').attr('id', 'save-response').addClass('col-xs-12 clickable').text('Save Response')
+    @$el.append save_button
+
     @
     
   append_idea_template: (idea_or_details_coll) ->
     view_self = @
-    
+
+    @collection = idea_or_details_coll    
     @listenTo(idea_or_details_coll, 'idea_or_details:received_answer', ->
       view_self.model.set('answered', true)
     )

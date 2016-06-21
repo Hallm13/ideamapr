@@ -5,16 +5,22 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     @listenTo(@, "semaphore_set", @render)
     @listenTo(@collection, "sync", @set_questions)
     @listenTo(@model, "survey:selection_changed", @change_hidden_class)
-    @listenTo(@model, 'survey:has_ideas', @semaphore_increment, 'survey')
+    @listenTo(@model, 'survey:has_ideas', @semaphore_increment)
     
     @screens =
       0: '#welcome-screen'
     @semaphore_value = 0
     @
 
-  semaphore_increment: (type) ->
+  semaphore_increment: ->
     @semaphore_value += 1
     if @semaphore_value == 2
+      # Now we have both the sq collection and the survey has its list of idea lists...
+      view_self = @
+      @collection.each (sq_model, idx) ->
+        sq_model.survey_token = view_self.model.get('public_link')
+        sq_model.idea_lists = view_self.model.idea_lists[idx]
+            
       @trigger('semaphore_set')
       
   handle_toggle: (tgt) ->

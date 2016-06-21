@@ -75,6 +75,10 @@
   .text-entry-box {
     margin-left: 10px;
   }
+
+  &:hover {
+    background: $background-gray
+  }
 }
 
 .any-card-row {
@@ -216,4 +220,13 @@
 .proscons-title {
   margin: 10px 0;
   @include bold-text();
+}
+
+#save-response {
+  background: $button-background;
+  color: white;
+  border-radius: 50px;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
 }
