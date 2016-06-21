@@ -15,10 +15,10 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       answered: false
       checked: false
 
-  make_example: ->
+  make_example: (opts) ->
     @set('title', 'Example Idea')
     @set('description', 'Add ideas like this one by clicking + below.')
-    
+    @set('idea_rank', opts.rank)
   increment_note: (type) ->
     if type == 'pro' || type == 'con'
       @set(type, @get(type) + 1)

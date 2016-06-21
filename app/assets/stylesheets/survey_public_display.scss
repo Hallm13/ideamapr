@@ -72,10 +72,6 @@
   .editable-text {
     cursor: pointer;
   }
-  .text-entry-box {
-    margin-left: 10px;
-  }
-
   &:hover {
     background: $background-gray
   }
@@ -130,7 +126,7 @@
   }
 }
   
-.controls-box {
+.controls-box,.user-controls-box { 
   padding: 0;
   text-align: center;
   .ranking-sign {
@@ -152,7 +148,8 @@
       background-position-y: -14px;
     }
     &#out {
-      padding: 36px 5px;
+      padding: 36px 0 36px 5px;
+      color: $theme-red;
     }
   }
   
@@ -181,6 +178,13 @@
   line-height: 500%;
   text-align: center;
   margin-bottom: 10px;
+}
+
+/* Non-idea fields styling */
+.component-box {
+  .text-entry-box {
+    margin-left: 10px;
+  }
 }
 
 /* Common formatting */

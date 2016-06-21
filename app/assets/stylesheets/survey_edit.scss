@@ -23,7 +23,7 @@
 
     &.right-margin {
       left: inherit;
-      background: goldenrod;
+      background: $background-gray;
       right: 0;
     }
     .margin {
@@ -47,11 +47,6 @@
 
 .field-example {
   margin-bottom: 5px;
-  .text-entry-box {
-    width: 100px;
-    margin-left: 5px;
-    background-color: gray;
-  }
 }
 
 .showing-controls {

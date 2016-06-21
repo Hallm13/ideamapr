@@ -1,3 +1,5 @@
+# Display ideas in survey question editing
+
 IdeaMapr.Views.IdeaManager = Backbone.View.extend
   initialize: ->
     _.bindAll(@, 'render')
@@ -22,7 +24,6 @@ IdeaMapr.Views.IdeaManager = Backbone.View.extend
     @listenTo(@, 'ready_to_render', @render)
     @listenTo(@, 'new_type_change', @change_type_and_render)
     
-    console.log 'idea manager: finished init'
     @
 
   change_type_and_render: (new_type) ->
@@ -80,8 +81,6 @@ IdeaMapr.Views.IdeaManager = Backbone.View.extend
     @.trigger('ready_to_render') if opts['render']
     
   render: ->
-    console.log 'idea manager: starting render'
-
     @selected_view.render()
     @search_view.render()
     

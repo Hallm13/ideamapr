@@ -2,7 +2,6 @@ set_prompt = (css_select) ->
   if window.prompt_map
     prompt = window.prompt_map['data'][$('#survey_question_question_type option:selected').val()]
     $(css_select).text prompt
-    console.log 'Answer: ' + prompt
   else
     $.post('/ajax_api',
         'payload' : 'survey_question/get_prompt_map/'
@@ -29,7 +28,7 @@ sq_edit_functions = ->
         alert('hey! cannot find idea list app. :(')
       
   if ($.find('form#survey_question_new').length > 0 || $.find('form#survey_question_edit').length > 0) and \
-      $.find('#survey_question_id')
+      $.find('#survey_question_id').length > 0
     # We are creating or editing a survey qn
     qn_id = $('#survey_question_id').val()
 
@@ -41,13 +40,13 @@ sq_edit_functions = ->
       set_prompt('#helper-edit')      
     else
       new_survey_qn = false
-      qn_type = $('#saved_question_type').val()
+      qn_type = parseInt($('#saved_question_type').val())
 
     if qn_type != 3 # It's not budgeting
       $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()
       
     # For new survey qns, init all Backbone apps
-    if new_survey_qn || qn_type == '5' || qn_type == '6'
+    if new_survey_qn || qn_type == 5 || qn_type == 6
       coll = new IdeaMapr.Collections.DetailsCollection()
       coll.question_id = qn_id
       
@@ -58,13 +57,10 @@ sq_edit_functions = ->
       # This set the type for the view and its collection
       window.field_details.set_question_type qn_type
       window.data_container = window.field_details
-
-      unless new_survey_qn
-        # There won't be any details to fetch, for new questions.
-        coll.fetch()
+      coll.fetch()
       
-    if new_survey_qn || qn_type == '1' || qn_type == '3' || qn_type == '0'
-      if qn_type == '1' || qn_type == '3' || qn_type == '0'
+    if new_survey_qn || qn_type == 1 || qn_type == 3 || qn_type == 0
+      if qn_type == 1 || qn_type == 3 || qn_type == 0
         $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
       ideas = new IdeaMapr.Collections.IdeaCollection()
       ideas.survey_question_id = qn_id
