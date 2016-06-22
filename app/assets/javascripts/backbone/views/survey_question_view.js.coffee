@@ -1,4 +1,4 @@
-IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
+IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
   initialize: ->
     _.bindAll(@, 'render')
     @listenTo(@model, 'change:answered', @set_answered_display)
@@ -10,12 +10,6 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
   set_answered_display: (m) ->
     @$('.answered-status').text(m.get('answered'))
     
-  toggle_view: ->
-    if @$el.hasClass 'myhidden'
-      @$el.removeClass 'myhidden'
-    else
-      @$el.addClass 'myhidden'
-      
   events:
     'click #save-response': ->
       # Don't bother doing anything if the survey wasn't answered.

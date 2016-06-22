@@ -21,7 +21,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     'click #current-question': (evt) ->
       @$('#other-sections').toggle()
     'click #other-sections .col-xs-4': (evt) ->
-      @model.trigger('survey:recrement_question', {direction: 1, move_to: $(evt.target).data('question-index')})
+      @model.trigger('survey:recrement_question', {move_to: $(evt.target).data('question-index')})
       
   nav_text: (section, screen_index) ->
     if @nav_texts[screen_index]? &&

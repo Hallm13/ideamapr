@@ -7,8 +7,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     @listenTo(@model, "survey:selection_changed", @change_hidden_class)
     @listenTo(@model, 'survey:has_ideas', @semaphore_increment)
     
-    @screens =
-      0: '#welcome-screen'
+    @screens = new Array()
     @semaphore_value = 0
     @
 
@@ -25,7 +24,6 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       
   handle_screen_toggle: (tgt) ->
     # tgt will be a string for the first and last strings
-    console.log 'running toggle'
     if typeof(tgt) == 'string'
       $(tgt).toggle()
     else
@@ -41,11 +39,11 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     # This is only triggered after both sqns and ideas have been fetched, which only happens once.
     
     view_self = this
-    navbar_view = new IdeaMapr.Views.SurveyNavbarView
+    @navbar_view = new IdeaMapr.Views.SurveyNavbarView
       collection: @collection
       model: @model
       
-    @$('#survey-navbar').append(navbar_view.render().el)
+    @$('#survey-navbar').append(@navbar_view.render().el)
 
     intro_html = _.template($('#survey-intro-template').html())(@model.attributes)
     @$('#survey-intro').html intro_html
@@ -56,9 +54,14 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     )
 
     summary_view = new IdeaMapr.Views.PublicSurveySummaryView
+      model: @model
       collection: @collection
       el: $('#survey-summary')
     summary_view.render()
+    @screens.push summary_view
+
+    # Pass a reference to the screens to the survey model, so it can manage toggles.
+    @model.screens = @screens
     
     thankyou_html = _.template($('#survey-thankyou-template').html())(@model.attributes)
     @$('#survey-thankyou').html thankyou_html
