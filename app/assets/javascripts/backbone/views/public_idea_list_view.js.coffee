@@ -3,7 +3,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
   
   initialize: ->
     _.bindAll(@, 'render')
-    @        
+    @
       
   render: ->
     viewself = @

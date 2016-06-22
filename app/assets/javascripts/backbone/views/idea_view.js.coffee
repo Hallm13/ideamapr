@@ -15,7 +15,7 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
       if $(evt.target).hasClass('plus-sign')
         options['direction'] = '+'
       else
-        options['direction'] = '-'      
+        options['direction'] = '-'
       @model.trigger 'idea:change_rank', @model, options
 
   reveal_idea: (model) ->

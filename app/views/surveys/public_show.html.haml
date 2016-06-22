@@ -18,13 +18,26 @@
       .col-xs-offset-2.col-xs-8
         .public-body
           <%- introduction %>
+          
 %script#survey-summary-template{type: 'text/template'}
   .screen#summary-screen
     .row
-      .col-xs-12
-        Summary (<%- question_count %> Total Questions; <%- answered_qns_count %> are answered)
-        #summary-data
-    
+      .col-xs-6.col-xs-offset-3
+        .summary-title
+          Skipped Questions
+        #skipped-list.row.summary-list
+    .row
+      .col-xs-6.col-xs-offset-3.bold-text
+        .summary-title
+          Answered Questions
+        #answered-list.row.summary-list
+          
+%script#survey-question-summary-template{type: 'text/template'}
+  .col-xs-12.bold-text
+    <%- title %>
+  .col-xs-12
+    <%- question_prompt %>
+        
 %script#survey-thankyou-template{type: 'text/template'}
   .screen#thankyou-screen
     .row

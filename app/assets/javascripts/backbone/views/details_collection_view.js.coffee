@@ -39,7 +39,7 @@ IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
     view_self = @
     
     @collection.each (model) ->
-      @existing_detail_count += 1      
+      @existing_detail_count += 1
       component_view = new IdeaMapr.Views.DetailView
         model: model
       component_view.question_type = view_self.question_type

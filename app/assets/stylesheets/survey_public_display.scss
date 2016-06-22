@@ -1,4 +1,20 @@
 #survey-public-view {
+  /* Summary screen */
+  #summary-screen {
+    .summary-title {
+      @include bold-text();
+      text-align: center;
+    }
+    
+    .summary-list {
+      .survey-qn-summary {
+	@include solid-gray-border();
+      }
+    }
+  }
+  
+  /* Nav bar */
+  
   .survey-nb-row {
     position: relative;
     

@@ -2,7 +2,8 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
   initialize: ->
     coll_self = @
     @listenTo(@, 'change:answered', (model) ->
-      @.trigger('survey_question_collection:received_answer')
+      # For the summary view to listen to
+      @.trigger('survey_question_collection:received_answer')      
     )
     
   urlRoot: '/survey_questions',

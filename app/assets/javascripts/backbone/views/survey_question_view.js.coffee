@@ -1,9 +1,7 @@
 IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
   initialize: ->
     _.bindAll(@, 'render')
-    @listenTo(@model, 'change:answered', (m) ->
-      @set_answered_display m
-    )
+    @listenTo(@model, 'change:answered', @set_answered_display)
     @
     
   tagName: 'div',
@@ -29,7 +27,7 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
       url = '/individual_answers'
 
       d={}
-      d['survey_token'] = @model.survey_token 
+      d['survey_token'] = @model.survey_token
       d['sqn_id'] = @model.get('id')
       d['response_data'] = JSON.stringify({data: qn_response})
       $.post url, d, (d, s, x) ->
@@ -47,7 +45,7 @@ IdeaMapr.Views.SurveyQuestionView = Backbone.View.extend
   append_idea_template: (idea_or_details_coll) ->
     view_self = @
 
-    @collection = idea_or_details_coll    
+    @collection = idea_or_details_coll
     @listenTo(idea_or_details_coll, 'answered', (coll) ->
       view_self.model.set('answered', coll.answered)
     )
