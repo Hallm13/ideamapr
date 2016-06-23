@@ -63,7 +63,9 @@ IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
         viewself.search_view.collection.add m
         avlbl_count += 1
     )
-    @search_view.orig_length = avlbl_count
+    
+    @search_view.orig_length = @collection.length
+    @search_view.added_count = assigned_total
     
     # Set a count for how many example ideas to show, up to a max of 3
     @selected_view.example_count = 3 - assigned_total

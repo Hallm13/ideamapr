@@ -10,8 +10,6 @@ functions = ->
       collection: questions
       el: $('#question-list-app')
     window.data_container = window.sq_list
-
-    # This sets the type for both the assigned and search views in one go
     questions.fetch()
       
     $('#object-save').click (evt) ->

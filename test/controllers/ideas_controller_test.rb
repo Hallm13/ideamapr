@@ -63,13 +63,13 @@ class IdeasControllerTest < ActionController::TestCase
   describe '#create' do
     it 'is successful' do
       post :create, idea: {title: 'is a long title', description: "is a long title and description"}
-      assert_redirected_to idea_path(Idea.last)
+      assert_redirected_to ideas_path(Idea.last)
     end
 
     it 'shows errors' do
-      post :create, idea: {title: 'is a', description: "is"}
-      assert_template :edit
-      assert_match /Idea /, response.body
+      post :create, idea: {title: 'iz a', description: "is"}
+      assert_template :new
+      assert_match /iz a/, response.body
     end
   end
 end

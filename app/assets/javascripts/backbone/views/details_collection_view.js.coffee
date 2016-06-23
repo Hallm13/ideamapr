@@ -5,7 +5,6 @@ IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
     
     @listenTo(@collection, 'ready_to_render', @render)
     @listenTo(@collection, 'change:ready_for_render', @render)
-    @listenTo(@collection, 'empty_model', @render)
     
     @
 
@@ -29,7 +28,7 @@ IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
       m = new IdeaMapr.Models.DetailComponent()
       m.set('idea_rank', @collection.models.length - 1)
       @collection.add m
-      @collection.trigger('empty_model')
+      @render()
       @
       
   render: ->

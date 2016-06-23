@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614210843) do
+ActiveRecord::Schema.define(version: 20160623013454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,14 +42,12 @@ ActiveRecord::Schema.define(version: 20160614210843) do
   end
 
   create_table "idea_assignments", force: :cascade do |t|
-    t.integer  "survey_id"
     t.integer  "idea_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "groupable_type"
     t.integer  "groupable_id"
     t.float    "budget"
-    t.integer  "ranking"
     t.integer  "ordering"
   end
 
@@ -94,10 +92,10 @@ ActiveRecord::Schema.define(version: 20160614210843) do
 
   create_table "responses", force: :cascade do |t|
     t.integer  "respondent_id"
-    t.text     "payload"
     t.integer  "survey_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "closed"
   end
 
   create_table "survey_questions", force: :cascade do |t|

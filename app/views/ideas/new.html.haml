@@ -1,7 +1,3 @@
-.row
-  .col-xs-12
-    Create Idea
-    
 = form_tag("/ideas", method: :post, id: :idea_new) do
   - Idea.viewbox_list.each do |vb|
     - if vb.shown

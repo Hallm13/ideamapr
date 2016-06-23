@@ -11,7 +11,16 @@ set_prompt = (css_select) ->
     )
 
 sq_edit_functions = ->
+  show_field_or_ideas = (qn_type) ->
+    qn_type = parseInt qn_type
+    if qn_type == 1 || qn_type == 3 || qn_type == 0
+      $('[data-box-key=sq-add-ideas]').closest('.builder-box').show()
+      $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
+    else
+      $('[data-box-key=sq-add-ideas]').closest('.builder-box').hide()
+      $('[data-box-key=sq-add-fields]').closest('.builder-box').show()
   switch_qn_type = (switch_to) ->
+    show_field_or_ideas switch_to
     if switch_to == '5' || switch_to == '6'
       if window.hasOwnProperty('field_details')
         window.data_container = window.field_details
@@ -19,13 +28,21 @@ sq_edit_functions = ->
         window.field_details.render()
       else
         alert('hey! cannot find field list app. :(')
+      $('#search-box').hide()
     if switch_to == '0' || switch_to == '1' || switch_to == '3'
+      # When choosing Budgeting type for questions show add'l controls
+      if switch_to == '3'
+        $('[data-box-key=sq-set-budget]').closest('.builder-box').show()
+      else
+        $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()
+      
       if window.hasOwnProperty('idea_list')
         window.data_container = window.idea_list
         window.idea_list.set_question_type switch_to
         window.idea_list.render()
       else
         alert('hey! cannot find idea list app. :(')
+      $('#search-box').show()
       
   if ($.find('form#survey_question_new').length > 0 || $.find('form#survey_question_edit').length > 0) and \
       $.find('#survey_question_id').length > 0
@@ -61,10 +78,9 @@ sq_edit_functions = ->
         window.field_details.set_question_type qn_type
       window.data_container = window.field_details
       coll.fetch()
-      
+
+    show_field_or_ideas qn_type
     if new_survey_qn || qn_type == 1 || qn_type == 3 || qn_type == 0
-      if qn_type == 1 || qn_type == 3 || qn_type == 0
-        $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
       ideas = new IdeaMapr.Collections.IdeaCollection()
       ideas.survey_question_id = qn_id
       window.idea_list = new IdeaMapr.Views.IdeaManager
@@ -81,25 +97,6 @@ sq_edit_functions = ->
       # When the question type is changed, on new views
       switch_qn_type $(evt.target).val()
       set_prompt('#helper-edit')
-
-      $('#survey_question_question_prompt').val('')
-      # When choosing Budgeting type for questions show add'l controls
-      if $(evt.target).val() == '3'
-        $('[data-box-key=sq-set-budget]').closest('.builder-box').show()
-      else
-        $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()
-
-      # When choosing non idea question type, the Backbone app box should become visible
-
-      dyn_comp_word_elt = $('#component-word')
-      if $(evt.target).val() == '5' or $(evt.target).val() == '6'
-        $('[data-box-key=sq-add-fields]').closest('.builder-box').show()
-        $('[data-box-key=sq-add-ideas]').closest('.builder-box').hide()
-        dyn_comp_word_elt.val('Save and Add Fields')
-      else
-        $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
-        $('[data-box-key=sq-add-ideas]').closest('.builder-box').show()
-        dyn_comp_word_elt.val('Save and Add Ideas')
 
     $('#object-save').click (evt) ->
       # Gather the collected fields or ideas models for unpacking by the controller

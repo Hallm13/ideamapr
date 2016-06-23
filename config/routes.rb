@@ -6,9 +6,8 @@ IdeaMapr::Application.routes.draw do
 
   get '/public_info/double_bundle' => 'public_info#double_bundle'
 
-  resources :individual_answers, only: [:create]
-  resources :ideas  
-  resources :survey_responses, only: [:update]
+  resources :individual_answers, only: [:create, :update]
+  resources :ideas
   resources :survey_questions
   resources :question_details, only: [:index, :create]
 

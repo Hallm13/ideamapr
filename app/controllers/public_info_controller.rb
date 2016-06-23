@@ -12,7 +12,25 @@ class PublicInfoController < ApplicationController
            sq.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
           {type: 'detail', data: sq.question_detail.details_list}
         else
-          {type: 'idea', data: Idea.where('id in (?)', sq.idea_assignments.order(:ordering).pluck(:idea_id))}
+          if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
+            field_list = ['ideas.id', :title, :description, :budget]
+          else
+            field_list = ['ideas.id', :title, :description]
+          end
+          data_array = Idea.joins(:idea_assignments).includes(:idea_assignments).
+                       where(idea_assignments: {groupable_id: sq.id, groupable_type: 'SurveyQuestion'}).
+                       order('idea_assignments.ordering ASC').pluck(*field_list)
+          ret = {type: 'idea', data: data_array.map do |val_set|
+                   [:id, :title, :description, :cart_amount].zip(val_set).inject({}) do |memo, pair|
+                     if pair[1].present?
+                       memo[pair[0]] = pair[1]
+                     end
+                     memo
+                   end
+                 end}
+
+          Rails.logger.debug "Producting #{ret[:data]}"
+          ret
         end
       end
       @all_ideas = {list_of_lists: list_of_lists}

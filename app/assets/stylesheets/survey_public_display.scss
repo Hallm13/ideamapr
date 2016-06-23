@@ -1,4 +1,10 @@
 #survey-public-view {
+  /* Thank you screen */
+
+  #survey-thankyou {
+    display: none;
+  }
+  
   /* Summary screen */
   #summary-screen {
     .summary-title {
@@ -56,6 +62,10 @@
       &#go-right {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
+	&.theme-red {
+	  background-color: $theme-red;
+	  border: solid 5px $theme-red;
+	}
       }
     }
   }
@@ -71,9 +81,6 @@
     padding: 10px 5px;
   }
   
-  .survey-sections {
-    display: none;
-  }
   .survey-sections#survey-intro {
     display: block;
   }

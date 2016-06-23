@@ -8,5 +8,3 @@
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}
   = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'
-  %input{name: 'commit', value: 'Save And Add Questions', type: :submit, class: 'btn btn-primary', id: 'component-word'}
-

@@ -2,19 +2,20 @@
   %a{href: new_survey_question_url}        
     %button.btn.btn-primary
       = t(:add_button_text)
-
-.entity-set
-  .row.table-headers
-    .col-xs-10
-      Question Title
-    .col-xs-2
-      Question Type
       
-- @questions.each do |question|
-  .row.question-row{class: hide_by_contained(question, @survey)}
-    .col-xs-10.goto-edit{'data-goto-target' => edit_survey_question_path(question)}
-      .cell-1
-        = question.title
-    .col-xs-2
-      .cell-1
-        = SurveyQuestion::QuestionType.name(question.question_type) || 'Not set'
+- if @questions.size > 0
+  .entity-set
+    .row.table-headers
+      .col-xs-9
+        Question Title
+      .col-xs-3
+        Question Type
+
+  - @questions.each do |question|
+    .row.question-row{class: hide_by_contained(question, @survey)}
+      .col-xs-9.goto-edit{'data-goto-target' => edit_survey_question_path(question)}
+        .cell-1
+          = question.title
+      .col-xs-3
+        .cell-1
+          = SurveyQuestion::QuestionType.name(question.question_type) || 'Not set'

@@ -1,16 +1,16 @@
 .row
   %a{href: new_idea_url}
-    %button.btn.btn-primary
+    .btn.btn-primary
       = t(:add_button_text)
-
-.entity-set
-  .row
-    .col-xs-12{style: 'text-align: center;'}
-      Title
-.entity-set  
-  - @all_ideas.each do |idea|
-    .row.question-row{class: hide_by_contained(idea, @question)}
-      .col-xs-12.goto-edit{'data-goto-target' => edit_idea_path(idea)}
-        .cell-1
-          = idea.title
+- if @all_ideas.size > 0
+  .entity-set
+    .row
+      .col-xs-12{style: 'text-align: center;'}
+        Title
+  .entity-set  
+    - @all_ideas.each do |idea|
+      .row.question-row{class: hide_by_contained(idea, @question)}
+        .col-xs-12.goto-edit{'data-goto-target' => edit_idea_path(idea)}
+          .cell-1
+            = idea.title
 

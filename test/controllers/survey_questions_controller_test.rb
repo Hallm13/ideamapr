@@ -26,7 +26,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       end
 
       assert_match /rank these ideas/i, SurveyQuestion.last.question_prompt
-      assert_redirected_to survey_question_path(SurveyQuestion.last)
+      assert_redirected_to survey_questions_path
     end
     
     it 'works to add ideas to existing sq' do
@@ -39,7 +39,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
                       question_details: ({details: ([{id: ideas(:idea_1).id}, {id: ideas(:idea_3).id}])}).to_json})
       end
       assert_equal idea_sz + 1, sq.ideas.count
-      assert_redirected_to survey_question_url(sq)
+      assert_redirected_to survey_questions_url
     end
   end
   describe '#update' do

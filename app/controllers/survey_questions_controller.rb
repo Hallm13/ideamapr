@@ -37,7 +37,7 @@ class SurveyQuestionsController < ApplicationController
 
   def update
     if save_question
-        redirect_to survey_question_url(@question)
+        redirect_to survey_questions_url
     else
       set_dropdown_options
       flash.now[:alert] = t(:resource_creation_failure, resource_name: 'Survey Question')

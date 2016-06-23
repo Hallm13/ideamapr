@@ -55,10 +55,10 @@ class IdeasController < ApplicationController
 
     if @idea.valid?
       @idea.save
-      redirect_to idea_path @idea
+      redirect_to ideas_path @idea
     else
       flash[:alert] = t(:resource_creation_failure, resource_name: 'Idea')
-      render :edit
+      render (params[:action] == 'create' ? :new : :edit)
     end
   end
   alias :create :update

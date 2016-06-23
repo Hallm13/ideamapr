@@ -5,12 +5,28 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     @listenTo(@, "semaphore_set", @render)
     @listenTo(@collection, "sync", @set_questions)
     @listenTo(@model, "survey:selection_changed", @change_hidden_class)
+    @listenTo(@model, "survey:done", @close_all_screens)
+    @listenTo(@model, "survey:server_closed", @thankyou_confirm)
+    @listenTo(@model, "survey:server_error", @thankyou_error)
+    
     @listenTo(@model, 'survey:has_ideas', @semaphore_increment)
     
     @screens = new Array()
     @semaphore_value = 0
     @
 
+  thankyou_confirm: ->
+    @thankyou_screen.find('#messages').text 'You may close this window now.'
+  thankyou_error: ->
+    @thankyou_screen.find('#messages').text "We couldn't save this response. Please try again. Sorry!"
+    
+  close_all_screens: ->
+    view_self = @
+    @screens.forEach (scr, idx) ->
+      view_self.screen_remove scr
+      
+    @thankyou_screen.show()
+    
   semaphore_increment: ->
     @semaphore_value += 1
     if @semaphore_value == 2
@@ -21,7 +37,14 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
         sq_model.idea_lists = view_self.model.idea_lists[idx]
             
       @trigger('semaphore_set')
-      
+
+  screen_remove: (tgt) ->
+    # tgt will be a string for the first and last strings
+    if typeof(tgt) == 'string'
+      $(tgt).remove()
+    else
+      tgt.delete_view()
+            
   handle_screen_toggle: (tgt) ->
     # tgt will be a string for the first and last strings
     if typeof(tgt) == 'string'
@@ -56,7 +79,8 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     summary_view = new IdeaMapr.Views.PublicSurveySummaryView
       model: @model
       collection: @collection
-      el: $('#survey-summary')
+      
+    $('#survey-summary').append summary_view.render().el
     summary_view.render()
     @screens.push summary_view
 
@@ -64,8 +88,9 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     @model.screens = @screens
     
     thankyou_html = _.template($('#survey-thankyou-template').html())(@model.attributes)
-    @$('#survey-thankyou').html thankyou_html
-    
+    @thankyou_screen = @$('#survey-thankyou')
+    @thankyou_screen.html thankyou_html
+      
     @
 
   set_questions: ->
@@ -84,6 +109,5 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       view_self.$('#sq-list').append(sq_view.render().el)
 
     # These selectors are used to make the remaining screens in initialize().
-    @screens[1 + @question_count] = '#survey-summary'
-    @screens[2 + @question_count] = '#survey-thankyou'
+
     @semaphore_increment('sq')

@@ -1,4 +1,4 @@
 response_1:
-  payload: <%= [].to_yaml.inspect %>
   survey: published_survey
-  
+  respondent: respondent_1
+  closed: false

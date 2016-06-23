@@ -5,4 +5,12 @@ class Response < ActiveRecord::Base
   has_many :individual_answers
   
   serialize :payload, Array
+  after_initialize :set_open
+
+  private
+  def set_open
+    unless closed
+      self.closed = false
+    end
+  end
 end

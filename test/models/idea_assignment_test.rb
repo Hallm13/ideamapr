@@ -4,6 +4,6 @@ class IdeaAssignmentTest < ActiveSupport::TestCase
     ia = IdeaAssignment.new groupable_type: 'SurveyQuestion', groupable_id: survey_questions(:sq_pre_4).id
 
     # sq_pre_4 already has two ideas assigned in the fixtures
-    assert_equal 2, ia.ranking
+    assert_equal 2, ia.ordering
   end
 end

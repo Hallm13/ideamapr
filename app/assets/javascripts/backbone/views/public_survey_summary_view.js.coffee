@@ -1,6 +1,6 @@
 IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
   tagName: 'div'
-  className: 'row'
+
   initialize: ->
     _.bindAll(@, 'render')
     @listenTo(@collection, 'survey_question_collection:received_answer', @render)

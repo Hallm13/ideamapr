@@ -1,7 +1,7 @@
 require 'test_helper'
 class SurveyQuestionEditTest < Capybara::Rails::TestCase
   def setup
-    Capybara.default_driver = :webkit
+    Capybara.default_driver = :selenium
     login_as admins(:admin_1), scope: :admin
   end
   
@@ -17,8 +17,10 @@ class SurveyQuestionEditTest < Capybara::Rails::TestCase
       ed_boxes.last.send_keys 'field X'
       page.find('#object-save').click
 
-      assert_equal "/survey_questions/#{survey_questions(:sq_with_radio_choice).id}", page.current_path
-      assert_match 'field X', page.body
+      assert_equal "/survey_questions", page.current_path
+
+      visit survey_question_path(survey_questions(:sq_with_radio_choice))
+      assert_match /field X/, page.body
     end
   end
 end

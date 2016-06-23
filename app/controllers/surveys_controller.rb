@@ -151,7 +151,7 @@ class SurveysController < ApplicationController
         render json: @survey, status: 201
       else
         flash[:alert] = nil
-        redirect_to survey_url(@survey)
+        redirect_to surveys_url
       end
     else
       if xhr
@@ -159,7 +159,7 @@ class SurveysController < ApplicationController
       else
         flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
         create_survey_qn_array
-        render :edit, status: 422
+        render :new, status: 422
       end
     end
   end

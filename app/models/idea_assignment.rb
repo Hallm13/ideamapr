@@ -6,8 +6,8 @@ class IdeaAssignment < ActiveRecord::Base
 
   private
   def rank_to_end
-    if ranking.nil? and groupable_id.present? and groupable_type.present?
-      self.ranking = IdeaAssignment.where(groupable_id: self.groupable_id, groupable_type: self.groupable_type).count
+    if ordering.nil? and groupable_id.present? and groupable_type.present?
+      self.ordering = IdeaAssignment.where(groupable_id: self.groupable_id, groupable_type: self.groupable_type).count
     end
   end
 end

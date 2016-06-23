@@ -104,7 +104,7 @@ class SurveysControllerTest < ActionController::TestCase
         end
 
         refute_nil flash[:alert]
-        assert_template :edit
+        assert_template :new
       end
     end
     
@@ -118,7 +118,7 @@ class SurveysControllerTest < ActionController::TestCase
       s = Survey.last
       assert_equal title, s.title
 
-      assert_redirected_to survey_url(s)
+      assert_redirected_to surveys_url
     end
 
     it 'works when questions are added' do
@@ -132,7 +132,7 @@ class SurveysControllerTest < ActionController::TestCase
                                          status: 0}, question_list: new_survey_question_recs.to_json
       end
 
-      assert_redirected_to survey_url(s)
+      assert_redirected_to surveys_url
       assert_equal set_title, s.reload.title
 
       # Questions are ordered correctly.

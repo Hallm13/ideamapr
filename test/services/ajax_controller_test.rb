@@ -13,7 +13,7 @@ module Ajax
 
     test 'getting help text' do
       data = Ajax::Library.route_action("cms/get/help_text")
-      assert_equal CmsContent.count, data[:data].count
+      assert_equal ::CmsContent.count, data[:data].count
     end
 
     test 'getting cms content' do

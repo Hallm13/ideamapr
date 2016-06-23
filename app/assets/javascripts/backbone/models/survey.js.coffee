@@ -3,7 +3,23 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     _.bindAll(@, 'populate_idea_collections')
     @listenTo(@, 'survey:recrement_question', @recrement_question)
     @listenTo(@, 'sync', _.once(@fetch_idea_lists))
-        
+    @listenTo(@, 'survey:done', @close_response)
+
+  close_response: ->
+      survey_token = @get('public_link')
+      url = '/individual_answers/' + survey_token
+      model_self = @
+      $.ajax
+        url: url,
+        method: 'PUT',
+        statusCode:
+          500: ->
+            model_self.trigger('survey:server_error')
+          404: ->
+            model_self.trigger('survey:server_error')
+        success: (d, s, x) ->
+          model_self.trigger('survey:server_closed')
+    
   fetch_idea_lists: ->
     # This is triggered when the sync is done the first time, in order to fetch ideas.
     @idea_list = new IdeaMapr.Models.IdeaListOfLists()
@@ -58,6 +74,10 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
       if options.direction == -1
         @set('current_screen', (@get('current_screen') - 1 + @get('number_of_screens')) % @get('number_of_screens'))
       else if options.direction == 1
-        @set('current_screen', (@get('current_screen') + 1) % @get('number_of_screens'))
+        # Click on the final go-right (Finish)
+        if @get('current_screen') == @get('number_of_screens') - 1
+          @trigger 'survey:done'
+        else
+          @set('current_screen', (@get('current_screen') + 1) % @get('number_of_screens'))
       
     @trigger 'survey:selection_changed'

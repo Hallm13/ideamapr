@@ -65,8 +65,13 @@ q:before, q:after, blockquote:before, blockquote:after {
   content: none;
 }
 
-a img {
-  border: none;
+a {
+  img {
+    border: none;    
+  }
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 img {max-width:100%;}

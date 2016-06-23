@@ -21,17 +21,17 @@
           
 %script#survey-summary-template{type: 'text/template'}
   .screen#summary-screen
-    .row
-      .col-xs-6.col-xs-offset-3
-        .summary-title
-          Skipped Questions
-        #skipped-list.row.summary-list
-    .row
-      .col-xs-6.col-xs-offset-3.bold-text
-        .summary-title
-          Answered Questions
-        #answered-list.row.summary-list
-          
+    .col-xs-6.col-xs-offset-3
+      .summary-title
+        Skipped Questions
+      #skipped-list.row.summary-list
+
+    .col-xs-6.col-xs-offset-3.bold-text
+      .summary-title
+        Answered Questions
+      #answered-list.row.summary-list
+
+// This is the one nested in the summary screen
 %script#survey-question-summary-template{type: 'text/template'}
   .col-xs-12.bold-text
     <%- title %>
@@ -47,6 +47,7 @@
     .row       
       .col-xs-offset-2.col-xs-8.public-body
         <%- thankyou_note %>
+    #messages.row
 
 // navbar template
 %script#survey-nb-template{type: 'text/template'}
@@ -62,13 +63,14 @@
     .row#other-sections{style: 'display: none'}
           
 %script#survey-question-template{type: 'text/template'}
-  .col-xs-offset-3.col-xs-6
-    .question-prompt
-      <%- question_prompt %>    
-  .col-xs-offset-3.col-xs-6
-    .answered-status
-      False
-  #idea-list.col-xs-12
+  .screen
+    .col-xs-offset-3.col-xs-6
+      .question-prompt
+        <%- question_prompt %>    
+    .col-xs-offset-3.col-xs-6
+      .answered-status
+        False
+    #idea-list.col-xs-12
 
 = render 'survey_question_templates/all_idea_templates'
 = render 'survey_question_templates/all_field_templates'

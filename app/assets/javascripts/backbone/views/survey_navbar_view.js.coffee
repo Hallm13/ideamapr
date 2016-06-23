@@ -4,6 +4,9 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     _.bindAll(@, 'render')
     _.bindAll(@, 'run_decorations')
     @listenTo(@model, 'survey:selection_changed', @render)
+    @listenTo(@model, 'survey:done', ->
+      @$el.detach()
+    )
     @listenTo(@collection, 'sync', @render)
     @nav_texts =
         0:
@@ -24,8 +27,8 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       @model.trigger('survey:recrement_question', {move_to: $(evt.target).data('question-index')})
       
   nav_text: (section, screen_index) ->
-    if @nav_texts[screen_index]? &&
-       @nav_texts[screen_index][section]?
+    if @nav_texts.hasOwnProperty(screen_index) &&
+       @nav_texts[screen_index].hasOwnProperty(section)
       return @nav_texts[screen_index][section]
     else
       switch section
@@ -48,9 +51,8 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       @$('#go-left').removeClass('active')
       
     if @model.get('current_screen') == (@model.get('number_of_screens') - 1)
-      @$('#go-right').removeClass('active')
-      @$('#go-right').addClass('inactive')
-
+      @$('#go-right').addClass 'theme-red'
+      
   make_dropdown: ->
     curr_qn = @model.get('current_screen') + 1
     total_screens = @model.get('number_of_screens')

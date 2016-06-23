@@ -19,7 +19,7 @@ class Survey < ActiveRecord::Base
     [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', 10, 'Add a survey title'),
      Struct::VbStruct.new('intro_field', 'Edit Introduction', 'survey-create-intro', 15, 'Add an introduction'),
      Struct::VbStruct.new('add_questions', 'Add Questions', 'survey-add-questions', -1, 'Add Questions in Ranked Order'),
-     Struct::VbStruct.new('thankyou_field', 'Thank You Note', 'survey-thank-you-note', -1, 'Add a Thank You Note') ]
+     Struct::VbStruct.new('thankyou_field', 'Thank You Note', 'survey-thank-you-note', 15, 'Add a Thank You Note') ]
   end
   
   class SurveyStatus
@@ -71,7 +71,11 @@ class Survey < ActiveRecord::Base
   has_secure_token :public_link
   has_many :responses, dependent: :destroy
   has_many :individual_answers, foreign_key: :survey_public_link, primary_key: :public_link, dependent: :destroy
-  
+
+  def self.valid_public_survey?(public_link)
+    public_link.present? && (s = Survey.find_by_public_link public_link) ? s : nil
+  end
+      
   def has_state?(sym)
     Survey::SurveyStatus.const_defined?(sym.to_s.upcase) && status == "Survey::SurveyStatus::#{sym.upcase}".constantize
   end

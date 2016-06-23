@@ -56,6 +56,8 @@ IdeaMapr.Collections.DetailsCollection = Backbone.Collection.extend
     range = (x for x in [0..(2-start_count)] by 1)
     for i in range
       m = new IdeaMapr.Models.DetailComponent()
+      m.set('idea_rank', ranking)
+      ranking += 1
       @add m
     @.trigger('ready_to_render')
     

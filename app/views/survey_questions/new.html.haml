@@ -3,5 +3,3 @@
   - SurveyQuestion.viewbox_list.each do |vb|
     = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}
   = submit_tag 'Save', class: 'btn btn-primary', id: 'object-save'
-  %input{name: 'commit', value: 'Save And Add Ideas', type: :submit, class: 'btn btn-primary', id: 'component-word'}
-

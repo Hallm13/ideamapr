@@ -5,7 +5,6 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     @
     
   tagName: 'div',
-  className: 'myhidden row'
 
   set_answered_display: (m) ->
     @$('.answered-status').text(m.get('answered'))
