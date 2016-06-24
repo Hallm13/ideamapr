@@ -20,7 +20,7 @@ class PublicSurveyTest < Capybara::Rails::TestCase
     it 'gets to thank you screen' do
       page.find('#go-right').click
       page.find('#go-right').click
-      assert page.has_content? 'thank you!'
+      assert_match /thank.you/, page.body
     end
   end
 end
