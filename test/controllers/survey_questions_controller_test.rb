@@ -13,6 +13,11 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_template :edit
 
       assert_select('option', count: 0)
+
+      get :edit, id: survey_questions(:sq_budget_type).id
+      assert_template :edit      
+      get :edit, id: survey_questions(:sq_text_fields).id
+      assert_template :edit      
     end
   end
   

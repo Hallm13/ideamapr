@@ -49,12 +49,19 @@ class IndividualAnswersControllerTest < ActionController::TestCase
     it 'can use valid data' do
       cookies['_ideamapr_response_key'] = 'testercookie'
       refute surveys(:published_survey).responses.first.closed
-      assert_difference ('Respondent.count') do
+      assert_difference('Respondent.count') do
         put :update, id: surveys(:published_survey).public_link
       end
 
       # Only one response in fixtures right now; we added one above.
       assert surveys(:published_survey).responses.all[1].closed
+    end
+
+    it 'handles errors' do
+      refute_difference('Respondent.count') do
+        put :update, id: -1
+      end
+      assert_equal 0, JSON.parse(response.body).length
     end
     
     after do

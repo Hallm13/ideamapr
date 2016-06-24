@@ -1,4 +1,4 @@
-.builder-box.row{class: !hide_conditional(@form_object, vb) ? 'myhidden' : ''}
+.builder-box.row{class: !show_conditional(@form_object, vb) ? 'myhidden' : ''}
   .hidden{'data-box-key' => vb.box_key}
   .col-xs-offset-4.col-xs-4
     .title

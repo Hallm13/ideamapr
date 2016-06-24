@@ -52,14 +52,18 @@ class IndividualAnswersController < ApplicationController
   private
   def response_record!
     @respondent = Respondent.find_by_cookie_key cookies['_ideamapr_response_key']
-    unless @respondent
-      # Store answers as anonymous without cookies
-      c = cookies['_ideamapr_response_key'] || -1
-      @respondent = Respondent.find_or_create_by cookie_key: c
-    end
-
+    @response = nil
     @survey = Survey.valid_public_survey?(params[:action] == 'update' ? params[:id] : params[:survey_token])
-    @response = @survey.present? ? (Response.find_or_create_by respondent_id: @respondent.id, survey: @survey) : nil
+    
+    if @survey
+      unless @respondent
+        # Don't create a respondent if the survey doesn't exist.
+        # Store answers as anonymous without cookies
+        c = cookies['_ideamapr_response_key'] || -1
+        @respondent = Respondent.find_or_create_by cookie_key: c
+      end
+      @response = @survey.present? ? (Response.find_or_create_by respondent_id: @respondent.id, survey: @survey) : nil
+    end
     
     true
   end

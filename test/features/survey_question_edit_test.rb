@@ -8,7 +8,7 @@ class SurveyQuestionEditTest < Capybara::Rails::TestCase
   describe 'save fields question' do
     it 'can add new ideas' do
       visit "/survey_questions/#{survey_questions(:sq_with_radio_choice).id}/edit"
-
+      sleep 1
       page.all('button')[0].click
       ed_boxes = page.all('.editable-text')
       assert_equal 7, ed_boxes.size

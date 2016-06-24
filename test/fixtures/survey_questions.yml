@@ -7,6 +7,7 @@ sq_2:
   question_type: <%= SurveyQuestion::QuestionType::PROCON %>
 sq_blank:
   title: This is a good title. Long.
+  question_type: <%= SurveyQuestion::QuestionType::PROCON %>
 sq_pre_4:
   title: pre4 - this is belongs to published survey and is newer
   question_type: <%= SurveyQuestion::QuestionType::PROCON %>
@@ -25,3 +26,7 @@ sq_with_radio_choice:
 sq_budget_type:
   title: budget type
   question_type: <%= SurveyQuestion::QuestionType::BUDGETING %>
+sq_text_fields:
+  title: has fields
+  question_type: <%= SurveyQuestion::QuestionType::TEXT_FIELDS %>
+  
