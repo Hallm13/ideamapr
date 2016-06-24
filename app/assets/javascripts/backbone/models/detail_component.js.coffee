@@ -1,9 +1,15 @@
 IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
   defaults:
-    answered: false
+    # For admin
     text: 'Click to Add'
     ready_for_render: 0
     is_promoted: false
+    ranked: 0
+
+    # for participant
+    answered: false
+    response_enter_count: 0
+    checked: false
   
   initialize: ->
     @original_text = @get('text')

@@ -6,19 +6,19 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     @listenTo(@, 'survey:done', @close_response)
 
   close_response: ->
-      survey_token = @get('public_link')
-      url = '/individual_answers/' + survey_token
-      model_self = @
-      $.ajax
-        url: url,
-        method: 'PUT',
-        statusCode:
-          500: ->
-            model_self.trigger('survey:server_error')
-          404: ->
-            model_self.trigger('survey:server_error')
-        success: (d, s, x) ->
-          model_self.trigger('survey:server_closed')
+    survey_token = @get('public_link')
+    url = '/individual_answers/' + survey_token
+    model_self = @
+    $.ajax
+      url: url,
+      method: 'PUT',
+      statusCode:
+        500: ->
+          model_self.trigger('survey:server_error')
+        404: ->
+          model_self.trigger('survey:server_error')
+      success: (d, s, x) ->
+        model_self.trigger('survey:server_closed')
     
   fetch_idea_lists: ->
     # This is triggered when the sync is done the first time, in order to fetch ideas.
@@ -66,10 +66,9 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
       @set('current_screen', options.move_to - 1)
     else if options.hasOwnProperty('sqn_id')
       @screens.forEach (screen, idx) ->
-        if screen.hasOwnProperty('model')
-          # This could be a string selector instead of a view obj
-          if screen.model.get('id') == options.sqn_id
-            survey_model_self.set('current_screen', idx)
+      # This could be a string selector instead of a view obj
+        if screen.model instanceof IdeaMapr.Models.SurveyQuestion && screen.model.get('id') == options.sqn_id
+          survey_model_self.set('current_screen', idx)
     else
       if options.direction == -1
         @set('current_screen', (@get('current_screen') - 1 + @get('number_of_screens')) % @get('number_of_screens'))

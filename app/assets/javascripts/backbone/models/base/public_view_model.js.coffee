@@ -1,4 +1,7 @@
 IdeaMapr.Models.PublicViewModel = Backbone.Model.extend
+  defaults:
+    answered: false
+    
   response_data: ->
     rd = @attributes['response_data']
     if @attributes.hasOwnProperty 'id'

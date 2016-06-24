@@ -1,11 +1,13 @@
 IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
   defaults: ->
-    cart_amount: 0
-    answered: false
-    title: null
+    # For admin
     promoted: 0
     ranked: 0
     index: 0
+
+    # For participant
+    cart_amount: 0
+    answered: false
     
   urlRoot: '/ideas',
 

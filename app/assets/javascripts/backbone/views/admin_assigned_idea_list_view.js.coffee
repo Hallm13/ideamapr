@@ -1,17 +1,9 @@
 IdeaMapr.Views.AdminAssignedIdeaListView = IdeaMapr.Views.IdeaListView.extend
   initialize: ->
-    _.bindAll(@, 'render')
-
-    @listenTo(@collection, 'change:ranked', @sort_and_render)
+    # Super (in Backbone)
+    IdeaMapr.Views.IdeaListView.prototype.initialize.call @
     @
 
-  sort_and_render: (m, new_val) ->
-    if new_val == 0 # avoid infinite recursion
-      return
-
-    @collection.rerank_and_sort(m, new_val)
-    @render()
-    
   render: ->
     viewself = @
     # clear!

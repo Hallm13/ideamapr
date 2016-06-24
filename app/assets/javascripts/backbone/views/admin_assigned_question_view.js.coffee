@@ -4,7 +4,7 @@ IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEdit
   tagName: 'div',
 
   extend_events: ->
-    my_events = 
+    my_events =
       'mouseenter .question-row': (evt) ->
         if $(evt.target).hasClass('question-row')
           container = $(evt.target)

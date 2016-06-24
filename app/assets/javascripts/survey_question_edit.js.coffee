@@ -67,7 +67,7 @@ sq_edit_functions = ->
       coll = new IdeaMapr.Collections.DetailsCollection()
       coll.question_id = qn_id
       
-      window.field_details = new IdeaMapr.Views.DetailsCollectionView
+      window.field_details = new IdeaMapr.Views.AdminDetailsCollectionView
         collection: coll
         el: $('#fields-list-app')
 

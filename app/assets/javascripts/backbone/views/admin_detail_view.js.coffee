@@ -1,4 +1,4 @@
-IdeaMapr.Views.DetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
+IdeaMapr.Views.AdminDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   top_container_class: 'component-box'
   initialize: ->
     _.bindAll(@, 'render')
@@ -10,10 +10,10 @@ IdeaMapr.Views.DetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     
   extend_events: ->
     my_events =
-      'mouseenter .component-row': (evt) ->
+      'mouseenter': (evt) ->
         @add_controls evt, '.component-box'
         @
-      'mouseleave .component-row': (evt) ->
+      'mouseleave': (evt) ->
         @remove_controls evt, '.component-box'
         @
 
@@ -21,9 +21,6 @@ IdeaMapr.Views.DetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         txt = $(evt.target).text()
         @model.set_edited_state(txt.trim())
         @
-      'click .editable-text': (evt) ->
-        $(evt.target).parent().find('input[type=radio]').prop('checked', true)
-        @model.set_response_data('checked', true)
         
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()

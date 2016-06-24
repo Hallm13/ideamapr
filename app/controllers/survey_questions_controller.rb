@@ -114,7 +114,12 @@ class SurveyQuestionsController < ApplicationController
           end
 
           # Backbone app will send the example fields as well that need to be filtered away here.
-          clean_qd = question_details.sort_by {|i| i['idea_rank']}.reject {|i| /click to add/i.match(i['text'])}
+          clean_qd = question_details.sort_by {|i| i['idea_rank']}.reject {|i| /click to add/i.match(i['text'])}.
+                     map do |detail|
+            detail.delete 'response_data'
+            detail
+          end
+            
           saved &= QuestionDetail.create survey_question: @question,
                                          details_list: clean_qd
         end

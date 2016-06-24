@@ -1,46 +1,30 @@
-IdeaMapr.Collections.DetailsCollection = Backbone.Collection.extend
+IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableCollection.extend
   urlRoot: '/question_details?'
   url: ->
     @urlRoot + 'for_question=' + @question_id
   model: IdeaMapr.Models.DetailComponent
   initialize: ->
     @listenTo(@, 'sync', @assign_ranking_with_dummy)
-    @listenTo(@, 'change:is_promoted', @reset_and_sort)
-    @listenTo(@, 'change:radio_selected', @unselect_others)
 
     coll_self = @
-    @listenTo(@, 'change:answered', (model) ->
+    @listenTo @, 'change:response_enter_count', (model) ->
+      if model.attributes['response_data'].hasOwnProperty('checked') &&\
+         model.attributes['response_data']['checked'] == true
+        # This only happens if the detail model is a radio button
+        coll_self.unselect_others(model)
+    
+    @listenTo @, 'change:answered', (model) ->
       coll_self.answered = model.get('answered')
       coll_self.trigger 'answered', coll_self
-    )
     
   unselect_others: (model, options) ->
     # When the user selects one of the radio buttons, the models for the rest should
     # record them as unselected
-    console.log 'starting unselect'
-    return if model.get('radio_selected') == false
-    model.set('radio_selected', false)
+    return if model.get('checked') == false
+
     @.each (m) ->
       if m.get('idea_rank') != model.get('idea_rank')
         m.attributes['response_data']['checked'] = false
-
-  reset_and_sort: (model, options) ->
-    if model.get('is_promoted') == false
-      # Avoid infinite loop
-      return
-    model.set('is_promoted', false)
-    
-    if model.get('idea_rank') == 0
-      # Top model cannot be promoted; ignore
-      return
-    swap_old = model.get('idea_rank') - 1
-    _.each(@models, (m) ->
-      if m.get('idea_rank') == swap_old
-        m.set('idea_rank', model.get('idea_rank'))
-      else if m.get('idea_rank') == model.get('idea_rank')
-        m.set('idea_rank', swap_old)
-    )
-    @sort()
 
   comparator: (m) ->
     m.get('idea_rank')

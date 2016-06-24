@@ -7,7 +7,7 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
     )
 
     @listenTo(@, 'change:view_request', (model) ->
-      @.trigger('survey_question_collection:view_request', model)
+      @trigger('survey_question_collection:view_request', model)
     )
     @
         

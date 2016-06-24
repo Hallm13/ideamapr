@@ -1,6 +1,7 @@
-IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
+IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
   initialize: ->
-    _.bindAll(@, 'render')
+    # Super (in Backbone)
+    IdeaMapr.Views.IdeaListView.prototype.initialize.call @
     @existing_detail_count = 0
     
     @listenTo(@collection, 'ready_to_render', @render)
@@ -39,7 +40,7 @@ IdeaMapr.Views.DetailsCollectionView = Backbone.View.extend
     
     @collection.each (model) ->
       @existing_detail_count += 1
-      component_view = new IdeaMapr.Views.DetailView
+      component_view = new IdeaMapr.Views.AdminDetailView
         model: model
       component_view.question_type = view_self.question_type
       view_self.$('#options-list').append(component_view.render().el)

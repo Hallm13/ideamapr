@@ -7,6 +7,10 @@ IdeaMapr.Views.PublicDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exte
     @extend_events()
     @
     
+  run_radio_checks: ->
+    @model.set_response_data('checked', true)
+    @model.set('response_enter_count', @model.get('response_enter_count') + 1)
+        
   extend_events: ->
     my_events =
       'mouseenter .component-row': (evt) ->
@@ -14,9 +18,10 @@ IdeaMapr.Views.PublicDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exte
       'mouseleave .component-row': (evt) ->
         @
       'change input[type=radio]': (evt) ->
-        @model.set_response_data('checked', true)
+        @run_radio_checks()
       'click .editable-text': (evt) ->
-        $(evt.target).parent().find('input[type=radio]').prop('checked', true).change()
+        $(evt.target).parent().find('input[type=radio]').prop('checked', true)
+        @run_radio_checks()
         
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()

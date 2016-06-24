@@ -72,8 +72,6 @@ IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
     @.trigger('ready_to_render') if opts['render']
     
   render: ->
-    console.log 'idea manager: starting render'
-
     @selected_view.render()
     @search_view.render()
     
