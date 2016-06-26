@@ -29,7 +29,7 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     data = @model.attributes
     sq_html =  _.template($('#survey-question-template').html())(data)
     @$el.html sq_html
-    
+
     save_button = $('<div>').attr('id', 'save-response').addClass('col-xs-12 clickable').text('Save Response')
     @$el.append save_button
 
@@ -48,10 +48,14 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
 
     if qn_type == 5 or qn_type == 6
       idea_list_view = new IdeaMapr.Views.PublicDetailsCollectionView
+        model: @model
         collection: idea_or_details_coll
     else
       idea_list_view = new IdeaMapr.Views.PublicIdeaListView
+        model: @model
         collection: idea_or_details_coll
+      if qn_type == 3
+        idea_or_details_coll.budget = @model.get('budget')
         
     idea_list_view.question_id = @model.get('id')
     idea_list_view.question_type = qn_type

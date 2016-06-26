@@ -9,6 +9,8 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
   model: IdeaMapr.Models.Idea
   initialize: ->
     coll_self = @
+    @cart_total_spend = 0
+    
     @listenTo(@, 'change:answered', (model) ->
       coll_self.answered = model.get('answered')
       coll_self.trigger 'answered', coll_self
@@ -25,3 +27,10 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
     
   comparator: (m) ->
     m.get('idea_rank')
+  
+  accept_cart_item: (amt) ->
+    # Does the cart budget have the money?
+    if @cart_total_spend + amt > @budget
+      return false
+    else
+      return true

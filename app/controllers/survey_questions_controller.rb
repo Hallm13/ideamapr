@@ -181,7 +181,8 @@ class SurveyQuestionsController < ApplicationController
     end
 
     jp = @questions.map do |qn|
-      {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type}.
+      {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type,
+       budget: qn.budget}.
         merge(rev_index.nil? ? {} : {question_rank: rev_index[qn.id],
                                      is_assigned: rev_index.keys.include?(qn.id)})
     end

@@ -10,17 +10,16 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     @
 
   events:
+    # Procon
     "click #addpro": ->
       @append_textarea 'pro'
       @remove_textarea 'con'
     "click #savepro": ->
       @model.add_feedback 'pro', @pro_text
       @remove_textarea 'pro'
-      
     "click #savecon": ->
       @model.add_feedback 'con', @con_text
       @remove_textarea 'con'
-      
     "click #addcon": ->
       @append_textarea 'con'
       @remove_textarea 'pro'
@@ -28,6 +27,12 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       @pro_text = $(evt.target).val()
     'keyup #current-con': (evt) ->
       @con_text = $(evt.target).val()
+
+    # Budgeting
+    "click #add-to-cart": ->
+      # The collection here is the IdeaCollection it is in.
+      if @collection.accept_cart_item(@model.get('cart_amount'))
+        @model.increment_cart_count()
       
   render: ->
     qn_type = @question_type

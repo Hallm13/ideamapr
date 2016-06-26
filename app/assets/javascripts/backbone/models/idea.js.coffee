@@ -3,11 +3,13 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     # For admin
     promoted: 0
     ranked: 0
+    # How much the idea is worth
+    cart_amount: 0
     index: 0
 
     # For participant
-    cart_amount: 0
     answered: false
+    cart_count: 0
     
   urlRoot: '/ideas',
 
@@ -50,3 +52,6 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     unless text.trim().length == 0
       @attributes['response_data']['type-0-data']['feedback'][type].push text
       @trigger('idea:new_procon')
+      
+  increment_cart_count: ->
+    @set('cart_count', @get('cart_count') + 1)
