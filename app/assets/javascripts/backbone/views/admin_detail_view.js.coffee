@@ -29,7 +29,6 @@ IdeaMapr.Views.AdminDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exten
     t = _.template($('#type-' + @question_type + '-public-template').html())
     
     @$el.html(t(@model.attributes))
-
     @$el.find('.editable-text').attr('contentEditable', 'true')
     @$el.find('.editable-text').attr('onclick', "document.execCommand('selectAll',false,null)")
     

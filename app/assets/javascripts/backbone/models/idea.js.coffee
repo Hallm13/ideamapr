@@ -2,9 +2,14 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
   defaults: ->
     # For admin
     promoted: 0
+
+    # For admin and also for participant if its a ranking SQ
+    # Used as a signal that the idea needs to move somewhere ... 1 = up, -1 = down, -10 = outta the list
     ranked: 0
-    # How much the idea is worth
+    # For admin and participant, but only admin can write (?)
     cart_amount: 0
+
+    # Does any one need this?
     index: 0
 
     # For participant
@@ -27,18 +32,17 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     if type == 'pro' || type == 'con'
       @set(type, @get(type) + 1)
 
-    
   shown_rank: ->
     if @get('idea_rank') < 0
       return ''
     else
       return @get('idea_rank')
             
-  init_type_specific_data: (qn_type) ->
+  init_type_specific_data: (question_type) ->
     data = @attributes['response_data']
-    if qn_type == 0
+    if question_type == 0
       unless data.hasOwnProperty('type-0-data')
-        data['type-0-data'] = new Object
+        data['type-0-data'] = new Object()
         
         data['type-0-data']['note_counts'] =
           pro: @get('pro')

@@ -41,7 +41,8 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       refute_difference('SurveyQuestion.count') do 
         put(:update, {id: sq.id,
                       survey_question: {title: 'this is a new test title'},
-                      question_details: ({details: ([{id: ideas(:idea_1).id}, {id: ideas(:idea_3).id}])}).to_json})
+                      question_details: ([{id: ideas(:idea_1).id, 'idea_rank' => 0},
+                                          {id: ideas(:idea_3).id, 'idea_rank' => 1}]).to_json})
       end
       assert_equal idea_sz + 1, sq.ideas.count
       assert_redirected_to survey_questions_url
@@ -52,27 +53,35 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       sq = survey_questions(:sq_with_radio_choice)
       old_id = sq.question_detail.id
       put(:update, {id: sq.id, survey_question: {title: 'this is a new test title'},
-                    question_details: ({details: [{'text' => 'a'}, {'text' => 'a'}]}).to_json})
+                    question_details: ([{'text' => 'a1', 'idea_rank' => 1},
+                                        {'text' => 'a2', 'idea_rank' => 0}]).to_json})
 
       assert sq.reload.question_detail.present?
 
       # We deleted the old detail and created a new record.
       refute_equal old_id, sq.question_detail.id
+
+      # We sorted.
+      assert_equal 'a2', sq.question_detail.details_list[0]['text']
     end
 
     it 'can add budget for budget idea type' do
       sq = survey_questions(:sq_budget_type)
 
-      # idea_1 is already assigned without a budget
+      # idea_1 is already assigned without a budget; idea_2 will now be added
       model = "\\'SurveyQuestion\\'"
-      
-      refute_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count") do
-        put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn'},
-                      question_details:
-                        ({question_type: '3', details: [{'id' => ideas(:idea_1).id, 'cart_amount' => '42.42'}]}).to_json}
+      binding.pry
+      assert_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count", 1) do
+        put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn',
+                                                   question_type: SurveyQuestion::QuestionType::BUDGETING},
+                      question_details: ([{'id' => ideas(:idea_1).id, 'budget' => '42.42', 'idea_rank' => 1},
+                                          {'id' => ideas(:idea_2).id, 'budget' => '84.84', 'idea_rank' => 0}
+                                         ]).to_json}
         
       end
-      assert_equal 42.42, IdeaAssignment.order(created_at: :desc).first.budget
+
+      # idea_1 was pushed to the bottom of the assignment.
+      assert_equal ideas(:idea_1).id, IdeaAssignment.order(ordering: :desc).first.idea_id
     end
   end
 

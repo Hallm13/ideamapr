@@ -22,11 +22,6 @@ IdeaMapr.Views.IdeaView = Backbone.View.extend
     @$('.move-to-ranked').hide()
     @$('.ranking-sign').show()
     
-  render: ->
-    template = _.template($('#' + @type_names[qn_type] + '-idea-template').html())
-    @$el.html(template(@model.attributes))
-    @
-    
   create_entry: (type) ->
     @model.increment_note type
     @render()

@@ -4,6 +4,8 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
     text: 'Click to Add'
     ready_for_render: 0
     is_promoted: false
+    
+    # For admin and also for participant if its a ranking SQ
     ranked: 0
 
     # for participant
@@ -14,8 +16,9 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
   initialize: ->
     @original_text = @get('text')
 
-    # At some point, I can swear initializing objects in defaults caused a weird pointer sharing error.
-    @.attributes['response_data'] =
+    # At some point, I can swear that I found that initializing objects in default properties caused a
+    # weird pointer sharing error.
+    @attributes['response_data'] =
       answered: false
       checked: false
       is_edited: false
@@ -30,5 +33,3 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
       @is_edited = false
       @.set 'ready_for_render', @.get('ready_for_render') + 1
     
-  init_type_specific_data: (qn_type) ->
-    @

@@ -7,7 +7,12 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
       @urlRoot + '?for_survey_question=' + @survey_question_id
 
   model: IdeaMapr.Models.Idea
+  
   initialize: ->
+    # Super (in Backbone) - well, basically we explicitly call what we know is our
+    # parent prototype.
+    IdeaMapr.Collections.AdminSortableCollection.prototype.initialize.call @
+    
     coll_self = @
     @cart_total_spend = 0
     
@@ -15,15 +20,6 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
       coll_self.answered = model.get('answered')
       coll_self.trigger 'answered', coll_self
     )
-    
-  reset_ranks: ->
-    start = 1
-    _.each(@models, (m) ->
-      m.set('idea_rank', start)
-      start += 1
-    )
-  append_rank: (m) ->
-    m.set('idea_rank', @models.length)
     
   comparator: (m) ->
     m.get('idea_rank')

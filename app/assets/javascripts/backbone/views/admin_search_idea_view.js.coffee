@@ -9,7 +9,7 @@ IdeaMapr.Views.AdminSearchIdeaView = Backbone.View.extend
     
   events:
     'click .square-button': (evt) ->
-      @model.set('promoted', 1)
+      @model.set('ranked', -10)
       
   render: ->
     template_id = '#idea-search-template'

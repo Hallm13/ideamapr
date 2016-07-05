@@ -64,8 +64,9 @@ class SurveyQuestionsController < ApplicationController
     idea_ids = question_details = nil    
     # We either got ideas or fields for a survey question
 
-    if params[:question_details]
-      component_array = (JSON.parse(params[:question_details]))['details'].sort_by { |i| i['idea_rank']}
+    if params[:question_details] and (deets_array = JSON.parse(params[:question_details])).is_a?(Array)
+      # question_details should be an array of idea or detail attributes
+      component_array = deets_array.sort_by { |i| i['idea_rank']}
       
       if @question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
          @question.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
@@ -77,7 +78,11 @@ class SurveyQuestionsController < ApplicationController
           item
         end
       else 
-        idea_ids = component_array&.map { |i|  i['id'] } || []
+        idea_ids = component_array.sort_by { |i| i['idea_rank']}.map { |i|  i['id'] }
+        idea_rev_index = component_array.inject({}) do |memo, hash|
+          memo[hash['id']] = hash
+          memo
+        end
       end
     end    
     
@@ -92,13 +97,8 @@ class SurveyQuestionsController < ApplicationController
           # For idea questions, that have budgets assigned...
           if @question.question_type == SurveyQuestion::QuestionType::BUDGETING
             new_assignments = @question.idea_assignments.all.to_a.map do |ia|
-              idea_rev_index = component_array.inject({}) do |memo, hash|
-                memo[hash['id']] = hash
-                memo
-              end
-              
               if idea_rev_index.keys.include? ia.idea_id
-                ia.budget = idea_rev_index[ia.idea_id]['cart_amount'].to_f
+                ia.budget = idea_rev_index[ia.idea_id]['budget'].to_f
               end
 
               ia
@@ -114,7 +114,7 @@ class SurveyQuestionsController < ApplicationController
           end
 
           # Backbone app will send the example fields as well that need to be filtered away here.
-          clean_qd = question_details.sort_by {|i| i['idea_rank']}.reject {|i| /click to add/i.match(i['text'])}.
+          clean_qd = question_details.reject {|i| /click to add/i.match(i['text'])}.
                      map do |detail|
             detail.delete 'response_data'
             detail

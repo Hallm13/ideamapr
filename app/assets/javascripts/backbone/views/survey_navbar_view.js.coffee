@@ -36,7 +36,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
           if screen_index == 0
             return ''
           else
-            return 'Previous'  
+            return 'Previous'
         when "right" then return "Next"
       
   run_decorations: ->

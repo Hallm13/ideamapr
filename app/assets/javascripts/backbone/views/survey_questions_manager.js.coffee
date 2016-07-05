@@ -28,7 +28,7 @@ IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
     # Move the model into or out of the assigned question list, and re-distribute ranks
     if m.get('promoted') == 1
       m.set('question_rank', @assigned_collection.models.length)
-      @assigned_collection.add m      
+      @assigned_collection.add m
       @selected_view.example_count -= 1
       @search_view.added_count += 1
       @to_search_collection.remove m

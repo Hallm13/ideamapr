@@ -11,15 +11,18 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
 
   extend_events: ->
     my_events =
+      'keydown .amount-box': (evt) ->
+        # Arrows, delete, and numbers
+        if (evt.keyCode < 48 or evt.keyCode > 57) and (evt.keyCode < 37 or evt.keyCode > 40) and evt.keyCode != 8
+          evt.preventDefault()
+          evt.stopPropagation()
+          
       'keyup .amount-box': (evt) ->
         @model.set('cart_amount', $(evt.target).text())
       'mouseenter .idea-row': (evt) ->
         @add_controls evt, '.idea-box'
       'mouseleave .idea-row': (evt) ->
         @remove_controls evt, '.idea-box'
-        
-      'click #out': (evt) ->
-        @model.set('promoted', -1)
         
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()
@@ -33,7 +36,7 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     if @question_type == '5' or @question_type == '6'
       @$el.attr('contentEditable', 'true')
       @$el.attr('onclick', "document.execCommand('selectAll',false,null)")
-    if @question_type == '3'
+    if @question_type == 3
       @$el.find('.amount-box').attr('contentEditable', 'true')
       @$el.find('.amount-box').attr('onclick', "document.execCommand('selectAll',false,null)")
       

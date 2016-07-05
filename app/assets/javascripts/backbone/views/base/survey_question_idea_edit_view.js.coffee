@@ -12,6 +12,10 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
       # Cannot move bottom idea down but this view can't tell - so the collection
       # that listens to this event has to.
       @model.set('ranked', -1)
+      
+    'click #out': (evt) ->
+      @model.set('ranked', -10)
+      
   create_controls: ->
     # Add the ranking controls, so that only admins can see this.
     control_div = $('<div>').addClass('controls-box').addClass('active')
@@ -34,7 +38,7 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
     else
       container = $(evt.target).closest(@top_container_selector)
     container.addClass('showing-controls')
-    container.closest(inside_selector).find('.controls-box').show({duration: 'medium'})
+    container.closest(inside_selector).find('.controls-box').show()
 
   remove_controls: (evt, inside_selector) ->
     if $(evt.target).hasClass(@top_container_class)

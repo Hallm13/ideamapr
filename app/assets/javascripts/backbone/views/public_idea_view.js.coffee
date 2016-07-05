@@ -35,14 +35,13 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         @model.increment_cart_count()
       
   render: ->
-    qn_type = @question_type
-    @model.init_type_specific_data(qn_type)
+    @model.init_type_specific_data(@question_type)
       
     template_id = '#type-' + @question_type + '-public-template'
     html = _.template($(template_id).html())(@model.attributes)
     @$el.html html
     
-    switch qn_type
+    switch @question_type
       when 0
         @append_procon_boxes()
         @$('.procon-list').hide()

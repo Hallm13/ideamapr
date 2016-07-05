@@ -9,8 +9,11 @@ class QuestionDetailsControllerTest < ActionController::TestCase
   
   describe '#index' do
     it 'works' do
-      xhr :get, :index, for_question: survey_questions(:sq_with_radio_choice).id
-      assert_equal 6, JSON.parse(response.body).size
+      xhr :get, :index, for_survey_question: survey_questions(:sq_with_radio_choice).id
+      b = JSON.parse(response.body)
+      
+      assert_equal 6, b.size
+      assert_equal 1, b[1]['idea_rank']
     end
   end
 end

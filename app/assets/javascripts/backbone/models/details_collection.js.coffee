@@ -1,9 +1,14 @@
 IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableCollection.extend
   urlRoot: '/question_details?'
   url: ->
-    @urlRoot + 'for_question=' + @question_id
+    @urlRoot + 'for_survey_question=' + @survey_question_id
   model: IdeaMapr.Models.DetailComponent
+
   initialize: ->
+    # Super (in Backbone) - well, basically we explicitly call what we know is our
+    # parent prototype.
+    IdeaMapr.Collections.AdminSortableCollection.prototype.initialize.call @
+    
     @listenTo(@, 'sync', @assign_ranking_with_dummy)
 
     coll_self = @
@@ -31,17 +36,15 @@ IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableColle
     
   assign_ranking_with_dummy: ->
     # Add dummy models for showing examples
-    ranking = 0
-    _.each @models, (m) ->
-      m.set('idea_rank', ranking)
-      ranking += 1
+    ranking = @models.length
+    if ranking < 3
+      range = (x for x in [0..(2-ranking)] by 1)
+      for i in range
+        m = new IdeaMapr.Models.DetailComponent()
+        m.set('idea_rank', ranking)
+        ranking += 1
+        @add m
 
-    start_count = @models.length
-    range = (x for x in [0..(2-start_count)] by 1)
-    for i in range
-      m = new IdeaMapr.Models.DetailComponent()
-      m.set('idea_rank', ranking)
-      ranking += 1
-      @add m
-    @.trigger('ready_to_render')
+    # This will trigger the render, even though the list is already sorted
+    @sort()
     

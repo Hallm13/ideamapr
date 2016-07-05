@@ -10,47 +10,8 @@
 
 }
 
-.controls-box {
-  &.active {
-    display: none;
-    position: absolute;
-    top: 20%;
-    left: -35px;
-    width: 35px;
-    height: 60%;
-    
-    background: beige;
-
-    &.right-margin {
-      left: inherit;
-      background: $background-gray;
-      right: 0;
-    }
-    .margin {
-      margin: 30% 0;
-      height: 80%;
-    }
-    
-    #up {
-      padding-top: 11px;
-      padding-left: 7px;
-    }
-  }
-  
-  .control-icon {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    left: -10px;    
-  }
-}
-
 .field-example {
   margin-bottom: 5px;
-}
-
-.showing-controls {
-  background-color: beige;
 }
 
 .square-button {

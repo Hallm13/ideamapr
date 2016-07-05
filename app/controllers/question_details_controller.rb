@@ -1,9 +1,9 @@
 class QuestionDetailsController < ApplicationController
   def index
-    if params[:for_question] and qn = SurveyQuestion.find_by_id(params[:for_question]) and
+    if params[:for_survey_question] and qn = SurveyQuestion.find_by_id(params[:for_survey_question]) and
       qn.question_detail
       render json: (qn.question_detail.details_list.map do |qd_hash|
-        {text: qd_hash['text']}
+        {text: qd_hash['text'], idea_rank: qd_hash['idea_rank']}
       end)
     else
       render json: []
@@ -14,7 +14,7 @@ class QuestionDetailsController < ApplicationController
     if params[:_json]
       req_obj = params[:_json]
       details_list = req_obj.map { |h| h['text'] }
-      qn_id = params[:for_question]
+      qn_id = params[:for_survey_question]
 
       if qn_details = QuestionDetail.find_by_survey_question_id(qn_id)
         qn_details.delete

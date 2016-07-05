@@ -44,9 +44,9 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     )
     
     idea_or_details_coll.sqn_id = @model.get('id')
-    qn_type = @model.get('question_type')
+    question_type = @model.get('question_type')
 
-    if qn_type == 5 or qn_type == 6
+    if question_type == 5 or question_type == 6
       idea_list_view = new IdeaMapr.Views.PublicDetailsCollectionView
         model: @model
         collection: idea_or_details_coll
@@ -54,10 +54,10 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
       idea_list_view = new IdeaMapr.Views.PublicIdeaListView
         model: @model
         collection: idea_or_details_coll
-      if qn_type == 3
+      if question_type == 3
         idea_or_details_coll.budget = @model.get('budget')
         
     idea_list_view.question_id = @model.get('id')
-    idea_list_view.question_type = qn_type
+    idea_list_view.question_type = question_type
       
     @$('#idea-list').append(idea_list_view.render().el)

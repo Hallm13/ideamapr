@@ -101,7 +101,7 @@
 }
 
 .any-card-row {
-  min-height: 165px;
+  min-height: 50px;
 }
 
 .idea-row {
@@ -149,29 +149,51 @@
   }
 }
   
-.controls-box,.user-controls-box { 
+.controls-box, .user-controls-box {
+  &.active {
+    display: none;
+    position: absolute;
+    left: -77px;
+    padding: 5px;
+    height: 100%;
+
+    &.right-margin {
+      left: inherit;
+      top: 0;
+      right: 0;
+    }
+  }
+  
+  .control-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    left: -10px;    
+  }
+  
   padding: 0;
   text-align: center;
   .ranking-sign {
     background-position-x: -15px;
     background-position-y: -8px;
     background-size: 66px;
-    
     background-repeat: no-repeat;
+    
     min-height: 40px;
+    min-width: 32px;
+    
     &#up {
       background-image: image-url('icons/up_chevron.png');
-      padding-bottom: 3px;
+      padding: 11px 10px 0 10px;
       color: $theme-green;
     }
     &#down {
       color: $theme-red;
-      padding-top: 3px;
+      padding-top: 10px;
       background-image: image-url('icons/down_chevron.png');
-      background-position-y: -14px;
+      background-position-y: -6px;
     }
     &#out {
-      padding: 36px 0 36px 5px;
       color: $theme-red;
     }
   }
@@ -179,9 +201,13 @@
   .move-to-ranked, .ranking-sign {
     @include bold-text();
     cursor: pointer;
-    padding: 5px;
     font-size: 1.5em;
+    display: inline-block;
   }
+}
+
+.showing-controls {
+  background-color: beige;
 }
 
 #ranked-idea-list {

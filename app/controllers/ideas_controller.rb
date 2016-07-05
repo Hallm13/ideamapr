@@ -26,17 +26,17 @@ class IdeasController < ApplicationController
       @all_ideas = @all_ideas.map do |i|
         base_info = {id: i.id, title: i.title, description: i.description}
         if (already_assigned = assignments_rev_index.keys.include?(i.id))
-          base_info.merge!({is_assigned: already_assigned,
-                           idea_rank: assignments_rev_index[i.id][:ordering],
-                           cart_amount: assignments_rev_index[i.id][:budget]})
+          base_info.merge!({idea_rank: assignments_rev_index[i.id][:ordering],
+                            cart_amount: assignments_rev_index[i.id][:budget]})
         end
-        base_info
+        base_info.merge!({is_assigned: already_assigned})
       end
     else
       # There is neither a survey or an SQ specified in the params, to key ideas against
       @all_ideas = Idea.all
     end
 
+    puts "returning #{@all_ideas}"    
     render (request.xhr? ? ({json: @all_ideas}) : ('index'))
   end
 

@@ -4,11 +4,6 @@ IdeaMapr.Views.PublicDetailsCollectionView = Backbone.View.extend
     @component_views = []
     @
 
-  set_question_type: (t) ->
-    @collection.question_type = t
-    @question_type = t
-    @
-
   unselect_others: (selected_view) ->
     @component_views.forEach (elt, idx) ->
       unless elt.cid == selected_view.cid
