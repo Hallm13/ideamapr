@@ -45,4 +45,8 @@ IdeaMapr::Application.configure do
   config.active_support.test_order = :sorted
 
   config.active_job.queue_adapter = :test
+  config.paperclip_defaults = {
+    storage: :filesystem
+  }
+  Paperclip::Attachment.default_options[:path] = "#{Rails.root}/test/fixtures/files/paperclip/:class/:id_partition/:style.:extension"
 end

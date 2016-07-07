@@ -9,21 +9,4 @@ class QuestionDetailsController < ApplicationController
       render json: []
     end
   end
-
-  def create
-    if params[:_json]
-      req_obj = params[:_json]
-      details_list = req_obj.map { |h| h['text'] }
-      qn_id = params[:for_survey_question]
-
-      if qn_details = QuestionDetail.find_by_survey_question_id(qn_id)
-        qn_details.delete
-      end
-
-      qn_details = QuestionDetail.create(survey_question_id: qn_id, details_list: details_list)
-      
-      render json: ({status: 'success', data: {question_id: qn_id}})
-    end
-  end
-  
 end

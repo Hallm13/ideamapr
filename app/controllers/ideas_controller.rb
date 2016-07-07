@@ -36,7 +36,6 @@ class IdeasController < ApplicationController
       @all_ideas = Idea.all
     end
 
-    puts "returning #{@all_ideas}"    
     render (request.xhr? ? ({json: @all_ideas}) : ('index'))
   end
 

@@ -73,5 +73,7 @@ def set_net_stubs
     with(:body => hash_including({"amount"=>/^[\.\d]+$/, "currency"=>"usd"}),
          headers: stripe_headers).
     to_return(:status => 200, :body => valid_stripe_charge_object)
+  stub_request(:put, "https://testbucket.s3.testregion.amazonaws.com/image.png").
+    to_return(status: 200)
 end
 

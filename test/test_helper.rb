@@ -58,3 +58,6 @@ end
 # Forces all threads to share the same connection. This works on
 # Capybara because it starts the web server in a thread. Needed for login_as
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+Minitest.after_run do
+  FileUtils.rm_rf(Dir[Rails.root.join('test', 'fixtures', 'files', 'paperclip')])
+end

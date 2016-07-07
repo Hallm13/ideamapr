@@ -70,7 +70,6 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
 
       # idea_1 is already assigned without a budget; idea_2 will now be added
       model = "\\'SurveyQuestion\\'"
-      binding.pry
       assert_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count", 1) do
         put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn',
                                                    question_type: SurveyQuestion::QuestionType::BUDGETING},

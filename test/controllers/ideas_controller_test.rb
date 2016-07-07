@@ -2,9 +2,10 @@ require 'test_helper'
 
 class IdeasControllerTest < ActionController::TestCase
   include Devise::TestHelpers
-
+  
   def setup
     sign_in admins(:admin_1)
+    set_net_stubs
   end
   
   describe '#index' do
@@ -64,11 +65,17 @@ class IdeasControllerTest < ActionController::TestCase
   end
   
   describe '#create' do
-    it 'is successful' do
+    it 'is successful without attachments' do
       post :create, idea: {title: 'is a long title', description: "is a long title and description"}
       assert_redirected_to ideas_path(Idea.last)
     end
-
+    it 'is successful with attachments' do
+      assert_difference('DownloadFile.count', 1) do
+        post :create, idea: {title: 'is a long title', description: "is a long title and description",
+                             attachment: fixture_file_upload('files/image.png', 'image/png')}
+      end
+    end
+    
     it 'shows errors' do
       post :create, idea: {title: 'iz a', description: "is"}
       assert_template :new

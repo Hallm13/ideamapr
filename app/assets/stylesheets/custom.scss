@@ -129,13 +129,17 @@ form {
   float: right;
 }
 
+.primary-level,.secondary-level {
+  color: $text-gray;
+}
+
 .secondary-level {
   margin-bottom: 20px;
   .col-xs-4 {
     border-top: black 1px solid;
   }
   .active-text {
-    color: $theme-red;
+    color: $text-gray;
   }
 }
 
@@ -150,7 +154,7 @@ form {
   cursor: pointer;
   background-color: $background-gray;
   a, a:hover, a:visited {
-		color: black;
+		color: $text-gray;
 		text-decoration: none;
 	      }
   &:hover {
