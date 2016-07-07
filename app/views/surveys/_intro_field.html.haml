@@ -1,2 +1,4 @@
 .relative-container
   = text_area_tag 'survey[introduction]', @survey.introduction, class: 'form-control validated-box', 'data-expected-length' => vb.expected_length
+  = label_tag 'survey[introduction]', t('prompts.survey.intro_message'), class: 'placeholder-label'
+  

@@ -23,18 +23,45 @@ sq_edit_functions = ->
       
   switch_qn_type = (switch_to) ->
     switch_to = parseInt switch_to
+    window.sq_model.set('question_type', switch_to)
+    
     show_field_or_ideas switch_to
     if switch_to == 5 || switch_to == 6
       $('#search-box').hide()
+      window.field_details_view.render()
     if switch_to == 0 || switch_to == 1 || switch_to == 3
       # When choosing Budgeting type for questions show add'l controls
+      window.idea_lists_view.render()
       $('#search-box').show()
       if switch_to == 3
         $('[data-box-key=sq-set-budget]').closest('.builder-box').show()
       else
         $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()      
     null
+
+  # Set up events
+  $('#survey_question_question_type').change (evt) ->
+    # When the question type is changed, on new views
+    switch_qn_type $(evt.target).val()
+    set_prompt('#helper-edit')
+
+  $('#object-save').click (evt) ->
+    # Gather the collected fields or ideas models for unpacking by the controller
+    # Validate all the text boxes
       
+    if window.run_validations()
+      # Question type is saved in diff fields for new and for existing survey qns
+      qt = window.sq_model.get('question_type')
+      qd_elt = $('<input type=hidden>').attr('name', 'question_details')
+      json_str = JSON.stringify(window.sq_model.component_data())
+      qd_elt.val json_str
+      $(evt.target).closest('form').append qd_elt
+      true
+    else
+      evt.stopPropagation()
+      false
+      
+  # Run the logic for this page.
   if ($.find('form#survey_question_new').length > 0 || $.find('form#survey_question_edit').length > 0) and \
       $.find('#survey_question_id').length > 0
     # We are creating or editing a survey qn
@@ -52,8 +79,6 @@ sq_edit_functions = ->
       window.sq_model.set 'question_type', parseInt($('#saved_question_type').val())
 
     question_type = window.sq_model.get('question_type')
-    switch_qn_type question_type
-    
     # For new survey qns, init all Backbone apps
     # The populate_data() calls will trigger a sync event that renders the appropriate view
     if new_survey_qn
@@ -73,25 +98,6 @@ sq_edit_functions = ->
         model: window.sq_model
       window.idea_lists_view.populate_data()
 
-    $('#survey_question_question_type').change (evt) ->
-      # When the question type is changed, on new views
-      switch_qn_type $(evt.target).val()
-      set_prompt('#helper-edit')
-
-    $('#object-save').click (evt) ->
-      # Gather the collected fields or ideas models for unpacking by the controller
-      # Validate all the text boxes
-      
-      if window.run_validations()
-        # Question type is saved in diff fields for new and for existing survey qns
-        qt = window.sq_model.get('question_type')
-        qd_elt = $('<input type=hidden>').attr('name', 'question_details')
-        json_str = JSON.stringify(window.sq_model.component_data())
-        qd_elt.val json_str
-        $(evt.target).closest('form').append qd_elt
-        true
-      else
-        evt.stopPropagation()
-        false
-      
+    switch_qn_type question_type
+    
 $(document).on('ready page:load', sq_edit_functions)

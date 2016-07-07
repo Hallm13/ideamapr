@@ -6,13 +6,6 @@ IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
     IdeaMapr.Views.IdeaListView.prototype.initialize.call @
     @existing_detail_count = 0
     
-    qn_type = @model.get('question_type')
-    if qn_type == -1
-      # this happens for new surveys
-      @question_type = 5
-    else
-      @question_type = @model.get('question_type')
-    
     @listenTo(@model.field_details, 'sort', @render)
     @listenTo(@model.field_details, 'change:ready_for_render', @render)
     @
@@ -42,6 +35,13 @@ IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
     @
     
   render: ->
+    qn_type = @model.get('question_type')
+    if qn_type == -1
+      # this happens for new surveys
+      @question_type = 5
+    else
+      @question_type = @model.get('question_type')
+    
     t = _.template($('#details-collection-template').html())
     @$el.html(t())
     view_self = @

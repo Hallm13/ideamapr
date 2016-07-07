@@ -13,20 +13,12 @@ IdeaMapr.Views.AdminIdeaCollectionsView = IdeaMapr.Views.IdeaListView.extend
       el: $('#selected-list')
       collection: @assigned_collection
 
-    if @model.get('question_type') == -1
-      set_type = 1
-    else
-      set_type = @model.get('question_type')
-    
     @to_search_collection = new IdeaMapr.Collections.IdeaCollection()
     @search_view = new IdeaMapr.Views.AdminSearchIdeaListView
       el: $('#search-box')
       collection: @to_search_collection
       model: new IdeaMapr.Models.SearchQueryModel()
 
-    @selected_view.question_type = set_type
-    @search_view.question_type = set_type
-      
     @listenTo(@assigned_collection, 'remove', @redistribute)
     @listenTo(@to_search_collection, 'remove', @redistribute)
     
@@ -83,6 +75,14 @@ IdeaMapr.Views.AdminIdeaCollectionsView = IdeaMapr.Views.IdeaListView.extend
     @render()
     
   render: ->
+    if @model.get('question_type') == -1
+      set_type = 1
+    else
+      set_type = @model.get('question_type')
+    
+    @selected_view.question_type = set_type
+    @search_view.question_type = set_type
+      
     @selected_view.render()
     @search_view.render()
     

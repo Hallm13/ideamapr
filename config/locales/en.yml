@@ -42,4 +42,9 @@ en:
     idea:
       title: 'Add a short title'
       description: 'Describe your idea'
-  
+    survey_question:
+      title: 'Add a short title'
+    survey:
+      title: 'Add a short title'
+      intro_message: 'Describe your survey'
+      thankyou: 'Add a little thank you'
