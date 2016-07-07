@@ -26,5 +26,6 @@
       .col-xs-4.col-xs-offset-4.strike-padding
         .secondary-item
           %span.active-text
-            = "#{t(@navbar_active_section)}"
-          = "> #{t(@level2_menu)}"
+            = "#{t(@navbar_active_section)} >"
+          %span.subsection-text
+            = "#{t(@level2_menu)}"

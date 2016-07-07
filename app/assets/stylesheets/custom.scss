@@ -130,16 +130,22 @@ form {
 }
 
 .primary-level,.secondary-level {
+  @include bold-text();
   color: $text-gray;
+  .menu-selected {
+    color: $theme-red;
+  }  
 }
 
 .secondary-level {
   margin-bottom: 20px;
-  .col-xs-4 {
-    border-top: black 1px solid;
-  }
+  margin-top: 10px;
+  border-radius: 5px;
   .active-text {
     color: $text-gray;
+  }
+  .subsection-text {
+    text-decoration: underline;
   }
 }
 
@@ -154,11 +160,10 @@ form {
   cursor: pointer;
   background-color: $background-gray;
   a, a:hover, a:visited {
-		color: $text-gray;
+		color: inherit;
 		text-decoration: none;
 	      }
   &:hover {
-    background-color: $theme-white;
     border-radius: 5px;
   }
 }

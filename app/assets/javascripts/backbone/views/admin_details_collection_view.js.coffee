@@ -7,9 +7,8 @@ IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
     @existing_detail_count = 0
     
     qn_type = @model.get('question_type')
-    if qn_type == 1
-      # this happens for new surveys when the stand-in details view needs to be initialized
-      # but the new survey qn can only hold one type number    
+    if qn_type == -1
+      # this happens for new surveys
       @question_type = 5
     else
       @question_type = @model.get('question_type')

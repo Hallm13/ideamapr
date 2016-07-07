@@ -30,7 +30,7 @@ class SurveyQuestionsController < ApplicationController
   
   def edit
     set_dropdown_options
-    @level2_menu = :edit_survey_question
+    @level2_menu = :create_survey_question
     
     @qn_idea_assignments = @question.idea_assignments
   end

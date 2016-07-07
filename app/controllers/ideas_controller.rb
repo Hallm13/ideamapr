@@ -40,7 +40,7 @@ class IdeasController < ApplicationController
   end
 
   def edit
-    @level2_menu = :edit_idea
+    @level2_menu = :create_idea
     if @idea.download_files.count > 0
       @attachments = @idea.download_files
     end

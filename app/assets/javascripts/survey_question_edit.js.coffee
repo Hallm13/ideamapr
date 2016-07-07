@@ -56,14 +56,15 @@ sq_edit_functions = ->
     
     # For new survey qns, init all Backbone apps
     # The populate_data() calls will trigger a sync event that renders the appropriate view
+    if new_survey_qn
+      window.sq_model.set('question_type', -1)
+      
     if new_survey_qn || question_type == 5 || question_type == 6
       window.sq_model.set_field_details()
       window.field_details_view = new IdeaMapr.Views.AdminDetailsCollectionView
         model: window.sq_model
         el: '#fields-list-app'
         
-      if new_survey_qn
-        window.sq_model.set('question_type', 5)
       window.field_details_view.populate_data()
 
     if new_survey_qn || question_type == 1 || question_type == 3 || question_type == 0
