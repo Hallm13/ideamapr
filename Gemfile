@@ -73,7 +73,7 @@ group :development, :test do
   # Can unset when https://github.com/phusion/passenger/issues/1392 is closed.
   gem 'capistrano-passenger', '0.0.2'
   gem 'capistrano-sidekiq'
-  gem 'jasmine-rails'
+  gem 'jasmine'
 end
 
 gem 'dotenv'
