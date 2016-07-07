@@ -33,8 +33,6 @@ gem 'turbolinks'
 gem 'underscore-rails'
 
 gem 'has_secure_token'
-gem 'redis-namespace'
-gem 'sidekiq'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -42,6 +40,9 @@ end
 
 gem 'devise'
 gem 'haml-rails'
+gem 'paperclip', '~> 5.0.0'
+gem 'aws-sdk', '>= 2.0.34'
+gem 'aws-sdk-resources'
 
 group :production do
   gem 'pg'

@@ -12,8 +12,9 @@ class Idea < ActiveRecord::Base
       end
     end
     
-    [Struct::IdeaVbStruct.new('title', 'Idea Title', 'idea-title', true, 10, 'Add a title for the idea'),
-     Struct::IdeaVbStruct.new('description', 'Edit Description', 'idea-description', true, 15, 'Add a description for the idea')
+    [Struct::IdeaVbStruct.new('title', 'Idea Title', 'idea-title', true, 10, 'Add a short title'),
+     Struct::IdeaVbStruct.new('description', 'Idea Intro', 'idea-description', true, 15, 'Describe your idea'),
+     Struct::IdeaVbStruct.new('attachments', 'Attachments', 'idea-attachments', true, 15, 'Upload attachments')
     ]
   end
   
@@ -28,4 +29,5 @@ class Idea < ActiveRecord::Base
   
   validates :title, length: {minimum: 10}
   has_many :idea_assignments, dependent: :destroy
+  has_many :download_files
 end

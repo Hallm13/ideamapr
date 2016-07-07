@@ -1,4 +1,4 @@
-= form_tag("/ideas", method: :post, id: :idea_new) do
+= form_tag("/ideas", method: :post, multipart: true) do
   - Idea.viewbox_list.each do |vb|
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}

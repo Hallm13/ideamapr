@@ -1,3 +1,4 @@
 .relative-container
   = text_area_tag 'idea[description]', @idea.description, class: 'form-control validated-box', 'data-expected-length' => 15
+  = label_tag 'idea[description]', t('prompts.idea.description'), class: 'placeholder-label'
 

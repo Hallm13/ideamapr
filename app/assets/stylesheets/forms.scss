@@ -37,17 +37,22 @@
     margin: 0 auto;
   }
 
-  input + label.placeholder-label {
+  input+label.placeholder-label,textarea+label.placeholder-label {
     position: absolute;
     top: 10px;
     left: 35px;
     font-size: 0.9em;
   }
-  input.with-text + label.placeholder-label {
+  input.with-text+label.placeholder-label,textarea.with-text+label.placeholder-label {
+    color: $text-light-gray;
     transition: left 0.5s;
-    left: 90%;
+    left: 5px;
+    top: 5px;
     padding: 0 2px;
-    background-color: $theme-white;
+  }
+  input.with-text,textarea.with-text {
+    min-height: 50px;
+    padding-top: 20px;
   }
 }
 

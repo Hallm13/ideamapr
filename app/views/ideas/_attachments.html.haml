@@ -1,0 +1,8 @@
+- if @attachments
+  - @attachments.each do |a|
+    .col-xs-4
+      = image_tag a.downloadable.url
+      
+.col-xs-offset-3.col-xs-6.text-center
+  = file_field_tag 'idea[attachment]'
+  Upload Attachment

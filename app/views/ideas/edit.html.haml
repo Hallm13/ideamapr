@@ -1,4 +1,4 @@
-= form_tag("/ideas/#{@idea.id}", method: :post) do
+= form_tag("/ideas/#{@idea.id}", method: :post, multipart: true) do
   = hidden_field_tag '_method', 'put'
   - Idea.viewbox_list.each do |vb|
     - if vb.shown

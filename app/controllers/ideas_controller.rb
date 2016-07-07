@@ -41,7 +41,10 @@ class IdeasController < ApplicationController
   end
 
   def edit
-    @level2_menu = :edit_idea    
+    @level2_menu = :edit_idea
+    if @idea.download_files.count > 0
+      @attachments = @idea.download_files
+    end
   end
 
   def show
@@ -55,6 +58,12 @@ class IdeasController < ApplicationController
 
     if @idea.valid?
       @idea.save
+      if params[:idea][:attachment]
+        df = DownloadFile.new downloadable: params[:idea][:attachment]
+        df.idea = @idea
+        df.save
+      end
+      
       redirect_to ideas_path @idea
     else
       flash[:alert] = t(:resource_creation_failure, resource_name: 'Idea')

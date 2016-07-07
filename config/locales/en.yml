@@ -37,4 +37,9 @@ en:
   create_survey: 'Create Survey'
   edit_survey: 'Edit Survey'
   create_survey_question: 'Create Question'
-  edit_survey_question: 'Edit Question'  
+  edit_survey_question: 'Edit Question'
+  prompts:
+    idea:
+      title: 'Add a short title'
+      description: 'Describe your idea'
+  
