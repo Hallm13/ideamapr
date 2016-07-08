@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706051666) do
+ActiveRecord::Schema.define(version: 20160707235250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20160706051666) do
     t.integer  "ordering"
   end
 
+  add_index "idea_assignments", ["ordering"], name: "index_orderings_in_idea_assignments", using: :btree
+
   create_table "ideas", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
@@ -85,6 +87,8 @@ ActiveRecord::Schema.define(version: 20160706051666) do
     t.datetime "updated_at"
     t.integer  "ordering"
   end
+
+  add_index "question_assignments", ["ordering"], name: "index_orderings_in_question_assignments", using: :btree
 
   create_table "question_details", force: :cascade do |t|
     t.integer  "survey_question_id"

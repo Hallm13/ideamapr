@@ -5,12 +5,15 @@ class PublicInfoController < ApplicationController
        (@survey = Survey.find_by_public_link(params[:for_survey]))
       # This is going to be a list of lists ... for a survey ... so it has to be returned as if it's a 
       # model. All ideas for a survey - would an admin ever ask for this? TODO
-      list_of_lists = @survey.question_assignments.order(:ordering).map do |sq_assign|
-        # TODO this is _so_ inefficient. N+1 queries, etc.
-        sq = sq_assign.survey_question
+      
+      list_of_lists = SurveyQuestion.includes(:question_assignments).
+                      order('question_assignments.ordering asc').where(question_assignments: {survey_id: @survey.id}).
+                      all.map do |sq|
         if sq.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
            sq.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
-          {type: 'detail', data: sq.question_detail.details_list}
+          ret = {type: 'detail', data: sq.question_detail.details_list}
+          Rails.logger.debug "Producting #{ret[:data]}"
+          ret
         else
           if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
             field_list = ['ideas.id', :title, :description, :budget]

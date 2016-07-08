@@ -57,17 +57,17 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
       @urlRoot + @get('id')
     else
       @urlRoot + 'public_show/' + @get('public_link')
-    
+
   recrement_question: (options) ->
     @set('previous_selection', @get('current_screen'))
     survey_model_self = @
         
     if options.hasOwnProperty('move_to')
       @set('current_screen', options.move_to - 1)
-    else if options.hasOwnProperty('sqn_id')
+    else if options.hasOwnProperty('survey_question_id')
       @screens.forEach (screen, idx) ->
       # This could be a string selector instead of a view obj
-        if screen.model instanceof IdeaMapr.Models.SurveyQuestion && screen.model.get('id') == options.sqn_id
+        if screen.model instanceof IdeaMapr.Models.SurveyQuestion && screen.model.get('id') == options.survey_question_id
           survey_model_self.set('current_screen', idx)
     else
       if options.direction == -1
@@ -78,5 +78,6 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
           @trigger 'survey:done'
         else
           @set('current_screen', (@get('current_screen') + 1) % @get('number_of_screens'))
-      
+
+    # SurveyPublicView and SurveyNavbarView will listen for this event.
     @trigger 'survey:selection_changed'

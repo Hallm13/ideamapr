@@ -100,7 +100,19 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
     it 'does not require auth when the survey is public and the request is XHR' do
       sign_out :admin
       xhr :get, :index, for_survey: surveys(:published_survey).public_link
-      assert_equal surveys(:published_survey).survey_questions.count, JSON.parse(response.body).size
+      b = JSON.parse(response.body)
+      
+      assert_equal surveys(:published_survey).survey_questions.count, b.size
+      assert_equal 0, b.select { |i| !i['is_assigned'] }.size
+    end
+    
+    it 'separates questions by assignment for private surveys when the request is XHR' do
+      xhr :get, :index, for_survey: surveys(:survey_1)
+      b = JSON.parse(response.body)
+      assert_equal SurveyQuestion.count, b.size
+      assert_equal survey_questions(:sq_pre_5).id, b[0]['id']
+      assert_equal SurveyQuestion.count - surveys(:survey_1).survey_questions.count,
+                   b.select { |i| !i['is_assigned'] }.size
     end
 
     it "activates selection when asked" do

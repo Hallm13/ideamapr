@@ -7,7 +7,8 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
     )
 
     @listenTo(@, 'change:view_request', (model) ->
-      @trigger('survey_question_collection:view_request', model)
+      # A view will receive this trigger that comes from a SurveyQuestionSummaryView, and pass the sq ID to a survey model
+      @trigger('survey_question_collection:view_request', {survey_question_id: model.get('id')})
     )
     @
         
@@ -54,7 +55,7 @@ IdeaMapr.Collections.SurveyQuestionCollection = Backbone.Collection.extend
           fix_model.set('question_rank', change_model.get('question_rank') + 1)
           fix_model = null
     )
-    @.sort()
+    @sort()
     @
     
   comparator: (m) ->

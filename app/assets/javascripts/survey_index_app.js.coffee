@@ -1,3 +1,4 @@
+# App for the survey index page for admins
 funcs = ->
   survey_list = new IdeaMapr.Collections.SurveyIndexList()
   app = new IdeaMapr.Views.SurveyListAppView(

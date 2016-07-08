@@ -30,7 +30,7 @@ class IndividualAnswersController < ApplicationController
       end
 
       if response_hash.is_a?(Hash) and !response_hash['data'].nil?
-        @sqn = SurveyQuestion.find_by_id(params[:sqn_id])
+        @sqn = SurveyQuestion.find_by_id(params[:survey_question_id])
 
         # there has to be a valid survey question that has exactly as many ideas/fields as the number of responses provided
         if @sqn&.response_length == response_hash['data'].length

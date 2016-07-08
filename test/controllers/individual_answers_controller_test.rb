@@ -2,7 +2,7 @@ require 'test_helper'
 class IndividualAnswersControllerTest < ActionController::TestCase
   describe '#create' do
     before do
-      @answer_1_publ_survey = {sqn_id: survey_questions(:sq_1).id,
+      @answer_1_publ_survey = {survey_question_id: survey_questions(:sq_1).id,
                                survey_token: surveys(:published_survey).public_link}
     end
   

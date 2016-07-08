@@ -21,7 +21,7 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
 
       d={}
       d['survey_token'] = @model.survey_token
-      d['sqn_id'] = @model.get('id')
+      d['survey_question_id'] = @model.get('id')
       d['response_data'] = JSON.stringify({data: qn_response})
       $.post url, d, (d, s, x) ->
         
@@ -43,7 +43,7 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
       view_self.model.set('answered', coll.answered)
     )
     
-    idea_or_details_coll.sqn_id = @model.get('id')
+    idea_or_details_coll.survey_question_id = @model.get('id')
     question_type = @model.get('question_type')
 
     if question_type == 5 or question_type == 6

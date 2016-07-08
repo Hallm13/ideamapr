@@ -9,18 +9,34 @@ class SurveyQuestionsController < ApplicationController
   
   def index
     rendered = false
-
-    if @survey&.published? && !current_admin
-      @questions = @survey.survey_questions
-    else
-      @questions = SurveyQuestion.all
-    end
-
-    if @survey
-      @excluded_qn_list = @survey.question_assignments.pluck(:survey_question_id, :ordering)
-    end
+    @questions = nil
     
-    render (request.xhr? ? ({json: json_payload}) : 'index')
+    if @survey&.published? && !current_admin
+      # Published surveys will behave like other surveys for signed-in admins when getting qn lists
+      @questions = SurveyQuestion.includes(:question_assignments).order('question_assignments.ordering asc').where(question_assignments: {survey_id: @survey.id}).
+                   all
+    else
+      if @survey
+        ids = @survey.question_assignments.order(ordering: :asc).pluck(:survey_question_id)
+        assg_qns = SurveyQuestion.includes(:question_assignments).order('question_assignments.ordering asc').where(question_assignments: {survey_id: @survey.id})
+        remg_qns = SurveyQuestion.where('id not in (?)', ids).all
+      else
+        @questions = SurveyQuestion.all
+      end
+    end
+
+    if @questions
+      # All are assigned or it doesn't matter
+      payload = json_payload @questions
+    else
+      if !request.xhr?
+        @questions = assg_qns + remg_qns
+      else
+        payload = json_payload(assg_qns, true) + json_payload(remg_qns, false)
+      end
+    end
+
+    render (request.xhr? ? ({json: payload}) : 'index')
   end
 
   def new
@@ -172,21 +188,17 @@ class SurveyQuestionsController < ApplicationController
     @select_default = @question.question_type || 1 # default for new = Ranking... TODO change it maybe?
   end
 
-  def json_payload
+  def json_payload(qn_list, assigned = true)
     # Create a payload, mainly for Backbone app consumption, that allows display in multiple sections
 
-    rev_index = @excluded_qn_list&.inject({}) do |memo, pair|
-      memo[pair[0]] = pair[1] # key = qn id; val = ordering
-      memo
+    arr = []
+    qn_list.inject(0) do |idx, qn|
+      arr << {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type,
+              budget: qn.budget, question_rank: idx, is_assigned: assigned}
+      idx += 1
     end
 
-    jp = @questions.map do |qn|
-      {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type,
-       budget: qn.budget}.
-        merge(rev_index.nil? ? {} : {question_rank: rev_index[qn.id],
-                                     is_assigned: rev_index.keys.include?(qn.id)})
-    end
-    jp
+    arr
   end
   
   def set_public_survey_or_admin!
@@ -199,23 +211,23 @@ class SurveyQuestionsController < ApplicationController
     
     if request.xhr?
       s = Survey.find_by_public_link(params[:for_survey])
-      if s && s.status == Survey::SurveyStatus::PUBLISHED
+      if s&.status == Survey::SurveyStatus::PUBLISHED
         @survey = s
-        Rails.logger.debug 'Found public survey for sq index'
         return true
       end
 
+      # Look for it by id instead of public token
       if s.nil?
         s = Survey.find_by_id params[:for_survey]
-      end
-      if s.nil?
-        # if the survey can't be found, it doesn't matter who's logged in
-        return false
       end
     else
       s = Survey.find_by_id(params[:for_survey]) || Survey.find_by_public_link(params[:for_survey])
     end
     
+    if s.nil?
+      # if the survey can't be found, it doesn't matter who's logged in
+      return false
+    end
     @survey = s
     authenticate_admin!
   end  

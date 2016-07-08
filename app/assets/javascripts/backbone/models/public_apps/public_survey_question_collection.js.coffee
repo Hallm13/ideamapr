@@ -1,4 +1,4 @@
-IdeaMapr.Collections.SurveyQuestionPublicCollection = Backbone.Collection.extend
+IdeaMapr.Collections.PublicSurveyQuestionCollection = Backbone.Collection.extend
   initialize: ->
     this.listenTo(this, 'survey:increment_question', this.increment_selection)
     this.listenTo(this, 'survey:decrement_question', this.decrement_selection)
@@ -12,7 +12,7 @@ IdeaMapr.Collections.SurveyQuestionPublicCollection = Backbone.Collection.extend
     
   urlRoot: '/survey_questions?for_survey='
   url: ->
-    this.urlRoot + this.survey_id
+    this.urlRoot + this.survey_token
     
   model: IdeaMapr.Models.SurveyQuestion,
 

@@ -1,8 +1,20 @@
-qa_1_4:
+qa_1_1:
+  survey: survey_1
+  survey_question: sq_1
+  ordering: 2
+qa_1_pre4:
   survey: survey_1
   survey_question: sq_pre_4
+  ordering: 1
+qa_1_pre5:
+  survey: survey_1
+  survey_question: sq_pre_5
   ordering: 0
 qa_pub_5:
   survey: published_survey
   survey_question: sq_pre_5
   ordering: 0
+qa_pub_radio:
+  survey: published_survey
+  survey_question: sq_with_radio_choice
+  ordering: 1

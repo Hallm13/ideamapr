@@ -86,7 +86,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_match /survey 1 intro/, response.body
       assert_match /survey 1 title/, response.body
       assert assigns(:survey_status_select)
-      assert_equal 1, assigns(:survey_qns).count
+      assert_equal surveys(:survey_1).survey_questions.count, assigns(:survey_qns).count
     end
   end
   
@@ -125,8 +125,8 @@ class SurveysControllerTest < ActionController::TestCase
       s=surveys(:survey_1)
       set_title = 'is a valid long'
 
-      # One question goes away, two are added
-      assert_difference('s.survey_questions.count', 1) do 
+      # 3 questions go away, 2 are added
+      assert_difference('s.survey_questions.count', -1) do 
         post :update, id: s.id, survey: {title: set_title,
                                          introduction: 'is an introduction long and good adding 2 qns',
                                          status: 0}, question_list: new_survey_question_recs.to_json
