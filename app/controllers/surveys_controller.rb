@@ -4,7 +4,7 @@ class SurveysController < ApplicationController
   include RelationalLogic
 
   before_action :set_menubar_variables
-  before_action :authenticate_admin!, except: :public_show 
+  before_action :authenticate_request, except: :public_show 
   before_action :params_check, except: :index
 
   def new
@@ -17,8 +17,7 @@ class SurveysController < ApplicationController
     if request.xhr?
       data = @surveys.map do |s|
         {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
-         individual_answer_count: s.individual_answers.count,
-         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}
+         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}.merge(s.report_hash)
       end
 
       render json: data
@@ -32,7 +31,7 @@ class SurveysController < ApplicationController
     if request.xhr?
       render_json_payload
     else
-      @cookie_key = find_or_create_cookie(params[:cookie_key])
+      @cookie_key = find_or_create_cookie params[:cookie_key]
       render 'public_show', layout: 'public_survey'
     end
   end
@@ -161,6 +160,17 @@ class SurveysController < ApplicationController
         create_survey_qn_array
         render :new, status: 422
       end
+    end
+  end
+
+  def authenticate_request
+    # Special method to allow hand-rolled oAuth-like querying to test out the reporting interface
+    if request.xhr? && params[:token].present? &&
+       (adm = Admin.find_by_auth_token(params[:token]))
+      @current_admin = adm
+      return true
+    else
+      return authenticate_admin!
     end
   end
 end

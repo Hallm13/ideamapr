@@ -14,4 +14,8 @@ class SurveyTest < ActiveSupport::TestCase
   test '##status_enum' do
     assert_equal({'Draft' => 0, 'Published' => 1, 'Closed' => 2}, Survey.new.status_enum)
   end
+
+  test 'SurveyStatus##id' do
+    assert_equal 1, Survey::SurveyStatus.id('Published')
+  end
 end

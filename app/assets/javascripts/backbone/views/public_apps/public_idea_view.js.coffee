@@ -29,10 +29,11 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       @con_text = $(evt.target).val()
 
     # Budgeting
-    "click #add-to-cart": ->
+    "click #add-to-cart": (evt) ->
       # The collection here is the IdeaCollection it is in.
       if @collection.accept_cart_item(@model.get('cart_amount'))
-        @model.increment_cart_count()
+        @toggle_cart_text $(evt.target)
+        @model.toggle_cart_count()
       
   render: ->
     @model.init_type_specific_data(@question_type)
@@ -88,3 +89,9 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         @$('textarea#current-con').remove()
         @$('#addcon').show()
         @$('#savecon').hide()
+        
+  toggle_cart_text: ($button) ->
+    if $button.text().match(/Add/) != null
+      $button.text 'Remove from Cart'
+    else
+      $button.text 'Add to Cart'    

@@ -24,17 +24,17 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     view_self = @
     @screens.forEach (scr, idx) ->
       view_self.screen_remove scr
-      
     @thankyou_screen.show()
-    
+        
   semaphore_increment: ->
     @semaphore_value += 1
     if @semaphore_value == 2
       # Now we have both the sq collection and the survey has its list of idea lists...
       view_self = @
       @collection.each (sq_model, idx) ->
+        # ..., each question needs to listen to data changes in its idea list.
         sq_model.survey_token = view_self.model.get('public_link')
-        sq_model.idea_lists = view_self.model.idea_lists[idx]
+        sq_model.assign_idea_list view_self.model.idea_lists[idx]
             
       @trigger('semaphore_set')
 

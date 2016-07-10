@@ -11,19 +11,7 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     
   events:
     'click #save-response': ->
-      # Don't bother doing anything if the survey wasn't answered.
-      return if @model.get('answered') == false
-      
-      qn_response = @collection.map (m) ->
-        m.response_data()
-        
-      url = '/individual_answers'
-
-      d={}
-      d['survey_token'] = @model.survey_token
-      d['survey_question_id'] = @model.get('id')
-      d['response_data'] = JSON.stringify({data: qn_response})
-      $.post url, d, (d, s, x) ->
+      @model.post_response_to_server()
         
   render: ->
     data = @model.attributes
@@ -37,13 +25,6 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     
   append_idea_template: (idea_or_details_coll) ->
     view_self = @
-
-    @collection = idea_or_details_coll
-    @listenTo(idea_or_details_coll, 'answered', (coll) ->
-      view_self.model.set('answered', coll.answered)
-    )
-    
-    idea_or_details_coll.survey_question_id = @model.get('id')
     question_type = @model.get('question_type')
 
     if question_type == 5 or question_type == 6

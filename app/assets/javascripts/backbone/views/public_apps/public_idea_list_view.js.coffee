@@ -30,7 +30,11 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
 
   change_spent_amount: (m, options) ->
     # m is the model for the idea (cart_amount is added from the idea_assignment that connected to it.)
-    @collection.cart_total_spend = @collection.cart_total_spend + m.get('cart_amount')
+    current_count = m.get 'cart_count'
+    if current_count == 0
+      @collection.cart_total_spend -= m.get 'cart_amount'
+    else
+      @collection.cart_total_spend += m.get 'cart_amount'
     @set_budget @$el, @collection.cart_total_spend
     
   budget_line: ->

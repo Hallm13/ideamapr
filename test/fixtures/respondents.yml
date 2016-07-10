@@ -1,2 +1,4 @@
 respondent_1:
   cookie_key: cookie_1
+respondent_2:
+  cookie_key: cookie_answered_1

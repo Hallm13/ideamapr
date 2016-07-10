@@ -1,4 +1,6 @@
 class Survey < ActiveRecord::Base
+  include SurveyReporting
+  
   def status_enum
     (0..SurveyStatus.max_type).inject({}) do |acc, i|
       acc[SurveyStatus.name(i)] = i
@@ -70,6 +72,8 @@ class Survey < ActiveRecord::Base
   
   has_secure_token :public_link
   has_many :responses, dependent: :destroy
+  has_many :respondents, through: :responses
+  
   has_many :individual_answers, foreign_key: :survey_public_link, primary_key: :public_link, dependent: :destroy
 
   def self.valid_public_survey?(public_link)

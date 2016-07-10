@@ -11,8 +11,17 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
       @field_details = new IdeaMapr.Collections.DetailsCollection()
       @field_details.survey_question_id = @get('id')
     @field_details
+
+  assign_idea_list: (idea_or_details_coll) ->
+    # Participant
+    @idea_list = idea_or_details_coll
+    @listenTo(idea_or_details_coll, 'answered', (coll) ->
+      @set('answered', coll.answered)
+    )
+    idea_or_details_coll.survey_question_id = @get('id')
     
   set_idea_list: ->
+    # Admin ... probably should abstract this and assign_idea_list together at some point. TODO
     unless @idea_list
       @idea_list = new IdeaMapr.Collections.IdeaCollection()
       @idea_list.survey_question_id = @get('id')
@@ -36,3 +45,22 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
       c_data = @assigned_ideas.serialize()
     
     c_data
+
+  post_response_to_server: ->
+    # Don't bother doing anything if the survey wasn't answered.
+    return if @get('answered') == false
+    url = '/individual_answers'
+
+    d={}
+
+    # This token was set in survey_public_view:#semaphore_increment.
+    d['survey_token'] = @survey_token
+    d['survey_question_id'] = @get('id')
+    d['response_data'] = JSON.stringify({data: @response_data()})
+    $.post url, d, (d, s, x) ->
+      
+  response_data: ->
+    # Collect all the responses from the individual answers
+
+    @idea_list.map (idea_or_detail) ->
+      idea_or_detail.response_data()

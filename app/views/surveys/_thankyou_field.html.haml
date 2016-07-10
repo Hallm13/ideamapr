@@ -1,2 +1,3 @@
-= text_area_tag 'survey[thankyou_note]', @survey.thankyou_note, class: 'form-control validated-box', 'data-expected-length' => vb.expected_length
-= label_tag 'survey[thankyou_note]', t('prompts.survey.thankyou'), class: 'placeholder-label'
+.relative-container
+  = text_area_tag 'survey[thankyou_note]', @survey.thankyou_note, class: 'form-control validated-box', 'data-expected-length' => vb.expected_length
+  = label_tag 'survey[thankyou_note]', t('prompts.survey.thankyou'), class: 'placeholder-label'

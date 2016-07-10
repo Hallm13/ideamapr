@@ -8,10 +8,27 @@ class SurveysControllerTest < ActionController::TestCase
   end
   
   describe '#index' do
-    it 'works' do
+    it 'works for admins' do
       get :index
       assert assigns(:surveys)
       assert_equal :surveys, assigns(:navbar_active_section)
+    end
+
+    it 'works with tokens' do
+      sign_out admins(:admin_1)
+      admins(:admin_1).regenerate_auth_token
+
+      xhr :get, :index, token: admins(:admin_1).auth_token
+      assert assigns(:surveys)
+    end
+
+    it 'generates reports' do
+      xhr :get, :index
+      b = JSON.parse response.body
+      answered_survey = b.select { |r| r['id'] == surveys(:answered_survey).id }
+
+      assert answered_survey.first.keys.include?('individual_answer_count')
+      assert_match /\d+/, answered_survey.first['individual_answer_count'].to_s
     end
   end
   

@@ -1,0 +1,12 @@
+ia_answered_pre_5_2:
+  respondent: respondent_2
+  survey: answered_survey
+  survey_question: sq_pre_5
+  response: answered_response_1
+  response_data: <%= ().to_json  %>
+ia_answered_radio_2:
+  respondent: respondent_2
+  survey: answered_survey
+  survey_question: sq_with_radio_choice
+  response: answered_response_1
+  response_data: <%= ().to_json  %>

@@ -5,16 +5,26 @@ defaults: &defaults
   
 survey_1:
   <<: *defaults
-  title: is a survey is a survey 1 title
-  introduction: survey 1 introduction text
   owner: user_1
   owner_type: User
+  title: is a survey is a survey 1 title
+  introduction: survey 1 introduction text
   
 published_survey:
+  <<: *defaults
   title: published survey title
+  owner: user_1
+  owner_type: User
   introduction: published survey intro
   status: <%= 1 %>
   thankyou_note: thank you!
+  public_link: ispubliclink
+  
+answered_survey:
+  <<: *defaults
   owner: user_1
   owner_type: User
-  public_link: ispubliclink
+  title: answered survey
+  introduction: has a survey response and 1 indiv answer
+  status: <%= 1 %>
+  public_link: answered_survey_public_link

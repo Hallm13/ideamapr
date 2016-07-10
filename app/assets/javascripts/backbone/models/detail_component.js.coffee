@@ -33,3 +33,5 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
       @is_edited = false
       @.set 'ready_for_render', @.get('ready_for_render') + 1
     
+  set_checked: ->
+    @set_response_data('checked', true)    

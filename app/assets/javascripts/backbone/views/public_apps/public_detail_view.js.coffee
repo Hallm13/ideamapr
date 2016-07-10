@@ -8,7 +8,7 @@ IdeaMapr.Views.PublicDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exte
     @
     
   run_radio_checks: ->
-    @model.set_response_data('checked', true)
+    @model.set_checked() 
     @model.set('response_enter_count', @model.get('response_enter_count') + 1)
         
   extend_events: ->

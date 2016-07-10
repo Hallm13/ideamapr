@@ -5,6 +5,7 @@ class Admin < ActiveRecord::Base
     self.valid_password? p
   end
 
+  has_secure_token :auth_token
   has_many :surveys, inverse_of: :owner, as: :owner
   
   rails_admin do

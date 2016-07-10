@@ -57,5 +57,11 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       @attributes['response_data']['type-0-data']['feedback'][type].push text
       @trigger('idea:new_procon')
       
-  increment_cart_count: ->
-    @set('cart_count', @get('cart_count') + 1)
+  toggle_cart_count: ->
+    current_count = @get('cart_count')
+    if current_count == 0
+      @set 'cart_count', 1
+    else
+      @set 'cart_count', 0
+      
+    @set_response_data 'cart_count', @get('cart_count')
