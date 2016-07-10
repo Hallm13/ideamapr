@@ -7,7 +7,10 @@ module Ajax
       struct = {}
       case action
       when 'get_prompt_map'
-        struct[:data] = ::SurveyQuestion::QuestionType.prompts
+        struct[:data] = ::SurveyQuestion::QuestionType.prompts.inject({}) do |trans_hash, pair|
+          trans_hash[pair[0]] = I18n.t pair[1]
+          trans_hash
+        end
         struct[:status] = true
       when 'delete_idea'
         sqn_id = args[0]

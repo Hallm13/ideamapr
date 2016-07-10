@@ -45,7 +45,6 @@ class SurveysController < ApplicationController
   def edit
     @level2_menu = :create_survey
     set_dropdown
-    create_survey_qn_array
   end
   
   def update
@@ -87,21 +86,6 @@ class SurveysController < ApplicationController
     json = (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').
              merge({number_of_screens: 2 + @survey.survey_questions.count}))    
     render json: json
-  end
-  
-  def create_survey_qn_array
-    # id_list elements are numeric, either as Integer or as String
-    @survey_qns = @survey.survey_questions.to_a.map do |qn|
-      {data: qn, saved: true}
-    end
-    
-    @survey_qns ||= []
-    if params[:survey]&.send(:[], :components)
-      id_list = params[:survey]&.send(:[], :components)
-      @survey_qns += (SurveyQuestion.where('id in (?)', id_list).to_a.map do |qn|
-                        @survey_qns.include?({data: qn, saved: true}) ? nil : {data: qn, saved: false}
-                      end.compact)
-    end
   end
   
   def params_check
@@ -157,7 +141,6 @@ class SurveysController < ApplicationController
         render json: @survey, status: 422
       else
         flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
-        create_survey_qn_array
         render :new, status: 422
       end
     end

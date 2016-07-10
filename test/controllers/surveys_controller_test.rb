@@ -103,7 +103,6 @@ class SurveysControllerTest < ActionController::TestCase
       assert_match /survey 1 intro/, response.body
       assert_match /survey 1 title/, response.body
       assert assigns(:survey_status_select)
-      assert_equal surveys(:survey_1).survey_questions.count, assigns(:survey_qns).count
     end
   end
   

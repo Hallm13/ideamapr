@@ -14,7 +14,7 @@ functions = ->
       
     $('#object-save').click (evt) ->
       # Gather the collected questions and validate all the text boxes
-      
+      # Validate all the text boxes
       if window.run_validations()
         # Question type is saved in diff fields for new and for existing survey qns
         qd_elt = $('<input type=hidden>').attr('name', 'question_list')

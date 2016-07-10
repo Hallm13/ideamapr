@@ -48,3 +48,11 @@ en:
       title: 'Add a short title'
       intro_message: 'Describe your survey'
       thankyou: 'Add a little thank you'
+  survey_question:
+    helper_defaults:
+      procon: 'Supply pros and cons for these ideas'
+      ranking: 'Please use the arrows to move the most important options to the top'
+      budgeting: 'Perform a budgeting exercise with these ideas'
+      pickone: 'Tell us which idea you pick as the top priority'
+      nonidea_radio: 'Select one of the following.'
+      nonidea_fields: 'Fill in the following fields.'

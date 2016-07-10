@@ -49,12 +49,12 @@ class SurveyQuestion < ActiveRecord::Base
     end
     
     def self.prompts
-      {0 => 'Supply pros and cons for these ideas',
-       1 => 'Rank these ideas in order of importance',
-       3 => 'Perform a budgeting exercise with these ideas',
-       4 => 'Tell us which idea you pick as the top priority',
-       5 => 'Select one of the following.',
-       6 => 'Fill in the following fields.'
+      {0 => 'survey_question.helper_defaults.procon',
+       1 => 'survey_question.helper_defaults.ranking',
+       3 => 'survey_question.helper_defaults.budgeting',
+       4 => 'survey_question.helper_defaults.pickone',
+       5 => 'survey_question.helper_defaults.nonidea_radio',
+       6 => 'survey_question.helper_defaults.nonidea_fields'
       }
     end
     

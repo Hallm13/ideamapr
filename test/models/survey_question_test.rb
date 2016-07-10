@@ -12,6 +12,6 @@ class SurveyQuestionTest < ActiveSupport::TestCase
 
   test '#set_default_prompt' do
     s = SurveyQuestion.new(question_type: 3); s.set_default_prompt
-    assert_equal 'Perform a budgeting exercise with these ideas', s.question_prompt
+    assert_match /defaults\.budgeting/, s.question_prompt
   end
 end

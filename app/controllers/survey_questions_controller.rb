@@ -10,7 +10,7 @@ class SurveyQuestionsController < ApplicationController
   def index
     rendered = false
     @questions = nil
-    
+
     if @survey&.published? && !current_admin
       # Published surveys will behave like other surveys for signed-in admins when getting qn lists
       @questions = SurveyQuestion.includes(:question_assignments).order('question_assignments.ordering asc').where(question_assignments: {survey_id: @survey.id}).
@@ -19,9 +19,15 @@ class SurveyQuestionsController < ApplicationController
       if @survey
         ids = @survey.question_assignments.order(ordering: :asc).pluck(:survey_question_id)
         assg_qns = SurveyQuestion.includes(:question_assignments).order('question_assignments.ordering asc').where(question_assignments: {survey_id: @survey.id})
-        remg_qns = SurveyQuestion.where('id not in (?)', ids).all
+        if ids.empty?
+          assg_qns = []
+          remg_qns = SurveyQuestion.all
+        else
+          remg_qns = SurveyQuestion.where('id not in (?)', ids).all
+        end
       else
-        @questions = SurveyQuestion.all
+        assg_qns = []
+        remg_qns = SurveyQuestion.all
       end
     end
 
@@ -192,12 +198,13 @@ class SurveyQuestionsController < ApplicationController
     # Create a payload, mainly for Backbone app consumption, that allows display in multiple sections
 
     arr = []
-    qn_list.inject(0) do |idx, qn|
-      arr << {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type,
-              budget: qn.budget, question_rank: idx, is_assigned: assigned}
-      idx += 1
+    if qn_list.present?
+      qn_list.inject(0) do |idx, qn|
+        arr << {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type,
+                budget: qn.budget, question_rank: idx, is_assigned: assigned}
+        idx += 1
+      end
     end
-
     arr
   end
   

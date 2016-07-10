@@ -45,25 +45,25 @@ sq_edit_functions = ->
     switch_qn_type $(evt.target).val()
     set_prompt('#helper-edit')
 
-  $('#object-save').click (evt) ->
-    # Gather the collected fields or ideas models for unpacking by the controller
-    # Validate all the text boxes
-      
-    if window.run_validations()
-      # Question type is saved in diff fields for new and for existing survey qns
-      qt = window.sq_model.get('question_type')
-      qd_elt = $('<input type=hidden>').attr('name', 'question_details')
-      json_str = JSON.stringify(window.sq_model.component_data())
-      qd_elt.val json_str
-      $(evt.target).closest('form').append qd_elt
-      true
-    else
-      evt.stopPropagation()
-      false
-      
   # Run the logic for this page.
   if ($.find('form#survey_question_new').length > 0 || $.find('form#survey_question_edit').length > 0) and \
       $.find('#survey_question_id').length > 0
+
+    $('#object-save').click (evt) ->
+      # Gather the collected fields or ideas models for unpacking by the controller
+      # Validate all the text boxes
+      if window.run_validations()
+        # Question type is saved in diff fields for new and for existing survey qns
+        qt = window.sq_model.get('question_type')
+        qd_elt = $('<input type=hidden>').attr('name', 'question_details')
+        json_str = JSON.stringify(window.sq_model.component_data())
+        qd_elt.val json_str
+        $(evt.target).closest('form').append qd_elt
+        true
+      else
+        evt.stopPropagation()
+        false
+      
     # We are creating or editing a survey qn
     qn_id = $('#survey_question_id').val()
     window.sq_model = new IdeaMapr.Models.SurveyQuestion()

@@ -30,7 +30,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
         post :create, {survey_question: {title: 'this is a question title', question_type: 1}}
       end
 
-      assert_match /rank these ideas/i, SurveyQuestion.last.question_prompt
+      assert_match /defaults.ranking/i, SurveyQuestion.last.question_prompt
       assert_redirected_to survey_questions_path
     end
     
@@ -95,6 +95,13 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       get :index, for_survey: ''
       assert_select('.question-row', SurveyQuestion.count)
       assert_equal :survey_questions, assigns(:navbar_active_section)
+    end
+
+    it 'sets up all questions as unassigned for new surveys' do
+      xhr :get, :index, for_survey: ''
+      b = JSON.parse(response.body)
+      assert_equal SurveyQuestion.count, b.size
+      assert_equal SurveyQuestion.count, b.select { |i| !i['is_assigned'] }.size
     end
 
     it 'does not require auth when the survey is public and the request is XHR' do
