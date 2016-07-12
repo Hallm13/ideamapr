@@ -95,13 +95,14 @@
   .editable-text {
     cursor: pointer;
   }
-  &:hover {
-    background: $background-gray
-  }
 }
 
 .any-card-row {
   min-height: 50px;
+  margin-left: -100px;
+  margin-right: -100px;
+  padding-left: 100px;
+  padding-right: 100px;
 }
 
 .idea-row {
@@ -134,6 +135,7 @@
     
 .ranking-idea-row {
   position: relative;
+  min-height: 150px;
   .ranked-index {
     margin: -12px auto 0px;
     width: 10%;
@@ -152,13 +154,12 @@
   &.active {
     display: none;
     position: absolute;
-    left: -77px;
-    padding: 5px;
-    height: 100%;
+    left: 27px;
+    height: 50%;
+    top: 25%;
 
     &.right-margin {
       left: inherit;
-      top: 0;
       right: 0;
     }
   }
@@ -177,27 +178,27 @@
     background-position-y: -8px;
     background-size: 66px;
     background-repeat: no-repeat;
-    
+
+    height: 50%;
     min-height: 40px;
+    padding: 10px 0;
+    margin: 25% 0;
     min-width: 32px;
     
-    &#up {
+    &.up {
       background-image: image-url('icons/up_chevron.png');
       padding: 11px 10px 0 10px;
       color: $theme-green;
     }
-    &#down {
+    &.down {
       color: $theme-red;
       padding-top: 10px;
       background-image: image-url('icons/down_chevron.png');
       background-position-y: -6px;
     }
-    &#out {
-      color: $theme-red;
-    }
   }
   
-  .move-to-ranked, .ranking-sign {
+  .move-to-ranked, .ranking-sign, .admin-ranking-sign {
     @include bold-text();
     cursor: pointer;
     font-size: 1.5em;
@@ -206,7 +207,9 @@
 }
 
 .showing-controls {
-  background-color: beige;
+  .any-card-row {
+    background-color: $background-gray;
+  }
 }
 
 #ranked-idea-list {
@@ -230,6 +233,10 @@
 
 /* Non-idea fields styling */
 .component-box {
+  .controls-box.active {
+
+  }
+  
   .text-entry-box {
     margin-left: 10px;
   }

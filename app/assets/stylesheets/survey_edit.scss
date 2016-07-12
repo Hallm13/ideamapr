@@ -28,7 +28,7 @@
 }
 
 .question-box,.idea-box {
-  padding: 10px 15px;
+  padding: 10px 0px;
 }
 .idea-box {
   .idea-row {
@@ -40,3 +40,22 @@
   display: inline-block;
 }
 
+.admin-ranking-sign {
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  height: 57px;
+  margin: 25% 0;
+  min-width: 32px;
+  &.admin-up {
+    background-image: image-url('icons/admin_up_chevron.png');
+    padding: 11px 10px 0 10px;
+  }
+  &.admin-down {
+    padding-top: 10px;
+    background-image: image-url('icons/admin_down_chevron.png');
+    background-position-y: 8px;
+  }
+  &#out {
+    color: $theme-red;
+  }
+}
