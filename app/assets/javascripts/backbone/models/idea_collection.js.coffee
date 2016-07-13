@@ -21,9 +21,6 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
       coll_self.trigger 'answered', coll_self
     )
     
-  comparator: (m) ->
-    m.get('idea_rank')
-  
   accept_cart_item: (amt) ->
     # Does the cart budget have the money?
     if @cart_total_spend + amt > @budget

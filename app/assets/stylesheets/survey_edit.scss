@@ -30,14 +30,48 @@
 .question-box,.idea-box {
   padding: 10px 0px;
 }
-.idea-box {
-  .idea-row {
+
+.question-box {
+  .question-row {
     position: relative;
+    .details-container {
+      padding: 5px;
+      @include solid_gray_border();
+      
+      .title-box {
+	@include bold-text();
+	font-size: 1.3em;
+	padding-bottom: 10px;
+      }
+
+      .question-type-box {
+	color: $text-gray;
+	font-size: 0.9em;
+	padding-bottom: 10px;
+      }
+    }
   }
 }
 
 .title-box {
   display: inline-block;
+}
+
+.idea-box {
+  .idea-row {
+    position: relative;
+  }
+}
+.component-box {
+  .component-row {
+    position: relative;
+    .controls-box.active {
+      top: 5px;
+    }
+    .admin-ranking-sign {
+      margin: 0 0;
+    }
+  }
 }
 
 .admin-ranking-sign {
@@ -59,3 +93,20 @@
     color: $theme-red;
   }
 }
+
+/* Suggest idea template */
+
+.fake-textarea, .fake-textfield {
+  color: $text-gray;
+  @include solid_gray_border();
+  padding: 5px 0 0 5px;
+}
+
+.fake-textfield {
+  min-height: 50px;
+}
+
+.fake-textarea {
+  min-height: 250px;
+}
+  

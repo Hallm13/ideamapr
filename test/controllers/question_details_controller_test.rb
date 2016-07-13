@@ -13,7 +13,7 @@ class QuestionDetailsControllerTest < ActionController::TestCase
       b = JSON.parse(response.body)
       
       assert_equal 6, b.size
-      assert_equal 1, b[1]['idea_rank']
+      assert_equal 1, b[1]['component_rank']
     end
   end
 end

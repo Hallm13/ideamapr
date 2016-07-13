@@ -145,7 +145,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_difference('s.survey_questions.count', -1) do 
         post :update, id: s.id, survey: {title: set_title,
                                          introduction: 'is an introduction long and good adding 2 qns',
-                                         status: 0}, question_list: new_survey_question_recs.to_json
+                                         status: 0}, survey_details: ({'details' => new_survey_question_recs}).to_json
       end
 
       assert_redirected_to surveys_url
@@ -168,8 +168,8 @@ class SurveysControllerTest < ActionController::TestCase
 
   private
   def new_survey_question_recs
-    [{'id' => survey_questions(:sq_1).id, 'question_rank' => '1'},
-     {'id' => survey_questions(:sq_2).id, 'question_rank' => '0'},
-     {'id' => -1, 'question_rank' => '5'}]
+    [{'id' => survey_questions(:sq_1).id, 'component_rank' => '1'},
+     {'id' => survey_questions(:sq_2).id, 'component_rank' => '0'},
+     {'id' => -1, 'component_rank' => '5'}]
   end
 end

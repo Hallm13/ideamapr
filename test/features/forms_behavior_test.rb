@@ -14,13 +14,6 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
     assert_match /rgb.255..255..255/, page.all('.validated-box')[0]['style']
   end
 
-  test 'helper text' do
-    assert page.has_css?('.help-text', visible: false)
-    elt = page.all('.builder-after')[0]
-    elt.click
-    assert page.has_css?('.help-text', visible: true)
-  end
-
   test 'showing budget screen' do
     visit '/survey_questions/new'
     refute page.has_content? 'Set Budget'

@@ -26,7 +26,7 @@ class IdeasController < ApplicationController
       @all_ideas = @all_ideas.map do |i|
         base_info = {id: i.id, title: i.title, description: i.description}
         if (already_assigned = assignments_rev_index.keys.include?(i.id))
-          base_info.merge!({idea_rank: assignments_rev_index[i.id][:ordering],
+          base_info.merge!({component_rank: assignments_rev_index[i.id][:ordering],
                             cart_amount: assignments_rev_index[i.id][:budget]})
         end
         base_info.merge!({is_assigned: already_assigned})

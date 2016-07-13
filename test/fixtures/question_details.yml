@@ -1,3 +1,3 @@
 qd_1:
   survey_question: sq_with_radio_choice
-  details_list: <%= [{'text' => '1', 'idea_rank' => 0},{'text' => '2', 'idea_rank' => 1},{'text' => '3', 'idea_rank' => 2},{'text' => '5', 'idea_rank' => 3},{'text' => '6', 'idea_rank' => 4},{'text' => '7', 'idea_rank' => 5}].to_yaml.inspect %>
+  details_list: <%= [{'text' => '1', 'component_rank' => 0},{'text' => '2', 'component_rank' => 1},{'text' => '3', 'component_rank' => 2},{'text' => '5', 'component_rank' => 3},{'text' => '6', 'component_rank' => 4},{'text' => '7', 'component_rank' => 5}].to_yaml.inspect %>

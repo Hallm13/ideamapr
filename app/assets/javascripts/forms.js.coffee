@@ -68,7 +68,8 @@ forms_functions = ->
           $(elt).removeClass('with-text')
         else
           $(elt).addClass('with-text')
-  
+
+    # This code no longer has a UI element to respond to
     $('.builder-after').click (evt) ->
       help_box = $(this).closest('.builder-box').find('.help-text')
       id = $(this).closest('.builder-box').find('.hidden').data('box-key')

@@ -30,7 +30,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
         post :create, {survey_question: {title: 'this is a question title', question_type: 1}}
       end
 
-      assert_match /defaults.ranking/i, SurveyQuestion.last.question_prompt
+      assert_equal I18n.t(SurveyQuestion::QuestionType.prompts[1]), SurveyQuestion.last.question_prompt
       assert_redirected_to survey_questions_path
     end
     
@@ -41,8 +41,9 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       refute_difference('SurveyQuestion.count') do 
         put(:update, {id: sq.id,
                       survey_question: {title: 'this is a new test title'},
-                      question_details: ([{id: ideas(:idea_1).id, 'idea_rank' => 0},
-                                          {id: ideas(:idea_3).id, 'idea_rank' => 1}]).to_json})
+                      question_details: ({question_type: sq.question_type,
+                                          'details' => [{id: ideas(:idea_1).id, 'component_rank' => 0},
+                                                    {id: ideas(:idea_3).id, 'component_rank' => 1}]}).to_json})
       end
       assert_equal idea_sz + 1, sq.ideas.count
       assert_redirected_to survey_questions_url
@@ -53,8 +54,8 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       sq = survey_questions(:sq_with_radio_choice)
       old_id = sq.question_detail.id
       put(:update, {id: sq.id, survey_question: {title: 'this is a new test title'},
-                    question_details: ([{'text' => 'a1', 'idea_rank' => 1},
-                                        {'text' => 'a2', 'idea_rank' => 0}]).to_json})
+                    question_details: ({'details' => [{'text' => 'a1', 'component_rank' => 1},
+                                        {'text' => 'a2', 'component_rank' => 0}]}).to_json})
 
       assert sq.reload.question_detail.present?
 
@@ -73,9 +74,9 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count", 1) do
         put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn',
                                                    question_type: SurveyQuestion::QuestionType::BUDGETING},
-                      question_details: ([{'id' => ideas(:idea_1).id, 'budget' => '42.42', 'idea_rank' => 1},
-                                          {'id' => ideas(:idea_2).id, 'budget' => '84.84', 'idea_rank' => 0}
-                                         ]).to_json}
+                      question_details: ({details: [{'id' => ideas(:idea_1).id, 'budget' => '42.42', 'component_rank' => 1},
+                                          {'id' => ideas(:idea_2).id, 'budget' => '84.84', 'component_rank' => 0}
+                                         ]}).to_json}
         
       end
 

@@ -27,30 +27,17 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
   make_example: (opts) ->
     @set('title', 'Example Idea')
     @set('description', 'Add ideas like this one by clicking + below.')
-    @set('idea_rank', opts.rank)
+    @set('component_rank', opts.rank)
   increment_note: (type) ->
     if type == 'pro' || type == 'con'
       @set(type, @get(type) + 1)
 
   shown_rank: ->
-    if @get('idea_rank') < 0
+    if @get('component_rank') < 0
       return ''
     else
-      return @get('idea_rank')
+      return @get('component_rank')
             
-  init_type_specific_data: (question_type) ->
-    data = @attributes['response_data']
-    if question_type == 0
-      unless data.hasOwnProperty('type-0-data')
-        data['type-0-data'] = new Object()
-        
-        data['type-0-data']['note_counts'] =
-          pro: @get('pro')
-          con: @get('con')
-        data['type-0-data']['feedback'] =
-          pro: []
-          con: []
-    
   add_feedback: (type, text) ->
     @set('answered', true)
     unless text.trim().length == 0

@@ -1,9 +1,15 @@
-IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
+IdeaMapr.Views.SurveyQuestionsManager = IdeaMapr.Views.IdeaListView.extend
   initialize: ->
     _.bindAll(@, 'render')
 
     @assigned_collection = new IdeaMapr.Collections.SurveyQuestionCollection()
-    @assigned_collection.listenTo(@assigned_collection, 'add', @assigned_collection.append_rank)
+
+    # The serialize() method will need this survey token to identify the collection as
+    # belonging to a survey.
+    @assigned_collection.survey_token = @collection.survey_token
+    
+    # Let the SQ model know where the selected questions are.
+    @model.assigned_questions = @assigned_collection
     
     @selected_view = new IdeaMapr.Views.AdminAssignedQuestionListView
       el: $('#selected-list')
@@ -17,67 +23,13 @@ IdeaMapr.Views.SurveyQuestionsManager = Backbone.View.extend
       collection: @to_search_collection
       model: new IdeaMapr.Models.SearchQueryModel()
       
-    @listenTo(@collection, 'change:promoted', @redistribute)
-    @listenTo(@collection, 'sync', @distribute)
-    @listenTo(@, 'ready_to_render', @render)
-    
-    console.log 'sq manager: finished init'
+    @listenTo(@assigned_collection, 'remove', @redistribute)
+    @listenTo(@to_search_collection, 'remove', @redistribute)
+
+    # the distribute will also render this view.    
+    @listenToOnce(@collection, 'sync', @distribute)
     @
 
-  redistribute: (m) ->
-    # Move the model into or out of the assigned question list, and re-distribute ranks
-    if m.get('promoted') == 1
-      m.set('question_rank', @assigned_collection.models.length)
-      @assigned_collection.add m
-      @selected_view.example_count -= 1
-      @search_view.added_count += 1
-      @to_search_collection.remove m
-    else if m.get('promoted') == -1
-      # It came from the assigned list
-      @to_search_collection.add m
-      @assigned_collection.remove m
-      @assigned_collection.reset_ranks()
-      @selected_view.example_count += 1
-      @search_view.added_count -= 1
-      
-    unless m.get('promoted') == 0
-      @render()
-      m.set('promoted', 0)
-    
-  distribute: (opts) ->
-    # Now I have the questions, they have to be assigned to the two avlbl views
-
-    # For testing
-    if !(opts.hasOwnProperty('render'))
-      opts.render = true
-      
-    viewself = @
-    assigned_total = 0
-    avlbl_count = 0
-    
-    _.each(@collection.models, (m) ->
-      if m.get('is_assigned')
-        viewself.selected_view.collection.add m
-        assigned_total += 1
-      else
-        viewself.search_view.collection.add m
-        avlbl_count += 1
-    )
-    
-    @search_view.orig_length = @collection.length
-    @search_view.added_count = assigned_total
-    
-    # Set a count for how many example ideas to show, up to a max of 3
-    @selected_view.example_count = 3 - assigned_total
-    @.trigger('ready_to_render') if opts['render']
-    
   render: ->
     @selected_view.render()
     @search_view.render()
-    
-  serialize_models: ->
-    arr = new Array()
-    _.each @assigned_collection.models, (m) ->
-      arr.push m
-      
-    arr

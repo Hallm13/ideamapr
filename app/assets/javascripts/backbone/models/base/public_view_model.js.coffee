@@ -16,4 +16,18 @@ IdeaMapr.Models.PublicViewModel = Backbone.Model.extend
     @attributes['response_data']['answered'] = true
     @attributes['response_data'][type] = data
     @
+
+  # Is this function needed? Not sure    
+  init_type_specific_data: (question_type) ->
+    data = @attributes['response_data']
+    if question_type == 0
+      unless data.hasOwnProperty('type-0-data')
+        data['type-0-data'] = new Object()
+        
+        data['type-0-data']['note_counts'] =
+          pro: @get('pro')
+          con: @get('con')
+        data['type-0-data']['feedback'] =
+          pro: []
+          con: []
     

@@ -78,17 +78,23 @@ class SurveyQuestionsController < ApplicationController
     attrs = params[:survey_question].permit(:title, :question_type, :question_prompt, :budget)
     @question.attributes= attrs
 
-    if !@question.question_prompt.present? or @question.question_prompt.strip.blank?
+    if @question.question_prompt.to_s&.strip.blank?
       # No blank prompts allowed
-      @question.set_default_prompt
+      @question.question_prompt = I18n.t SurveyQuestion::QuestionType.prompts[@question.question_type]
     end
 
+    if !@question.valid?
+      return false
+    end
+    
     idea_ids = question_details = nil    
     # We either got ideas or fields for a survey question
 
-    if params[:question_details] and (deets_array = JSON.parse(params[:question_details])).is_a?(Array)
+    if params[:question_details] and (deets = JSON.parse(params[:question_details])).is_a?(Hash)
+      deets_array = deets.with_indifferent_access[:details]
+      
       # question_details should be an array of idea or detail attributes
-      component_array = deets_array.sort_by { |i| i['idea_rank']}
+      component_array = deets_array.sort_by { |i| i['component_rank']}
       
       if @question.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
          @question.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
@@ -100,7 +106,7 @@ class SurveyQuestionsController < ApplicationController
           item
         end
       else 
-        idea_ids = component_array.sort_by { |i| i['idea_rank']}.map { |i|  i['id'] }
+        idea_ids = component_array.sort_by { |i| i['component_rank']}.map { |i|  i['id'] }
         idea_rev_index = component_array.inject({}) do |memo, hash|
           memo[hash['id']] = hash
           memo
@@ -200,8 +206,10 @@ class SurveyQuestionsController < ApplicationController
     arr = []
     if qn_list.present?
       qn_list.inject(0) do |idx, qn|
-        arr << {id: qn.id, title: qn.title, question_prompt: qn.question_prompt, question_type: qn.question_type,
-                budget: qn.budget, question_rank: idx, is_assigned: assigned}
+        arr << {id: qn.id, title: qn.title, question_prompt: qn.question_prompt,
+                question_type: qn.question_type,
+                question_type_name: SurveyQuestion::QuestionType.name(qn.question_type),
+                budget: qn.budget, component_rank: idx, is_assigned: assigned}
         idx += 1
       end
     end

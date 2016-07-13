@@ -14,7 +14,7 @@ class PublicSurveyTest < Capybara::Rails::TestCase
     it 'cycles through questions' do
       page.find('#go-right').click
       assert page.has_content? 'pre5 '
-      assert page.has_css?('.idea-box', visible: true, count: 1)
+      assert_equal 1, page.all('.idea-box', visible: true).size
     end
 
     it 'gets to thank you screen' do

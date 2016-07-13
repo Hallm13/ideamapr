@@ -4,13 +4,19 @@ IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableColle
     @urlRoot + 'for_survey_question=' + @survey_question_id
   model: IdeaMapr.Models.DetailComponent
 
+  comparator: (m) ->
+    m.get('component_rank')
+    
   initialize: ->
     # Super (in Backbone) - well, basically we explicitly call what we know is our
     # parent prototype.
-    IdeaMapr.Collections.AdminSortableCollection.prototype.initialize.call @
     
-    @listenTo(@, 'sync', @assign_ranking_with_dummy)
+    _.bindAll(@, 'append_model') 
+    IdeaMapr.Collections.AdminSortableCollection.prototype.initialize.call @
 
+    # If the text in one of the details changes, the entire list has to be re-rendered.
+    @listenTo @, "change:ready_for_render", @render
+    
     coll_self = @
     @listenTo @, 'change:response_enter_count', (model) ->
       if model.attributes['response_data'].hasOwnProperty('checked') &&\
@@ -28,23 +34,12 @@ IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableColle
     return if model.get('checked') == false
 
     @.each (m) ->
-      if m.get('idea_rank') != model.get('idea_rank')
+      if m.get('component_rank') != model.get('component_rank')
         m.attributes['response_data']['checked'] = false
-
-  comparator: (m) ->
-    m.get('idea_rank')
-    
-  assign_ranking_with_dummy: ->
-    # Add dummy models for showing examples
-    ranking = @models.length
-    if ranking < 3
-      range = (x for x in [0..(2-ranking)] by 1)
-      for i in range
-        m = new IdeaMapr.Models.DetailComponent()
-        m.set('idea_rank', ranking)
-        ranking += 1
-        @add m
-
-    # This will trigger the render, even though the list is already sorted
-    @sort()
-    
+        
+  append_model: (m) ->
+    if typeof this.models == 'undefined'
+      m.set('component_rank', 0)
+    else
+      m.set('component_rank', @models.length)
+    @add m

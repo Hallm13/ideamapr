@@ -6,7 +6,7 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
   base_events:
     'click .admin-up': (evt) ->
       # Cannot move top idea up
-      unless @model.get('idea_rank') == 0
+      unless @model.get('component_rank') == 0
         @model.set('ranked', 1)
     'click .admin-down': (evt) ->
       # Cannot move bottom idea down but this view can't tell - so the collection

@@ -3,12 +3,16 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
   
   initialize: ->
     _.bindAll(@, 'render')
-    # Relevant to budgeting questions only
+
+    # Ranking
+    @listenTo @collection, 'sort', @render
+    
+    # Budgeting
     @listenTo(@collection, 'change:cart_count', @change_spent_amount)
     @
       
   render: ->
-    viewself = @
+    view_self = @
     # clear!
     @$el.html ''
     view_self = @
@@ -17,8 +21,8 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       child_view = new IdeaMapr.Views.PublicIdeaView
         model: m
         collection: view_self.collection
-      child_view.question_type = viewself.question_type
-      viewself.$el.append(child_view.render().el)
+      child_view.question_type = view_self.question_type
+      view_self.$el.append(child_view.render().el)
 
     # Budget questions will need an extra line. Eventually this might have to be broken out into
     # spl logic for all the question types.

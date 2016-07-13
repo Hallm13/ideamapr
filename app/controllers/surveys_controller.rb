@@ -65,17 +65,21 @@ class SurveysController < ApplicationController
 
       attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
       @survey.attributes= attrs
-
-      sqn_ids = params[:question_list].nil? ? [] :
-                  (JSON.parse(params[:question_list])).sort_by { |i| i['question_rank']}.
-                  map { |hash| hash['id'].to_i}
-      if (saved = @survey.valid?)
-        ActiveRecord::Base.transaction do
-          saved &= @survey.save
-          saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids, should_delete: true)
-        end
+    end
+    
+    if (saved = @survey.valid?)
+      if params[:survey_details].present? and (deets = JSON.parse(params[:survey_details])).is_a?(Hash)
+        sqn_ids = deets.with_indifferent_access[:details].sort_by { |i| i['component_rank']}.map { |hash| hash['id'].to_i}
+      else
+        sqn_ids = []
+      end
+      
+      ActiveRecord::Base.transaction do
+        saved &= @survey.save
+        saved &= update_has_many!(@survey, 'SurveyQuestion', 'QuestionAssignment', sqn_ids, should_delete: true)
       end
     end
+    
     survey_render_wrap(status: saved, xhr: request.xhr?)
   end
   alias :create :update

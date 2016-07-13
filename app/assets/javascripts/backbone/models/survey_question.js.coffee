@@ -2,7 +2,9 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
   defaults: ->
     view_request: 0
     answered: false
-    promoted: 0
+    
+    # For admin
+    ranked: 0
     
   urlRoot: '/survey_question'
 
@@ -29,10 +31,16 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
 
   trigger_fetches: ->
     if @hasOwnProperty 'idea_list'
-      @idea_list.fetch()
+      @idea_list.fetch()      
     if @hasOwnProperty 'field_details'
       @field_details.fetch()
-            
+      
+  component_list: ->
+    if @hasOwnProperty('idea_list')
+      @idea_list
+    else
+      []
+      
   component_data: ->
     # Return the key information needed to associate either details or ideas with a SQ
 
@@ -44,7 +52,7 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
       @assigned_ideas.question_type = @get('question_type')
       c_data = @assigned_ideas.serialize()
     
-    c_data
+    {question_type: @get('question_type'), details: c_data}
 
   post_response_to_server: ->
     # Don't bother doing anything if the survey wasn't answered.

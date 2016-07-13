@@ -20,6 +20,7 @@ IdeaMapr.Views.AdminDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exten
       'blur .editable-text': (evt) ->
         txt = $(evt.target).text()
         @model.set_edited_state(txt.trim())
+        @trigger 'detail:new_model', @model
         @
         
     @events = _.extend({}, @base_events, my_events)
@@ -36,7 +37,7 @@ IdeaMapr.Views.AdminDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exten
       @$el.find('.editable-text').addClass 'edited'
       
     div_array = @create_controls()
-    @$el.prepend div_array[0]
-    @$el.append div_array[1]
+    @$el.find('.component-row').prepend div_array[0]
+    @$el.find('.component-row').append div_array[1]
 
     @

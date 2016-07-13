@@ -1,39 +1,27 @@
-# It could be possible to rename this parent class into a generic name.
 IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
+  top_container_class: 'question-box'
   className: 'col-xs-12 question-box',
   tagName: 'div',
+
+  initialize: ->
+    _.bindAll(@, 'render')
+    _.bindAll(@, 'extend_events')
+    
+    @top_container_selector = '.' + @top_container_class
+    @$el.addClass @top_container_class
+    @extend_events()
+    @
 
   extend_events: ->
     my_events =
       'mouseenter .question-row': (evt) ->
-        if $(evt.target).hasClass('question-row')
-          container = $(evt.target)
-        else
-          container = $(evt.target).closest('.question-row')
-
-        container.addClass('showing-controls')
-        container.closest('.question-box').find('.controls-box').show({duration: 'medium'})
-      
+        @add_controls evt, '.question-box'
       'mouseleave .question-row': (evt) ->
-        if $(evt.target).hasClass('question-row')
-          container = $(evt.target)
-        else
-          container = $(evt.target).closest('.question-row')
-        container.removeClass('showing-controls')
-        container.closest('.question-box').find('.controls-box').hide()
-        
-      'click #out': (evt) ->
-        @model.set('promoted', -1)
+        @remove_controls evt, '.question-box'
         
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()
      
-  initialize: ->
-    _.bindAll(@, 'render')
-    _.bindAll(@, 'extend_events')
-    @extend_events()
-    @
-
   render: ->
     template_id = '#survey-question-template'
     html = _.template($(template_id).html())(@model.attributes)

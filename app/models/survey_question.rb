@@ -17,14 +17,11 @@ class SurveyQuestion < ActiveRecord::Base
     end    
     l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title', 10, 'Add a title for your survey'),
          Struct::SurveyQuestionVbStruct.new('add_question_type', 'Question Type', 'sq-question-type', -1, 'Types are either those that contain lists of ideas, or those that collect information from the participant'),
-         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 15, 'The prompt is shown at the top of the survey question screen')]
-
-    v = Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget', -1, 'This is used in budget questions, as the maximum available spend')
-    l.push v
-
-    l += [Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas', -1, 'Select ideas and set ranked order'),
-          Struct::SurveyQuestionVbStruct.new('add_fields', 'Add Fields', 'sq-add-fields', -1, 'Select fields and set ranked order')]
-    
+         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 15, 'The prompt is shown at the top of the survey question screen'),
+         Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget', -1, 'This is used in budget questions, as the maximum available spend'),
+         Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas', -1, 'Select ideas and set ranked order'),
+         Struct::SurveyQuestionVbStruct.new('new_idea_template', 'Question Preview', 'sq-new-idea', -1, ''),
+         Struct::SurveyQuestionVbStruct.new('add_fields', 'Add Fields', 'sq-add-fields', -1, 'Select fields and set ranked order')]
     
     l
   end
@@ -35,6 +32,7 @@ class SurveyQuestion < ActiveRecord::Base
   class QuestionType
     PROCON=0
     RANKING=1
+    NEW_IDEA=2
     BUDGETING=3
     TOPPRI=4
     RADIO_CHOICES=5
@@ -51,6 +49,7 @@ class SurveyQuestion < ActiveRecord::Base
     def self.prompts
       {0 => 'survey_question.helper_defaults.procon',
        1 => 'survey_question.helper_defaults.ranking',
+       2 => 'survey_question.helper_defaults.new_idea',
        3 => 'survey_question.helper_defaults.budgeting',
        4 => 'survey_question.helper_defaults.pickone',
        5 => 'survey_question.helper_defaults.nonidea_radio',
@@ -59,19 +58,15 @@ class SurveyQuestion < ActiveRecord::Base
     end
     
     def self.default_titles_array
-      ['Pro/con question', 'Ranking question', 'Yea/Nay question', 'Budgeting question', 'Top priority question',
+      ['Pro/con question', 'Ranking question', 'Suggest an Idea', 'Budgeting question', 'Top priority question',
        'Single-choice radio buttons', 'Free-form text fields']
     end
     
     def self.option_array
-      [['Pro/Con', PROCON], ['Ranking', RANKING], ['Budgeting', BUDGETING], ['Top Priority', TOPPRI],
+      [['Pro/Con', PROCON], ['Ranking', RANKING], ['Suggest Idea', NEW_IDEA], ['Budgeting', BUDGETING], ['Top Priority', TOPPRI],
        ['Non-idea: Radio', RADIO_CHOICES], ['Non-idea: Fields', TEXT_FIELDS]]
     end
 
-    def self.default_prompt(id)
-      prompts[id]
-    end
-    
     def self.name(id)
       option_array.select { |i| i[1] == id }.first&.first
     end
@@ -87,10 +82,6 @@ class SurveyQuestion < ActiveRecord::Base
   validates :title, length: {minimum: 10}
   def question_type_name
     QuestionType.name(question_type)    
-  end
-
-  def set_default_prompt
-    self.question_prompt = QuestionType.default_prompt(question_type)
   end
 
   def response_length

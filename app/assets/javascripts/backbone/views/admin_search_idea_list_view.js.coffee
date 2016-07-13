@@ -10,7 +10,7 @@ IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
       @model.set('query', $(evt.target).val())
       
   render: ->
-    viewself = @
+    view_self = @
 
     @$el.html(_.template($('#admin-search-idea-list').html())({available_count: (@orig_length - @added_count), added_count: @added_count}))
     @$('#idea-search').val(@model.get('query'))
@@ -18,19 +18,19 @@ IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
     @collection.each (m) ->
       child_view = new IdeaMapr.Views.AdminSearchIdeaView
         model: m
-      child_view.question_type = viewself.question_type
+      child_view.question_type = view_self.question_type
       e = child_view.render().el
-      viewself.$('#unassigned-ideas').append e
+      view_self.$('#unassigned-ideas').append e
 
-      if $(e).find('.title-box').text().search(viewself.model.get('query')) == -1
+      if $(e).find('.title-box').text().search(view_self.model.get('query')) == -1
         $(e).hide()
     
     @
 
   toggle_idea_boxes: ->
-    viewself = @
+    view_self = @
     @$('.idea-box').each (idx, elt) ->
-      if $(elt).find('.title-box').text().search(viewself.model.get('query')) > -1
+      if $(elt).find('.title-box').text().search(view_self.model.get('query')) > -1
         $(elt).show()
       else
         $(elt).hide()

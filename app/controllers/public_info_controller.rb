@@ -12,19 +12,17 @@ class PublicInfoController < ApplicationController
         if sq.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
            sq.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
           ret = {type: 'detail', data: sq.question_detail.details_list}
-          Rails.logger.debug "Producting #{ret[:data]}"
           ret
         else
+          field_list = ['ideas.id', :title, :description, :ordering]
           if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
-            field_list = ['ideas.id', :title, :description, :budget]
-          else
-            field_list = ['ideas.id', :title, :description]
+            field_list += [:budget]
           end
           data_array = Idea.joins(:idea_assignments).includes(:idea_assignments).
                        where(idea_assignments: {groupable_id: sq.id, groupable_type: 'SurveyQuestion'}).
                        order('idea_assignments.ordering ASC').pluck(*field_list)
           ret = {type: 'idea', data: data_array.map do |val_set|
-                   [:id, :title, :description, :cart_amount].zip(val_set).inject({}) do |memo, pair|
+                   [:id, :title, :description, :component_rank, :cart_amount].zip(val_set).inject({}) do |memo, pair|
                      if pair[1].present?
                        memo[pair[0]] = pair[1]
                      end
@@ -32,7 +30,6 @@ class PublicInfoController < ApplicationController
                    end
                  end}
 
-          Rails.logger.debug "Producting #{ret[:data]}"
           ret
         end
       end

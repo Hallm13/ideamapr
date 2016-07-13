@@ -1,6 +1,6 @@
 set_prompt = (css_select) ->
   if window.prompt_map
-    prompt = window.prompt_map['data'][$('#survey_question_question_type option:selected').val()]
+    prompt = window.prompt_map['data'][window.sq_model.get('question_type')]
     $(css_select).text prompt
   else
     $.post('/ajax_api',
@@ -15,11 +15,16 @@ sq_edit_functions = ->
     # qn_type is reqd to be an integer.
     
     if qn_type == 1 || qn_type == 3 || qn_type == 0
+      window.idea_lists_view.render()
       $('[data-box-key=sq-add-ideas]').closest('.builder-box').show()
       $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
-    else
+    else if qn_type == 5 || qn_type == 6
+      window.field_details_view.render()
       $('[data-box-key=sq-add-ideas]').closest('.builder-box').hide()
       $('[data-box-key=sq-add-fields]').closest('.builder-box').show()
+    else 
+      $('[data-box-key=sq-add-ideas]').closest('.builder-box').hide()
+      $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
       
   switch_qn_type = (switch_to) ->
     switch_to = parseInt switch_to
@@ -28,15 +33,17 @@ sq_edit_functions = ->
     show_field_or_ideas switch_to
     if switch_to == 5 || switch_to == 6
       $('#search-box').hide()
-      window.field_details_view.render()
     if switch_to == 0 || switch_to == 1 || switch_to == 3
       # When choosing Budgeting type for questions show add'l controls
-      window.idea_lists_view.render()
       $('#search-box').show()
       if switch_to == 3
         $('[data-box-key=sq-set-budget]').closest('.builder-box').show()
       else
-        $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()      
+        $('[data-box-key=sq-set-budget]').closest('.builder-box').hide()
+    if switch_to == 2
+      $('[data-box-key=sq-new-idea]').closest('.builder-box').show()
+    else
+      $('[data-box-key=sq-new-idea]').closest('.builder-box').hide()      
     null
 
   # Set up events
@@ -68,22 +75,19 @@ sq_edit_functions = ->
     qn_id = $('#survey_question_id').val()
     window.sq_model = new IdeaMapr.Models.SurveyQuestion()
     window.sq_model.set('id', qn_id)
-
     # New question type default is RANKING
     if qn_id == '0'
       window.sq_model.set('question_type', 1)
       new_survey_qn = true
-      set_prompt '#helper-edit'
     else
       new_survey_qn = false
       window.sq_model.set 'question_type', parseInt($('#saved_question_type').val())
 
+    # This has to be here, after the sq model's question type has been set.
+    set_prompt '#helper-edit'
     question_type = window.sq_model.get('question_type')
     # For new survey qns, init all Backbone apps
     # The populate_data() calls will trigger a sync event that renders the appropriate view
-    if new_survey_qn
-      window.sq_model.set('question_type', -1)
-      
     if new_survey_qn || question_type == 5 || question_type == 6
       window.sq_model.set_field_details()
       window.field_details_view = new IdeaMapr.Views.AdminDetailsCollectionView

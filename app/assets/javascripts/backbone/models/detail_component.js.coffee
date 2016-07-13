@@ -1,7 +1,7 @@
 IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
   defaults:
     # For admin
-    text: 'Click to Add'
+    text: 'Click to Edit Text'
     ready_for_render: 0
     is_promoted: false
     
@@ -22,16 +22,24 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
       answered: false
       checked: false
       is_edited: false
-
+      
+  set_blank: ->
+    @original_text = @get('text')
+    
   set_edited_state: (new_text) ->
     @.set 'text', new_text
         
     if @original_text != new_text
       @is_edited = true
-      @.set 'ready_for_render', @.get('ready_for_render') + 1
-    else if @.get('is_edited')
+      @set 'ready_for_render', @get('ready_for_render') + 1
+    else if @get('is_edited')
       @is_edited = false
-      @.set 'ready_for_render', @.get('ready_for_render') + 1
+      @set 'ready_for_render', @.get('ready_for_render') + 1
     
   set_checked: ->
-    @set_response_data('checked', true)    
+    @set_response_data('checked', true)
+    
+  make_example: (opts) ->
+    @set('text', 'Example Entry')
+    @set('component_rank', opts.rank)
+    

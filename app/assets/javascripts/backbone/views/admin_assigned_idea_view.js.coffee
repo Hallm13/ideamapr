@@ -19,6 +19,7 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
           
       'keyup .amount-box': (evt) ->
         @model.set('cart_amount', $(evt.target).text())
+        
       'mouseenter .idea-row': (evt) ->
         @add_controls evt, '.idea-box'
       'mouseleave .idea-row': (evt) ->

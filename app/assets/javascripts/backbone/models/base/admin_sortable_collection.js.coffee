@@ -3,13 +3,16 @@ IdeaMapr.Collections.AdminSortableCollection = Backbone.Collection.extend
     @listenTo @, 'change:ranked', @rerank_and_sort
     @listenTo @, 'remove', @reset_ranks
     
+  comparator: (m) ->
+    m.get('component_rank')
+
   append_rank: (m) ->
-    m.set('idea_rank', @models.length)
+    m.set('component_rank', @models.length)
     
   reset_ranks: ->
     start = 0
     _.each(@models, (m) ->
-      m.set('idea_rank', start)
+      m.set('component_rank', start)
       start += 1
     )
 
@@ -27,9 +30,10 @@ IdeaMapr.Collections.AdminSortableCollection = Backbone.Collection.extend
       @remove m
       return false
       
-    if new_val == 1 and m.get('idea_rank') == 0
+    if new_val == 1 and m.get('component_rank') == 0
       return false
-    if new_val == -1 and m.get('idea_rank') == @models.length - 1
+    if new_val == -1 and m.get('component_rank') == @models.length - 1
+      m.set('ranked', 0)
       return false
 
     # Can be moved -> change_model is now the possible candidate to be moved as a result
@@ -41,8 +45,8 @@ IdeaMapr.Collections.AdminSortableCollection = Backbone.Collection.extend
       if current_move == 1
         # We want to move it up
         m.set('ranked', 0)
-        m.set('idea_rank', change_model.get('idea_rank'))
-        change_model.set('idea_rank', change_model.get('idea_rank') + 1)
+        m.set('component_rank', change_model.get('component_rank'))
+        change_model.set('component_rank', change_model.get('component_rank') + 1)
       else if current_move == -1
         m.set('ranked', 0)
         fix_model = m
@@ -52,28 +56,36 @@ IdeaMapr.Collections.AdminSortableCollection = Backbone.Collection.extend
         
         if fix_model != null
           # or 2. we marked something to be moved down.
-          m.set('idea_rank', fix_model.get('idea_rank'))
-          fix_model.set('idea_rank', fix_model.get('idea_rank') + 1)
+          m.set('component_rank', fix_model.get('component_rank'))
+          fix_model.set('component_rank', fix_model.get('component_rank') + 1)
           fix_model = null
     )
     @sort()
     null
     
   serialize: ->
-    # Create an array that's relevant to being used to save into a SQ model on the backend
+    # Create an array that's relevant to being used to save into a SQ or a survey model on the backend
 
     coll_self = @
     ret = new Array()
     @each (m) ->
-      if coll_self.question_type == 5 or coll_self.question_type == 6
-        ret.push
-          idea_rank: m.get('idea_rank')
-          text: m.get('text')
-      else
-        ret.push
+      rec =
+        component_rank: m.get('component_rank')
+                
+      if coll_self.hasOwnProperty('survey_token')
+        # This is a sorted collection of SQs obtained for a given survey
+        _.extend(rec,
           id: m.get('id')
-          idea_rank: m.get('idea_rank')
-          ordering: m.get('idea_rank')
+          ordering: m.get('component_rank')
+        )
+      else if coll_self.question_type == 5 or coll_self.question_type == 6
+        rec['text'] = m.get('text')
+      else
+        _.extend(rec,
+          id: m.get('id')
+          ordering: m.get('component_rank')
           budget: m.get('cart_amount')
-
+        )
+      ret.push rec
+      
     ret

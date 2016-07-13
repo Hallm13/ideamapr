@@ -21,6 +21,7 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
         model_self.trigger('survey:server_closed')
     
   fetch_idea_lists: ->
+    # Participant
     # This is triggered when the sync is done the first time, in order to fetch ideas.
     @idea_list = new IdeaMapr.Models.IdeaListOfLists()
     @idea_list.survey_token = @.get('public_link')
@@ -28,6 +29,7 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
       success: @populate_idea_collections
 
   populate_idea_collections: (model, response, options) ->
+    # Participant
     # Survey takes the list of idea lists and stores them in an array to communicate to the individual
     # Survey questions - is this too complicated?
 
@@ -81,3 +83,20 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
 
     # SurveyPublicView and SurveyNavbarView will listen for this event.
     @trigger 'survey:selection_changed'
+    
+  trigger_fetches: ->
+    if @hasOwnProperty 'questions'
+      @questions.fetch()
+      
+  component_data: ->
+    # Return the key information needed to associate questions with a survey
+    if @hasOwnProperty('assigned_questions')
+      c_data = @assigned_questions.serialize()
+    
+    {details: c_data}
+
+  component_list: ->
+    if @hasOwnProperty('questions')
+      @questions
+    else
+      []
