@@ -9,17 +9,10 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
   set_answered_display: (m) ->
     @$('.answered-status').text(m.get('answered'))
     
-  events:
-    'click #save-response': ->
-      @model.post_response_to_server()
-        
   render: ->
     data = @model.attributes
     sq_html =  _.template($('#survey-question-template').html())(data)
     @$el.html sq_html
-
-    save_button = $('<div>').attr('id', 'save-response').addClass('col-xs-12 clickable').text('Save Response')
-    @$el.append save_button
 
     @
     

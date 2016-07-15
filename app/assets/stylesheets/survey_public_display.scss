@@ -1,4 +1,19 @@
 #survey-public-view {
+  .question-title,.public-title {
+    @include bold-text();
+    text-align: center;
+    padding: 10px 0;
+  }
+  .public-body {
+    border: $form-border-gray solid 1px;
+    border-radius: 5px;
+    padding: 10px 5px;
+  }
+  
+  .survey-sections#survey-intro {
+    display: block;
+  }
+
   /* Thank you screen */
 
   #survey-thankyou {
@@ -20,7 +35,6 @@
   }
   
   /* Nav bar */
-  
   .survey-nb-row {
     position: relative;
     
@@ -68,21 +82,6 @@
 	}
       }
     }
-  }
-
-  .question-title,.public-title {
-    @include bold-text();
-    text-align: center;
-    padding: 10px 0;
-  }
-  .public-body {
-    border: $form-border-gray solid 1px;
-    border-radius: 5px;
-    padding: 10px 5px;
-  }
-  
-  .survey-sections#survey-intro {
-    display: block;
   }
 }
 
@@ -132,7 +131,8 @@
     }
   }  
 }
-    
+
+/* Ranking idea */
 .ranking-idea-row {
   position: relative;
   min-height: 150px;
@@ -206,10 +206,22 @@
   }
 }
 
-.showing-controls {
-  .any-card-row {
-    background-color: $background-gray;
+/* Suggest Idea */
+.edit-areas {
+  min-width: 400px;
+  @include solid-gray-border();
+  padding-left: 20px;
+  transition: padding-left 0.2s;
+  &:valid {
+    padding-left: 5px;
   }
+}  
+#new_idea_title {
+  min-height: 50px;
+}
+#new_idea_description {
+  min-height: 250px;
+  padding-top: 10px;
 }
 
 #ranked-idea-list {

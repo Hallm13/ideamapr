@@ -12,7 +12,8 @@ class PublicInfoController < ApplicationController
         if sq.question_type == SurveyQuestion::QuestionType::RADIO_CHOICES ||
            sq.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
           ret = {type: 'detail', data: sq.question_detail.details_list}
-          ret
+        elsif sq.question_type == SurveyQuestion::QuestionType::NEW_IDEA
+          ret = {type: 'new_idea', data: ({id: -1, title: 'dummy'})}
         else
           field_list = ['ideas.id', :title, :description, :ordering]
           if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
@@ -30,8 +31,9 @@ class PublicInfoController < ApplicationController
                    end
                  end}
 
-          ret
         end
+        
+        ret
       end
       @all_ideas = {list_of_lists: list_of_lists}
     else

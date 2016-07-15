@@ -4,13 +4,24 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
   initialize: ->
     _.bindAll(@, 'render')
 
+    # Suggest Idea
+    @form_elt = null
+    
     # Ranking
     @listenTo @collection, 'sort', @render
     
     # Budgeting
     @listenTo(@collection, 'change:cart_count', @change_spent_amount)
     @
-      
+
+  events:
+    # The only action collected at the list level is for suggesting ideas
+    'click #add-idea': (evt) ->
+      if $('#new_idea_title').val().trim().length > 0 and $('#new_idea_description').val().trim().length > 0
+        @add_idea_model @form_elt
+      else
+        evt.stopPropagation()
+        
   render: ->
     view_self = @
     # clear!
@@ -18,18 +29,29 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     view_self = @
     
     @collection.each (m) ->
+      if m.id == -1
+        # Dummy idea returned for Suggest Idea question type
+        return null
+        
       child_view = new IdeaMapr.Views.PublicIdeaView
         model: m
         collection: view_self.collection
       child_view.question_type = view_self.question_type
       view_self.$el.append(child_view.render().el)
+      null
 
-    # Budget questions will need an extra line. Eventually this might have to be broken out into
-    # spl logic for all the question types.
+    # Budget questions will need an extra line before, and new idea question requires add-button after.
+    # Eventually this might have to be broken out into spl logic for all the question types.
 
     if @question_type == 3
       @$el.prepend @budget_line()
-    
+
+    if @question_type == 2
+      unless @form_elt == null
+        @form_elt.remove()
+        
+      @form_elt = @add_idea_form()
+      @$el.append @form_elt
     @
 
   change_spent_amount: (m, options) ->
@@ -51,3 +73,19 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
 
   set_budget: ($root, amt) ->
     $root.find('#used-budget').text 'Used budget: ' + amt
+
+  add_idea_form: ->
+    form = _.template($('#type-2-add-idea-form-public-template').html())
+    elt_root = $('<div>').addClass('row')
+    elt_root.append form()
+    
+    elt_root.append($('<div>').attr('id', 'add-idea').addClass('col-xs-12 btn btn-primary').text('Add Another'))
+    elt_root
+    
+  add_idea_model: ($elt) ->
+    m = new IdeaMapr.Models.Idea
+      title: $elt.find('#new_idea_title').val()
+      description: $elt.find('#new_idea_description').val()
+    @collection.add m
+  
+      

@@ -17,6 +17,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
   events:
     'click #go-right': (evt) ->
       if $(evt.target).hasClass('active')
+        @model.post_response_to_server()
         @model.trigger('survey:recrement_question', {direction: 1})
     'click #go-left': (evt) ->
       if $(evt.target).hasClass('active')

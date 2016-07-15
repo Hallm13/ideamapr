@@ -87,7 +87,7 @@ class Survey < ActiveRecord::Base
     has_state?(:published)
   end
 
-  def publish
+  def publish!
     self.status = SurveyStatus::PUBLISHED
     self.regenerate_public_link
     self.save

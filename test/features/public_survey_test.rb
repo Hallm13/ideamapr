@@ -18,9 +18,18 @@ class PublicSurveyTest < Capybara::Rails::TestCase
     end
 
     it 'gets to thank you screen' do
+      refute page.has_text? 'Thank you'
+
       page.find('#go-right').click
       page.find('#go-right').click
-      assert_match /thank.you/, page.body
+      page.find('#go-right').click
+      page.find('#go-right').click
+      
+      assert page.has_text? 'Thank you'
+
+      # It won't let you restart the survey
+      visit @base_url
+      assert page.has_text? 'Thank you'
     end
   end
 end

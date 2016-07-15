@@ -109,4 +109,9 @@
 .fake-textarea {
   min-height: 250px;
 }
-  
+
+.showing-controls {
+  .any-card-row {
+    background-color: $background-gray;
+  }
+}

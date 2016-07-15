@@ -7,6 +7,7 @@ funcs = ->
   shown_survey.set('public_link', survey_token)
   sq_list = new IdeaMapr.Collections.PublicSurveyQuestionCollection()
   sq_list.survey_token = survey_token
+  shown_survey.question_list = sq_list
   
   app = new IdeaMapr.Views.SurveyPublicView(
     model: shown_survey,

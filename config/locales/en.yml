@@ -18,6 +18,9 @@ en:
   create_survey_question: 'Create Question'
   edit_survey_question: 'Edit Question'
   prompts:
+    newidea:
+      title: 'Add a short title for your idea'
+      description: 'Add a description'
     idea:
       title: 'Add a short title'
       description: 'Describe your idea'
@@ -36,3 +39,6 @@ en:
       pickone: 'Tell us which idea you pick as the top priority'
       nonidea_radio: 'Select one of the following.'
       nonidea_fields: 'Fill in the following fields.'
+  public:
+    screen_titles:
+      thankyou: 'Thank you!'

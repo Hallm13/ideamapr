@@ -4,6 +4,10 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
   
   initialize: ->
     _.bindAll(@, 'render')
+
+    @orig_editarea_padding =
+      title: ''
+      description: ''
     @pro_text = ''
     @con_text = ''
     @top_container_selector = '.' + @top_container_class
@@ -46,6 +50,8 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       if @collection.accept_cart_item(@model.get('cart_amount'))
         @toggle_cart_text $(evt.target)
         @model.toggle_cart_count()
+        
+    # Suggest Idea
       
   render: ->
     @model.init_type_specific_data(@question_type)
@@ -106,4 +112,4 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     if $button.text().match(/Add/) != null
       $button.text 'Remove from Cart'
     else
-      $button.text 'Add to Cart'    
+      $button.text 'Add to Cart'

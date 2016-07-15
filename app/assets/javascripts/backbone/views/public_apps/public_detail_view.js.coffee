@@ -7,7 +7,7 @@ IdeaMapr.Views.PublicDetailView = Backbone.View.extend
     @
     
   run_radio_checks: ->
-    @model.set_checked() 
+    @model.set_checked()
     @model.set('response_enter_count', @model.get('response_enter_count') + 1)
         
   events:

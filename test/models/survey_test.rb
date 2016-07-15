@@ -18,4 +18,13 @@ class SurveyTest < ActiveSupport::TestCase
   test 'SurveyStatus##id' do
     assert_equal 1, Survey::SurveyStatus.id('Published')
   end
+
+  test '#publish!' do
+    @s = surveys(:survey_1)
+    refute @s.public_link.present?
+    @s.publish!
+
+    assert @s.reload.has_state?(:published)
+    assert @s.public_link.present?
+  end
 end

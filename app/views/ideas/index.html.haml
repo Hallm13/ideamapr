@@ -3,10 +3,6 @@
     .btn.btn-primary
       = t(:add_button_text)
 - if @all_ideas.size > 0
-  .entity-set
-    .row
-      .col-xs-12{style: 'text-align: center;'}
-        Title
   .entity-set  
     - @all_ideas.each do |idea|
       .row.question-row
