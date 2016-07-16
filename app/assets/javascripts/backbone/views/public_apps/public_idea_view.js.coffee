@@ -20,11 +20,13 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     'click .up': (evt) ->
       # Cannot move top idea up
       unless @model.get('component_rank') == 0
-        @model.set('ranked', 1)
+        @model.set 'answered', 1
+        @model.set 'ranked', 1
     'click .down': (evt) ->
       # Cannot move bottom idea down but this view can't tell - so the collection
       # that listens to this event has to.
-      @model.set('ranked', -1)
+      @model.set 'answered', 1
+      @model.set 'ranked', -1
     
     # Procon
     "click #addpro": ->

@@ -6,3 +6,7 @@ answered_response_1:
   survey: answered_survey
   respondent: respondent_2
   closed: true
+answered_response_2:
+  survey: answered_survey
+  respondent: respondent_1
+  closed: false

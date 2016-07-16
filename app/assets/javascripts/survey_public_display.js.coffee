@@ -20,7 +20,7 @@ funcs = ->
   shown_survey.fetch()
 
   # SurveyPublicView listens to this collections and starts the rendering
-  # process when it is fetched  
+  # process when it is fetched
   sq_list.fetch()
       
 $(document).on('ready page:load', funcs)

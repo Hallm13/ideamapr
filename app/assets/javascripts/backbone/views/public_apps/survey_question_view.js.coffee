@@ -11,7 +11,8 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     
   render: ->
     data = @model.attributes
-    sq_html =  _.template($('#survey-question-template').html())(data)
+    data = _.extend(data, {question_screen_id: 'question_screen_' + @model.get('id')})
+    sq_html =  _.template($('#survey-question-screen-template').html())(data)
     @$el.html sq_html
 
     @

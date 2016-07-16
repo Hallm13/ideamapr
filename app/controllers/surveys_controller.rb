@@ -28,11 +28,12 @@ class SurveysController < ApplicationController
   end
 
   def public_show
+
     if request.xhr?
       render_json_payload
     else
       cookie_key = find_or_create_cookie params[:cookie_key]
-      if cookie_key.new? || !(Response.find_by_respondent_id(cookie_key.respondent_id).closed?)
+      if cookie_key.new? || !(Response.find_by_respondent_id(cookie_key.respondent_id)&.closed?)
         @cookie_key = cookie_key.key
         render 'public_show', layout: 'public_survey'
       else

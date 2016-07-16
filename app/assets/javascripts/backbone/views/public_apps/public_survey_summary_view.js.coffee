@@ -9,7 +9,10 @@ IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
     @
     
   render: ->
-    summary_html = _.template($('#survey-summary-template').html())()
+    summary_html = _.template($('#survey-summary-template').html())(
+      question_screen_id: 'summary-screen'
+    )
+    
     @$el.html summary_html
     @append_summaries '#skipped-list', false
     @append_summaries '#answered-list', true

@@ -8,28 +8,28 @@
   #survey-summary.survey-sections
   #survey-thankyou.survey-sections
 
-%script#survey-intro-template{type: 'text/template'}
-  .screen#welcome-screen
-    .row
-      .col-xs-offset-3.col-xs-6
-        .public-title
-          Introduction
-    .row       
-      .col-xs-offset-2.col-xs-8
-        .public-body
-          <%- introduction %>
-          
+/* not perfectly dry, could use some work here TODO */
+- content_for :body_html do
+  #idea-list
+= render partial: 'participant_template', locals: {script_id: 'survey-question-screen-template'}
+    
+- content_for :body_html do
+  <%- screen_body_content %>
+= render partial: 'participant_template', locals: {script_id: 'survey-empty-screen-template'}
+    
 %script#survey-summary-template{type: 'text/template'}
-  .screen#summary-screen
+  .screen{'id' => raw('<%- question_screen_id %>')}
     .col-xs-6.col-xs-offset-3
-      .summary-title
+      .screen-title
         Skipped Questions
-      #skipped-list.row.summary-list
-
     .col-xs-6.col-xs-offset-3.bold-text
-      .summary-title
+      .screen-body#skipped-list.row.summary-list
+        
+    .col-xs-6.col-xs-offset-3.bold-text
+      .screen-title
         Answered Questions
-      #answered-list.row.summary-list
+    .col-xs-6.col-xs-offset-3.bold-text
+      .screen-body#answered-list.row.summary-list
 
 // This is the one nested in the summary screen
 %script#survey-question-summary-template{type: 'text/template'}
@@ -38,17 +38,6 @@
   .col-xs-12
     <%- question_prompt %>
         
-%script#survey-thankyou-template{type: 'text/template'}
-  .screen#thankyou-screen
-    .row
-      .col-xs-12
-        .public-title
-          = t('public.screen_titles.thankyou')
-    .row       
-      .col-xs-offset-2.col-xs-8.public-body
-        <%- thankyou_note %>
-    #messages.row
-
 // navbar template
 %script#survey-nb-template{type: 'text/template'}
   .col-xs-offset-3.col-xs-6
@@ -62,15 +51,5 @@
         Next
     .row#other-sections{style: 'display: none'}
           
-%script#survey-question-template{type: 'text/template'}
-  .screen
-    .col-xs-offset-3.col-xs-6
-      .question-prompt
-        <%- question_prompt %>    
-    .col-xs-offset-3.col-xs-6
-      .answered-status
-        False
-    #idea-list.col-xs-12
-
 = render 'survey_question_templates/all_idea_templates'
 = render 'survey_question_templates/all_field_templates'

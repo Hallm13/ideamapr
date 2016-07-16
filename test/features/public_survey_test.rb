@@ -24,7 +24,7 @@ class PublicSurveyTest < Capybara::Rails::TestCase
       page.find('#go-right').click
       page.find('#go-right').click
       page.find('#go-right').click
-      
+
       assert page.has_text? 'Thank you'
 
       # It won't let you restart the survey

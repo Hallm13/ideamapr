@@ -10,3 +10,8 @@ ia_answered_radio_2:
   survey_question: sq_with_radio_choice
   response: answered_response_1
   response_data: <%= ().to_json  %>
+ia_answered_radio_1:
+  respondent: respondent_1
+  survey: answered_survey
+  survey_question: sq_with_radio_choice
+  response: answered_response_2

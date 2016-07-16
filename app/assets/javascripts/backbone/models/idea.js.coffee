@@ -19,7 +19,6 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
   urlRoot: '/ideas',
 
   initialize: ->
-    @on('move-top', @grant_top)
     @.attributes['response_data'] =
       answered: false
       checked: false

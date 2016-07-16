@@ -16,10 +16,8 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
     coll_self = @
     @cart_total_spend = 0
     
-    @listenTo(@, 'change:answered', (model) ->
-      coll_self.answered = model.get('answered')
-      coll_self.trigger 'answered', coll_self
-    )
+    @listenTo @, 'change:answered', @set_answered
+    @listenTo @, 'change:ranked', @set_answered
     
   accept_cart_item: (amt) ->
     # Does the cart budget have the money?
@@ -27,3 +25,7 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
       return false
     else
       return true
+
+  set_answered: (m, v, opts) ->
+    @answered = m.get('answered')
+    @trigger 'answered', @

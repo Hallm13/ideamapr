@@ -21,12 +21,15 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
       @set('answered', coll.answered)
     )
     idea_or_details_coll.survey_question_id = @get('id')
+    idea_or_details_coll.question_type = @get('question_type')
+    idea_or_details_coll
     
   set_idea_list: ->
     # Admin ... probably should abstract this and assign_idea_list together at some point. TODO
     unless @idea_list
       @idea_list = new IdeaMapr.Collections.IdeaCollection()
       @idea_list.survey_question_id = @get('id')
+      @idea_list.question_type = @get('question_type')
     @idea_list
 
   trigger_fetches: ->
@@ -70,5 +73,7 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
   response_data: ->
     # Collect all the responses from the individual answers
 
+    # This should have been set in assign_idea_list() above.
+    question_type = @get('question_type')
     @idea_list.map (idea_or_detail) ->
-      idea_or_detail.response_data()
+      idea_or_detail.response_data question_type

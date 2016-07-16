@@ -68,8 +68,10 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       
     @$('#survey-navbar').append(@navbar_view.render().el)
 
-    intro_html = _.template($('#survey-intro-template').html())(@model.attributes)
+    b = {title: 'Introduction', screen_body_content: @model.get('introduction'), question_screen_id: 'welcome-screen'}
+    intro_html = _.template($('#survey-empty-screen-template').html()) b
     @$('#survey-intro').html intro_html
+    
     @screens[0] = '#survey-intro' # The underlying logic is smart and will use the selector when its there to toggle.
 
     _.each(i for i in [0..@question_count-1], (i) ->
@@ -86,8 +88,10 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
 
     # Pass a reference to the screens to the survey model, so it can manage toggles.
     @model.screens = @screens
+
+    b = {title: 'Thank you!', screen_body_content: @model.get('thankyou_note'), question_screen_id: 'thankyou-screen'}
+    thankyou_html = _.template($('#survey-empty-screen-template').html()) b
     
-    thankyou_html = _.template($('#survey-thankyou-template').html())(@model.attributes)
     @thankyou_screen = @$('#survey-thankyou')
     @thankyou_screen.html thankyou_html
       

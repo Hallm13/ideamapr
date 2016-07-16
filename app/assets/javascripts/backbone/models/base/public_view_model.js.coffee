@@ -2,10 +2,14 @@ IdeaMapr.Models.PublicViewModel = Backbone.Model.extend
   defaults:
     answered: false
     
-  response_data: ->
+  response_data: (qn_type) ->
     rd = @attributes['response_data']
     if @attributes.hasOwnProperty 'id'
       rd['idea_id'] = @get('id')
+    if qn_type == 1
+      # Ranking: send back the component_rank
+      rd['component_rank'] = @get('component_rank')
+      
     rd
 
   set_response_data: (type, data) ->
