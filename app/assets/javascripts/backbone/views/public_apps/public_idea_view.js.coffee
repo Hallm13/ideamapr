@@ -49,18 +49,22 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     # Budgeting
     "click #add-to-cart": (evt) ->
       # The collection here is the IdeaCollection it is in.
-      if @collection.accept_cart_item(@model.get('cart_amount'))
+      if $(evt.target).data('action') == 'remove' or @collection.accept_cart_item(@model.get('cart_amount'))
         @toggle_cart_text $(evt.target)
         @model.toggle_cart_count()
         
     # Suggest Idea
-      
+    'keyup .edit-areas': (evt) ->
+      @model.set_text_entry $(evt.target).attr('id'), $(evt.target).val().trim()
+
   render: ->
     @model.init_type_specific_data(@question_type)
-      
-    template_id = '#type-' + @question_type + '-public-template'
-    html = _.template($(template_id).html())(@model.attributes)
-    @$el.html html
+
+    unless @model.get('id') == -1
+      # id == -1, when the model is a dummy, in the Suggest Idea question type
+      template_id = '#type-' + @question_type + '-public-template'
+      html = _.template($(template_id).html())(@model.attributes)
+      @$el.html html
     
     switch @question_type
       when 0
@@ -111,7 +115,9 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
         @$('#savecon').hide()
         
   toggle_cart_text: ($button) ->
-    if $button.text().match(/Add/) != null
+    if $button.data('action') == 'add'
       $button.text 'Remove from Cart'
+      $button.data 'action', 'remove'
     else
       $button.text 'Add to Cart'
+      $button.data 'action', 'add'

@@ -51,7 +51,7 @@
       text-align: center;
       padding: 11px 5px;
       color: black;
-      min-height: 50px;
+      min-height: 55px;
       cursor: pointer;
       border: solid 5px $background-gray;
 
@@ -65,6 +65,7 @@
       }      
       &.inactive {
 	background-color: $background-gray;
+	border: solid 5px $background-gray;
 	cursor: default;
       }
       
@@ -293,4 +294,29 @@
   width: 100%;
   text-align: center;
   padding: 10px 0;
+}
+
+/* For summary screen */
+.question-row {
+  position: relative;
+  .details-container {
+    padding: 5px;
+    @include solid_gray_border();
+    
+    .title-box {
+      @include bold-text();
+      font-size: 1.3em;
+      padding-bottom: 10px;
+    }
+
+    .question-type-box {
+      color: $text-gray;
+      font-size: 0.9em;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+.title-box {
+  display: inline-block;
 }

@@ -7,16 +7,9 @@
     <%- title %>
   %span.square-button.green
     +
-%script{type: 'text/template', id: 'survey-question-template'}
-  .question-row.any-card-row.row
-    .col-xs-12
-      .details-container.row
-        .title-box.col-xs-12
-          <%- title %>
-        .question-type-box.col-xs-12
-          <%- question_type_name %>
-        .prompt-box.col-xs-12
-          Prompt: <%- question_prompt %>
+    
+// this is shared with what participants see in the summary view
+= render partial: 'question_summary'
 
 %script#admin-search-question-list{type: 'text/template'}
   .row

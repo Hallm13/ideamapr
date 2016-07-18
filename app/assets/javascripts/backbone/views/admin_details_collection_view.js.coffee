@@ -4,7 +4,10 @@ IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
     @listenTo(@model.field_details, 'sort', @render)
 
     # This sync happens because trigger_fetches() in SurveyQuestion causes a fetch on this collection
-    @listenTo(@model.field_details, 'sync', @render)
+    @listenTo @model.field_details, 'sync', @render
+    # If the text in one of the details changes, the entire list has to be re-rendered.
+    @listenTo @model.field_details, "change:ready_for_render", @render
+    
     @
 
   serialize_models: ->
@@ -31,8 +34,7 @@ IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
     @
     
   render: ->
-    qn_type = @model.get('question_type')
-    
+    qn_type = @model.get('question_type')    
     if qn_type == 1
       # this happens for new surveys
       @question_type = 5

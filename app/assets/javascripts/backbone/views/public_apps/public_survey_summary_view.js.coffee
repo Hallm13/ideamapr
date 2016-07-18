@@ -3,17 +3,17 @@ IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
 
   initialize: ->
     _.bindAll(@, 'render')
-    @listenTo(@collection, 'survey_question_collection:received_answer', @render)
+    @listenTo(@collection, 'change:answered', @render)
     @listenTo(@collection, 'survey_question_collection:view_request', @model.recrement_question)
     
     @
     
   render: ->
-    summary_html = _.template($('#survey-summary-template').html())(
-      question_screen_id: 'summary-screen'
-    )
-    
+    summary_html = _.template($('#survey-summary-template').html())
     @$el.html summary_html
+    # HAML::Engine won't let id attribute be html_safe
+    @$el.attr 'id', 'summary-screen'
+    
     @append_summaries '#skipped-list', false
     @append_summaries '#answered-list', true
     @

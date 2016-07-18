@@ -14,9 +14,6 @@ IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableColle
     _.bindAll(@, 'append_model') 
     IdeaMapr.Collections.AdminSortableCollection.prototype.initialize.call @
 
-    # If the text in one of the details changes, the entire list has to be re-rendered.
-    @listenTo @, "change:ready_for_render", @render
-    
     coll_self = @
     @listenTo @, 'change:response_enter_count', (model) ->
       if model.attributes['response_data'].hasOwnProperty('checked') &&\

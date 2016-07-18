@@ -17,7 +17,11 @@ IdeaMapr.Views.PublicDetailView = Backbone.View.extend
       @
     'change input[type=radio]': (evt) ->
       @run_radio_checks()
-    'click .editable-text': (evt) ->
+      
+    'keyup .text-entry-box input[type=text]': (evt) ->
+      @model.set_text_entry $(evt.target).val().trim()
+      
+    'click .radio-choice-text': (evt) ->
       $(evt.target).parent().find('input[type=radio]').prop('checked', true)
       @run_radio_checks()
 

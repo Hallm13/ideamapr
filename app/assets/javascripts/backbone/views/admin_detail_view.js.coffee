@@ -19,7 +19,7 @@ IdeaMapr.Views.AdminDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exten
 
       'blur .editable-text': (evt) ->
         txt = $(evt.target).text()
-        @model.set_edited_state(txt.trim())
+        @model.set_edited_state txt.trim()
         @trigger 'detail:new_model', @model
         @
         
@@ -27,7 +27,11 @@ IdeaMapr.Views.AdminDetailView = IdeaMapr.Views.SurveyQuestionIdeaEditView.exten
     @delegateEvents()
       
   render: ->
-    t = _.template($('#type-' + @question_type + '-public-template').html())
+    # Use the admin template version, if it exists
+    if $('#type-' + @question_type + '-admin-template').length > 0
+      t = _.template($('#type-' + @question_type + '-admin-template').html())
+    else
+      t = _.template($('#type-' + @question_type + '-public-template').html())
     
     @$el.html(t(@model.attributes))
     @$el.find('.editable-text').attr('contentEditable', 'true')

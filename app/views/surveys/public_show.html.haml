@@ -18,25 +18,21 @@
 = render partial: 'participant_template', locals: {script_id: 'survey-empty-screen-template'}
     
 %script#survey-summary-template{type: 'text/template'}
-  .screen{'id' => raw('<%- question_screen_id %>')}
-    .col-xs-6.col-xs-offset-3
+  .screen
+    .col-xs-8.col-xs-offset-2
       .screen-title
         Skipped Questions
-    .col-xs-6.col-xs-offset-3.bold-text
+    .col-xs-8.col-xs-offset-2.bold-text
       .screen-body#skipped-list.row.summary-list
         
-    .col-xs-6.col-xs-offset-3.bold-text
+    .col-xs-8.col-xs-offset-2.bold-text
       .screen-title
         Answered Questions
-    .col-xs-6.col-xs-offset-3.bold-text
+    .col-xs-8.col-xs-offset-2.bold-text
       .screen-body#answered-list.row.summary-list
 
 // This is the one nested in the summary screen
-%script#survey-question-summary-template{type: 'text/template'}
-  .col-xs-12.bold-text
-    <%- title %>
-  .col-xs-12
-    <%- question_prompt %>
+= render partial: 'question_summary'
         
 // navbar template
 %script#survey-nb-template{type: 'text/template'}

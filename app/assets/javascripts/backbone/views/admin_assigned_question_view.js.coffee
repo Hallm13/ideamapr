@@ -23,7 +23,7 @@ IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEdit
     @delegateEvents()
      
   render: ->
-    template_id = '#survey-question-template'
+    template_id = '#survey-question-summary-template'
     html = _.template($(template_id).html())(@model.attributes)
     @$el.html html
     div_array = @create_controls()

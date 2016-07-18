@@ -11,6 +11,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     @listenTo @collection, 'sort', @render
     
     # Budgeting
+    @used_budget_title = 'Used budget: '
     @listenTo(@collection, 'change:cart_count', @change_spent_amount)
     @
 
@@ -29,29 +30,22 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     view_self = @
     
     @collection.each (m) ->
-      if m.id == -1
-        # Dummy idea returned for Suggest Idea question type
-        return null
-        
       child_view = new IdeaMapr.Views.PublicIdeaView
         model: m
         collection: view_self.collection
       child_view.question_type = view_self.question_type
-      view_self.$el.append(child_view.render().el)
+      view_self.$el.append child_view.render().el
       null
 
-    # Budget questions will need an extra line before, and new idea question requires add-button after.
-    # Eventually this might have to be broken out into spl logic for all the question types.
+    switch @question_type
+      when 3
+        # Budget questions will need an extra line before, and new idea question requires add-button after.
+        @$el.prepend @redraw_budget_line()
+      when 2
+        # Suggest Idea needs the form
+        @form_elt = @add_idea_form()
+        @$el.prepend @form_elt
 
-    if @question_type == 3
-      @$el.prepend @budget_line()
-
-    if @question_type == 2
-      unless @form_elt == null
-        @form_elt.remove()
-        
-      @form_elt = @add_idea_form()
-      @$el.append @form_elt
     @
 
   change_spent_amount: (m, options) ->
@@ -61,18 +55,22 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       @collection.cart_total_spend -= m.get 'cart_amount'
     else
       @collection.cart_total_spend += m.get 'cart_amount'
-    @set_budget @$el, @collection.cart_total_spend
+    @redraw_budget_line()
     
-  budget_line: ->
+  redraw_budget_line: ->
     # Return a jQuery object with the HTML for the budget line
-    elt_root = $('<div>').addClass('col-xs-12')
-    elt_root.append $('<span>').attr('id', 'available-budget').text('Available budget: ' + @collection.budget)
-    elt_root.append $('<span>').attr('id', 'used-budget')
-    @set_budget(elt_root, @collection.cart_total_spend)
-    elt_root
+    if typeof @budget_root_elt == 'undefined'
+      @budget_root_elt = $('<div>').addClass('col-xs-12')
+      @budget_root_elt.append $('<span>').attr('id', 'available-budget')
+      @budget_root_elt.append $('<span>').attr('id', 'used-budget')
 
-  set_budget: ($root, amt) ->
-    $root.find('#used-budget').text 'Used budget: ' + amt
+    avlbl = @budget_root_elt.find '#available-budget'
+    spent = @budget_root_elt.find '#used-budget'
+
+    avlbl.text('Available budget: ' + \
+      (@model.get('budget') - @collection.cart_total_spend))      
+    spent.text @used_budget_title + @collection.cart_total_spend
+    @budget_root_elt
 
   add_idea_form: ->
     form = _.template($('#type-2-add-idea-form-public-template').html())
@@ -87,5 +85,4 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       title: $elt.find('#new_idea_title').val()
       description: $elt.find('#new_idea_description').val()
     @collection.add m
-  
-      
+    m.set 'answered', true

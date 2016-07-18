@@ -10,10 +10,11 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
     @$('.answered-status').text(m.get('answered'))
     
   render: ->
-    data = @model.attributes
-    data = _.extend(data, {question_screen_id: 'question_screen_' + @model.get('id')})
-    sq_html =  _.template($('#survey-question-screen-template').html())(data)
+    sq_html =  _.template($('#survey-question-screen-template').html())(@model.attributes)
     @$el.html sq_html
+
+    # HAML::Engine won't let id attribute be html_safe
+    @$el.attr 'id', 'question_screen_' + @model.get('id')
 
     @
     

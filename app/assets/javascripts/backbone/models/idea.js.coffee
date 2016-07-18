@@ -51,3 +51,9 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       @set 'cart_count', 0
       
     @set_response_data 'cart_count', @get('cart_count')
+    
+  set_text_entry: (id, txt) ->
+    # Used to set title and description for suggested ideas
+    # id is either new_idea_title, or new_idea_description
+    
+    @set_response_data 'text_entry#' + id, txt
