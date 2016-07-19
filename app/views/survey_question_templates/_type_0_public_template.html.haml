@@ -1,3 +1,7 @@
+%script#procon-entry{type: 'text/template'}
+  .col-xs-12.procon-entry
+    <%- text %>
+  
 %script#type-0-public-template{type: 'text/template'}
   .row.procon-idea-row.idea-row.any-card-row
     .idea.col-xs-12
@@ -6,23 +10,22 @@
       .idea-description
         <%- description %>
 
-    .col-xs-12.proscons-title
-      .row
-        .bold-text.text-center.col-xs-6
-          Pros
-        .bold-text.text-center.col-xs-6
-          Cons
-    .col-xs-12
+    .col-xs-12#current-procon-list-wrapper
       .row#current-procon-list
+        .col-xs-6#pro-column
+          .row
+        .col-xs-6#con-column
+          .row
+      .row.input-row
+        .input-controls.col-xs-6
+          %textarea#current-procon{rows: 5}
+          .site-button#save-procon
+            Save
     .col-xs-12.cancel-padding
-      .row
+      .row.procon-button
         .col-xs-6
           .site-button#addpro
             Add a Pro
-          .site-button#savepro
-            Save
         .col-xs-6
           .site-button#addcon
             Add a Con
-          .site-button#savecon
-            Save

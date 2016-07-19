@@ -7,6 +7,42 @@
 }
 
 #survey-public-view {
+  /* Pro con question type */
+  #current-procon-list-wrapper .input-row {
+    display: none;
+    .input-controls {
+      padding: 25px 5px 5px 5px;
+      background-color: $background-gray;
+    }
+    textarea {
+      width: 100%;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+  }
+
+  #pro-column,#con-column {
+    padding: 0 20px;
+  }
+  #addpro {
+    position: relative;
+    #probox {
+      position: absolute;
+      top: 10px;
+    }
+  }
+
+  #addcon {
+    color: $theme-red;
+  }
+  #savepro, #savecon {
+    display: none;
+  }
+
+  .procon-button {
+    margin: 10px 0 20px;
+  }
+
   /* Budgeting */
   .budget-line {
     padding: 10px 50px 30px 50px;
@@ -34,13 +70,7 @@
     @include bold-text();
     text-align: center;
     padding: 30px 0;
-  }
-  .screen-body {
-    border: $form-border-gray solid 1px;
-    border-radius: 5px;
-    padding: 20px;
-  }
-  
+  }  
   .survey-sections#survey-intro {
     display: block;
   }
@@ -304,29 +334,10 @@
   }
 }
 
-.gray-bordered-box {
+.procon-entry {
   @include solid-gray-border();
-  padding: 5px;
-}
-
-#addpro {
-  position: relative;
-  #probox {
-    position: absolute;
-    top: 10px;
-  }
-}
-
-#addcon {
-  color: $theme-red;
-}
-#savepro, #savecon {
-  display: none;
-}
-
-.proscons-title {
-  margin: 10px 0;
-  @include bold-text();
+  padding: 10px;
+  margin-top: 5px;
 }
 
 #save-response {

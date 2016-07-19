@@ -38,8 +38,8 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       return @get('component_rank')
             
   add_feedback: (type, text) ->
-    @set('answered', true)
     unless text.trim().length == 0
+      @set('answered', true)
       @attributes['response_data']['type-0-data']['feedback'][type].push text
       @trigger('idea:new_procon')
       

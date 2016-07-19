@@ -8,6 +8,8 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     @orig_editarea_padding =
       title: ''
       description: ''
+
+    @shown_box = ''
     @pro_text = ''
     @con_text = ''
     @top_container_selector = '.' + @top_container_class
@@ -30,21 +32,17 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     
     # Procon
     "click #addpro": ->
-      @append_textarea 'pro'
-      @remove_textarea 'con'
-    "click #savepro": ->
-      @model.add_feedback 'pro', @pro_text
-      @remove_textarea 'pro'
-    "click #savecon": ->
-      @model.add_feedback 'con', @con_text
-      @remove_textarea 'con'
+      @show_textarea 'pro'
     "click #addcon": ->
-      @append_textarea 'con'
-      @remove_textarea 'pro'
-    'keyup #current-pro': (evt) ->
-      @pro_text = $(evt.target).val()
-    'keyup #current-con': (evt) ->
-      @con_text = $(evt.target).val()
+      @show_textarea 'con'
+    "click #save-procon": (evt) ->
+      @model.add_feedback $(evt.target).data('fdbk-type'), @pro_text
+      @remove_textarea()
+    'keyup #current-procon': (evt) ->
+      if @shown_box == 'pro'
+        @pro_text = $(evt.target).val()
+      else
+        @con_text = $(evt.target).val()
 
     # Budgeting
     "click #add-to-cart": (evt) ->
@@ -59,7 +57,6 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
 
   render: ->
     @model.init_type_specific_data(@question_type)
-
     unless @model.get('id') == -1
       # id == -1, when the model is a dummy, in the Suggest Idea question type
       template_id = '#type-' + @question_type + '-public-template'
@@ -74,45 +71,43 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     @
 
   append_procon_boxes: ->
-    root = @$('#current-procon-list')
-    pro_root = $('<div>').addClass('col-xs-6 #pro-column')
-    pro_root.append $('<div>').addClass('row')
-    root.append pro_root
-    con_root = $('<div>').addClass('col-xs-6 #con-column')
-    con_root.append $('<div>').addClass('row')
-    root.append con_root
+    root = @$('#current-procon-list-wrapper')
+    pro_root = root.find '#pro-column'
+    con_root = root.find '#con-column'
 
-    # TODO: Hide this object schema in a method
     @model.get('response_data')['type-0-data']['feedback']['pro'].forEach (text_elt, idx) ->
-      div = $('<div>').addClass('col-xs-12').addClass('gray-bordered-box').text text_elt
+      div = $(_.template($('#procon-entry').html())({text: text_elt}))
       pro_root.find('.row').append div
     @model.get('response_data')['type-0-data']['feedback']['con'].forEach (text_elt, idx) ->
-      div = $('<div>').addClass('col-xs-12').addClass('gray-bordered-box').text text_elt
+      div = $(_.template($('#procon-entry').html())({text: text_elt}))
       con_root.find('.row').append div
 
-  append_textarea: (type) ->
-    root = @$('#current-procon-list')
+  show_textarea: (type) ->
+    # Switch all the visible buttons around in this row.
+    # Some of the calls below might be no-ops.
+    root = @$('#current-procon-list-wrapper')
+    @$('#current-procon-list-wrapper .input-row').show()
+    div = root.find '.input-row .input-controls'
     switch type
       when 'pro'
-        div = $('<textarea>').attr('rows', 5).addClass('col-xs-6').attr('id', 'current-pro')
+        @shown_box = 'pro'
+        div.removeClass 'col-xs-offset-6'
         @$('#addpro').hide()
-        @$('#savepro').show()
+        @$('#addcon').show()        
       when 'con'
-        div = $('<textarea>').attr('rows', 5).addClass('col-xs-offset-6 col-xs-6').attr('id', 'current-con')
+        @shown_box = 'con'
+        div.addClass 'col-xs-offset-6'
+        @$('#addpro').show()
         @$('#addcon').hide()
-        @$('#savecon').show()
-    root.append div
+    div.find('#save-procon').data('fdbk-type', type)    
+    div.find('textarea').focus()    
     
   remove_textarea: (type) ->
-    switch type
-      when 'pro'
-        @$('textarea#current-pro').remove()
-        @$('#addpro').show()
-        @$('#savepro').hide()
-      when 'con'
-        @$('textarea#current-con').remove()
-        @$('#addcon').show()
-        @$('#savecon').hide()
+    @shown_box = ''    
+    @$('#current-procon-list-wrapper .input-row').hide()
+    @$('#addpro').show()
+    @$('#addcon').show()        
+    elt.val ''
         
   toggle_cart_text: ($button) ->
     if $button.data('action') == 'add'
