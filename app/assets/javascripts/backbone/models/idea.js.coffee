@@ -19,7 +19,20 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
   urlRoot: '/ideas',
 
   initialize: ->
-    @.attributes['response_data'] =
+    # Add a summary for the card: first 30 "words"
+    unless typeof @attributes['description'] == 'undefined'
+      words = @attributes['description'].trim().split(/\s+/)
+      if words.length > 30
+        @attributes['desc_summary'] = words.slice(0,30).join(' ')
+        @has_expansion = true
+      else
+        @attributes['desc_summary'] = @attributes['description']
+        @has_expansion = false
+    else
+      @attributes['desc_summary'] = ''
+      @has_expansion = false
+      
+    @attributes['response_data'] =
       answered: false
       checked: false
 

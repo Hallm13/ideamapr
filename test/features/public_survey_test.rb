@@ -19,11 +19,9 @@ class PublicSurveyTest < Capybara::Rails::TestCase
 
     it 'gets to thank you screen' do
       refute page.has_text? 'Thank you'
-
-      page.find('#go-right').click
-      page.find('#go-right').click
-      page.find('#go-right').click
-      page.find('#go-right').click
+      (2 + @s.question_assignments.count).times do
+        page.find('#go-right').click
+      end
 
       assert page.has_text? 'Thank you'
 

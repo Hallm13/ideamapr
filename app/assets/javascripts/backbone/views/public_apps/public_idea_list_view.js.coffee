@@ -45,7 +45,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       when 2
         # Suggest Idea needs the form
         @form_elt = @add_idea_form()
-        @$el.prepend @form_elt
+        @$el.append @form_elt
 
     @
 
@@ -60,8 +60,11 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     
   redraw_budget_line: ->
     # Return a jQuery object with the HTML for the budget line
+
+    x = null
     if typeof @budget_root_elt == 'undefined'
-      @budget_root_elt = $('<div>').addClass('col-xs-12 budget-line')
+      x = $('<div>').addClass('row').append($('<div>').addClass('col-xs-12 budget-line'))
+      @budget_root_elt = x.find('.budget-line')
       qty_bkgrd = $('<div>').addClass('quantity-bkgrd')
       @budget_root_elt.append qty_bkgrd      
       qty_bkgrd.append $('<span>').attr('id', 'used-budget')
@@ -74,7 +77,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     spent.html @used_budget_title_html
     avlbl.find('.value').text ('$' + (@model.get('budget') - @collection.cart_total_spend))
     spent.find('.value').text ('$' + @collection.cart_total_spend)
-    @budget_root_elt
+    x
 
   add_idea_form: ->
     form = _.template($('#type-2-add-idea-form-public-template').html())

@@ -40,8 +40,17 @@
     position: relative;
     padding-top: 15px;
     padding-bottom: 15px;
-    .controls-box.active {
-      top: 5px;
+    .controls-box {
+      &.active {
+	top: 5px;      
+	background-color: $theme-green;
+	border: solid 5px $theme-green;
+      }
+      &.inactive {
+	background-color: $background-gray;
+	border: solid 5px $background-gray;
+	cursor: default;
+      }
     }
     .admin-ranking-sign {
       margin: 0 0;

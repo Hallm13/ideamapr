@@ -29,4 +29,6 @@ sq_budget_type:
 sq_text_fields:
   title: has fields
   question_type: <%= SurveyQuestion::QuestionType::TEXT_FIELDS %>
-  
+sq_new_idea:
+  title: has a title - new idea
+  question_type: <%= SurveyQuestion::QuestionType::NEW_IDEA %>

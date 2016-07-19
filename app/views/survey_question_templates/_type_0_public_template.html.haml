@@ -3,29 +3,27 @@
     <%- text %>
   
 %script#type-0-public-template{type: 'text/template'}
-  .row.procon-idea-row.idea-row.any-card-row
-    .idea.col-xs-12
-      .idea-title
-        <%- title %>
-      .idea-description
-        <%- description %>
-
-    .col-xs-12#current-procon-list-wrapper
-      .row#current-procon-list
-        .col-xs-6#pro-column
-          .row
-        .col-xs-6#con-column
-          .row
-      .row.input-row
-        .input-controls.col-xs-6
-          %textarea#current-procon{rows: 5}
-          .site-button#save-procon
-            Save
-    .col-xs-12.cancel-padding
-      .row.procon-button
-        .col-xs-6
-          .site-button#addpro
-            Add a Pro
-        .col-xs-6
-          .site-button#addcon
-            Add a Con
+  .procon-idea-row.idea-row.any-card-row
+    = render partial: 'idea_card'
+    .row
+      .col-xs-12#current-procon-list-wrapper
+    .row#current-procon-list
+      .col-xs-6#pro-column
+        .row
+      .col-xs-6#con-column
+        .row
+    .row.input-row
+      .input-controls.col-xs-6
+        .x-box
+          X
+        %textarea#current-procon{rows: 5}
+        .site-button#save-procon
+          Save
+      .col-xs-12.cancel-padding
+        .row.procon-button
+          .col-xs-6
+            .site-button#addpro
+              Add a Pro
+          .col-xs-6
+            .site-button#addcon
+              Add a Con

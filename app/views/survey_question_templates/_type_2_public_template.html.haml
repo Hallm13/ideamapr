@@ -1,9 +1,6 @@
 %script#type-2-public-template{type: 'text/template'}
-  .row.idea-row
-    .idea-title.col-xs-12
-      <%- title %>
-    .idea-description.col-xs-12
-      <%- description %>
+  .idea-row
+    = render partial: 'idea_card'
 
 %script#type-2-add-idea-form-public-template{type: 'text/template'}
   .col-xs-12.bottom-padding

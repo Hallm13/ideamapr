@@ -18,6 +18,13 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     @
 
   events:
+    # Idea card
+    'click .moreless-text': (evt) ->
+      x = $(evt.target)      
+      switch_to = x.data('switch-to')
+      x.closest('span.wrapper').hide()
+      @$('span.' + switch_to).show()
+      
     # Ranking
     'click .up': (evt) ->
       # Cannot move top idea up
@@ -35,6 +42,9 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       @show_textarea 'pro'
     "click #addcon": ->
       @show_textarea 'con'
+    "click .x-box": (evt) ->
+      @remove_textarea()
+      
     "click #save-procon": (evt) ->
       @model.add_feedback $(evt.target).data('fdbk-type'), @pro_text
       @remove_textarea()
@@ -57,6 +67,7 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
 
   render: ->
     @model.init_type_specific_data(@question_type)
+    
     unless @model.get('id') == -1
       # id == -1, when the model is a dummy, in the Suggest Idea question type
       template_id = '#type-' + @question_type + '-public-template'
@@ -67,9 +78,17 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       when 0
         @append_procon_boxes()
         @$('.procon-list').hide()
-    
+    @run_summary_logic()
     @
 
+  run_summary_logic: ->
+    # Decide whether to show the expansion behavior
+    if @model.has_expansion
+      @$el.find('.full').hide()
+    else
+      @$el.find('.full .moreless-text').hide()
+      @$el.find('.summary').hide()
+    
   append_procon_boxes: ->
     root = @$('#current-procon-list-wrapper')
     pro_root = root.find '#pro-column'
@@ -85,9 +104,7 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
   show_textarea: (type) ->
     # Switch all the visible buttons around in this row.
     # Some of the calls below might be no-ops.
-    root = @$('#current-procon-list-wrapper')
-    @$('#current-procon-list-wrapper .input-row').show()
-    div = root.find '.input-row .input-controls'
+    div = @$el.find '.input-row .input-controls'
     switch type
       when 'pro'
         @shown_box = 'pro'
@@ -99,12 +116,13 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
         div.addClass 'col-xs-offset-6'
         @$('#addpro').show()
         @$('#addcon').hide()
+    div.show()
     div.find('#save-procon').data('fdbk-type', type)    
     div.find('textarea').focus()    
     
   remove_textarea: (type) ->
     @shown_box = ''    
-    @$('#current-procon-list-wrapper .input-row').hide()
+    @$el.find('.input-controls').hide()
     @$('#addpro').show()
     @$('#addcon').show()        
     elt.val ''

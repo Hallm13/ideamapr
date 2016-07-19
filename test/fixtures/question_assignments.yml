@@ -18,6 +18,12 @@ qa_pub_radio:
   survey: published_survey
   survey_question: sq_with_radio_choice
   ordering: 1
+qa_pub_newidea:
+  survey: published_survey
+  survey_question: sq_new_idea
+qa_pub_budget:
+  survey: published_survey
+  survey_question: sq_budget_type
 qa_ans_5:
   survey: answered_survey
   survey_question: sq_pre_5

@@ -22,6 +22,16 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
     assert page.has_content? 'Perform a budgeting'
   end
   
+  test 'create survey' do
+    visit '/surveys/new'
+    fill_in 'survey_title', with: 'long long title filled'
+    fill_in 'survey_introduction', with: 'long long introduction also filled'
+    fill_in 'survey_thankyou_note', with: 'long long thank you note now filled'
+
+    click_on 'object-save'
+    assert_equal '/surveys', current_path 
+  end
+  
   def teardown
     Capybara.default_driver = :rack_test
   end

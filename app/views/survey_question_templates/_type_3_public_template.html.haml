@@ -1,13 +1,10 @@
 %script#type-3-public-template{type: 'text/template'}
-  .row.budget-idea-row.idea-row.any-card-row
-    .idea.col-xs-12
-      .idea-title
-        <%- title %>
-      .idea-description
-        <%- description %>
-    .col-xs-12.cart-count-line
-      .spend-amount
-        = precede '$' do
-          %span.amount-box <%- cart_amount %>
-      .add-to-cart.site-button#add-to-cart{'data-action' => 'add'}
-        Add to Cart
+  .budget-idea-row.idea-row.any-card-row
+    = render partial: 'idea_card'
+    .row
+      .col-xs-12.cart-count-line
+        .spend-amount
+          = precede '$' do
+            %span.amount-box <%- cart_amount %>
+        .add-to-cart.site-button#add-to-cart{'data-action' => 'add'}
+          Add to Cart

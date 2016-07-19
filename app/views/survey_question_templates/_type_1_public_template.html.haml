@@ -8,10 +8,5 @@
     .idea.col-xs-10
       .ranked-index
         <%- component_rank %>
-      .row
-        .idea-title.col-xs-12
-          <%- title %>
-      .row
-        .idea-description.col-xs-12
-          <%- description %>
+      = render partial: 'idea_card'
       
