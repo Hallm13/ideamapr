@@ -11,7 +11,8 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     @listenTo @collection, 'sort', @render
     
     # Budgeting
-    @used_budget_title = 'Used budget: '
+    @remaining_budget_title_html = "Total <span class='bold-text'>Remaining: </span><span class='value'></span>"
+    @used_budget_title_html = "Total <span class='bold-text'>Spent</span>: <span class='value'></span>"
     @listenTo(@collection, 'change:cart_count', @change_spent_amount)
     @
 
@@ -60,16 +61,19 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
   redraw_budget_line: ->
     # Return a jQuery object with the HTML for the budget line
     if typeof @budget_root_elt == 'undefined'
-      @budget_root_elt = $('<div>').addClass('col-xs-12')
-      @budget_root_elt.append $('<span>').attr('id', 'available-budget')
-      @budget_root_elt.append $('<span>').attr('id', 'used-budget')
+      @budget_root_elt = $('<div>').addClass('col-xs-12 budget-line')
+      qty_bkgrd = $('<div>').addClass('quantity-bkgrd')
+      @budget_root_elt.append qty_bkgrd      
+      qty_bkgrd.append $('<span>').attr('id', 'used-budget')
+      qty_bkgrd.append $('<span>').attr('id', 'available-budget')
 
     avlbl = @budget_root_elt.find '#available-budget'
     spent = @budget_root_elt.find '#used-budget'
 
-    avlbl.text('Available budget: ' + \
-      (@model.get('budget') - @collection.cart_total_spend))      
-    spent.text @used_budget_title + @collection.cart_total_spend
+    avlbl.html @remaining_budget_title_html
+    spent.html @used_budget_title_html
+    avlbl.find('.value').text ('$' + (@model.get('budget') - @collection.cart_total_spend))
+    spent.find('.value').text ('$' + @collection.cart_total_spend)
     @budget_root_elt
 
   add_idea_form: ->

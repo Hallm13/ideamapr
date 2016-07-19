@@ -1,4 +1,35 @@
+.brand-header {
+  @include bold-title();
+  text-align: center;
+  color: $primary-highlight;
+  width: 20%;
+  margin: 0 auto;
+}
+
 #survey-public-view {
+  /* Budgeting */
+  .budget-line {
+    padding: 10px 50px 30px 50px;
+
+    .quantity-bkgrd {
+      padding: 20px 20px;
+      background-color: $background-gray;
+      border-radius: 10px;
+      
+      #available-budget {
+	float: right;
+	.value {
+	  color: $theme-green;
+	}	
+      }
+      #used-budget {
+	.value {
+	  color: $theme-red;
+	}
+      }
+    }
+  }
+  
   .question-title,.screen-title {
     @include bold-text();
     text-align: center;
@@ -42,12 +73,20 @@
       position: absolute;
       width: 100%;
       z-index: 2;
-      .col-xs-4 {
+      .clickable {
 	background: white;
+	text-align: center;
+	padding: 5px 0;
+	border-right: solid 1px $background-gray;
+	border-left: solid 1px $background-gray;	
+	border-bottom: solid 1px $background-gray;
+	&:hover {
+	  background-color: $background-gray;
+	}
       }
     }
     
-    .col-xs-4 {
+    .navtab {
       text-align: center;
       padding: 11px 5px;
       color: black;
@@ -61,7 +100,11 @@
       }
       &#current-question {
 	background-color: white;
-	border: solid 5px $background-gray;
+	border-left: none;
+	border-right: none;
+	&.thin-bottom {
+	  border-bottom: solid 1px $background-gray;
+	}
       }      
       &.inactive {
 	background-color: $background-gray;
@@ -116,19 +159,20 @@
     @include bold-title();
   }
 
-  .budget-line {
-    padding-top: 10px;
+  .cart-count-line {
+    padding: 15px 0;
     color: $theme-green;
     @include bold-title();
 
     .add-to-cart {
       display: inline-block;
+      margin-left: 40px;
+      padding: 10px 40px;
     }
     
     .spend-amount {
       display: inline-block;
-      padding-top: 5px;
-      padding-right: 10px;
+      padding: 5px 10px 0 20px;
     }
   }  
 }

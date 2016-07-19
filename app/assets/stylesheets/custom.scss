@@ -112,13 +112,6 @@ form {
   background-image: linear-gradient($primary-button-gradient-start, $primary-button-gradient-end);
 }
 
-.brand-header {
-  @include bold-text();
-  text-align: center;
-  color: $primary-highlight;
-  width: 20%;
-  margin: 0 auto;
-}
 .navtop {
   background-color: $background-gray;
 

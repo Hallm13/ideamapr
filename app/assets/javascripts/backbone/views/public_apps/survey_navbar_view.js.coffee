@@ -24,7 +24,8 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
         @model.trigger('survey:recrement_question', {direction: -1})
     'click #current-question': (evt) ->
       @$('#other-sections').toggle()
-    'click #other-sections .col-xs-4': (evt) ->
+      @toggle_bottom_border $(evt.target)
+    'click #other-sections .clickable': (evt) ->
       @model.trigger('survey:recrement_question', {move_to: $(evt.target).data('question-index')})
       
   nav_text: (section, screen_index) ->
@@ -61,7 +62,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     range = (i for i in [1..total_screens])
     for idx in range
       unless idx == curr_qn
-        t = $('<div>').addClass('col-xs-offset-4 col-xs-4 clickable').attr('data-question-index', idx)
+        t = $(_.template($('#public-navbar-dropdown-element').html())(idx: idx))
         t.text(idx + " of " + total_screens)
         hidden_row.append t
         
@@ -76,3 +77,8 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     
     @
   
+  toggle_bottom_border: ($elt) ->
+    if $elt.hasClass('thin-bottom')
+      $elt.removeClass 'thin-bottom'
+    else
+      $elt.addClass 'thin-bottom'

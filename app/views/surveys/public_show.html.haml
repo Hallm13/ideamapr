@@ -38,14 +38,18 @@
 %script#survey-nb-template{type: 'text/template'}
   .col-xs-offset-3.col-xs-6
     .row
-      .col-xs-4#go-left.active
+      .col-xs-2#go-left.active.navtab
         Previous
-      .col-xs-4#current-question
+      .col-xs-8#current-question.navtab
         <%- current_question_index %> of <%- total_screens %> steps
         %i.fa.fa-chevron-down
-      .col-xs-4#go-right.active
+      .col-xs-2#go-right.active.navtab
         Next
     .row#other-sections{style: 'display: none'}
-          
+
+// navbar dropdown row
+%script#public-navbar-dropdown-element{type: 'text/template'}
+  .col-xs-offset-2.col-xs-8.clickable{'data-question-index' => '<%- idx %>'.html_safe}
+      
 = render 'survey_question_templates/all_idea_templates'
 = render 'survey_question_templates/all_field_templates'
