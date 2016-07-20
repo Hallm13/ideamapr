@@ -46,13 +46,11 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       @remove_textarea()
       
     "click #save-procon": (evt) ->
-      @model.add_feedback $(evt.target).data('fdbk-type'), @pro_text
+      @model.add_feedback $(evt.target).data('fdbk-type'), @fdbk_text
       @remove_textarea()
+      
     'keyup #current-procon': (evt) ->
-      if @shown_box == 'pro'
-        @pro_text = $(evt.target).val()
-      else
-        @con_text = $(evt.target).val()
+      @fdbk_text = $(evt.target).val()
 
     # Budgeting
     "click #add-to-cart": (evt) ->
@@ -90,7 +88,7 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       @$el.find('.summary').hide()
     
   append_procon_boxes: ->
-    root = @$('#current-procon-list-wrapper')
+    root = @$el
     pro_root = root.find '#pro-column'
     con_root = root.find '#con-column'
 
