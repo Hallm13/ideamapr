@@ -28,7 +28,6 @@ class SurveysController < ApplicationController
   end
 
   def public_show
-
     if request.xhr?
       render_json_payload
     else

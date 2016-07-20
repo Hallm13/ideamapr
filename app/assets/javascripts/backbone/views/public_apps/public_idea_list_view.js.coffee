@@ -34,11 +34,11 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       child_view = new IdeaMapr.Views.PublicIdeaView
         model: m
         collection: view_self.collection
-      child_view.question_type = view_self.question_type
+      child_view.question = view_self.question
       view_self.$el.append child_view.render().el
       null
 
-    switch @question_type
+    switch @question.get('question_type')
       when 3
         # Budget questions will need an extra line before, and new idea question requires add-button after.
         @$el.prepend @redraw_budget_line()
@@ -93,3 +93,4 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       description: $elt.find('#new_idea_description').val()
     @collection.add m
     m.set 'answered', true
+    m.trigger('idea:new_idea_added')

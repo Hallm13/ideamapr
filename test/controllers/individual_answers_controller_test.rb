@@ -14,6 +14,7 @@ class IndividualAnswersControllerTest < ActionController::TestCase
       refute_difference('IndividualAnswer.count') do
         post :create, sqn_id: survey_questions(:sq_1).id, survey_token: 'blabla', response_data: ({data: [1]}.to_json)
       end
+      assert_equal ({}), JSON.parse(response.body)
     end
 
     it 'valid data' do

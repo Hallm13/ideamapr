@@ -30,7 +30,7 @@ IdeaMapr.Views.PublicDetailView = Backbone.View.extend
     @model.set_response_data('checked', false)
     
   render: ->
-    t = _.template($('#type-' + @question_type + '-public-template').html())
+    t = _.template($('#type-' + @question.get('question_type') + '-public-template').html())
     
     @$el.html(t(@model.attributes))
     @

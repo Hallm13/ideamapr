@@ -4,6 +4,7 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
   
   initialize: ->
     _.bindAll(@, 'render')
+    _.bindAll(@, 'save_and_render')
 
     @orig_editarea_padding =
       title: ''
@@ -14,7 +15,8 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     @con_text = ''
     @top_container_selector = '.' + @top_container_class
     @$el.addClass @top_container_class
-    @listenTo(@model, 'idea:new_procon', @render)
+    @listenTo(@model, 'idea:new_procon', @save_and_render)
+    @listenTo(@model, 'idea:new_idea_added', @save_and_render)
     @
 
   events:
@@ -64,15 +66,15 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       @model.set_text_entry $(evt.target).attr('id'), $(evt.target).val().trim()
 
   render: ->
-    @model.init_type_specific_data(@question_type)
+    @model.init_type_specific_data(@question.get('question_type'))
     
     unless @model.get('id') == -1
       # id == -1, when the model is a dummy, in the Suggest Idea question type
-      template_id = '#type-' + @question_type + '-public-template'
+      template_id = '#type-' + @question.get('question_type') + '-public-template'
       html = _.template($(template_id).html())(@model.attributes)
       @$el.html html
     
-    switch @question_type
+    switch @question.get('question_type')
       when 0
         @append_procon_boxes()
         @$('.procon-list').hide()
@@ -123,7 +125,7 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     @$el.find('.input-controls').hide()
     @$('#addpro').show()
     @$('#addcon').show()        
-    elt.val ''
+    @$el.find('.input-controls textarea').val ''
         
   toggle_cart_text: ($button) ->
     if $button.data('action') == 'add'
@@ -132,3 +134,7 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     else
       $button.text 'Add to Cart'
       $button.data 'action', 'add'
+      
+  save_and_render: ->
+    @question.post_response_to_server()
+    @render()

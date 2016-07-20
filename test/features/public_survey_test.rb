@@ -14,6 +14,7 @@ class PublicSurveyTest < Capybara::Rails::TestCase
     it 'gets to thank you screen' do
       # order = procon, radio, new idea, budget
       refute page.has_text? 'Thank you'
+      sleep 1
       (1 + @s.question_assignments.count).times do
         page.find('#go-right').click
       end
