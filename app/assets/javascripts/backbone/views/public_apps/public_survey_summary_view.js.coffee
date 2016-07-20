@@ -4,7 +4,7 @@ IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
   initialize: ->
     _.bindAll(@, 'render')
     @listenTo(@collection, 'change:answered', @render)
-    @listenTo(@collection, 'survey_question_collection:view_request', @model.recrement_question)
+    @listenTo(@collection, 'change:view_request', @recrement_question_passthru)
     
     @
     
@@ -23,8 +23,11 @@ IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
       answered: bool
     )
     v = new IdeaMapr.Views.SurveyQuestionCollectionView()
+    l.survey = @model
     v.model_array = l
     
     @$(selector).append v.render().el
     null
-    
+
+  recrement_question_passthru: (model) ->
+    @model.trigger 'survey:recrement_question', 

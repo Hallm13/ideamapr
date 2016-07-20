@@ -18,10 +18,10 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     'click #go-right': (evt) ->
       if $(evt.target).hasClass('active')
         @model.post_response_to_server()
-        @model.trigger('survey:recrement_question', {direction: 1})
+        @model.trigger('survey:recrement_question', {model: @model, direction: 1})
     'click #go-left': (evt) ->
       if $(evt.target).hasClass('active')
-        @model.trigger('survey:recrement_question', {direction: -1})
+        @model.trigger('survey:recrement_question', {model: @model, direction: -1})
     'click #current-question': (evt) ->
       @$('#other-sections').toggle()
       @toggle_bottom_border $(evt.target)
@@ -56,19 +56,21 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       @$('#go-right').addClass 'theme-red'
       
   make_dropdown: ->
-    curr_qn = @model.get('current_screen') + 1
+    curr_qn = @model.get('current_screen')
     total_screens = @model.get('number_of_screens')
     hidden_row = @$('#other-sections')
-    range = (i for i in [1..total_screens])
+    range = (i for i in [0..total_screens-1])
     for idx in range
       unless idx == curr_qn
         t = $(_.template($('#public-navbar-dropdown-element').html())(idx: idx))
-        t.text(idx + " of " + total_screens)
+        t.text((idx + 1) + " of " + total_screens)
         hidden_row.append t
         
   render: ->
     data =
-      current_question_index: @model.get('current_screen') + 1
+      # this is what is displayed.
+      current_question_index: @model.get('current_screen')
+      shown_qn_index: @model.get('current_screen') + 1
       total_screens: @model.get('number_of_screens')
       
     @$el.html(_.template($('#survey-nb-template').html())(data))

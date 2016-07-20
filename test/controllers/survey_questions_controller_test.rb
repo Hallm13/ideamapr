@@ -118,7 +118,7 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       xhr :get, :index, for_survey: surveys(:survey_1)
       b = JSON.parse(response.body)
       assert_equal SurveyQuestion.count, b.size
-      assert_equal survey_questions(:sq_pre_5).id, b[0]['id']
+      assert_equal survey_questions(:sq_pre_5_procon).id, b[0]['id']
       assert_equal SurveyQuestion.count - surveys(:survey_1).survey_questions.count,
                    b.select { |i| !i['is_assigned'] }.size
     end

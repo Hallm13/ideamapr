@@ -1,3 +1,19 @@
+qa_pub_5:
+  survey: published_survey
+  survey_question: sq_pre_5_procon
+  ordering: 0
+qa_pub_radio:
+  survey: published_survey
+  survey_question: sq_with_radio_choice
+  ordering: 1
+qa_pub_newidea:
+  survey: published_survey
+  survey_question: sq_new_idea
+  ordering: 2
+qa_pub_budget:
+  survey: published_survey
+  survey_question: sq_budget_type
+  ordering: 3
 qa_1_1:
   survey: survey_1
   survey_question: sq_1
@@ -8,25 +24,11 @@ qa_1_pre4:
   ordering: 1
 qa_1_pre5:
   survey: survey_1
-  survey_question: sq_pre_5
+  survey_question: sq_pre_5_procon
   ordering: 0
-qa_pub_5:
-  survey: published_survey
-  survey_question: sq_pre_5
-  ordering: 0
-qa_pub_radio:
-  survey: published_survey
-  survey_question: sq_with_radio_choice
-  ordering: 1
-qa_pub_newidea:
-  survey: published_survey
-  survey_question: sq_new_idea
-qa_pub_budget:
-  survey: published_survey
-  survey_question: sq_budget_type
 qa_ans_5:
   survey: answered_survey
-  survey_question: sq_pre_5
+  survey_question: sq_pre_5_procon
   ordering: 0
 qa_ans_radio:
   survey: answered_survey

@@ -60,30 +60,6 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     else
       @urlRoot + 'public_show/' + @get('public_link')
 
-  recrement_question: (options) ->
-    @set('previous_selection', @get('current_screen'))
-    survey_model_self = @
-        
-    if options.hasOwnProperty('move_to')
-      @set('current_screen', options.move_to - 1)
-    else if options.hasOwnProperty('survey_question_id')
-      @screens.forEach (screen, idx) ->
-      # This could be a string selector instead of a view obj
-        if screen.model instanceof IdeaMapr.Models.SurveyQuestion && screen.model.get('id') == options.survey_question_id
-          survey_model_self.set('current_screen', idx)
-    else
-      if options.direction == -1
-        @set('current_screen', (@get('current_screen') - 1 + @get('number_of_screens')) % @get('number_of_screens'))
-      else if options.direction == 1
-        # Click on the final go-right (Finish)
-        if @get('current_screen') == @get('number_of_screens') - 1
-          @trigger 'survey:done'
-        else
-          @set('current_screen', (@get('current_screen') + 1) % @get('number_of_screens'))
-
-    # SurveyPublicView and SurveyNavbarView will listen for this event.
-    @trigger 'survey:selection_changed'
-    
   trigger_fetches: ->
     if @hasOwnProperty 'questions'
       @questions.fetch()
@@ -107,4 +83,28 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
     
     if index != 0 and index != @question_list.length + 1
       @question_list.models[index - 1].post_response_to_server()
+    
+  recrement_question: (options) ->
+    @set('previous_selection', @get('current_screen'))
+    survey_model_self = @
+        
+    if options.hasOwnProperty('move_to')
+      @set('current_screen', options.move_to)
+    else if options.hasOwnProperty('survey_question_id')
+      @screens.forEach (screen, idx) ->
+      # This could be a string selector instead of a view obj
+        if screen.model instanceof IdeaMapr.Models.SurveyQuestion && screen.model.get('id') == options.survey_question_id
+          survey_model_self.set('current_screen', idx)
+    else
+      if options.direction == -1
+        @set('current_screen', (@get('current_screen') - 1 + @get('number_of_screens')) % @get('number_of_screens'))
+      else if options.direction == 1
+        # Click on the final go-right (Finish)
+        if @get('current_screen') == @get('number_of_screens') - 1
+          @trigger 'survey:done'
+        else
+          @set('current_screen', (@get('current_screen') + 1) % @get('number_of_screens'))
+
+    # SurveyPublicView and SurveyNavbarView will listen for this event.
+    @trigger 'survey:selection_changed'
     

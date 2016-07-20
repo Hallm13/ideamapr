@@ -7,7 +7,7 @@ IdeaMapr.Views.SurveyQuestionSummaryView = Backbone.View.extend
 
   events:
     'click': ->
-      @model.set('view_request', @model.get('view_request') + 1)
+      @collection.survey.trigger 'survey:recrement_question', {move_to: @model.get('component_rank') + 1}
       
   render: ->
     t = _.template($('#survey-question-summary-template').html())

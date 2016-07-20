@@ -11,18 +11,20 @@ class PublicSurveyTest < Capybara::Rails::TestCase
       visit @base_url
     end
 
-    it 'cycles through questions' do
-      page.find('#go-right').click
-      assert page.has_content? 'pre5 '
-      assert_equal 1, page.all('.idea-box', visible: true).size
-    end
-
     it 'gets to thank you screen' do
+      # order = procon, radio, new idea, budget
       refute page.has_text? 'Thank you'
-      (2 + @s.question_assignments.count).times do
+      (1 + @s.question_assignments.count).times do
         page.find('#go-right').click
       end
 
+      # Can use summary clicks - go back one screen - budget
+      page.all('.clickable').last.click
+      assert page.has_content? 'budget type'
+      # return to summary
+      page.find('#go-right').click
+      
+      page.find('#go-right').click
       assert page.has_text? 'Thank you'
 
       # It won't let you restart the survey

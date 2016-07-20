@@ -34,7 +34,7 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
 
   trigger_fetches: ->
     if @hasOwnProperty 'idea_list'
-      @idea_list.fetch()      
+      @idea_list.fetch()
     if @hasOwnProperty 'field_details'
       @field_details.fetch()
       
