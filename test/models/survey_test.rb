@@ -27,4 +27,9 @@ class SurveyTest < ActiveSupport::TestCase
     assert @s.reload.has_state?(:published)
     assert @s.public_link.present?
   end
+
+  test 'reporting' do
+    s = surveys :answered_survey
+    puts s.report_hash
+  end
 end

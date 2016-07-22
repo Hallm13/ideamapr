@@ -40,6 +40,9 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     @set('title', 'Example Idea')
     @set('description', 'Add ideas like this one by clicking + below.')
     @set('component_rank', opts.rank)
+    @has_expansion = false
+    @set 'desc_summary', ''
+    
   increment_note: (type) ->
     if type == 'pro' || type == 'con'
       @set(type, @get(type) + 1)

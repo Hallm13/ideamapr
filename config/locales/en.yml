@@ -42,3 +42,8 @@ en:
   public:
     screen_titles:
       thankyou: 'Thank you!'
+  buttons:
+    survey:
+      add_question: 'Add a Question'
+    survey_question:
+      add_idea: 'Add an Idea'

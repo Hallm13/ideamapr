@@ -1,6 +1,6 @@
-#question-list-app.row
+#question-list-app.row.relative-container
   #selected-list.col-xs-12
-  #search-box.col-xs-12
+  #search-list.absolute-child.unassigned-components
       
 %script{type: 'text/template', id: 'survey-question-search-template'}
   .title-box
@@ -17,4 +17,8 @@
       <%- available_count %> questions left, 'cos you added <%- added_count %>
     .col-xs-12
       %input{type: 'text', name: 'question-search', id: 'question-search', placeholder: 'Search by'}
-  #unassigned-questions.row
+  #unassigned-questions
+%script#admin-add-question-list{type: 'text/template'}
+  .row
+    %button.btn.btn-primary.with-text#add-component{type: 'button'}
+      = t('buttons.survey.add_question')

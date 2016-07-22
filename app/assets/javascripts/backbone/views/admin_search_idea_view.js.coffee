@@ -1,5 +1,5 @@
 IdeaMapr.Views.AdminSearchIdeaView = Backbone.View.extend
-  top_container_class: 'idea-box'
+  top_container_class: 'idea-box col-xs-12'
   initialize: ->
     _.bindAll(@, 'render')
     @top_container_selector = '.' + @top_container_class

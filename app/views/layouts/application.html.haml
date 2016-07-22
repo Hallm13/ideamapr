@@ -19,6 +19,7 @@
   %body
     = render "navigation"
     .container.main
+      .overlay
       -if flash[:notice] or flash[:alert]
         .container
         -if flash[:notice]

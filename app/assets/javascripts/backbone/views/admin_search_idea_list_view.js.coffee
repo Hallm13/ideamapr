@@ -1,13 +1,24 @@
 IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
   initialize: ->
-    _.bindAll(@, 'render')
-    @listenTo(@model, 'change', @toggle_idea_boxes)
+    _.bindAll @, 'render'
+    _.bindAll @, 'show'
+    
+    @listenTo @model, 'change', @toggle_idea_boxes
     @added_count = 0
     @
 
   events:
     'keyup #idea-search': (evt) ->
       @model.set('query', $(evt.target).val())
+    'click .x-box': (evt) ->
+      @$el.hide()
+      $('.overlay').hide()      
+
+  show: ->
+    @$el.show()
+    
+  x_box: ->
+    $('<div>').addClass('x-box').text('X')
       
   render: ->
     view_self = @
@@ -25,6 +36,7 @@ IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
       if $(e).find('.title-box').text().search(view_self.model.get('query')) == -1
         $(e).hide()
     
+    @$el.append @x_box()
     @
 
   toggle_idea_boxes: ->
@@ -34,4 +46,10 @@ IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
         $(elt).show()
       else
         $(elt).hide()
-        
+  
+  show: ->
+    @$el.show()
+    $('html, body').animate({scrollTop:$('#search-list').offset().top}, 'slow');
+    
+  x_box: ->
+    $('<div>').addClass('x-box').text('X')

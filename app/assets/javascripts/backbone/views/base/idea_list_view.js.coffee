@@ -6,8 +6,14 @@
 # TODO make AdminSearchIdeaListView a child of this? at this point, it's not sortable, so maybe not.
 
 IdeaMapr.Views.IdeaListView = Backbone.View.extend
+  className: 'col-xs-12 component-box',
   tagName: 'div',
 
+  events:
+    'click #add-component': (evt) ->
+      @trigger('assigned_list:add_component')
+      evt.stopPropagation()
+            
   populate_data: ->
     # This triggers the fetches on whichever lists the SQ model for this listing view
     # contains
@@ -89,3 +95,6 @@ IdeaMapr.Views.IdeaListView = Backbone.View.extend
         
         child_view.question_type = view_self.question_type
         opts.$root.append child_view.render().el
+        
+  render_finish: (selector) ->
+    @$el.append $(_.template($(selector).html())())

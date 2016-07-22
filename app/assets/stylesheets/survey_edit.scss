@@ -1,3 +1,11 @@
+.unassigned-components {
+  display: none;
+  width: 100%;
+  padding: 30px 10px;
+  background-color: white;
+  @include solid-gray-border();
+}
+
 .editable-text {
   &.edited {
     color: $theme-green;
@@ -26,34 +34,31 @@
   cursor: pointer;
 }
 
-.question-box,.idea-box {
-  padding: 10px 0px;
-}
-
-.idea-box {
-  .idea-row {
-    position: relative;
-  }
-}
 .component-box {
+  padding-top: 10px;
+  padding-bottom: 10px;
   .component-row {
     position: relative;
     padding-top: 15px;
     padding-bottom: 15px;
     .controls-box {
-      &.active {
-	top: 5px;      
-	background-color: $theme-green;
-	border: solid 5px $theme-green;
+      display: none;
+      position: absolute;
+      max-width: 32px;
+      left: 35px;
+      top: calc(25% - 10px);
+
+      &.right-margin {
+	left: inherit;
+	right: 25px;
+	top: calc(50% - 5px);
       }
+      
       &.inactive {
 	background-color: $background-gray;
 	border: solid 5px $background-gray;
 	cursor: default;
       }
-    }
-    .admin-ranking-sign {
-      margin: 0 0;
     }
   }
 }
@@ -61,8 +66,8 @@
 .admin-ranking-sign {
   background-size: 30px 30px;
   background-repeat: no-repeat;
-  height: 57px;
-  margin: 25% 0;
+  height: 37px;
+
   min-width: 32px;
   &.admin-up {
     background-image: image-url('icons/admin_up_chevron.png');
@@ -75,6 +80,7 @@
   }
   &#out {
     color: $theme-red;
+    cursor: pointer;
   }
 }
 
@@ -106,7 +112,11 @@
 }
 
 .showing-controls {
-  .any-card-row {
+  .component-row {
     background-color: $background-gray;
+    
+    .controls-box {
+      display: block;
+    }
   }
 }

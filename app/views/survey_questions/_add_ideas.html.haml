@@ -1,8 +1,10 @@
-#idea-list-app.row
-  .row
-    #selected-list.col-xs-12
-  .row
-    #search-box.col-xs-12
+#idea-list-app.row.relative-container
+  #selected-list
+  #search-list.absolute-child.unassigned-components
 
 = render 'survey_question_templates/all_idea_templates'
     
+%script#admin-add-idea-list{type: 'text/template'}
+  .row
+    %button.btn.btn-primary.with-text#add-component{type: 'button'}
+      = t('buttons.survey_question.add_idea')

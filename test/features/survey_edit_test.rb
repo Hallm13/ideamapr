@@ -9,6 +9,8 @@ class SurveyEditTest < Capybara::Rails::TestCase
     it 'works' do
       visit "/surveys/new"
       sleep 1
+
+      click_on 'Add a Question'
       assert_equal SurveyQuestion.count, page.all('.square-button.green').size
     end
   end

@@ -1,3 +1,12 @@
+.x-box {
+  cursor: pointer;
+  color: $theme-red;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 2px 8px 0 0;
+}
+
 .brand-header {
   @include bold-title();
   text-align: center;
@@ -8,25 +17,19 @@
 
 #survey-public-view {
   /* Pro con question type */
-  .procon-idea-row .input-row {
-    .input-controls {
-      display: none;
-      position: relative;
-      padding: 25px 5px 5px 5px;
-      background-color: $background-gray;
+  .idea-row {
+    .input-row {
+      .input-controls {
+	display: none;
+	position: relative;
+	padding: 25px 5px 5px 5px;
+	background-color: $background-gray;
 
-      textarea {
-	width: 100%;
-	border-radius: 5px;
-	margin-bottom: 5px;
-      }
-      .x-box {
-	cursor: pointer;
-	color: $theme-red;
-	position: absolute;
-	right: 0;
-	top: 0;
-	padding: 2px 8px 0 0;
+	textarea {
+	  width: 100%;
+	  border-radius: 5px;
+	  margin-bottom: 5px;
+	}
       }
     }
   }
@@ -159,7 +162,7 @@
 
 /* Idea styling */
 
-.any-card-row {
+.component-row {
   min-height: 50px;
   margin-left: -100px;
   margin-right: -100px;
@@ -170,7 +173,7 @@
 .idea-row {
   .idea-card-row {
     padding: 5px 0;
-    @include solid-gray-border();
+
     .idea-description {
       .moreless-text {
 	color: $background-gray;
@@ -203,10 +206,13 @@
 }
 
 /* Ranking idea */
-.ranking-idea-row {
+.idea-row {
   position: relative;
   min-height: 150px;
   .ranked-index {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 20px);
     margin: -12px auto 0px;
     width: 10%;
     text-align: center;
@@ -220,21 +226,13 @@
   }
 }
   
-.controls-box, .user-controls-box {
-  margin-top: 4%;
-  &.active {
-    display: none;
-    position: absolute;
-    left: 27px;
-    height: 50%;
-    top: 25%;
+.user-controls-box {
+  position: absolute;
+  max-width: 66px;
+  height: 50%;
+  top: 25%;
+  left: calc(2.8% + 100px);
 
-    &.right-margin {
-      left: inherit;
-      right: 0;
-    }
-  }
-  
   .control-icon {
     width: 20px;
     height: 20px;
@@ -254,14 +252,15 @@
     
     &.up {
       background-image: image-url('icons/up_chevron.png');
-      padding: 11px 10px 0 10px;
+      padding: 11px 0 1px 10px;
       color: $theme-green;
     }
     &.down {
       color: $theme-red;
-      padding: 10px 0 0 11px;
+      padding: 5px 1px 0 11px;
       background-image: image-url('icons/down_chevron.png');
       background-position-y: -6px;
+      margin-top: -10px;
     }
   }
   
@@ -293,10 +292,6 @@
 
 /* Non-idea fields styling */
 .component-box {
-  .controls-box.active {
-
-  }
-  
   .text-entry-box {
     margin-left: 10px;
   }

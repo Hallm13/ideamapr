@@ -21,4 +21,6 @@ IdeaMapr.Views.AdminAssignedIdeaListView = IdeaMapr.Views.IdeaListView.extend
       available_slots: available_slots
       type: 'idea'
       $root: @$el
+
+    @render_finish '#admin-add-idea-list'
     @

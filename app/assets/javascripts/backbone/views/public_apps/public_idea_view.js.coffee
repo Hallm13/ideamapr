@@ -11,23 +11,22 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       description: ''
 
     @shown_box = ''
-    @pro_text = ''
-    @con_text = ''
+    @fdbk_text = ''
+
     @top_container_selector = '.' + @top_container_class
     @$el.addClass @top_container_class
     @listenTo(@model, 'idea:new_procon', @save_and_render)
     @listenTo(@model, 'idea:new_idea_added', @save_and_render)
+    
+    @extend_events()
+    @run_summary_logic = (new IdeaMapr.Views.SummaryExpander).run_summary_logic
     @
-
-  events:
-    # Idea card
-    'click .moreless-text': (evt) ->
-      x = $(evt.target)      
-      switch_to = x.data('switch-to')
-      x.closest('span.wrapper').hide()
-      @$('span.' + switch_to).show()
-      
-    # Ranking
+    
+  extend_events: ->
+    @events = _.extend({}, @my_events, (new IdeaMapr.Views.SummaryExpander()).events)
+    @delegateEvents()
+    
+  my_events:
     'click .up': (evt) ->
       # Cannot move top idea up
       unless @model.get('component_rank') == 0
@@ -81,14 +80,6 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
     @run_summary_logic()
     @
 
-  run_summary_logic: ->
-    # Decide whether to show the expansion behavior
-    if @model.has_expansion
-      @$el.find('.full').hide()
-    else
-      @$el.find('.full .moreless-text').hide()
-      @$el.find('.summary').hide()
-    
   append_procon_boxes: ->
     root = @$el
     pro_root = root.find '#pro-column'

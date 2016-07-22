@@ -205,3 +205,21 @@ form {
 .clickable {
   cursor: pointer;
 }
+
+.relative-container {
+  position: relative;
+  .absolute-child {
+    z-index: 2;
+  }
+}
+
+.overlay {
+  display: none;
+  z-index: 2;
+  background-color: rgba(200,200,200,.5);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

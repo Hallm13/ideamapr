@@ -1,7 +1,5 @@
 IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
-  top_container_class: 'question-box'
-  className: 'col-xs-12 question-box',
-  tagName: 'div',
+  top_container_class: 'component-box'
 
   initialize: ->
     _.bindAll(@, 'render')
@@ -14,10 +12,10 @@ IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEdit
 
   extend_events: ->
     my_events =
-      'mouseenter .question-row': (evt) ->
-        @add_controls evt, '.question-box'
-      'mouseleave .question-row': (evt) ->
-        @remove_controls evt, '.question-box'
+      'mouseenter .component-row': (evt) ->
+        @add_controls evt, '.component-box'
+      'mouseleave .component-row': (evt) ->
+        @remove_controls evt, '.component-box'
         
     @events = _.extend({}, @base_events, my_events)
     @delegateEvents()

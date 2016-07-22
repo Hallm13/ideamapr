@@ -15,13 +15,16 @@ IdeaMapr.Views.AdminIdeaCollectionsView = IdeaMapr.Views.IdeaListView.extend
 
     @to_search_collection = new IdeaMapr.Collections.IdeaCollection()
     @search_view = new IdeaMapr.Views.AdminSearchIdeaListView
-      el: $('#search-box')
+      el: $('#search-list')
       collection: @to_search_collection
       model: new IdeaMapr.Models.SearchQueryModel()
 
     @listenTo(@assigned_collection, 'remove', @redistribute)
     @listenTo(@to_search_collection, 'remove', @redistribute)
 
+    # The selection view will ask for the search view to be shown
+    @listenTo @selected_view, 'assigned_list:add_component', @search_view.show
+    
     # the distribute will also render this view.    
     @listenToOnce(@model.idea_list, 'sync', @distribute)
     @

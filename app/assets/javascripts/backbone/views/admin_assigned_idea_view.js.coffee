@@ -1,16 +1,17 @@
 IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
-  top_container_class: 'idea-box'
+  top_container_class: 'component-box'
   initialize: ->
     _.bindAll(@, 'render')
     _.bindAll(@, 'extend_events')
     @extend_events()
     @top_container_selector = '.' + @top_container_class
     @$el.addClass @top_container_class
+    @run_summary_logic = (new IdeaMapr.Views.SummaryExpander).run_summary_logic
 
     @
 
   extend_events: ->
-    my_events =
+    @events =
       'keydown .amount-box': (evt) ->
         # Arrows, delete, and numbers
         if (evt.keyCode < 48 or evt.keyCode > 57) and (evt.keyCode < 37 or evt.keyCode > 40) and evt.keyCode != 8
@@ -24,8 +25,11 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
         @add_controls evt, '.idea-box'
       'mouseleave .idea-row': (evt) ->
         @remove_controls evt, '.idea-box'
-        
-    @events = _.extend({}, @base_events, my_events)
+
+    # Add in admin controls behavior
+    _.extend(@events, @base_events)
+    # Add in the expander behavior.
+    _.extend(@events, (new IdeaMapr.Views.SummaryExpander()).events)
     @delegateEvents()
      
   render: ->
@@ -45,4 +49,5 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @$el.find('.idea-row').prepend div_array[0]
     @$el.find('.idea-row').append div_array[1]
 
+    @run_summary_logic()
     @
