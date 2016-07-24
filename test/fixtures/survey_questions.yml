@@ -32,3 +32,8 @@ sq_text_fields:
 sq_new_idea:
   title: has a title - new idea
   question_type: <%= SurveyQuestion::QuestionType::NEW_IDEA %>
+sq_ranking:
+  title: ranking - title
+  question_prompt: ranking - prompt prompt
+  question_type: <%= SurveyQuestion::QuestionType::RANKING %>
+  

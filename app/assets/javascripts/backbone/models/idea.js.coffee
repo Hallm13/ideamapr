@@ -31,17 +31,26 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     else
       @attributes['desc_summary'] = ''
       @has_expansion = false
+
+    # Create an image URL if there is one
+    if @attributes.hasOwnProperty('attachments') \
+       and @attributes['attachments'].hasOwnProperty('card_image_url')
+      @set 'image_url', @attributes.attachments.card_image_url
       
     @attributes['response_data'] =
       answered: false
       checked: false
 
   make_example: (opts) ->
-    @set('title', 'Example Idea')
-    @set('description', 'Add ideas like this one by clicking + below.')
-    @set('component_rank', opts.rank)
+    _.extend(@attributes,
+      title: 'Example Idea'
+      description: 'Add ideas like this one by clicking + below.'
+      component_rank: opts.rank
+      image_url: ''
+      desc_summary: ''
+    )
+    
     @has_expansion = false
-    @set 'desc_summary', ''
     
   increment_note: (type) ->
     if type == 'pro' || type == 'con'

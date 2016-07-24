@@ -1,8 +1,21 @@
-- if @attachments
-  - @attachments.each do |a|
-    .col-xs-4
-      = image_tag a.downloadable.url
-      
-.col-xs-offset-3.col-xs-6.text-center
-  = file_field_tag 'idea[attachment]'
-  Upload Attachment
+= javascript_include_tag 'file_upload_manipulation'
+
+.row
+  - found_image = false
+  - @attachments_oldest_first&.each do |a|
+    .col-xs-12.attachment-desc{'data-attachment-id' => a.id}
+      .x-box
+        X
+      = link_to a.downloadable_file_name, a.downloadable.url
+      - if is_image?(a.downloadable_content_type)
+        - if !found_image
+          - found_image = true
+          (Card image)
+.row      
+  .col-xs-offset-3.col-xs-6.text-center
+    .attachment-div
+      = file_field_tag 'idea[attachment]', id: 'attachment-button'
+      #fake-link
+        Upload Attachment
+        .current-attachment
+          No upload selected

@@ -30,6 +30,24 @@ class SurveyTest < ActiveSupport::TestCase
 
   test 'reporting' do
     s = surveys :answered_survey
+    i = individual_answers(:ia_answered_ranking_1)
+    i.response_data = [{'idea_id' => ideas(:idea_1).id},
+                       {'idea_id' => ideas(:idea_2).id},
+                       {'idea_id' => ideas(:idea_3).id}]
+    i.save
+    
+    i = individual_answers(:ia_answered_ranking_2)
+    i.response_data = [{'idea_id' => ideas(:idea_3).id},
+                       {'idea_id' => ideas(:idea_2).id},
+                       {'idea_id' => ideas(:idea_1).id}]
+    i.save
+
+    i = individual_answers(:ia_answered_procon_2)
+    i.response_data = [{'idea_id' => ideas(:idea_2).id, 'type-0-data' => {feedback: {pro: [5,6,7], con: [1]}}},
+                       {'idea_id' => ideas(:idea_3).id, 'type-0-data' => {feedback: {pro: [1], con: [2,2,2,2,2]}}}
+                      ]
+    i.save
+    
     puts s.report_hash
   end
 end

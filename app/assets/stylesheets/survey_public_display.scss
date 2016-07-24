@@ -172,6 +172,13 @@
 
 .idea-row {
   .idea-card-row {
+    .idea-image {
+      float: left;
+      max-width: 200px;
+      max-height: 133px;
+      overflow: hidden;
+    }
+    
     padding: 5px 0;
 
     .idea-description {

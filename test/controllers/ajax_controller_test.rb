@@ -1,9 +1,22 @@
 require 'test_helper'
 
 class AjaxControllerTest < ActionController::TestCase
+  test 'routing' do
+    assert_routing ({path: '/ajax_api', method: :post}), {controller: 'ajax', action: 'multiplex'}
+    assert_routing ({path: '/ajax_api', method: :get}), {controller: 'ajax', action: 'multiplex'}
+  end
+  
   test '#multiplex' do
     xhr :post, :multiplex, {payload: "survey_question/get_prompt_map/"}
     assert_equal 'success', JSON.parse(response.body)['status']
+  end
+
+  test '#delete_attachment' do
+    i = ideas(:idea_with_img)
+
+    assert_difference('DownloadFile.count', -1) do
+      xhr :post, :multiplex, {payload: "idea/delete_attachment/#{i.download_files.first.id}"}
+    end
   end
 
   test 'error' do

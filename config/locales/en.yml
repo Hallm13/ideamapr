@@ -39,6 +39,10 @@ en:
       pickone: 'Tell us which idea you pick as the top priority'
       nonidea_radio: 'Select one of the following.'
       nonidea_fields: 'Fill in the following fields.'
+  survey:
+    search_list_title_html: '<%- available_count %> available questions (Added <%- added_count %>)'
+  idea:
+    search_list_title_html: '<%- available_count %> available ideas (Added <%- added_count %>)'
   public:
     screen_titles:
       thankyou: 'Thank you!'

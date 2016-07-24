@@ -23,3 +23,4 @@
 //= require forms
 //= require survey_question_edit
 //= require survey_edit
+//= require idea_edit

@@ -6,7 +6,8 @@ class RespondentTest < ActiveSupport::TestCase
   end
 
   test 'dependence' do
-    assert_difference('IndividualAnswer.count', -1) do
+    ct = IndividualAnswer.where(respondent_id: @respondent.id).count
+    assert_difference('IndividualAnswer.count', -1 * ct) do
       @respondent.destroy
     end
   end

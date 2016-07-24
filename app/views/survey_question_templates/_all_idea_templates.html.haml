@@ -16,7 +16,7 @@
 %script#admin-search-idea-list{type: 'text/template'}
   .row
     .col-xs-12
-      <%- available_count %> ideas left, 'cos you added <%- added_count %>
+      = t('idea.search_list_title_html')
     .col-xs-12
       %input{type: 'text', name: 'idea-search', id: 'idea-search', placeholder: 'Search by'}
   #unassigned-ideas.row

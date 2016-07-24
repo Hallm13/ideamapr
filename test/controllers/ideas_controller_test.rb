@@ -17,11 +17,15 @@ class IdeasControllerTest < ActionController::TestCase
 
      it 'for admins, new survey questions gets all ideas' do
        # XHR request for new SQ will send SQ id = 0
+
        xhr :get, :index, for_survey_question: '0'
        b = JSON.parse(response.body)
        
        assert_equal Idea.count, b.size
-       assert_equal false, b.first['is_assigned'] # false, not just nil       
+       assert_equal false, b.first['is_assigned'] # false, not just nil
+
+       # The idea with an attachment has its URL available
+       assert_equal 1, b.select { |i| i['id'] == ideas(:idea_with_img).id && i['image_url'] != ''}.size
      end
 
      describe 'getting ideas for a survey' do

@@ -1,4 +1,4 @@
-# Base class for AdminAssignedIdeaView and AdminDetailView
+# Base class for PublicIdeaView, AdminAssignedIdeaView, and AdminDetailView
 IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
   className: 'col-xs-12',
   tagName: 'div',
@@ -47,3 +47,7 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
       container = $(evt.target).closest(@top_container_selector)
     container.removeClass('showing-controls')
     container.closest(inside_selector).find('.controls-box').hide()
+    
+  add_image_margin: ->
+    unless @model.get('image_url') == null
+      @$el.find('.idea-image').css('margin', '0 10px 10px 0')

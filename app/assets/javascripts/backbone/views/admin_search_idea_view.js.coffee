@@ -1,4 +1,4 @@
-IdeaMapr.Views.AdminSearchIdeaView = Backbone.View.extend
+IdeaMapr.Views.AdminSearchIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   top_container_class: 'idea-box col-xs-12'
   initialize: ->
     _.bindAll(@, 'render')
@@ -15,4 +15,5 @@ IdeaMapr.Views.AdminSearchIdeaView = Backbone.View.extend
     template_id = '#idea-search-template'
     html = _.template($(template_id).html())(@model.attributes)
     @$el.html html
+    @add_image_margin()
     @

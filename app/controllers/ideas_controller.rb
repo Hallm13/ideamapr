@@ -3,6 +3,8 @@ class IdeasController < ApplicationController
   before_action :authenticate_admin!
   before_action :params_check
 
+  helper IdeasHelper
+  
   def new
     @level2_menu = :create_idea
   end
@@ -25,6 +27,12 @@ class IdeasController < ApplicationController
 
       @all_ideas = @all_ideas.map do |i|
         base_info = {id: i.id, title: i.title, description: i.description}
+        if (img = i.card_image)
+          base_info.merge!({image_url: img.downloadable.url})
+        else
+          base_info.merge!({image_url: ''})
+        end
+        
         if (already_assigned = assignments_rev_index.keys.include?(i.id))
           base_info.merge!({component_rank: assignments_rev_index[i.id][:ordering],
                             cart_amount: assignments_rev_index[i.id][:budget]})
@@ -42,7 +50,7 @@ class IdeasController < ApplicationController
   def edit
     @level2_menu = :create_idea
     if @idea.download_files.count > 0
-      @attachments = @idea.download_files
+      @attachments_oldest_first = @idea.attachments_oldest_first
     end
   end
 

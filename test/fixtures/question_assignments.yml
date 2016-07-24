@@ -33,4 +33,8 @@ qa_ans_5:
 qa_ans_radio:
   survey: answered_survey
   survey_question: sq_with_radio_choice
-  ordering: 1  
+  ordering: 1
+qa_ans_ranking:
+  survey: answered_survey
+  survey_question: sq_ranking
+  ordering: 2

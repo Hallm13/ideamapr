@@ -1,4 +1,5 @@
 .unassigned-components {
+  margin-top: 20px;
   display: none;
   width: 100%;
   padding: 30px 10px;
@@ -118,5 +119,42 @@
     .controls-box {
       display: block;
     }
+  }
+}
+
+.attachment-desc {
+  margin-bottom: 5px;
+  text-align: center;
+  &:hover {
+    background: $background-gray;
+  }
+}
+.attachment-div {
+  position: relative;
+  overflow: hidden;
+  width: 138px;
+  margin: 0 auto;
+  min-height: 60px;
+  
+  input {
+    opacity: 0;
+  }
+  
+  #fake-link {
+    position: absolute;
+    background: white;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    color: $fake-link-blue;
+    .current-attachment {
+      color: black;
+    }
+  }
+}
+
+#survey_question_new,#survey_question_edit {
+  .input-controls {
+    display: none;
   }
 }

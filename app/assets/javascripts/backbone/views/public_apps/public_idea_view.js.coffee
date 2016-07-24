@@ -1,4 +1,4 @@
-IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
+IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   top_container_class: 'idea-box'
   tagName: 'div'
   
@@ -72,7 +72,8 @@ IdeaMapr.Views.PublicIdeaView = Backbone.View.extend
       template_id = '#type-' + @question.get('question_type') + '-public-template'
       html = _.template($(template_id).html())(@model.attributes)
       @$el.html html
-    
+      @add_image_margin()
+      
     switch @question.get('question_type')
       when 0
         @append_procon_boxes()

@@ -1,0 +1,5 @@
+download_file_1:
+  idea: idea_with_img
+  downloadable_file_name: dummy_name.png
+  downloadable_content_type: image/png
+  downloadable_file_size: <%= 122160 %>

@@ -1,6 +1,7 @@
 defaults: &defaults
   ordering: 0
   budget: 0
+  groupable_type: SurveyQuestion
   
 ia_3_sq_1:
   <<: *defaults
@@ -12,17 +13,18 @@ ia_3_sq_1:
 ia_3_sq_pre_4:
   <<: *defaults
   idea: idea_3
-  groupable_type: SurveyQuestion
   groupable: sq_pre_4
+ia_2_sq_pre_5:
+  <<: *defaults
+  idea: idea_2
+  groupable: sq_pre_5_procon
 ia_3_sq_pre_5:
   <<: *defaults
   idea: idea_3
-  groupable_type: SurveyQuestion
   groupable: sq_pre_5_procon
 ia_1_sq_pre_4:
   <<: *defaults
   idea: idea_1
-  groupable_type: SurveyQuestion
   groupable: sq_pre_4
   ordering: 1
 ia_1_s_1:
@@ -33,6 +35,20 @@ ia_1_s_1:
 ia_1_sq_budget_idea_1:
   <<: *defaults
   idea: idea_1
-  groupable_type: SurveyQuestion
   groupable: sq_budget_type
+  ordering: 1
+ia_1_sq_ranking_idea_1:
+  <<: *defaults
+  idea: idea_1
+  groupable: sq_ranking
+  ordering: 0
+ia_1_sq_ranking_idea_2:
+  <<: *defaults
+  idea: idea_2
+  groupable: sq_ranking
+  ordering: 2
+ia_1_sq_ranking_idea_3:
+  <<: *defaults
+  idea: idea_3
+  groupable: sq_ranking
   ordering: 1

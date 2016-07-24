@@ -1,17 +1,40 @@
+defaults: &defaults
+  response_data: <%= [].to_json  %>
+  
 ia_answered_pre_5_2:
+  <<: *defaults
   respondent: respondent_2
   survey: answered_survey
   survey_question: sq_pre_5
-  response: answered_response_1
-  response_data: <%= ().to_json  %>
+  response: answered_response_2
 ia_answered_radio_2:
+  <<: *defaults
   respondent: respondent_2
   survey: answered_survey
   survey_question: sq_with_radio_choice
-  response: answered_response_1
+  response: answered_response_2
   response_data: <%= ().to_json  %>
 ia_answered_radio_1:
+  <<: *defaults
   respondent: respondent_1
   survey: answered_survey
   survey_question: sq_with_radio_choice
+  response: answered_response_1
+ia_answered_ranking_1:
+  <<: *defaults
+  respondent: respondent_1
+  survey_public_link: answered_survey_public_link
+  survey_question: sq_ranking
+  response: answered_response_1
+ia_answered_ranking_2:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  survey_question: sq_ranking
+  response: answered_response_2
+ia_answered_procon_2:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  survey_question: sq_pre_5_procon
   response: answered_response_2

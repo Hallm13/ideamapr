@@ -81,7 +81,8 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       end
 
       # idea_1 was pushed to the bottom of the assignment.
-      assert_equal ideas(:idea_1).id, IdeaAssignment.order(ordering: :desc).first.idea_id
+      assert_equal ideas(:idea_1).id, IdeaAssignment.where(groupable_id: sq.id, groupable_type: 'SurveyQuestion').
+                                      order(ordering: :desc).first.idea_id
     end
   end
 

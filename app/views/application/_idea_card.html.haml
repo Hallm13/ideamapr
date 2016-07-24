@@ -1,16 +1,19 @@
 .row.idea-card-row
-  .idea-title.col-xs-12
-    <%- title %>
-  .idea-description.col-xs-12
-    %span.summary.wrapper
-      %span
-        <%- desc_summary %>
-      %span.moreless-text{'data-switch-to' => 'full'}
-        = precede '...' do
-          More  
-    %span.full.wrapper
-      %span
-        <%- description %>
-      %span.moreless-text{'data-switch-to' => 'summary'}
-        = precede '...' do
-          Less
+  .col-xs-12
+    .idea-image
+      %image{src: '<%- image_url %>'.html_safe}
+    .idea-title
+      <%- title %>
+    .idea-description
+      %span.summary.wrapper
+        %span
+          <%- desc_summary %>
+        %span.moreless-text{'data-switch-to' => 'full'}
+          = precede '...' do
+            More  
+      %span.full.wrapper
+        %span
+          <%- description %>
+        %span.moreless-text{'data-switch-to' => 'summary'}
+          = precede '...' do
+            Less

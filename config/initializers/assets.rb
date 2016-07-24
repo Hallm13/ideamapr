@@ -3,5 +3,6 @@ IdeaMapr::Application.configure do
   config.assets.precompile << %w( survey_index_app.js )
   config.assets.precompile << %w( application_public.css )
   config.assets.precompile << %w( application_public.js )
+  config.assets.precompile << %w( file_upload_manipulation.js )
 end
 

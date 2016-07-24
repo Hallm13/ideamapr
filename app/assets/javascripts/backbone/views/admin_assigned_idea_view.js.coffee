@@ -37,6 +37,8 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     html = _.template($(template_id).html())(@model.attributes)
     @$el.html html
 
+    @add_image_margin()
+      
     # Add content editable controls to non idea types
     if @question_type == '5' or @question_type == '6'
       @$el.attr('contentEditable', 'true')

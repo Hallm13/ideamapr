@@ -18,24 +18,22 @@ class PublicInfoController < ApplicationController
           elsif sq.question_type == SurveyQuestion::QuestionType::NEW_IDEA
             {type: 'new_idea', data: ({id: -1, title: 'dummy'})}
           else
-            field_list = ['ideas.id', :title, :description, :ordering]
-            if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
-              field_list += [:budget]
-            end
-            data_array = Idea.joins(:idea_assignments).includes(:idea_assignments).
+            data_array = IdeaAssignment.joins(:idea).includes(:idea).
                          where(idea_assignments: {groupable_id: sq.id, groupable_type: 'SurveyQuestion'}).
-                         order('idea_assignments.ordering ASC').pluck(*field_list)
+                         order('idea_assignments.ordering ASC').all
 
             # construct the idea attributes here. Might contain cart amount for budget questions etc.
-            {type: 'idea', data: data_array.map do |val_set|
-               [:id, :title, :description, :component_rank, :cart_amount].zip(val_set).inject({}) do |memo, pair|
-                 if pair[1].present?
-                   memo[pair[0]] = pair[1]
-                 end
-                 memo
+            {type: 'idea', data: data = data_array.map do |idea_assignment|
+               idea = idea_assignment.idea
+               
+               memo = {id: idea.id, title: idea.title, description: idea.description,
+                       component_rank: idea_assignment.ordering}
+               if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
+                 memo.merge!({cart_amount: idea.budget})
                end
+               memo[:attachments] = idea.download_files_hash
+               memo
              end}
-
           end
         )
         
