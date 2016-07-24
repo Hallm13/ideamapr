@@ -60,12 +60,32 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     total_screens = @model.get('number_of_screens')
     hidden_row = @$('#other-sections')
     range = (i for i in [0..total_screens-1])
+    view_self = @
     for idx in range
       unless idx == curr_qn
         t = $(_.template($('#public-navbar-dropdown-element').html())(idx: idx))
-        t.text((idx + 1) + " of " + total_screens)
-        hidden_row.append t
+        t.text view_self.dropdown_text(idx)
+        if view_self.model.answered[idx]
+          t.addClass 'answered'
         
+        hidden_row.append t
+
+  dropdown_text: (idx) ->
+    switch idx
+      when 0
+        'Introduction'
+      when @collection.length + 1
+        'Summary'
+      else
+        @summarized(@collection.models[idx - 1].get('title'))
+
+  summarized: (str) ->
+    words = str.split(/\s+/)
+    if words.length < 4
+      str
+    else
+      words.slice(0, 4).join(' ') + ' ...'
+    
   render: ->
     data =
       # this is what is displayed.

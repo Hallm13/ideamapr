@@ -119,6 +119,9 @@
 	&:hover {
 	  background-color: $background-gray;
 	}
+	&.answered {
+	  color: $text-light-gray;
+	}
       }
     }
     

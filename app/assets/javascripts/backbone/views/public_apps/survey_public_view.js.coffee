@@ -31,11 +31,20 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     if @semaphore_value == 2
       # Now we have both the sq collection and the survey has its list of idea lists...
       view_self = @
+
+      @model.answered = new Array()
+
+      # For now, the intro screen cannot be "answered"
+      @model.answered[0] = false
       @collection.each (sq_model, idx) ->
         # ..., each question needs to listen to data changes in its idea list.
+        # Each question is unanswered to start with
+        view_self.model.answered.push false
         sq_model.survey_token = view_self.model.get('public_link')
         sq_model.assign_idea_list view_self.model.idea_lists[idx]
-            
+
+      # For now, the summary screen cannot be "answered"
+      @model.answered.push false
       @trigger('semaphore_set')
 
   screen_remove: (tgt) ->
