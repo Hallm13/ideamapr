@@ -84,6 +84,19 @@
     cursor: pointer;
   }
 }
+/* Idea (toppri) Radio */
+.fake-radio-box-wrapper {
+  flex: 1;
+  max-width: 50px;
+  .radio {
+    top: 50%;
+
+    border-radius: 50%;
+    border: solid 2px gray;
+    height: 20px;
+    width: 20px;
+  }
+}
 
 /* Non-idea Radio template */
 
@@ -91,7 +104,7 @@
   height: 10px;
   width: 10px;
   display: inline-block;
-  border: solid 2px gray;
+  border: solid 2px $background-gray;
   border-radius: 50%;
   margin: 2px 5px 0 0; 
 }

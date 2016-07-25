@@ -10,7 +10,6 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
 
     # for participant
     answered: false
-    response_enter_count: 0
     checked: false
   
   initialize: ->
@@ -36,8 +35,6 @@ IdeaMapr.Models.DetailComponent = IdeaMapr.Models.PublicViewModel.extend
       @is_edited = false
       @set 'ready_for_render', @get('ready_for_render') + 1
     
-  set_checked: ->
-    @set_response_data('checked', true)
   set_text_entry: (txt) ->
     @set_response_data('text_entry', txt)
     

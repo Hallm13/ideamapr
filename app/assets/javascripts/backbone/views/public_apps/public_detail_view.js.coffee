@@ -6,24 +6,16 @@ IdeaMapr.Views.PublicDetailView = Backbone.View.extend
     _.bindAll(@, 'render')
     @
     
-  run_radio_checks: ->
-    @model.set_checked()
-    @model.set('response_enter_count', @model.get('response_enter_count') + 1)
-        
   events:
-    'mouseenter .component-row': (evt) ->
-      @
-    'mouseleave .component-row': (evt) ->
-      @
     'change input[type=radio]': (evt) ->
-      @run_radio_checks()
-      
+      # Tell the question to figure out which model to set the radio button for.
+      @question.change_checked @model.get('id')
+        
     'keyup .text-entry-box input[type=text]': (evt) ->
       @model.set_text_entry $(evt.target).val().trim()
       
     'click .radio-choice-text': (evt) ->
-      $(evt.target).parent().find('input[type=radio]').prop('checked', true)
-      @run_radio_checks()
+      $(evt.target).parent().find('input[type=radio]').click()
 
   unselect: () ->
     @$el.find('input[type=radio]').prop('checked', false)
@@ -32,5 +24,6 @@ IdeaMapr.Views.PublicDetailView = Backbone.View.extend
   render: ->
     t = _.template($('#type-' + @question.get('question_type') + '-public-template').html())
     
-    @$el.html(t(@model.attributes))
+    # Add question id to show in disambiguating radio buttons
+    @$el.html t(_.extend({}, @model.attributes, {survey_question_id: @question.get('id')}))
     @

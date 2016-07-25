@@ -8,6 +8,14 @@ IdeaMapr.Models.SurveyQuestion = Backbone.Model.extend
     
   urlRoot: '/survey_question'
 
+  change_checked: (id) ->
+    # set everything except model with ID id, to false.
+    @idea_list.models.forEach (elt, idx) ->
+      if elt.get('id') == id
+        elt.set_response_data 'checked', true
+      else
+        elt.set_response_data 'checked', false
+        
   set_field_details: ->
     unless @field_details
       @field_details = new IdeaMapr.Collections.DetailsCollection()

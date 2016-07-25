@@ -14,7 +14,7 @@ sq_edit_functions = ->
   show_field_or_ideas = (qn_type) ->
     # qn_type is reqd to be an integer.
     
-    if qn_type == 1 || qn_type == 3 || qn_type == 0
+    if qn_type == 1 || qn_type == 3 || qn_type == 0 || qn_type == 4
       window.idea_lists_view.render()
       $('[data-box-key=sq-add-ideas]').closest('.builder-box').show()
       $('[data-box-key=sq-add-fields]').closest('.builder-box').hide()
@@ -33,7 +33,7 @@ sq_edit_functions = ->
     show_field_or_ideas switch_to
     if switch_to == 5 || switch_to == 6
       $('#search-box').hide()
-    if switch_to == 0 || switch_to == 1 || switch_to == 3
+    if switch_to == 0 || switch_to == 1 || switch_to == 3 || switch_to == 4
       # When choosing Budgeting type for questions show add'l controls
       $('#search-box').show()
       if switch_to == 3
@@ -96,7 +96,7 @@ sq_edit_functions = ->
         
       window.field_details_view.populate_data()
 
-    if new_survey_qn || question_type == 1 || question_type == 3 || question_type == 0
+    if new_survey_qn || question_type == 1 || question_type == 3 || question_type == 0 || question_type == 4
       window.sq_model.set_idea_list()
       window.idea_lists_view = new IdeaMapr.Views.AdminIdeaCollectionsView
         model: window.sq_model

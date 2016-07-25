@@ -49,5 +49,5 @@ IdeaMapr.Views.SurveyQuestionIdeaEditView = Backbone.View.extend
     container.closest(inside_selector).find('.controls-box').hide()
     
   add_image_margin: ->
-    unless @model.get('image_url') == null
+    unless @model.get('image_url') == null or @model.get('image_url') == '' 
       @$el.find('.idea-image').css('margin', '0 10px 10px 0')

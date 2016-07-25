@@ -33,10 +33,12 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @delegateEvents()
      
   render: ->
-    template_id = '#type-' + @question_type + '-public-template'
-    html = _.template($(template_id).html())(@model.attributes)
-    @$el.html html
+    if $('#type-' + @question_type + '-admin-template').length > 0
+      t = _.template($('#type-' + @question_type + '-admin-template').html())
+    else
+      t = _.template($('#type-' + @question_type + '-public-template').html())
 
+    @$el.html t(@model.attributes)
     @add_image_margin()
       
     # Add content editable controls to non idea types
@@ -51,5 +53,6 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @$el.find('.idea-row').prepend div_array[0]
     @$el.find('.idea-row').append div_array[1]
 
+    @add_image_margin()
     @run_summary_logic()
     @

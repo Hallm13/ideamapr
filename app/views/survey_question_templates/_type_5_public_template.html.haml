@@ -1,6 +1,6 @@
 %script#type-5-public-template{type: 'text/template'}
   .row.component-row
     .col-xs-12.component-field.clickable
-      %input{type: 'radio'}
+      %input{type: 'radio', name: 'radio_<%- survey_question_id %>'.html_safe}
       %span.radio-choice-text
         <%- text %>

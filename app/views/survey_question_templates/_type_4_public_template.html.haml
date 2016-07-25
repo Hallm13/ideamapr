@@ -1,0 +1,5 @@
+%script#type-4-public-template{type: 'text/template'}
+  .row.toppri.idea-row.component-row
+    .idea.col-xs-12
+      %input{type: 'radio', name: 'radio_<%- survey_question_id %>'.html_safe}
+      = render partial: 'idea_card'

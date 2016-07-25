@@ -27,6 +27,14 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     @delegateEvents()
     
   my_events:
+    # toppri
+    'change input[type=radio]': (evt) ->
+      @question.change_checked @model.get('id')
+      
+    'click .idea-card-row': (evt) ->
+      $(evt.target).closest('.idea-card-row').parent().find('input[type=radio]').click()
+
+    # ranking
     'click .up': (evt) ->
       # Cannot move top idea up
       unless @model.get('component_rank') == 0
@@ -70,7 +78,9 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     unless @model.get('id') == -1
       # id == -1, when the model is a dummy, in the Suggest Idea question type
       template_id = '#type-' + @question.get('question_type') + '-public-template'
-      html = _.template($(template_id).html())(@model.attributes)
+
+      # Add question id to show in disambiguating radio buttons
+      html = _.template($(template_id).html())(_.extend({}, @model.attributes, {survey_question_id: @question.get('id')}))
       @$el.html html
       @add_image_margin()
       

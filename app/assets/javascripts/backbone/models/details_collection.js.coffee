@@ -15,12 +15,6 @@ IdeaMapr.Collections.DetailsCollection = IdeaMapr.Collections.AdminSortableColle
     IdeaMapr.Collections.AdminSortableCollection.prototype.initialize.call @
 
     coll_self = @
-    @listenTo @, 'change:response_enter_count', (model) ->
-      if model.attributes['response_data'].hasOwnProperty('checked') &&\
-         model.attributes['response_data']['checked'] == true
-        # This only happens if the detail model is a radio button
-        coll_self.unselect_others(model)
-    
     @listenTo @, 'change:answered', (model) ->
       coll_self.answered = model.get('answered')
       coll_self.trigger 'answered', coll_self

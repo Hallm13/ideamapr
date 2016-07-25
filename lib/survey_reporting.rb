@@ -7,17 +7,24 @@ module SurveyReporting
       ret = survey_hash
 
       ret[:answer_stats] = []
-      survey_questions.all.each do |qn|
-
+      survey_questions.includes(:ideas).all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
         qn_stats_hash = {question_id: qn.id}
         
         case qn.question_type            
+        when SurveyQuestion::QuestionType::PROCON
+          qn_stats_hash.merge! SurveyReporting.procon_stats(ia_list)
         when SurveyQuestion::QuestionType::RANKING
           idea_order = qn.ideas.order('idea_assignments.ordering asc').pluck :id
           qn_stats_hash.merge! SurveyReporting.ranking_stats(ia_list, idea_order)
-        when SurveyQuestion::QuestionType::PROCON
-          qn_stats_hash.merge! SurveyReporting.procon_stats(ia_list)
+        when SurveyQuestion::QuestionType::NEW_IDEA
+          qn_stats_hash.merge! SurveyReporting.newidea_stats(ia_list)
+        when SurveyQuestion::QuestionType::BUDGETING
+          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list)
+        when SurveyQuestion::QuestionType::TOPPRI
+          qn_stats_hash.merge! SurveyReporting.toppri_stats(ia_list)
+        when SurveyQuestion::QuestionType::RADIO_CHOICES
+          qn_stats_hash.merge! SurveyReporting.radio_stats(ia_list)
         end
 
         ret[:answer_stats] << qn_stats_hash
@@ -92,5 +99,26 @@ module SurveyReporting
     {procon_diffs: totals.keys.sort_by { |k| totals[k]['con'] - totals[k]['pro']}.map do |idea_id|
       {idea_id: idea_id, pro_count: totals[idea_id]['pro'], con_count: totals[idea_id]['con']}
     end}
+  end
+  
+  def self.newidea_stats(ia_list)
+    # number of submitted ideas total (and average submissions per person?)
+    {}
+  end
+
+  def self.budgeting_stats(ia_list)
+    # Avg. spending on idea over all answers; and also just show the unit cost informationally
+    # Sorted desc.
+    {}
+  end
+
+  def self.toppri_stats(ia_list)
+    # # times idea was selected as top
+    {}
+  end
+  
+  def self.radio_stats(ia_list)
+    # Show total counts for each selection, sorted desc.
+    {}
   end
 end
