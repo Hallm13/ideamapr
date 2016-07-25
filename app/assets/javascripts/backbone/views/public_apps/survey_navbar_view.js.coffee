@@ -85,13 +85,21 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       str
     else
       words.slice(0, 4).join(' ') + ' ...'
-    
+
+  survey_current_title: ->
+    curr_screen = @model.get('current_screen')
+    switch curr_screen
+      when 0
+        total_qns = @model.get('number_of_screens') - 2
+        total_qns + ' questions'
+      else
+        @dropdown_text(curr_screen)
+      
   render: ->
     data =
       # this is what is displayed.
       current_question_index: @model.get('current_screen')
-      shown_qn_index: @model.get('current_screen') + 1
-      total_screens: @model.get('number_of_screens')
+      summarized_qn_title: @survey_current_title()
       
     @$el.html(_.template($('#survey-nb-template').html())(data))
     @run_decorations()
