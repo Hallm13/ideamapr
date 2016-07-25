@@ -22,19 +22,6 @@
   margin-bottom: 5px;
 }
 
-.square-button {
-  padding: 5px;
-  border-radius: 5px;
-  &.green {
-    background-color: $theme-green;
-  }
-  &.red {
-    background-color: $theme-red;
-  }
-  color: white;
-  cursor: pointer;
-}
-
 .component-box {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -70,6 +57,7 @@
   height: 37px;
 
   min-width: 32px;
+  cursor: pointer;
   &.admin-up {
     background-image: image-url('icons/admin_up_chevron.png');
     padding: 11px 10px 0 10px;
@@ -84,13 +72,19 @@
     cursor: pointer;
   }
 }
+
+/* Override the cursor in the admin view */
+.user-controls-box {
+  .ranking-sign {
+    cursor: initial;
+  }
+}
+
 /* Idea (toppri) Radio */
 .fake-radio-box-wrapper {
   flex: 1;
   max-width: 50px;
   .radio {
-    top: 50%;
-
     border-radius: 50%;
     border: solid 2px gray;
     height: 20px;
@@ -125,10 +119,18 @@
   min-height: 250px;
 }
 
+#unassigned-ideas,#unassigned-questions {
+  .component-box {
+    .component-row:hover {
+      .add-box {
+	display: block;
+      }
+    }
+  }
+}
+
 .showing-controls {
   .component-row {
-    background-color: $background-gray;
-    
     .controls-box {
       display: block;
     }
@@ -171,3 +173,34 @@
     display: none;
   }
 }
+
+#unassigned-ideas,#unassigned-questions {
+  .search-component-wrapper {
+    display: flex;
+    position: relative;
+    .add-box {
+      display: none;
+      cursor: pointer;
+      flex: 1;
+      width: 50px;
+      position: absolute;
+      top: calc(50% - 20px);
+      left: -30px;
+      font-size: 2.5em;
+      color: white;
+      background: $theme-green;
+      padding-bottom: 5px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .idea-card-row {
+      margin-left: 5px;
+    }
+  }
+}
+.component-box {
+  .component-row:hover {
+    background-color: $background-gray;
+  }
+}
+

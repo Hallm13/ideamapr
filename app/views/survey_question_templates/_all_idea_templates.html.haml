@@ -8,13 +8,14 @@
 = render partial: 'survey_question_templates/type_3_public_template'
 // 4 = toppri
 = render partial: 'survey_question_templates/type_4_public_template'
+= render partial: 'survey_question_templates/type_4_admin_template'
 
 %script#idea-search-template{type: 'text/template'}
-  .title-box
-    <%- title %>
-  %span.square-button.green
-    +
-    
+  .idea-row.component-row
+    .col-xs-12.search-component-wrapper
+      .add-box
+        +
+      = render partial: 'idea_card'
 %script#admin-search-idea-list{type: 'text/template'}
   .row
     .col-xs-12
