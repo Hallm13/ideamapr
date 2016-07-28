@@ -38,3 +38,11 @@ qa_ans_ranking:
   survey: answered_survey
   survey_question: sq_ranking
   ordering: 2
+qa_ans_toppri:
+  survey: answered_survey
+  survey_question: sq_toppri
+  ordering: 3
+qa_ans_budget:
+  survey: answered_survey
+  survey_question: sq_budget_type
+  ordering: 4

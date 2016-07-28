@@ -22,6 +22,9 @@ IdeaMapr::Application.routes.draw do
       post '/update', action: 'update'
       get '/public_show/:public_link', action: 'public_show', as: 'public_show'
     end
+    member do
+      get '/report', action: 'report'
+    end
   end
   
   post '/ajax_api' => 'ajax#multiplex'

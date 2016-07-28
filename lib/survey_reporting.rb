@@ -7,20 +7,23 @@ module SurveyReporting
       ret = survey_hash
 
       ret[:answer_stats] = []
+
       survey_questions.includes(:ideas).all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
-        qn_stats_hash = {question_id: qn.id}
+        qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
+                         question_type: qn.question_type,
+                         participation_rate: ia_list.size.to_f / responses.count, answer_rate: ia_list.count}
         
         case qn.question_type            
         when SurveyQuestion::QuestionType::PROCON
           qn_stats_hash.merge! SurveyReporting.procon_stats(ia_list)
         when SurveyQuestion::QuestionType::RANKING
-          idea_order = qn.ideas.order('idea_assignments.ordering asc').pluck :id
+          idea_order = qn.ideas.order('idea_assignments.ordering asc').pluck :id, :title
           qn_stats_hash.merge! SurveyReporting.ranking_stats(ia_list, idea_order)
         when SurveyQuestion::QuestionType::NEW_IDEA
           qn_stats_hash.merge! SurveyReporting.newidea_stats(ia_list)
         when SurveyQuestion::QuestionType::BUDGETING
-          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list)
+          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, qn.idea_assignments.order(ordering: :desc))
         when SurveyQuestion::QuestionType::TOPPRI
           qn_stats_hash.merge! SurveyReporting.toppri_stats(ia_list)
         when SurveyQuestion::QuestionType::RADIO_CHOICES
@@ -52,8 +55,6 @@ module SurveyReporting
     ct = ia_list.count.to_f
 
     ia_list.each do |ia|
-      puts ia.response_data
-      puts ia.id
       response = ia.response_data
       response.each_with_index do |packet, rank|
         # component_rank is passed in, but is not necessary
@@ -66,8 +67,8 @@ module SurveyReporting
     end
 
     # Return stats in order ideas were assigned.
-    idea_order.each do |id|
-      ordered_totals << rank_totals[id]
+    idea_order.each do |id_title|
+      ordered_totals << {title: id_title[1], avg: rank_totals[id_title[0]]}
     end
     
     {ranking_averages: ordered_totals}
@@ -77,48 +78,99 @@ module SurveyReporting
     # ia_list : AR relation
     totals = {}
     ia_list.each do |ia|
-      if ia.response_data.nil?
-        binding.pry
-      end
-      
       ia.response_data.each do |idea_packet|
         pro_ct = idea_packet['type-0-data']['feedback']['pro'].size
         con_ct = idea_packet['type-0-data']['feedback']['con'].size
 
-        idea_id = idea_packet['idea_id']
-        totals[idea_id] ||= {}
-        totals[idea_id]['pro'] ||= 0
-        totals[idea_id]['con'] ||= 0
-
+        idea = Idea.find_by_id idea_packet['idea_id']
+        totals[idea.id] ||= {}
+        totals[idea.id][:title] ||= idea.title
         
-        totals[idea_id]['pro'] += pro_ct
-        totals[idea_id]['con'] += con_ct
+        totals[idea.id][:pro] ||= 0
+        totals[idea.id][:con] ||= 0
+
+        totals[idea.id][:pro] += pro_ct
+        totals[idea.id][:con] += con_ct
       end
     end
     
-    {procon_diffs: totals.keys.sort_by { |k| totals[k]['con'] - totals[k]['pro']}.map do |idea_id|
-      {idea_id: idea_id, pro_count: totals[idea_id]['pro'], con_count: totals[idea_id]['con']}
-    end}
+    {procon_diffs: totals.keys.sort_by { |k| totals[k][:con] - totals[k][:pro]}.map do |idea_id|
+      {idea_id: idea_id, pro_count: totals[idea_id][:pro], con_count: totals[idea_id][:con], title: totals[idea_id][:title]}
+    end.sort_by { |rec| rec[:con_count] - rec[:pro_count] } }
   end
   
   def self.newidea_stats(ia_list)
     # number of submitted ideas total (and average submissions per person?)
-    {}
+    # \"data\":[{\"answered\":false,\"checked\":false,\"idea_id\":-1,\"title\":\"dummy\"},{\"answered\":false,\"checked\":false,\"title\":\"i dont know\",\"description\":\"123\"},{\"answered\":false,\"checked\":false,\"title\":\"you tell me \",\"description\":\"abc\"}]}"}
+    total_ideas = ia_list.inject(0) do |sum, ia|
+      sum += ia.response_data.size - 1 # One of the suggested ideas is a dummy model
+      sum
+    end
+    average = total_ideas.to_f/ia_list.size
+    
+    {total_new_ideas: total_ideas, average_number_of_submissions: average}
   end
 
-  def self.budgeting_stats(ia_list)
+  def self.budgeting_stats(ia_list, assignments)
     # Avg. spending on idea over all answers; and also just show the unit cost informationally
     # Sorted desc.
-    {}
+    # {\"data\":[{\"answered\":true,\"checked\":false,\"cart_count\":1,\"idea_id\":2},{\"answered\":false,\"checked\":false,\"idea_id\":3},{\"answered\":true,\"checked\":false,\"cart_count\":0,\"idea_id\":1},{\"answered\":true,\"checked\":false,\"cart_count\":1,\"idea_id\":4}]}
+    total_spends = {}
+    ia_list.each do |ia|
+      ia.response_data.zip(assignments.to_a).map do |answer_assg|
+        total_spends[answer_assg[1]['idea_id']] ||= 0
+        if (x = answer_assg[0]['cart_count']) != 0
+          # Trying to avoid multiplication here... is it helpful, or a silly optimization?
+          total_spends[answer_assg[1]['idea_id']] += answer_assg[1].budget
+        end
+      end
+    end
+    
+    idea_list = []
+    {sorted_idea_avg_budget: total_spends.map do |k, v|
+      [k, v, assignments.where(idea_id: k).first.budget]
+     end.sort_by { |pair| -1 * pair[1].to_f / ia_list.length }
+    }
   end
 
   def self.toppri_stats(ia_list)
     # # times idea was selected as top
-    {}
+    # {\"data\":[{\"answered\":false,\"checked\":false,\"idea_id\":3,\"component_rank\":0},{\"answered\":false,\"checked\":false,\"idea_id\":1,\"component_rank\":1}]}
+    top_cts = {}
+    ia_list.each do |ia|
+      ia.response_data.each do |idea_rec|
+        id = idea_rec['idea_id']
+        if idea_rec['checked']
+          top_cts[id] ||= 0
+          top_cts[id] += 1
+        end
+      end
+    end
+
+    idea_list = []
+    {sorted_idea_top_counts: top_cts.map do |k, v|
+       [k, v]
+     end.sort_by { |pair| -1 * pair[1] }
+    }
   end
   
   def self.radio_stats(ia_list)
     # Show total counts for each selection, sorted desc.
-    {}
+    # {\"data\":[{\"answered\":true,\"checked\":false,\"text\":\"Hot\"},{\"answered\":true,\"checked\":false,\"text\":\"Warm\"},{\"answered\":true,\"checked\":true,\"text\":\"Lukewarm\"},{\"answered\":true,\"checked\":false,\"text\":\"Cold\"}]}
+
+    radio_cts = {}
+    ia_list.each do |ia|
+      ia.response_data.each do |detail|
+        text = detail['text']
+        if detail['checked']
+          radio_cts[text] ||= 0
+          radio_cts[text] += 1
+        end
+      end
+    end
+
+    {sorted_radio_counts: radio_cts.map do |text, v|
+       [text, v]
+     end.sort_by { |pair| -1 * pair[1] }}
   end
 end

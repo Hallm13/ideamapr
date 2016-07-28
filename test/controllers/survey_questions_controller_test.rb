@@ -69,9 +69,9 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
     it 'can add budget for budget idea type' do
       sq = survey_questions(:sq_budget_type)
 
-      # idea_1 is already assigned without a budget; idea_2 will now be added
+      # idea_1, 2, 3 are already assigned, 1 without a budget; idea_2 will survive
       model = "\\'SurveyQuestion\\'"
-      assert_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count", 1) do
+      assert_difference("IdeaAssignment.where('groupable_id = #{sq.id} and groupable_type=#{model}').count", -1) do
         put :update, {id: sq.id, survey_question: {title: 'a new title now for budget qn',
                                                    question_type: SurveyQuestion::QuestionType::BUDGETING},
                       question_details: ({details: [{'id' => ideas(:idea_1).id, 'budget' => '42.42', 'component_rank' => 1},

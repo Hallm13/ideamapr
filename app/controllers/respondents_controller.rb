@@ -4,7 +4,7 @@ class RespondentsController < ApplicationController
     status = false
     if request.xhr? and params[:auth_token]
       if Admin.find_by_auth_token params[:auth_token]
-        Respondent.all.map &:destroy
+        Respondent.all.map &:mangle_cookie
         status = true
       end
     end

@@ -29,7 +29,7 @@ class PublicInfoController < ApplicationController
                memo = {id: idea.id, title: idea.title, description: idea.description,
                        component_rank: idea_assignment.ordering}
                if sq.question_type == SurveyQuestion::QuestionType::BUDGETING
-                 memo.merge!({cart_amount: idea.budget})
+                 memo.merge!({cart_amount: idea_assignment.budget})
                end
                memo[:attachments] = idea.download_files_hash
                memo

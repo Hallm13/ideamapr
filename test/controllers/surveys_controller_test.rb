@@ -6,7 +6,19 @@ class SurveysControllerTest < ActionController::TestCase
   def setup
     sign_in admins(:admin_1)
   end
-  
+
+  describe '#report' do
+    it 'works' do
+      get :report, id: surveys(:answered_survey).id
+      assert_template :report
+    end
+
+    it 'handles errors' do
+      get :report, id: -1
+      assert_redirected_to surveys_path
+    end
+  end
+
   describe '#index' do
     it 'works for admins' do
       get :index
@@ -25,10 +37,10 @@ class SurveysControllerTest < ActionController::TestCase
     it 'generates reports' do
       xhr :get, :index
       b = JSON.parse response.body
-      answered_survey = b.select { |r| r['id'] == surveys(:answered_survey).id }
+      answered_survey = b.select { |r| r['id'] == surveys(:answered_survey).id }.first
 
-      assert answered_survey.first.keys.include?('individual_answer_count')
-      assert_match /\d+/, answered_survey.first['individual_answer_count'].to_s
+      assert answered_survey['report'].keys.include?('individual_answer_count')
+      assert_match /\d+/, answered_survey['report']['individual_answer_count'].to_s
     end
   end
   

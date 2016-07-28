@@ -38,3 +38,21 @@ ia_answered_procon_2:
   survey_public_link: answered_survey_public_link
   survey_question: sq_pre_5_procon
   response: answered_response_2
+ia_answered_toppri:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_toppri
+ia_answered_budget:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_budget_type
+ia_answered_radio:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_with_radio_choice

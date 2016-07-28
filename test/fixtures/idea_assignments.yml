@@ -32,11 +32,6 @@ ia_1_s_1:
   idea: idea_1
   groupable_type: Survey
   groupable: survey_1
-ia_1_sq_budget_idea_1:
-  <<: *defaults
-  idea: idea_1
-  groupable: sq_budget_type
-  ordering: 1
 ia_1_sq_ranking_idea_1:
   <<: *defaults
   idea: idea_1
@@ -52,3 +47,19 @@ ia_1_sq_ranking_idea_3:
   idea: idea_3
   groupable: sq_ranking
   ordering: 1
+ia_1_sq_budget_idea_1:
+  <<: *defaults
+  idea: idea_1
+  groupable: sq_budget_type
+  ordering: 1
+ia_1_sq_budget_idea_2:
+  <<: *defaults
+  budget: 42.42
+  idea: idea_2
+  groupable: sq_budget_type
+  ordering: 0
+ia_1_sq_budget_idea_3:
+  <<: *defaults
+  idea: idea_3
+  groupable: sq_budget_type
+  ordering: 2

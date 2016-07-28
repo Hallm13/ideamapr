@@ -47,7 +47,25 @@ class SurveyTest < ActiveSupport::TestCase
                        {'idea_id' => ideas(:idea_3).id, 'type-0-data' => {feedback: {pro: [1], con: [2,2,2,2,2]}}}
                       ]
     i.save
+
+    i = individual_answers(:ia_answered_toppri)
+    i.response_data = [{'idea_id' => ideas(:idea_2).id, 'component_rank' => 0, 'checked' => false},
+                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 1, 'checked' => true}
+                      ]
+    i.save
+
+    i = individual_answers(:ia_answered_budget)
+    i.response_data = [{'idea_id' => ideas(:idea_2).id, 'component_rank' => 0, cart_count: 1},
+                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 1, cart_count: 0}
+                      ]
+    i.save
     
-    puts s.report_hash
+    i = individual_answers(:ia_answered_radio)
+    i.response_data = [{'text' => 'hot',  'idea_id' => ideas(:idea_2).id, 'checked' => true}, 
+                       {'text' => 'cold', 'idea_id' => ideas(:idea_3).id, 'checked' => false}
+                      ]
+    i.save
+    
+    refute_nil s.report_hash
   end
 end

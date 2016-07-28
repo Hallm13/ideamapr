@@ -38,3 +38,18 @@
     color: $text-gray;
   }
 }
+
+.report-para {
+  text-align: center;
+  margin-bottom: 20px;
+
+  .number {
+    color: $theme-green;
+  }
+}
+
+.report-question {
+  border-bottom: solid 2px $background-gray;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}

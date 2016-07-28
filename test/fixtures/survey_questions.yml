@@ -36,4 +36,8 @@ sq_ranking:
   title: ranking - title
   question_prompt: ranking - prompt prompt
   question_type: <%= SurveyQuestion::QuestionType::RANKING %>
+sq_toppri:
+  title: toppri title
+  question_prompt: toppri - pick one - prompt
+  question_type: <%= SurveyQuestion::QuestionType::TOPPRI %>
   

@@ -147,7 +147,7 @@
 .attachment-div {
   position: relative;
   overflow: hidden;
-  width: 138px;
+  width: 50%;
   margin: 0 auto;
   min-height: 60px;
   
@@ -159,11 +159,23 @@
     position: absolute;
     background: white;
     top: 0;
-    left: 0;
+    left: 17%;
     cursor: pointer;
     color: $fake-link-blue;
+
+    .fake-link-text {
+      @include bold-text();
+      padding: 5px 10px;
+      @include solid-gray-border();
+      &:hover {
+	color: white;
+	background-color: $fake-link-blue;
+      }
+    }
+    
     .current-attachment {
       color: black;
+      margin-top: 5px;
     }
   }
 }

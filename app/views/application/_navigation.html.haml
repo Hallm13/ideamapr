@@ -1,16 +1,16 @@
 .navtop
-  .float-right
+  .nav-right
     - if current_admin
       = link_to 'Sign Out', destroy_admin_session_path, :method => :delete
     - else
       = link_to 'Sign In', new_admin_session_path
-
-  .brand-header
-    = t(:site_brand)
+  - if current_admin
+    .brand-header
+      = t(:site_brand)
     
 - if current_admin
   .row.primary-level
-    .col-xs-6.col-xs-offset-3
+    .col-xs-4.col-xs-offset-4
       .secondary-item-border.col-xs-4{class: is_active(:ideas)}
         .secondary-item
           = link_to t(:ideas), ideas_url
@@ -23,7 +23,7 @@
 
   - if @level2_menu
     .row.secondary-level
-      .col-xs-4.col-xs-offset-4.strike-padding
+      .col-xs-2.col-xs-offset-5.strike-padding
         .secondary-item
           %span.active-text
             = "#{t(@navbar_active_section)} >"

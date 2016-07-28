@@ -8,5 +8,8 @@ class PublicInfoControllerTest < ActionController::TestCase
 
     # The radio choice question is the 2nd one assigned to published_survey
     assert_equal 'detail', b['list_of_lists'][1]['type']
+
+    # 1st idea in 3rd question has a budget amount in the fixtures
+    assert_equal 42.42, b['list_of_lists'][3]['data'][0]['cart_amount']
   end
 end

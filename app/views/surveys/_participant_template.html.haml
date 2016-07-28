@@ -1,8 +1,9 @@
 %script{id: script_id, type: 'text/template'}
   .screen
-    .col-xs-offset-2.col-xs-8
-      .screen-title
-        <%- title %>    
+    - unless script_id == 'survey-empty-screen-template'
+      .col-xs-offset-2.col-xs-8
+        .screen-title
+          <%- question_prompt %>    
     .col-xs-offset-2.col-xs-8
       .screen-body
         = yield :body_html

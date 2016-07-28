@@ -17,7 +17,7 @@ class SurveysController < ApplicationController
     if request.xhr?
       data = @surveys.map do |s|
         {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
-         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}.merge(s.report_hash)
+         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}.merge({report: s.report_hash})
       end
 
       render json: data
@@ -89,6 +89,15 @@ class SurveysController < ApplicationController
     survey_render_wrap(status: saved, xhr: request.xhr?)
   end
   alias :create :update
+
+  def report
+    if s = Survey.find_by_id(params[:id])
+      @report_list = s.report_hash
+      render :report
+    else
+      redirect_to surveys_path
+    end
+  end
   
   private
   def render_json_payload

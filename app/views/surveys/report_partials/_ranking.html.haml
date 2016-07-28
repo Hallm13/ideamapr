@@ -1,0 +1,12 @@
+.row.h1-font
+  .col-xs-1.bold-text
+    Ranking Averages
+  .col-xs-11.bold-text
+    Ideas
+
+- qn[:ranking_averages].each do |avg_data|
+  .row
+    .col-xs-1
+      = avg_data[:avg]
+    .col-xs-11
+      = avg_data[:title]

@@ -1,8 +1,6 @@
 class Idea < ActiveRecord::Base
   include IdeasHelper
   
-  # We feed this attribute in when sending data to the survey
-  attr_accessor :budget
   def self.viewbox_list
     unless Struct.const_defined? 'IdeaVbStruct'
       Struct.new('IdeaVbStruct', :partial_name, :title, :box_key, :shown, :expected_length, :help_text) do

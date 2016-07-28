@@ -66,9 +66,16 @@ class SurveyQuestion < ActiveRecord::Base
       [['Pro/Con', PROCON], ['Ranking', RANKING], ['Suggest Idea', NEW_IDEA], ['Budgeting', BUDGETING], ['Top Priority', TOPPRI],
        ['Non-idea: Radio', RADIO_CHOICES], ['Non-idea: Fields', TEXT_FIELDS]]
     end
+    def self.filename_array
+      [['procon', PROCON], ['ranking', RANKING], ['newidea', NEW_IDEA], ['budgeting', BUDGETING], ['toppri', TOPPRI],
+       ['radio', RADIO_CHOICES], ['fields', TEXT_FIELDS]]
+    end
 
     def self.name(id)
       option_array.select { |i| i[1] == id }.first&.first
+    end
+    def self.name_as_filename(id)
+      filename_array.select { |i| i[1] == id }.first&.first
     end
   end
   
@@ -77,6 +84,8 @@ class SurveyQuestion < ActiveRecord::Base
   
   has_many :ideas, through: :idea_assignments
   has_many :idea_assignments, as: :groupable, inverse_of: :groupable, dependent: :destroy
+
+  has_many :individual_answers
   has_one :question_detail
   
   validates :title, length: {minimum: 10}
@@ -86,9 +95,13 @@ class SurveyQuestion < ActiveRecord::Base
 
   def response_length
     # Number of idea assignments or details
-    idea_ct = idea_assignments.count
-    details_length = question_detail&.details_list&.size || 0
-    [idea_ct, details_length].max
+    if question_type == QuestionType::NEW_IDEA
+      -1
+    else
+      idea_ct = idea_assignments.count
+      details_length = question_detail&.details_list&.size || 0
+      [idea_ct, details_length].max
+    end
   end
 
   rails_admin do

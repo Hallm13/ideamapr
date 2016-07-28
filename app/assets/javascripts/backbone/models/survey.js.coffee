@@ -79,7 +79,7 @@ IdeaMapr.Models.Survey = Backbone.Model.extend
       
   post_response_to_server: ->
     index = @get('current_screen')
-    if index != 0 and index != @question_list.length + 1
+    if index != 0 and index != @question_list.length + 1 and @question_list.models[index - 1].get('answered')
       @answered[index] = true
       @question_list.models[index - 1].post_response_to_server()
     

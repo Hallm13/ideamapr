@@ -8,11 +8,10 @@
 }
 
 .brand-header {
-  @include bold-title();
+  @include h1-title();
   text-align: center;
   color: $primary-highlight;
-  width: 20%;
-  margin: 0 auto;
+  margin-left: 150px;
 }
 
 /* Idea radio (toppri) */
@@ -191,6 +190,12 @@
 
 .idea-row {
   .idea-card-row {
+    padding: $large-vertical-gutter calc(#{$large-vertical-gutter} - 5px);
+    /* col-xs-12 adds the remaining padding on the left/right */
+    
+    @include solid-gray-border();
+    margin-bottom: $large-vertical-gutter;
+    
     .idea-image {
       float: left;
       max-width: 200px;
@@ -198,8 +203,6 @@
       overflow: hidden;
     }
     
-    padding: 5px 0;
-
     .idea-description {
       .moreless-text {
 	color: $background-gray;
@@ -209,14 +212,14 @@
 
     .idea-title {
       margin-bottom: 5px;
-      @include bold-title();
+      @include h1-title();
     }
   }
   
   .cart-count-line {
     padding: 15px 0;
     color: $theme-green;
-    @include bold-title();
+    @include h1-title();
 
     .add-to-cart {
       display: inline-block;

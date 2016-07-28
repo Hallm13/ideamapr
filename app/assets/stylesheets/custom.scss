@@ -120,12 +120,17 @@ form {
   margin-bottom: 20px;
   padding: 20px 5%;
 }
-.float-right {
-  float: right;
+
+.nav-right {
+  @include float-right();
+  width: 150px;
+}
+
+.primary-level {
+  @include h2-title();
 }
 
 .primary-level,.secondary-level {
-  @include bold-text();
   color: $text-gray;
   .menu-selected {
     color: $theme-red;
@@ -221,4 +226,8 @@ form {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.h1-font {
+  font-size: 1.25em;
 }

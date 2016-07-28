@@ -1,0 +1,16 @@
+.row.h1-font
+  .col-xs-1.bold-text
+    Pro
+  .col-xs-1.bold-text
+    Con
+  .col-xs-10.bold-text
+    Ideas
+    
+- qn[:procon_diffs].each do |ct_data|
+  .row
+    .col-xs-1
+      = ct_data[:pro_count]
+    .col-xs-1
+      = ct_data[:con_count]
+    .col-xs-10
+      = ct_data[:title]

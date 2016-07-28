@@ -32,7 +32,7 @@ class IndividualAnswersController < ApplicationController
       @sqn = SurveyQuestion.find_by_id(params[:survey_question_id])
 
       # there has to be a valid survey question that has exactly as many ideas/fields as the number of responses provided
-      if @sqn&.response_length == response_hash['data'].length
+      if (length = @sqn&.response_length) and (length == -1 || length == response_hash['data'].length)
         response_fragment =
           IndividualAnswer.find_or_create_by survey_question_id: @sqn.id, survey_public_link: params[:survey_token],
                                              respondent_id: @respondent.id, response: @response

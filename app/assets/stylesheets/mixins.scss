@@ -12,13 +12,25 @@
   border-radius: $border_radius;
 }
 
-@mixin bold-title {
+@mixin h1-title {
   font-family: MontserratBold, sans-serif;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.75em;
+}
+@mixin h2-title {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.125em;
 }
 
 @mixin bold-text {
   font-family: 'MontserratBold', sans-serif;
   font-weight: bold;
-}  
+}
+
+@mixin regular-text {
+  font-family: 'Montserrat', sans-serif;
+}
+
+@mixin float-right {
+  float: right;
+}
