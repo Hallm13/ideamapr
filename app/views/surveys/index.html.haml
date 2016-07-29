@@ -8,7 +8,7 @@
     .col-xs-8
       Survey Name
     .col-xs-2
-      Link (if published)
+      Links
     .col-xs-2
       Status
 
@@ -19,8 +19,12 @@
       <%- title %>
   .col-xs-2
     .cell-1
-      %a{href: "/surveys/public_show/<%- public_link %>".html_safe, id: 'public-link'}
-        Link
+      = succeed ',' do
+        %a{href: "/surveys/public_show/<%- public_link %>".html_safe, id: 'public-link'}<
+          Shareable Link
+      %a{href: "/surveys/<%- id %>/report".html_safe, id: 'report-link'}
+        Report
+
   .col-xs-2.survey-dropdown-cell
     .cell-1#status-change-dropdown      
       <%- displayed_survey_status %>

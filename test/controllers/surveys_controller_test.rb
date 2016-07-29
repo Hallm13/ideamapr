@@ -88,6 +88,11 @@ class SurveysControllerTest < ActionController::TestCase
     it 'works with xhr' do
       xhr :get, :public_show, public_link: @public_svy.public_link
       assert_match /^{/, response.body
+
+      # No errors
+      xhr :get, :show, id: surveys(:survey_1)
+      xhr :post, :update, id: surveys(:survey_1), survey: ({title: 'hello 123 123 123', status: Survey::SurveyStatus::DRAFT})
+      xhr :post, :update, id: surveys(:survey_1), survey: ({title: 'hello 123 123 123', status: -1})
     end
   end
   

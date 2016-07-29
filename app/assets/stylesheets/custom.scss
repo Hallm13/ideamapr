@@ -193,6 +193,30 @@ form {
   color: $theme-red;
 }
 
+.cell-1 {
+  border: 1px solid $form-border-gray;
+  border-radius: 5px;
+  padding: 15px 5px;
+  min-height: 40px;
+
+  .fa {
+    float: left;
+    padding-right: 10px;
+
+    &.inactive-icon {
+      opacity: 0.0;
+      padding-right: 0px;
+      &:before {
+	display: none;
+      }
+    }
+    
+    &.active-select {
+      color: $selected-green;
+    }
+  }
+}
+
 .goto-edit .cell-1 {
   cursor: pointer;
   &:hover {

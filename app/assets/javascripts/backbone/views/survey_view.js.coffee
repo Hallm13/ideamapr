@@ -43,4 +43,9 @@ IdeaMapr.Views.SurveyView = Backbone.View.extend
     # Remove the public link if it's not published
     if @model.get('status') != 1
       @$el.find('#public-link').remove()
+
+    # Remove the report link if there are no answers
+    if !@model.get('has_answers')
+      @$el.find('#report-link').remove()
+      
     @

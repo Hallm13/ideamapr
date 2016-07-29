@@ -17,6 +17,7 @@ class SurveysController < ApplicationController
     if request.xhr?
       data = @surveys.map do |s|
         {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
+         has_answers: s.individual_answers.count > 0,
          survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}.merge({report: s.report_hash})
       end
 
@@ -57,8 +58,10 @@ class SurveysController < ApplicationController
     set_dropdown
 
     saved = true
-    if request.xhr? && Survey::SurveyStatus.valid?(params[:status])
-      @survey.update_attributes status: params[:status]
+    if request.xhr?
+      if Survey::SurveyStatus.valid?(params[:status])
+        @survey.update_attributes status: params[:status]
+      end
     else 
       if @survey.nil?
         # This implies we are in the create action
@@ -91,9 +94,9 @@ class SurveysController < ApplicationController
   alias :create :update
 
   def report
-    if s = Survey.find_by_id(params[:id])
-      @report_list = s.report_hash
-      render :report
+    if @survey = Survey.find_by_id(params[:id])
+      @report_list = @survey.report_hash
+      render :report, layout: 'survey_report'
     else
       redirect_to surveys_path
     end

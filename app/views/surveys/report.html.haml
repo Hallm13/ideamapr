@@ -1,18 +1,19 @@
 - @report_list[:answer_stats].each do |question|
   .row.report-question
-    .col-xs-12.report-para.bold-text.h1-font
-      = question[:question_title]
-    .col-xs-12.report-para
-      = question[:question_prompt]
-    .col-xs-6.report-para.bold-text
-      Completed this question
-    .col-xs-6.report-para.bold-text
-      Participation Rate
-    .col-xs-6.report-para
-      .number
-        = question[:answer_rate]
-    .col-xs-6.report-para
-      .number
-        = as_percentage(question[:participation_rate])
+    .row
+      .col-xs-12.report-para.bold-text.h1-font
+        = question[:question_title]
+      .col-xs-12.report-para
+        = question[:question_prompt]
+      .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
+        Completed this question
+      .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
+        Participation Rate
+      .col-xs-6.report-para{style: 'text-align: left;'}
+        .number
+          = question[:answer_rate]
+      .col-xs-6.report-para{style: 'text-align: left;'}
+        .number
+          = as_percentage(question[:participation_rate])
 
     = render partial: 'surveys/report_partials/' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}
