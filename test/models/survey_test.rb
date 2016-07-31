@@ -65,7 +65,10 @@ class SurveyTest < ActiveSupport::TestCase
                        {'text' => 'cold', 'idea_id' => ideas(:idea_3).id, 'checked' => false}
                       ]
     i.save
-    
-    refute_nil s.report_hash
+
+    assert 7.07,
+           s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][0][2]
+    assert 0,
+           s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][1][2]
   end
 end

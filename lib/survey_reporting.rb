@@ -119,7 +119,7 @@ module SurveyReporting
     ia_list.each do |ia|
       ia.response_data.zip(assignments.to_a).map do |answer_assg|
         total_spends[answer_assg[1]['idea_id']] ||= 0
-        if (x = answer_assg[0]['cart_count']) != 0
+        if (x = answer_assg[0]['cart_count']) == 1
           # Trying to avoid multiplication here... is it helpful, or a silly optimization?
           total_spends[answer_assg[1]['idea_id']] += answer_assg[1].budget
         end
@@ -130,7 +130,7 @@ module SurveyReporting
     respondent_ct = Respondent.count
     {sorted_idea_avg_budget: total_spends.map do |k, v|
        [k, (idea_order.select { |idea| idea[0] == k}.first[1] ),
-        v.to_f / respondent_ct, assignments.where(idea_id: k).first.budget]
+        v.to_f / ia_list.length, assignments.where(idea_id: k).first.budget]
      end.sort_by { |pair| -1 * pair[2] }
     }
   end
