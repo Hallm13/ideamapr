@@ -14,18 +14,18 @@ module SurveyReporting
                          question_type: qn.question_type,
                          participation_rate: ia_list.size.to_f / responses.count, answer_rate: ia_list.count}
         
+        idea_order = qn.ideas.order('idea_assignments.ordering asc').pluck :id, :title
         case qn.question_type            
         when SurveyQuestion::QuestionType::PROCON
           qn_stats_hash.merge! SurveyReporting.procon_stats(ia_list)
         when SurveyQuestion::QuestionType::RANKING
-          idea_order = qn.ideas.order('idea_assignments.ordering asc').pluck :id, :title
           qn_stats_hash.merge! SurveyReporting.ranking_stats(ia_list, idea_order)
         when SurveyQuestion::QuestionType::NEW_IDEA
           qn_stats_hash.merge! SurveyReporting.newidea_stats(ia_list)
         when SurveyQuestion::QuestionType::BUDGETING
-          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, qn.idea_assignments.order(ordering: :desc))
+          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, qn.idea_assignments.order(ordering: :desc), idea_order)
         when SurveyQuestion::QuestionType::TOPPRI
-          qn_stats_hash.merge! SurveyReporting.toppri_stats(ia_list)
+          qn_stats_hash.merge! SurveyReporting.toppri_stats(ia_list, idea_order)
         when SurveyQuestion::QuestionType::RADIO_CHOICES
           qn_stats_hash.merge! SurveyReporting.radio_stats(ia_list)
         end
@@ -111,7 +111,7 @@ module SurveyReporting
     {total_new_ideas: total_ideas, average_number_of_submissions: average}
   end
 
-  def self.budgeting_stats(ia_list, assignments)
+  def self.budgeting_stats(ia_list, assignments, idea_order)
     # Avg. spending on idea over all answers; and also just show the unit cost informationally
     # Sorted desc.
     # {\"data\":[{\"answered\":true,\"checked\":false,\"cart_count\":1,\"idea_id\":2},{\"answered\":false,\"checked\":false,\"idea_id\":3},{\"answered\":true,\"checked\":false,\"cart_count\":0,\"idea_id\":1},{\"answered\":true,\"checked\":false,\"cart_count\":1,\"idea_id\":4}]}
@@ -127,13 +127,15 @@ module SurveyReporting
     end
     
     idea_list = []
+    respondent_ct = Respondent.count
     {sorted_idea_avg_budget: total_spends.map do |k, v|
-      [k, v, assignments.where(idea_id: k).first.budget]
-     end.sort_by { |pair| -1 * pair[1].to_f / ia_list.length }
+       [k, (idea_order.select { |idea| idea[0] == k}.first[1] ),
+        v.to_f / respondent_ct, assignments.where(idea_id: k).first.budget]
+     end.sort_by { |pair| -1 * pair[2] }
     }
   end
 
-  def self.toppri_stats(ia_list)
+  def self.toppri_stats(ia_list, idea_order)
     # # times idea was selected as top
     # {\"data\":[{\"answered\":false,\"checked\":false,\"idea_id\":3,\"component_rank\":0},{\"answered\":false,\"checked\":false,\"idea_id\":1,\"component_rank\":1}]}
     top_cts = {}
@@ -148,9 +150,10 @@ module SurveyReporting
     end
 
     idea_list = []
+
     {sorted_idea_top_counts: top_cts.map do |k, v|
-       [k, v]
-     end.sort_by { |pair| -1 * pair[1] }
+       [k, (idea_order.select { |idea| idea[0] == k}.first[1]), v]
+     end.sort_by { |pair| -1 * pair[2] }
     }
   end
   

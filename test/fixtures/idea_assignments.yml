@@ -63,3 +63,13 @@ ia_1_sq_budget_idea_3:
   idea: idea_3
   groupable: sq_budget_type
   ordering: 2
+ia_1_sq_toppri_idea_2:
+  <<: *defaults
+  idea: idea_2
+  groupable: sq_toppri
+  ordering: 0
+ia_1_sq_toppri_idea_3:
+  <<: *defaults
+  idea: idea_3
+  groupable: sq_toppri
+  ordering: 1

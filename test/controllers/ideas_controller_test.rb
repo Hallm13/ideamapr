@@ -86,4 +86,9 @@ class IdeasControllerTest < ActionController::TestCase
       assert_match /iz a/, response.body
     end
   end
+
+  test '#edit' do
+    get :edit, id: ideas(:idea_with_img).id
+    assert_template :edit
+  end
 end
