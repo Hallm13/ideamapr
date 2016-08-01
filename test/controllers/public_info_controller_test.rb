@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class PublicInfoControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
   test 'ordering of ideas' do
     get :double_bundle, for_survey: surveys(:published_survey).public_link
     b = JSON.parse response.body

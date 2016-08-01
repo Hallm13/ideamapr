@@ -27,7 +27,7 @@ class ActionController::TestCase
   include FixtureFiles
 
   # Some controllers will need Devise
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers 
 end
 
 Capybara.configure do |config|

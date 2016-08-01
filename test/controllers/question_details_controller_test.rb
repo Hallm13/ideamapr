@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class QuestionDetailsControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
-  
   def setup
     sign_in admins(:admin_1)
   end
