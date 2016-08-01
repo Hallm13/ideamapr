@@ -40,4 +40,3 @@ sq_toppri:
   title: toppri title
   question_prompt: toppri - pick one - prompt
   question_type: <%= SurveyQuestion::QuestionType::TOPPRI %>
-  

@@ -66,6 +66,18 @@ class SurveyTest < ActiveSupport::TestCase
                       ]
     i.save
 
+    i = individual_answers(:ia_answered_new_idea_1)
+    i.response_data = [{'answered' => true, 'title' => 'hot',  'description' => '.id'},
+                       {'answered' => true, 'title' => 'hot',  'description' => '.id'}
+                      ]
+    i.save
+
+    i = individual_answers(:ia_answered_new_idea_1)
+    i.response_data = [{'answered' => true, 'text' => 'hot',  'text_entry' => '.id'},
+                       {'answered' => true, 'text' => 'cold',  'text_entry' => '.id'}
+                      ]
+    i.save
+
     assert 7.07,
            s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][0][2]
     assert 0,

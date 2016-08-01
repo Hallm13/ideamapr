@@ -13,7 +13,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     # Budgeting
     @remaining_budget_title_html = "Total <span class='bold-text'>Remaining: </span><span class='value'></span>"
     @used_budget_title_html = "Total <span class='bold-text'>Spent</span>: <span class='value'></span>"
-    @listenTo(@collection, 'change:cart_count', @change_spent_amount)
+    @listenTo(@collection, 'change:cart_count', @change_spent_amount)      
     @
 
   events:
@@ -92,6 +92,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       title: $elt.find('#new_idea_title').val()
       description: $elt.find('#new_idea_description').val()
       image_url: ''
+
     @collection.add m
     m.set 'answered', true
     m.trigger('idea:new_idea_added')

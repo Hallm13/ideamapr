@@ -16,8 +16,10 @@ IdeaMapr.Models.PublicViewModel = Backbone.Model.extend
         # Ranking: send back the component_rank
         rd['component_rank'] = @get('component_rank')
       if qn_type == 2
-        # New Idea, its title and description are entered by user.
+        # New Idea, its title and description are entered by user. Also, its answered attribute
+        # is not set via set_response_data
         _.extend(rd, {title: @get('title'), description: @get('description')})
+        rd['answered'] = true        
         
     rd
 

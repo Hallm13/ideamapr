@@ -16,7 +16,7 @@ class PublicInfoController < ApplicationController
              sq.question_type == SurveyQuestion::QuestionType::TEXT_FIELDS
             {type: 'detail', data: sq.question_detail.details_list}
           elsif sq.question_type == SurveyQuestion::QuestionType::NEW_IDEA
-            {type: 'new_idea', data: ({id: -1, title: 'dummy'})}
+            {type: 'idea', data: []}
           else
             data_array = IdeaAssignment.joins(:idea).includes(:idea).
                          where(idea_assignments: {groupable_id: sq.id, groupable_type: 'SurveyQuestion'}).

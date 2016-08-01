@@ -56,3 +56,15 @@ ia_answered_radio:
   survey_public_link: answered_survey_public_link
   response: answered_response_2
   survey_question: sq_with_radio_choice
+ia_answered_new_idea_1:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_new_idea
+ia_answered_text_fields:
+  <<: *defaults
+  respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_text_fields

@@ -106,6 +106,12 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
       assert_equal SurveyQuestion.count, b.select { |i| !i['is_assigned'] }.size
     end
 
+    it 'sets up all question as unassigned for an empty survey' do
+      xhr :get, :index, for_survey: surveys(:none_assigned).id
+      b = JSON.parse(response.body)
+      assert_equal SurveyQuestion.count, b.size
+    end
+    
     it 'does not require auth when the survey is public and the request is XHR' do
       sign_out :admin
       xhr :get, :index, for_survey: surveys(:published_survey).public_link

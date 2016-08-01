@@ -1,0 +1,18 @@
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %td
+        Title
+      %td
+        Description
+      %td.col-xs-2
+        Participant ID
+  %tbody
+    - qn[:idea_list].each do |new_idea|
+      %tr
+        %td
+          = new_idea[1]
+        %td
+          = new_idea[2]
+        %td.col-xs-2
+          = new_idea[0]

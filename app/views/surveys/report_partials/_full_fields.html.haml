@@ -1,0 +1,19 @@
+- qn[:field_values].each do |title, field_pairs|
+  .row
+    .col-xs-12.bold-text.h1-font{style: 'margin-bottom: 20px;'}    
+      = title
+  - if field_pairs.size > 0
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %td
+            Responses
+          %td.col-xs-2
+            Participant ID
+      %tbody
+        - field_pairs.each do |field_pair|
+          %tr
+            %td
+              = field_pair[1]
+            %td.col-xs-2
+              = field_pair[0]

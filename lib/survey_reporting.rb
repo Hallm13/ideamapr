@@ -14,6 +14,7 @@ module SurveyReporting
         ia_list = individual_answers.where(survey_question_id: qn.id)
         qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
                          question_type: qn.question_type}
+
         case qn.question_type            
         when SurveyQuestion::QuestionType::PROCON
           qn_stats_hash.merge! SurveyReporting.full_procon_stats(ia_list)
@@ -224,10 +225,25 @@ module SurveyReporting
   end
   
   def self.full_newidea_stats(ia_list)
-    {}
+    idea_list = []
+    ia_list.each do |ia|
+      ia.response_data.each do |new_idea|
+        idea_list << [ia.respondent_id, new_idea['title'], new_idea['description']] if new_idea['answered']
+      end
+    end
+    
+    {idea_list: idea_list}
   end
   
   def self.full_text_field_stats(ia_list)
-    {}
+    field_values = {}
+    ia_list.each do |ia|
+      ia.response_data.each do |field|
+        field_values[field['text']] ||= []
+        field_values[field['text']] << [ia.respondent_id, field['text_entry']]
+      end
+    end
+    
+    {field_values: field_values}
   end
 end
