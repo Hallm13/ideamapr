@@ -1,0 +1,8 @@
+- @report_list[:full_details].each do |question|
+  .row.full-report-question
+    .row
+      .col-xs-12.report-para.bold-text.h1-font
+        = question[:question_title]
+      .col-xs-12.report-para
+        = SurveyQuestion::QuestionType.default_title question[:question_type]
+    = render partial: 'surveys/report_partials/full_' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}

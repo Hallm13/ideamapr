@@ -70,5 +70,7 @@ class SurveyTest < ActiveSupport::TestCase
            s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][0][2]
     assert 0,
            s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][1][2]
+
+    refute_nil s.full_report_hash
   end
 end

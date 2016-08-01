@@ -53,3 +53,11 @@
   margin-bottom: 20px;
   padding-bottom: 10px;
 }
+
+.full-report-question {
+  thead {
+    td {
+      @include bold-text();
+    }
+  }
+}

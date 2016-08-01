@@ -18,7 +18,7 @@ class SurveysController < ApplicationController
       data = @surveys.map do |s|
         {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
          has_answers: s.individual_answers.count > 0,
-         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}.merge({report: s.report_hash})
+         survey_show_url: survey_url(s), survey_edit_url: edit_survey_url(s)}.merge({report: report_hash(s)})
       end
 
       render json: data
@@ -95,14 +95,20 @@ class SurveysController < ApplicationController
 
   def report
     if @survey = Survey.find_by_id(params[:id])
-      @report_list = @survey.report_hash
-      render :report, layout: 'survey_report'
+      @report_list = report_hash @survey
+      template_name = (params[:full] ? :full_report : :report)
+      
+      render template_name, layout: 'survey_report'
     else
       redirect_to surveys_path
     end
   end
   
   private
+  def report_hash(s)
+    params[:full] ? s.full_report_hash : s.report_hash
+  end
+  
   def render_json_payload
     # One screen for each qn + intro + summary
     json = (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').

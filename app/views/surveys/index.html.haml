@@ -22,9 +22,13 @@
       = succeed ',' do
         %a{href: "/surveys/public_show/<%- public_link %>".html_safe, id: 'public-link'}<
           Shareable Link
-      %a{href: "/surveys/<%- id %>/report".html_safe, id: 'report-link'}
-        Report
-
+      Reports:
+      = succeed ',' do
+        %a{href: "/surveys/<%- id %>/report".html_safe, id: 'report-link'}<
+          Summary
+      %a{href: "/surveys/<%- id %>/report?full=1".html_safe, id: 'report-link'}<
+        Full
+          
   .col-xs-2.survey-dropdown-cell
     .cell-1#status-change-dropdown      
       <%- displayed_survey_status %>

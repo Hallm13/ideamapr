@@ -1,0 +1,34 @@
+- qn[:lists_by_idea].each do |title, list_recs|
+  .row
+    .col-xs-12.bold-text.h1-font{style: 'margin-bottom: 20px;'}    
+      = title
+  - if list_recs[:pro].size > 0
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %td
+            Pro Responses
+          %td.col-xs-2
+            Participant ID
+      %tbody
+        - list_recs[:pro].each do |pro_rec|
+          %tr
+            %td
+              = pro_rec[:text]
+            %td.col-xs-2
+              = pro_rec[:respondent_id]
+  - if list_recs[:con].size > 0
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %td
+            Con Responses
+          %td.col-xs-2
+            Participant ID
+      %tbody
+        - list_recs[:con].each do |con_rec|
+          %tr
+            %td
+              = con_rec[:text]
+            %td.col-xs-2
+              = con_rec[:respondent_id]

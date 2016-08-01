@@ -2,10 +2,35 @@ require 'active_support/concern'
 module SurveyReporting
   extend ActiveSupport::Concern
   included do
-    # Instance methods
+    # Instancee methods
+
+    def full_report_hash
+      ret = survey_hash
+      ret[:full_details] = []
+
+      survey_questions.includes(:ideas).where('survey_questions.question_type in (?)',
+                                              [SurveyQuestion::QuestionType::PROCON, SurveyQuestion::QuestionType::NEW_IDEA,
+                                              SurveyQuestion::QuestionType::TEXT_FIELDS]).all.each do |qn|
+        ia_list = individual_answers.where(survey_question_id: qn.id)
+        qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
+                         question_type: qn.question_type}
+        case qn.question_type            
+        when SurveyQuestion::QuestionType::PROCON
+          qn_stats_hash.merge! SurveyReporting.full_procon_stats(ia_list)
+        when SurveyQuestion::QuestionType::NEW_IDEA
+          qn_stats_hash.merge! SurveyReporting.full_newidea_stats(ia_list)
+        when SurveyQuestion::QuestionType::TEXT_FIELDS
+          qn_stats_hash.merge! SurveyReporting.full_text_field_stats(ia_list)
+        end
+
+        ret[:full_details] << qn_stats_hash
+      end
+
+      ret
+    end
+    
     def report_hash
       ret = survey_hash
-
       ret[:answer_stats] = []
 
       survey_questions.includes(:ideas).all.each do |qn|
@@ -175,5 +200,34 @@ module SurveyReporting
     {sorted_radio_counts: radio_cts.map do |text, v|
        [text, v]
      end.sort_by { |pair| -1 * pair[1] }}
+  end
+
+  def self.full_procon_stats(ia_list)
+    lists = {}    
+    ia_list.each do |ia|
+      ia.response_data.each do |idea_packet|
+        pro_list = idea_packet['type-0-data']['feedback']['pro']
+        con_list = idea_packet['type-0-data']['feedback']['con']
+        idea = Idea.find_by_id idea_packet['idea_id']
+        lists[idea.title] ||= {pro: [], con: []}
+
+        pro_list.each do |pro|
+          lists[idea.title][:pro] << ({respondent_id: ia.respondent_id, text: pro})
+        end
+        con_list.each do |con|
+          lists[idea.title][:con] << ({respondent_id: ia.respondent_id, text: con})
+        end
+      end
+    end
+    
+    {lists_by_idea: lists}
+  end
+  
+  def self.full_newidea_stats(ia_list)
+    {}
+  end
+  
+  def self.full_text_field_stats(ia_list)
+    {}
   end
 end
