@@ -104,4 +104,4 @@ sq_edit_functions = ->
 
     switch_qn_type question_type
     
-$(document).on('ready page:load', sq_edit_functions)
+$(document).on('ready turbolinks:load', sq_edit_functions)

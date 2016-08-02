@@ -12,4 +12,4 @@ everything_functions = ->
       # If there is a target, go to it.
       window.location.href = l
     
-$(document).on('page:load ready', everything_functions)
+$(document).on('turbolinks:load ready', everything_functions)

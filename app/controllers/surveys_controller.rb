@@ -168,7 +168,7 @@ class SurveysController < ApplicationController
       if xhr
         render json: @survey, status: 422
       else
-        flash[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
+        flash.now[:alert] = t(:resource_creation_failure, resource_name: 'Survey')
         render :new, status: 422
       end
     end

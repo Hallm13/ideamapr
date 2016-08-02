@@ -23,4 +23,4 @@ funcs = ->
   # process when it is fetched
   sq_list.fetch()
       
-$(document).on('ready page:load', funcs)
+$(document).on('ready turbolinks:load', funcs)

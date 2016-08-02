@@ -7,4 +7,4 @@ funcs = ->
   )
   survey_list.fetch()
       
-$(document).on('ready page:load', funcs)
+$(document).on('ready turbolinks:load', funcs)

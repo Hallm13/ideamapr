@@ -73,7 +73,7 @@ class IdeasController < ApplicationController
       
       redirect_to ideas_path @idea
     else
-      flash[:alert] = t(:resource_creation_failure, resource_name: 'Idea')
+      flash.now[:alert] = t(:resource_creation_failure, resource_name: 'Idea')
       render (params[:action] == 'create' ? :new : :edit)
     end
   end

@@ -1,7 +1,3 @@
-.row
-  .col-xs-12
-    Create Survey
-    
 = form_tag("/surveys", method: :post, id: :survey_new) do
   = hidden_field_tag :survey_id, (@survey.id || '')
   - Survey.viewbox_list.each do |vb|

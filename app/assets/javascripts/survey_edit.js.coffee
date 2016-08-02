@@ -32,4 +32,4 @@ functions = ->
         evt.stopPropagation()
         false
       
-$(document).on('ready page:load', functions)
+$(document).on('ready turbolinks:load', functions)

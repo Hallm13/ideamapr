@@ -83,5 +83,5 @@ forms_functions = ->
           
       help_box.toggle()
       
-$(document).on('page:load ready', forms_functions)
-
+$(document).ready(forms_functions)
+$(document).on('turbolinks:load', forms_functions)
