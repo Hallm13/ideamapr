@@ -26,12 +26,4 @@ module SurveyQuestionsHelper
   def show_conditional(form_obj, vb)
     form_obj.is_a?(SurveyQuestion) ? (survey_question_show?(form_obj, vb)) : true
   end
-  
-  def fa_symbol
-    {edit: 'pencil', view: 'eye', select: 'check'}
-  end
-  def action_target
-    {edit: self.send("edit_#{@target_obj}_url".to_sym, @curr_obj),
-     view: self.send("#{@target_obj}_url".to_sym, @curr_obj), select: @curr_obj.id}
-  end
 end

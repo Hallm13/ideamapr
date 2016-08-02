@@ -31,8 +31,7 @@ class SurveyQuestionsController < ApplicationController
       end
     end
 
-    if @questions
-      # All are assigned or it doesn't matter
+    if @public_request
       payload = json_payload @questions
     else
       if !request.xhr?

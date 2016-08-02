@@ -3,10 +3,10 @@
   #search-list.col-xs-12.unassigned-components
       
 %script{type: 'text/template', id: 'survey-question-search-template'}
+  .add-button
+    +
   .title-box
     <%- title %>
-  %span.square-button.green
-    +
     
 // this is shared with what participants see in the summary view
 = render partial: 'question_summary'
@@ -17,7 +17,7 @@
       = t('survey.search_list_title_html')
     .col-xs-12
       %input{type: 'text', name: 'question-search', id: 'question-search', placeholder: 'Search by'}
-  #unassigned-questions
+  #unassigned-questions.row
 %script#admin-add-question-list{type: 'text/template'}
   .row
     %button.btn.btn-primary.with-text#add-component{type: 'button'}

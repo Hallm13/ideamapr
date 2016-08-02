@@ -7,7 +7,7 @@ IdeaMapr.Views.AdminSearchQuestionView = Backbone.View.extend
     @
     
   events:
-    'click .square-button': (evt) ->
+    'click .add-button': (evt) ->
       @model.set('ranked', -10)
       
   render: ->

@@ -90,9 +90,3 @@ input:focus, textarea:focus {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
-@media print {
-  *, *:before, *:after,  div, div:before, div:after {
-    color: initial !important;
-  }
-}

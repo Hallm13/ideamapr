@@ -41,11 +41,6 @@ window.run_validations = ->
     true
 
 forms_functions = ->
-  $('.active-icon').click (evt) ->
-    evt.stopPropagation()
-    url = $(evt.target).data('action-target')
-    window.location.href = url
-    
   $('.validated-box').focus (evt) ->
     $('.error-box').hide('medium')
     
