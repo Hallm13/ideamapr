@@ -20,5 +20,6 @@
     .navtop{style: 'text-align: center;'}
       = succeed '&#8592;'.html_safe do
         = link_to 'Back to survey list', surveys_path
-    .container.main
-      = yield
+    .container-fluid
+      .main
+        = yield

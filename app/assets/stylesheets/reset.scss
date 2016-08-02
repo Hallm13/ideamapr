@@ -13,7 +13,6 @@ nav {
   font: inherit;
   font-size: 100%;
   vertical-align: top;
-  color: inherit;
 }
 
 html {
@@ -92,3 +91,8 @@ input:focus, textarea:focus {
     -moz-osx-font-smoothing: grayscale;
 }
 
+@media print {
+  *, *:before, *:after,  div, div:before, div:after {
+    color: initial !important;
+  }
+}

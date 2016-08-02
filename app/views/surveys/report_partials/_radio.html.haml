@@ -1,12 +1,12 @@
-.row.h1-font
-  .col-xs-4.bold-text
-    Radio Options
-  .col-xs-8.bold-text
+.row.h2-font
+  .col-xs-2.bold-text
     Total Counts
+  .col-xs-10.bold-text
+    Radio Options
 
 - qn[:sorted_radio_counts].each do |ct_data|
   .row
-    .col-xs-4
-      = ct_data[0]
-    .col-xs-8
+    .col-xs-2
       = ct_data[1]
+    .col-xs-10
+      = ct_data[0]

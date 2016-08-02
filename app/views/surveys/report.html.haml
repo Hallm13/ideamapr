@@ -1,19 +1,35 @@
+.row.report-para.h1-font.bold-text
+  .col-xs-12
+    = @report_list[:title]
+    
+.row.survey-summary-title.report-para.h2-font
+  .col-xs-6
+    Unique Participants
+  .col-xs-6
+    Completion Rate
+.row.survey-summary-data.report-para.h2-font
+  .col-xs-6
+    = @report_list[:individual_answer_count]
+  .col-xs-6
+    = sprintf("%0.2f", @report_list[:finish_count].to_f/@report_list[:individual_answer_count])
+      
 - @report_list[:answer_stats].each do |question|
   .row.report-question
-    .row
-      .col-xs-12.report-para.bold-text.h1-font
-        = question[:question_title]
-      .col-xs-12.report-para
-        = question[:question_prompt]
-      .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
-        Completed this question
-      .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
-        Participation Rate
-      .col-xs-6.report-para{style: 'text-align: left;'}
-        .number
-          = question[:answer_rate]
-      .col-xs-6.report-para{style: 'text-align: left;'}
-        .number
-          = as_percentage(question[:participation_rate])
-
-    = render partial: 'surveys/report_partials/' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}
+    .col-xs-12
+      .row
+        .col-xs-12.report-para.bold-text.h2-font
+          = question[:question_title]
+        .col-xs-12.report-para
+          = question[:question_prompt]
+        .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
+          Completed this question
+        .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
+          Participation Rate
+        .col-xs-6.report-para{style: 'text-align: left;'}
+          .number
+            = question[:answer_rate]
+        .col-xs-6.report-para{style: 'text-align: left;'}
+          .number
+            = as_percentage(question[:participation_rate])
+    .col-xs-12
+      = render partial: 'surveys/report_partials/' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}

@@ -260,5 +260,10 @@ form {
 }
 
 .h1-font {
-  font-size: 1.25em;
+  /* Just a redirect */
+  @include h1-title();
+}
+.h2-font {
+  /* Just a redirect */
+  @include h2-title();
 }

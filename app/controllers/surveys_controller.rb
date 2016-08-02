@@ -95,7 +95,7 @@ class SurveysController < ApplicationController
 
   def report
     if @survey = Survey.find_by_id(params[:id])
-      @report_list = report_hash @survey
+      @report_list = report_hash(@survey).merge({title: @survey.title})
       template_name = (params[:full] ? :full_report : :report)
       
       render template_name, layout: 'survey_report'
