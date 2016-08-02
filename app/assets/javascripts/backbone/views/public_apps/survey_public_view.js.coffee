@@ -63,6 +63,13 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       
   change_hidden_class: ->
     @handle_screen_toggle @screens[@model.get('previous_selection')]
+
+    # Let Google Analytics know we have a new page.
+    base_uri = document.location.href
+
+    base_uri = base_uri.replace /localhost:3000/, 'mybox.ideamapr.com'
+    ga 'set', 'page', base_uri + '/screen_number#' + @model.get('current_screen')
+    ga 'send', 'pageview'
     @handle_screen_toggle @screens[@model.get('current_screen')]
     @
 

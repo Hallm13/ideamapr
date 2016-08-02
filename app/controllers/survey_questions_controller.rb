@@ -11,8 +11,8 @@ class SurveyQuestionsController < ApplicationController
     rendered = false
     @questions = nil
 
-    if @survey&.published? && !current_admin
-      # Published surveys will behave like other surveys for signed-in admins when getting qn lists
+    # @public_request is set in set_public_survey_or_admin!
+    if @public_request && @survey&.published?
       @questions = SurveyQuestion.includes(:question_assignments).order('question_assignments.ordering asc').where(question_assignments: {survey_id: @survey.id}).
                    all
     else
@@ -184,7 +184,7 @@ class SurveyQuestionsController < ApplicationController
     when 'show'
       status &= params[:id] and (@question = SurveyQuestion.find_by_id params[:id])
     when 'index'
-      # We have already passed the public survey test which would have assigned @survey
+      # We have already passed the public survey test which would have assigned @survey, and set the flag
       status &= @survey.present? || (params[:for_survey].blank? || (@survey = Survey.find_by_id(params[:for_survey])))
     end
     
@@ -220,6 +220,7 @@ class SurveyQuestionsController < ApplicationController
     # Published surveys can have their questions revealed
     # if the survey's token is presented (via JSON)
 
+    @public_request = false
     if params[:for_survey].nil?
       return authenticate_admin!
     end
@@ -228,7 +229,7 @@ class SurveyQuestionsController < ApplicationController
       s = Survey.find_by_public_link(params[:for_survey])
       if s&.status == Survey::SurveyStatus::PUBLISHED
         @survey = s
-        return true
+        return (@public_request = true)
       end
 
       # Look for it by id instead of public token
@@ -239,11 +240,9 @@ class SurveyQuestionsController < ApplicationController
       s = Survey.find_by_id(params[:for_survey]) || Survey.find_by_public_link(params[:for_survey])
     end
     
-    if s.nil?
-      # if the survey can't be found, it doesn't matter who's logged in
-      return false
-    end
-    @survey = s
-    authenticate_admin!
+    # if the params[:for_survey] was set and survey still can't be found, it doesn't matter who's logged in
+    # but if it is found, then we have to find someone logged in
+    @survey = s    
+    @survey.present? && authenticate_admin!
   end  
 end

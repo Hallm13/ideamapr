@@ -16,6 +16,7 @@ class ProConParticipantTest < Capybara::Rails::TestCase
       # order = procon, radio, new idea, budget
       page.find('#go-right').click
       rows = page.all '.procon.idea-row'
+
       rows[0].find('#addpro').click
       assert page.has_css? '#save-procon', visible: true
 

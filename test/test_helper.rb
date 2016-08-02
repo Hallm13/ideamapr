@@ -52,6 +52,7 @@ end
 Capybara::Webkit.configure do |config|
   config.allow_url("http://www.gravatar.com/avatar/28e09f805ab4e232218fc8bd12c8fb78?s=30")
   config.allow_url("test.local")
+  config.block_url("http://www.google-analytics.com/analytics.js")
   config.ignore_ssl_errors
 end
 
