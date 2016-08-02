@@ -100,6 +100,7 @@ sq_edit_functions = ->
       window.sq_model.set_idea_list()
       window.idea_lists_view = new IdeaMapr.Views.AdminIdeaCollectionsView
         model: window.sq_model
+        el: '#idea-list-app'
       window.idea_lists_view.populate_data()
 
     switch_qn_type question_type

@@ -10,7 +10,7 @@ IdeaMapr.Views.AdminIdeaCollectionsView = IdeaMapr.Views.IdeaListView.extend
     @model.assigned_ideas = @assigned_collection
     
     @selected_view = new IdeaMapr.Views.AdminAssignedIdeaListView
-      el: $('#selected-list')
+      el: $('#selected-list .row')
       collection: @assigned_collection
 
     @to_search_collection = new IdeaMapr.Collections.IdeaCollection()

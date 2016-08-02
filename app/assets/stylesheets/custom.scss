@@ -137,6 +137,13 @@ form {
   }  
 }
 
+.container-fluid {
+  .main {
+    max-width: 75%;
+    margin: auto;
+  }
+}
+
 .secondary-level {
   margin-bottom: 20px;
   margin-top: 10px;

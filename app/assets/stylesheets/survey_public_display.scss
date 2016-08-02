@@ -274,9 +274,7 @@
     background-position-y: -8px;
     background-size: 66px;
     background-repeat: no-repeat;
-
-    height: 50%;
-    min-height: 40px;
+    height: 40px;
     min-width: 66px;
     
     &.up {
@@ -286,7 +284,7 @@
     }
     &.down {
       color: $theme-red;
-      padding: 5px 1px 0 11px;
+      padding: 10px 1px 0 11px;
       background-image: image-url('icons/down_chevron.png');
       background-position-y: -6px;
       margin-top: -10px;

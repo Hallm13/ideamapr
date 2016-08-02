@@ -18,17 +18,17 @@
 
   %body
     = render "navigation"
-    .container.main
-      .overlay
+    .container-fluid
       -if flash[:notice] or flash[:alert]
-        .container
+        .row
         -if flash[:notice]
           .alert.alert-info
             #{flash[:notice]}
         -if flash[:alert]
           .alert.alert-danger
             #{flash[:alert]}
-
-      = yield
+      .main
+        .overlay
+        = yield
 
   = render partial: 'google_analytics'
