@@ -139,7 +139,12 @@ form {
 
 .container-fluid {
   .main {
-    max-width: 75%;
+    @media (min-width: $mobile-breakpoint) {
+      max-width: 75%;
+    }
+    @media (max-width: $mobile-breakpoint) {
+      max-width: 92%;
+    }
     margin: auto;
   }
 }
@@ -266,4 +271,11 @@ form {
 .h2-font {
   /* Just a redirect */
   @include h2-title();
+}
+
+/* Custom bootstrappy stuff */
+.col-xs-offset-half {
+  @media (max-width: $mobile-breakpoint) {
+    margin-left: 4.1666667%;
+  }
 }

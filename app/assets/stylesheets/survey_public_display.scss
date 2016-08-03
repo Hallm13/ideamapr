@@ -1,3 +1,7 @@
+#survey-navbar {
+  margin-bottom: 20px;
+}
+
 .x-box {
   cursor: pointer;
   color: $theme-red;
@@ -11,7 +15,9 @@
   @include h1-title();
   text-align: center;
   color: $primary-highlight;
-  margin-left: 150px;
+  &.signed-in {
+    margin-left: 150px;
+  }
 }
 
 /* Idea radio (toppri) */

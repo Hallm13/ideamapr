@@ -36,14 +36,14 @@
         
 // navbar template
 %script#survey-nb-template{type: 'text/template'}
-  .col-xs-offset-3.col-xs-6
+  .col-sm-offset-3.col-sm-6.col-xs-11.col-xs-offset-half
     .row
-      .col-xs-2#go-left.active.navtab
+      .col-sm-2.col-xs-3#go-left.active.navtab
         Previous
-      .col-xs-8#current-question.navtab
+      .col-sm-8.col-xs-6#current-question.navtab
         <%- summarized_qn_title %>
         %i.fa.fa-chevron-down
-      .col-xs-2#go-right.active.navtab
+      .col-sm-2.col-xs-3#go-right.active.navtab
         Next
     .row#other-sections{style: 'display: none'}
 

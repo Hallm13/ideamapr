@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action do
     # Quite a few things to do before the app starts...
     I18n.locale = set_locale
+    @signed_in_header = current_admin ? 'signed-in' : ''
   end
 
   rescue_from ActionController::RoutingError do |exception|

@@ -18,16 +18,8 @@
 
   %body
     = render "public_navigation"
-    .container.main
-      -if flash[:notice] or flash[:alert]
-        .container
-        -if flash[:notice]
-          .alert.alert-info
-            #{flash[:notice]}
-        -if flash[:alert]
-          .alert.alert-danger
-            #{flash[:alert]}
-
-      = yield
+    .container-fluid
+      .main
+        = yield
 
   = render partial: 'google_analytics'

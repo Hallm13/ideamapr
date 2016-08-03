@@ -5,7 +5,7 @@
     - else
       = link_to 'Sign In', new_admin_session_path
   - if current_admin
-    .brand-header
+    .brand-header{class: @signed_in_header}
       = t(:site_brand)
     
 - if current_admin
