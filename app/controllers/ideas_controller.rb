@@ -11,7 +11,7 @@ class IdeasController < ApplicationController
     
   def index
     if params[:for_survey_question]
-      @all_ideas = Idea.all
+      @all_ideas = Idea.order(created_at: :desc).all
       selected_idea_assignments =
         if params[:for_survey_question].to_i == 0
           # new survey questions have no ideas
@@ -41,7 +41,7 @@ class IdeasController < ApplicationController
       end
     else
       # There is neither a survey or an SQ specified in the params, to key ideas against
-      @all_ideas = Idea.all
+      @all_ideas = Idea.all.order(created_at: :desc)
     end
 
     render (request.xhr? ? ({json: @all_ideas}) : ('index'))

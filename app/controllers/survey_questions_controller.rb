@@ -27,7 +27,7 @@ class SurveyQuestionsController < ApplicationController
         end
       else
         assg_qns = []
-        remg_qns = SurveyQuestion.all
+        remg_qns = SurveyQuestion.order(created_at: :desc).all
       end
     end
 

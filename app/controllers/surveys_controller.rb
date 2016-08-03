@@ -13,7 +13,7 @@ class SurveysController < ApplicationController
   end
   
   def index
-    @surveys = Survey.all
+    @surveys = Survey.all.order(created_at: :desc)
     if request.xhr?
       data = @surveys.map do |s|
         {id: s.id, title: s.title, status: s.status, public_link: (s.published? ? s.public_link: ''),
@@ -23,8 +23,7 @@ class SurveysController < ApplicationController
 
       render json: data
     else
-      # Deliver custom Backbone app js 
-      render :index, layout: 'survey_index_layout'
+      render :index
     end
   end
 
@@ -51,6 +50,9 @@ class SurveysController < ApplicationController
 
   def edit
     @level2_menu = :create_survey
+    @show_list_keys = {0 => 'Draft', 1 => 'Published', 2 => 'Closed'}
+
+    @report_list = report_hash(@survey).merge({title: @survey.title})
     set_dropdown
   end
   
@@ -93,17 +95,6 @@ class SurveysController < ApplicationController
   end
   alias :create :update
 
-  def report
-    if @survey = Survey.find_by_id(params[:id])
-      @report_list = report_hash(@survey).merge({title: @survey.title})
-      template_name = (params[:full] ? :full_report : :report)
-      
-      render template_name, layout: 'survey_report'
-    else
-      redirect_to surveys_path
-    end
-  end
-  
   private
   def report_hash(s)
     params[:full] ? s.full_report_hash : s.report_hash

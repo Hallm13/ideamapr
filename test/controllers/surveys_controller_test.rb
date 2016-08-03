@@ -5,18 +5,6 @@ class SurveysControllerTest < ActionController::TestCase
     sign_in admins(:admin_1)
   end
 
-  describe '#report' do
-    it 'works' do
-      get :report, id: surveys(:answered_survey).id
-      assert_template :report
-    end
-
-    it 'handles errors' do
-      get :report, id: -1
-      assert_redirected_to surveys_path
-    end
-  end
-
   describe '#index' do
     it 'works for admins' do
       get :index
@@ -114,7 +102,7 @@ class SurveysControllerTest < ActionController::TestCase
     
     it 'works for existing survey' do
       get :edit, id: surveys(:survey_1).id
-      assert_match /Edit/, response.body
+
       assert_match /survey 1 intro/, response.body
       assert_match /survey 1 title/, response.body
       assert assigns(:survey_status_select)

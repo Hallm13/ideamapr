@@ -1,5 +1,18 @@
 functions = ->
   if ($.find('form#survey_new').length > 0 || $.find('form#survey_edit').length > 0) and $.find('#survey_id').length > 0
+    # set up the dropdown behavior
+    # I think both ready and turbolinks:load are firing on this page... that's why the off() is necessary
+    $('#status-change-dropdown .cell-1').off().click (evt) ->
+      $('.dd-choice-list').toggle()
+      evt.stopPropagation()
+
+    $('.dd-choice').click (evt) ->
+      evt.stopPropagation()
+      status = $(evt.target).data('status-key')
+      $('input#survey_status').val status
+      $('#status-change-dropdown .shown-text').text $(evt.target).text()
+      $('.dd-choice-list').hide()
+
     # We are creating or editing a survey qn
     window.survey_model = new IdeaMapr.Models.Survey()
     window.survey_model.set('id', $('#survey_id').val())
