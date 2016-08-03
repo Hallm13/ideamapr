@@ -80,7 +80,14 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       template_id = '#type-' + @question.get('question_type') + '-public-template'
 
       # Add question id to show in disambiguating radio buttons
-      html = _.template($(template_id).html())(_.extend({}, @model.attributes, {survey_question_id: @question.get('id')}))
+      html = _.template($(template_id).html())(
+        _.extend({},
+          @model.attributes,
+            survey_question_id: @question.get('id')
+            shown_component_rank: @model.get('component_rank') + 1          
+          )
+      )
+      
       @$el.html html
       @add_image_margin()
       

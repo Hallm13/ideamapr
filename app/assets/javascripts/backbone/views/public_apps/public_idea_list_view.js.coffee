@@ -60,15 +60,18 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     
   redraw_budget_line: ->
     # Return a jQuery object with the HTML for the budget line
-
+    # TODO: generate this from a template instead of jQuery
+    
     x = null
     if typeof @budget_root_elt == 'undefined'
       x = $('<div>').addClass('row').append($('<div>').addClass('col-xs-12 budget-line'))
       @budget_root_elt = x.find('.budget-line')
       qty_bkgrd = $('<div>').addClass('quantity-bkgrd')
+      qty_bkgrd.append($('<div>').addClass('row'))
+      
       @budget_root_elt.append qty_bkgrd      
-      qty_bkgrd.append $('<span>').attr('id', 'used-budget')
-      qty_bkgrd.append $('<span>').attr('id', 'available-budget')
+      qty_bkgrd.find('.row').append $('<div>').attr('id', 'used-budget').addClass('col-xs-12 col-sm-6')
+      qty_bkgrd.find('.row').append $('<div>').attr('id', 'available-budget').addClass('col-xs-12 col-sm-6')
 
     avlbl = @budget_root_elt.find '#available-budget'
     spent = @budget_root_elt.find '#used-budget'

@@ -13,4 +13,8 @@ class SurveyQuestionTest < ActiveSupport::TestCase
   test '#response_length' do
     assert_equal -1, survey_questions(:sq_new_idea).response_length
   end
+
+  test 'QuestionType##name_as_filename' do
+    assert_equal 'ranking', SurveyQuestion::QuestionType.name_as_filename(1)
+  end
 end

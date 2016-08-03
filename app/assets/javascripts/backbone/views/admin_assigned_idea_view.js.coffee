@@ -38,7 +38,8 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     else
       t = _.template($('#type-' + @question_type + '-public-template').html())
 
-    @$el.html t(@model.attributes)
+    hash = _.extend {}, @model.attributes, {shown_component_rank: @model.get('component_rank') + 1}
+    @$el.html t(hash)
     @add_image_margin()
       
     # Add content editable controls to non idea types
