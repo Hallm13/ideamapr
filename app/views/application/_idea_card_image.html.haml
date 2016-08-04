@@ -9,10 +9,11 @@
         <%- desc_summary %>
       %span.moreless-text{'data-switch-to' => 'full'}
         = precede '...' do
-          More  
+          = t('idea.card_more')
     %span.full.wrapper
       %span
         <%- description %>
       %span.moreless-text{'data-switch-to' => 'summary'}
         = precede '...' do
-          Less
+          = t('idea.card_less')
+

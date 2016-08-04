@@ -43,6 +43,8 @@ en:
     search_list_title_html: '<%- available_count %> available questions (Added <%- added_count %>)'
   idea:
     search_list_title_html: '<%- available_count %> available ideas (Added <%- added_count %>)'
+    card_more: 'Read More'
+    card_less: 'Read Less'
   public:
     screen_titles:
       thankyou: 'Thank you!'
