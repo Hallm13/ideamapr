@@ -87,22 +87,21 @@ sq_edit_functions = ->
     set_prompt '#helper-edit'
     question_type = window.sq_model.get('question_type')
     # For new survey qns, init all Backbone apps
-    # The populate_data() calls will trigger a sync event that renders the appropriate view
+    # The trigger_fetches() calls will trigger a sync event that renders the appropriate view
     if new_survey_qn || question_type == 5 || question_type == 6
-      window.sq_model.set_field_details()
+      details_list = window.sq_model.set_field_details()
       window.field_details_view = new IdeaMapr.Views.AdminDetailsCollectionView
         model: window.sq_model
         el: '#fields-list-app'
-        
-      window.field_details_view.populate_data()
 
     if new_survey_qn || question_type == 1 || question_type == 3 || question_type == 0 || question_type == 4
-      window.sq_model.set_idea_list()
+      idea_list = window.sq_model.set_idea_list()
       window.idea_lists_view = new IdeaMapr.Views.AdminIdeaCollectionsView
         model: window.sq_model
         el: '#idea-list-app'
-      window.idea_lists_view.populate_data()
+    unless question_type == 2
+      window.sq_model.trigger_fetches()
 
     switch_qn_type question_type
     
-$(document).on('ready turbolinks:load', sq_edit_functions)
+$(document).on('turbolinks:load', sq_edit_functions)

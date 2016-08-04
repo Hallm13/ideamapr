@@ -1,12 +1,12 @@
 .row.h1-font
-  .col-xs-4.bold-text
+  .col-xs-1.bold-text
+    Selected
+  .col-xs-11.bold-text
     Idea
-  .col-xs-8.bold-text
-    Selected at Top
 
 - qn[:sorted_idea_top_counts].each do |ct_data|
   .row
-    .col-xs-4
-      = ct_data[1]
-    .col-xs-8
+    .col-xs-1
       = ct_data[2]
+    .col-xs-11
+      = ct_data[1]

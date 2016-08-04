@@ -24,3 +24,4 @@
 //= require survey_question_edit
 //= require survey_edit
 //= require idea_edit
+//= require file_upload_manipulation

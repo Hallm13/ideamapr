@@ -28,7 +28,7 @@ functions = ->
       model: window.survey_model
       collection: questions
       el: $('#question-list-app')
-    sq_list_view.populate_data()
+    window.survey_model.trigger_fetches()
       
     $('#object-save').click (evt) ->
       # Gather the collected questions and validate all the text boxes

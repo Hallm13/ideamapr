@@ -1,6 +1,14 @@
-.row
-  .col-xs-offset-11.col-xs-1
-    %button.btn.btn-primary#publish-survey
-      Publish
+.row.para-line
+  .col-xs-offset-3.col-xs-6.survey-dropdown-cell
+    #status-change-dropdown
+      .cell-1        
+        %span.shown-text
+          = @show_list_keys[(@survey&.status || 0)]
+        %i.fa.fa-chevron-down
+      .dd-choice-list
+        - @show_list_keys.each do |key, val|
+          .dd-choice{'data-status-key' => key}
+            = val
+
 
 

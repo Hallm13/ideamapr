@@ -50,8 +50,6 @@ class SurveysController < ApplicationController
 
   def edit
     @level2_menu = :create_survey
-    @show_list_keys = {0 => 'Draft', 1 => 'Published', 2 => 'Closed'}
-
     @report_list = report_hash(@survey).merge({title: @survey.title})
     set_dropdown
   end
@@ -145,6 +143,7 @@ class SurveysController < ApplicationController
   def set_dropdown
     @survey_status_select = Survey::SurveyStatus.option_array
     @select_default = @survey&.status || 0
+    @show_list_keys = {0 => 'Draft', 1 => 'Published', 2 => 'Closed'}    
   end
 
   def survey_render_wrap(status:, xhr:)

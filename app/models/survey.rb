@@ -19,6 +19,7 @@ class Survey < ActiveRecord::Base
     end
     
     [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', 10, 'Add a survey title'),
+     Struct::VbStruct.new('survey_status', 'Survey Status', 'survey-status', 10, 'Survey status'),     
      Struct::VbStruct.new('intro_field', 'Intro Message', 'survey-create-intro', 15, 'Add an introduction'),
      Struct::VbStruct.new('add_questions', 'Questions', 'survey-add-questions', -1, 'Add Questions in Ranked Order'),
      Struct::VbStruct.new('thankyou_field', 'Thank You Message', 'survey-thank-you-note', 15, 'Add a Thank You Note') ]

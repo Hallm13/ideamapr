@@ -96,7 +96,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert assigns(:survey_status_select)
       assert_match 'Create', response.body
       assert_select('.builder-box') do |elts|
-        assert_equal 4, elts.size
+        assert_equal 5, elts.size
       end
     end      
     

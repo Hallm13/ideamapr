@@ -15,6 +15,8 @@ IdeaMapr.Collections.AdminSortableCollection = Backbone.Collection.extend
       m.set('component_rank', start)
       start += 1
     )
+    # remove doesn't cause sort to be triggered.
+    @trigger 'sort'
 
   rerank_and_sort: (m, new_val) ->
     # One of the models has been moved up or down: new_val == 1 => moved up

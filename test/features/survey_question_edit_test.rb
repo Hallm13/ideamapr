@@ -4,7 +4,20 @@ class SurveyQuestionEditTest < Capybara::Rails::TestCase
     Capybara.default_driver = :selenium
     login_as admins(:admin_1), scope: :admin
   end
-  
+
+  describe 'delete button works' do
+    it 'can add new ideas' do
+      visit "/survey_questions/#{survey_questions(:sq_with_radio_choice).id}/edit"
+      sleep 1
+      xs = page.all('.detail-row')
+      xs.last.hover
+      xs = page.all('.detail-row #out')
+      xs.last.click
+
+      ed_boxes = page.all('.editable-text')
+      assert_equal 5, ed_boxes.size
+    end
+  end
   describe 'save fields question' do
     it 'can add new ideas' do
       visit "/survey_questions/#{survey_questions(:sq_with_radio_choice).id}/edit"

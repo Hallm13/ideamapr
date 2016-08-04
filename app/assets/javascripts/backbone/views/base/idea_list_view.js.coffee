@@ -14,11 +14,6 @@ IdeaMapr.Views.IdeaListView = Backbone.View.extend
       @trigger('assigned_list:add_component')
       evt.stopPropagation()
             
-  populate_data: ->
-    # This triggers the fetches on whichever lists the SQ model for this listing view
-    # contains
-    @model.trigger_fetches()
-    
   distribute: (coll) ->
     # Now I have the components, they have to be assigned to the two avlbl views, search and selected
     view_self = @

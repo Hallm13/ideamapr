@@ -5,18 +5,6 @@
   = hidden_field_tag '_method', 'put'
   = hidden_field_tag :survey_id, @survey.id
   = hidden_field_tag 'survey[status]', @survey.status
-  .row.para-line
-    .col-xs-offset-3.col-xs-6.survey-dropdown-cell
-      #status-change-dropdown
-        .cell-1        
-          %span.shown-text
-            = @show_list_keys[@survey.status]
-          %i.fa.fa-chevron-down
-        .dd-choice-list
-          - @show_list_keys.each do |key, val|
-            .dd-choice{'data-status-key' => key}
-              = val
-
   - Survey.viewbox_list.each do |vb|
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}

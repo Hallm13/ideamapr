@@ -26,13 +26,7 @@ IdeaMapr.Views.AdminDetailsCollectionView = IdeaMapr.Views.IdeaListView.extend
       m.set_blank()
       @model.field_details.append_model m
       @
-
-  remove_detail: (detail_view) ->
-    # The remove will trigger the ranks reset
-    @model.field_details.remove detail_view.model
-    @render()
-    @
-    
+      
   render: ->
     qn_type = @model.get('question_type')    
     if qn_type == 1
