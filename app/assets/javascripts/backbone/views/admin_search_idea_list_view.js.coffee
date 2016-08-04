@@ -8,6 +8,11 @@ IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
     @
 
   events:
+    'keydown #idea-search': (evt) ->
+      if evt.keyCode == 13
+        # Absorb enter key to prevent form submission
+        evt.preventDefault()
+        
     'keyup #idea-search': (evt) ->
       @model.set('query', $(evt.target).val())
     'click .x-box': (evt) ->
@@ -41,11 +46,12 @@ IdeaMapr.Views.AdminSearchIdeaListView = Backbone.View.extend
 
   toggle_idea_boxes: ->
     view_self = @
-    @$('.idea-box').each (idx, elt) ->
-      if $(elt).find('.title-box').text().search(view_self.model.get('query')) > -1
-        $(elt).show()
+    @$('.idea-card-row').each (idx, elt) ->
+      parent = $(elt).closest('.component-box')      
+      if $(elt).find('.idea-title').text().search(view_self.model.get('query')) > -1
+        parent.show()
       else
-        $(elt).hide()
+        parent.hide()
   
   show: ->
     @$el.show()

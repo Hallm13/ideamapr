@@ -4,7 +4,16 @@ class SurveyQuestionEditTest < Capybara::Rails::TestCase
     Capybara.default_driver = :selenium
     login_as admins(:admin_1), scope: :admin
   end
-
+  describe 'search field works' do
+    it 'can add new ideas' do
+      visit "/survey_questions/#{survey_questions(:sq_1).id}/edit"
+      click_on 'add-component'
+      assert page.has_css?('.idea-card-row', visible: true)
+      fill_in 'idea-search', with: 'ZZZ'
+      refute page.has_css?('#unassigned-ideas .idea-card-row', visible: true)
+    end
+  end
+    
   describe 'delete button works' do
     it 'can add new ideas' do
       visit "/survey_questions/#{survey_questions(:sq_with_radio_choice).id}/edit"
