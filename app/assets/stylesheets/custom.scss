@@ -104,6 +104,15 @@ form {
        text-decoration: none;
      }
   vertical-align: middle;
+  &.green {
+    background-image: initial;
+    background-color: $theme-green;
+  }
+  &.red {
+    background-image: initial;
+    background-color: $theme-red;
+  }
+  
 }
 
 .auth-form-footer {
@@ -281,4 +290,21 @@ form {
 }
 .para-line {
   margin-bottom: 20px;
+}
+
+.link-font {
+  a {
+    &:hover {
+      color: $fake-link-blue;
+    }
+    color: $fake-link-blue;
+  }
+}
+
+.theme-red {
+  color: $theme-red;
+}
+
+.theme-green {
+  color: $theme-green;
 }

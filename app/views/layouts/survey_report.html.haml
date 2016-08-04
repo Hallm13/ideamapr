@@ -19,7 +19,7 @@
   %body
     .navtop{style: 'text-align: center;'}
       = succeed '&#8592;'.html_safe do
-        = link_to 'Back to survey list', surveys_path
+        = link_to @survey.title, edit_survey_path(@survey)
     .container-fluid
       .main
         = yield

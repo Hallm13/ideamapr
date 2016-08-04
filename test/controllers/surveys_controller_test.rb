@@ -29,7 +29,7 @@ class SurveysControllerTest < ActionController::TestCase
       assert_match /\d+/, answered_survey['report']['individual_answer_count'].to_s
     end
   end
-  
+
   describe '#show: admin' do
     before do
       @survey = surveys(:survey_1)
@@ -106,6 +106,13 @@ class SurveysControllerTest < ActionController::TestCase
       assert_match /survey 1 intro/, response.body
       assert_match /survey 1 title/, response.body
       assert assigns(:survey_status_select)
+    end
+
+    it 'shows correct reports' do
+      get :edit, id: (s = surveys(:answered_survey)).id
+      assert_select ('.survey-summary-data .theme-green') do |elts|
+        assert_match /#{s.respondents.count}/, elts[0].text
+      end
     end
   end
   

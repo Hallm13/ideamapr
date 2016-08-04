@@ -1,18 +1,4 @@
-.row.report-para.h1-font.bold-text
-  .col-xs-12
-    = @report_list[:title]
-    
-.row.survey-summary-title.report-para.h2-font
-  .col-xs-6
-    Unique Participants
-  .col-xs-6
-    Completion Rate
-.row.survey-summary-data.report-para.h2-font
-  .col-xs-6
-    = @report_list[:individual_answer_count]
-  .col-xs-6
-    = sprintf("%0.2f", @report_list[:finish_count].to_f/@report_list[:individual_answer_count])
-      
+= render partial: 'surveys/report_heading'      
 - @report_list[:answer_stats].each do |question|
   .row.report-question
     .col-xs-12

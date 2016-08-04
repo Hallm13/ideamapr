@@ -93,6 +93,18 @@ class SurveysController < ApplicationController
   end
   alias :create :update
 
+
+  def report
+    if @survey = Survey.find_by_id(params[:id])
+      @report_list = report_hash(@survey).merge({title: @survey.title})
+      template_name = (params[:full] ? :full_report : :report)
+
+      render "surveys/#{template_name}", layout: 'survey_report'
+    else
+      redirect_to surveys_path
+    end
+  end
+
   private
   def report_hash(s)
     params[:full] ? s.full_report_hash : s.report_hash
