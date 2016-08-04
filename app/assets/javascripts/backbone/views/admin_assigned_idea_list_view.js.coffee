@@ -2,7 +2,8 @@ IdeaMapr.Views.AdminAssignedIdeaListView = IdeaMapr.Views.IdeaListView.extend
   initialize: ->
     _.bindAll(@, 'render')
     @listenTo @collection, 'sort', @render
-    
+    @listenTo @collection, 'sync', @render
+    @admin_view = false    
   render: ->
     # The render will be called by the manager view that holds the selected and search views
     view_self = @
@@ -15,6 +16,9 @@ IdeaMapr.Views.AdminAssignedIdeaListView = IdeaMapr.Views.IdeaListView.extend
         model: m
       available_slots -= 1
       child_view.question_type = view_self.question_type
+      if view_self.admin_view
+        child_view.add_admin_events()
+      
       view_self.$el.append(child_view.render().el)
 
     @add_example_views
@@ -22,5 +26,6 @@ IdeaMapr.Views.AdminAssignedIdeaListView = IdeaMapr.Views.IdeaListView.extend
       type: 'idea'
       $root: @$el
 
-    @render_finish '#admin-add-idea-list'
+    unless @admin_view
+      @render_finish '#admin-add-idea-list'
     @

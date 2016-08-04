@@ -87,7 +87,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     elt_root = $('<div>').addClass('row')
     elt_root.append form()
     
-    elt_root.append($('<div>').attr('id', 'add-idea').addClass('col-xs-12 btn btn-primary').text('Add Another'))
+    elt_root.append($('<div>').attr('id', 'add-idea').addClass('col-xs-12 btn btn-primary').text('Save'))
     elt_root
     
   add_idea_model: ($elt) ->

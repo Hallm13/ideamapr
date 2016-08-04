@@ -139,9 +139,13 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   toggle_cart_text: ($button) ->
     if $button.data('action') == 'add'
       $button.text 'Remove from Cart'
+      $button.addClass 'remove'
+      $button.prev('.spend-amount').addClass 'remove'
       $button.data 'action', 'remove'
     else
       $button.text 'Add to Cart'
+      $button.prev('.spend-amount').removeClass 'remove'
+      $button.removeClass 'remove'
       $button.data 'action', 'add'
       
   save_and_render: ->

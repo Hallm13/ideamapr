@@ -10,8 +10,18 @@ class IdeasController < ApplicationController
   end
     
   def index
+    @all_ideas = Idea.order(created_at: :desc).map do |i|
+      base_info = {id: i.id, title: i.title, description: i.description}
+      if (img = i.card_image)
+        base_info.merge!({image_url: img.downloadable.url})
+      else
+        base_info.merge!({image_url: ''})
+      end
+
+      base_info
+    end
+    
     if params[:for_survey_question]
-      @all_ideas = Idea.order(created_at: :desc).all
       selected_idea_assignments =
         if params[:for_survey_question].to_i == 0
           # new survey questions have no ideas
@@ -24,24 +34,14 @@ class IdeasController < ApplicationController
         memo[rec_data[0]] = {ordering: rec_data[1], budget: rec_data[2]}
         memo
       end
-
-      @all_ideas = @all_ideas.map do |i|
-        base_info = {id: i.id, title: i.title, description: i.description}
-        if (img = i.card_image)
-          base_info.merge!({image_url: img.downloadable.url})
-        else
-          base_info.merge!({image_url: ''})
+      @all_ideas.each do |idea_rec|
+        i = idea_rec[:id]
+        if (already_assigned = assignments_rev_index.keys.include?(i))
+          idea_rec.merge!({component_rank: assignments_rev_index[i][:ordering],
+                           cart_amount: assignments_rev_index[i][:budget]})
         end
-        
-        if (already_assigned = assignments_rev_index.keys.include?(i.id))
-          base_info.merge!({component_rank: assignments_rev_index[i.id][:ordering],
-                            cart_amount: assignments_rev_index[i.id][:budget]})
-        end
-        base_info.merge!({is_assigned: already_assigned})
+        idea_rec.merge!({is_assigned: already_assigned})
       end
-    else
-      # There is neither a survey or an SQ specified in the params, to key ideas against
-      @all_ideas = Idea.all.order(created_at: :desc)
     end
 
     render (request.xhr? ? ({json: @all_ideas}) : ('index'))

@@ -1,4 +1,5 @@
-.row.idea-card-row
+- remove_bottom ||= false
+.row.idea-card-row{class: remove_bottom ? 'remove-bottom-margin' : ''}
   .col-xs-12.cancel-padding
     .idea-image
       %image{src: '<%- image_url %>'.html_safe}

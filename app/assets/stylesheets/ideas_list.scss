@@ -1,0 +1,11 @@
+#idea-list-container {
+  &.col-xs-center-9 {
+    /* Mimic Bootstrap as if you can center a 2/3rd's width column */ 
+    width: 66.6667%;
+    margin-left: 17.66667%;
+  }
+
+  .idea-card-row {
+    cursor: pointer;
+  }
+}

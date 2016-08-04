@@ -1,7 +1,15 @@
+# for sq and survey edits, absorb clicks inside the unassigned box so we can let clicks outside it close that box
+window.unassigned_closer = ->
+  $('.unassigned-components').click (evt) ->
+    evt.stopPropagation()
+  $('body').click (evt) ->
+    $('.unassigned-components').hide()
+    
 # Some buttons need the click to trickle down to the contained <a> element
 goto_child_a = ($d) ->
   link = $d.find('a')
-  document.location.href = $(link).attr('href')
+  if link.length > 0
+    document.location.href = $(link).attr('href')
 
 everything_functions = ->
   $('.secondary-item').click (evt) ->

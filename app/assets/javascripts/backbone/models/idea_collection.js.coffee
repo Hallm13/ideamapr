@@ -3,8 +3,11 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
   url: ->
     if typeof @survey_token != 'undefined'
       @urlRoot + '?for_survey=' + @survey_token
-    else
+    else if typeof @survey_question_id != 'undefined'
       @urlRoot + '?for_survey_question=' + @survey_question_id
+    else
+      # We are using this also for the ideas/index page now.
+      @urlRoot
 
   model: IdeaMapr.Models.Idea
   

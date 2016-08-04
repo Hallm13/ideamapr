@@ -10,6 +10,18 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
 
     @
 
+  add_admin_events: ->
+    _.extend(@events,
+      'click .idea-card-row' : (evt) ->
+        uri = document.location.href
+        uri = uri.replace(/\?[^\?\/]+$/, '/')
+        uri += @model.get('id') + '/edit'
+        document.location.href = uri
+    )
+    @delegateEvents()
+    @$el.off 'mouseenter', '.idea-row'
+    @$el.off 'mouseleave', '.idea-row'
+    
   extend_events: ->
     @events =
       'keydown .amount-box': (evt) ->
@@ -17,10 +29,8 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
         if (evt.keyCode < 48 or evt.keyCode > 57) and (evt.keyCode < 37 or evt.keyCode > 40) and evt.keyCode != 8
           evt.preventDefault()
           evt.stopPropagation()
-          
       'keyup .amount-box': (evt) ->
         @model.set('cart_amount', $(evt.target).text())
-        
       'mouseenter .idea-row': (evt) ->
         @add_controls evt, '.idea-box'
       'mouseleave .idea-row': (evt) ->
@@ -28,6 +38,7 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
 
     # Add in admin controls behavior
     _.extend(@events, @base_events)
+
     # Add in the expander behavior.
     _.extend(@events, (new IdeaMapr.Views.SummaryExpander()).events)
     @delegateEvents()

@@ -8,7 +8,7 @@
 }
 
 @mixin solid-gray-border($border_radius: 5px) {
-  border: solid 1px $form-border-gray;
+  border: solid 2px $form-border-gray;
   border-radius: $border_radius;
 }
 

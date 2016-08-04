@@ -37,6 +37,9 @@ class IndividualAnswersController < ApplicationController
           IndividualAnswer.find_or_create_by survey_question_id: @sqn.id, survey_public_link: params[:survey_token],
                                              respondent_id: @respondent.id, response: @response
         response_fragment.response_data = response_hash['data']
+
+        # Todo #79
+#        idea_record = (response_fragment.persisted? ?                         response_fragment.idea : (Idea.new title: response_hash['data']['title']... #won't work;))
         response_fragment.save
         
         success = true

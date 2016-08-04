@@ -1,6 +1,12 @@
 #object-save {
   margin-bottom: 20px;
 }
+.idea-source {
+  color: $text-gray;
+  margin: 0 auto;
+  width: 10%;
+  text-align: center;
+}
 
 .unassigned-components {
   margin-top: 20px;
@@ -27,12 +33,14 @@
 }
 
 .component-box {
-  padding-top: 10px;
-  padding-bottom: 10px;
   .component-row {
     position: relative;
     padding-top: 15px;
     padding-bottom: 15px;
+    .user-controls-box {
+      top: calc(25% - 20px);
+    }
+    
     .controls-box {
       display: none;
       position: absolute;
@@ -229,13 +237,19 @@
       border-radius: 5px;
       text-align: center;
     }
-    .idea-card-row {
-      margin-left: 5px;
+  }
+}
+#selected-list {
+  .component-box {
+    .component-row:hover {
+      background-color: $background-gray;
     }
   }
 }
-.component-box {
-  .component-row:hover {
-    background-color: $background-gray;
+
+.idea-card-row {
+  &.remove-bottom-margin {
+    margin-bottom: 0;
   }
+  margin-left: 5px;
 }

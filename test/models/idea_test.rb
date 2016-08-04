@@ -19,4 +19,9 @@ class IdeaTest < ActiveSupport::TestCase
     h = i.download_files_hash
     refute_nil h[h.keys.first]
   end
+
+  test 'default source' do
+    i = Idea.create(title: 'new idea title', description: 'new idea description')
+    assert_equal 'Admin', i.source
+  end
 end

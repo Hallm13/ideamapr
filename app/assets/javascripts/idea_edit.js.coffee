@@ -1,4 +1,4 @@
-functions = ->
+idea_edit_functions = ->
   $('.x-box').click (evt) ->
     parent = $(evt.target).closest('.attachment-desc')
     id = parent.data('attachment-id')
@@ -7,4 +7,4 @@ functions = ->
       (d, s, x) ->
         parent.detach()
     )
-$(document).on('ready turbolinks:load', functions)
+$(document).on('turbolinks:load', idea_edit_functions)

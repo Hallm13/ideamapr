@@ -2,6 +2,8 @@ functions = ->
   if ($.find('form#survey_new').length > 0 || $.find('form#survey_edit').length > 0) and $.find('#survey_id').length > 0
     # set up the dropdown behavior
     # I think both ready and turbolinks:load are firing on this page... that's why the off() is necessary
+    
+    window.unassigned_closer()
     $('#status-change-dropdown .cell-1').off().click (evt) ->
       $('.dd-choice-list').toggle()
       evt.stopPropagation()
@@ -45,4 +47,4 @@ functions = ->
         evt.stopPropagation()
         false
       
-$(document).on('ready turbolinks:load', functions)
+$(document).on('turbolinks:load', functions)

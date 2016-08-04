@@ -11,6 +11,7 @@ set_prompt = (css_select) ->
     )
 
 sq_edit_functions = ->
+  window.unassigned_closer()
   show_field_or_ideas = (qn_type) ->
     # qn_type is reqd to be an integer.
     
