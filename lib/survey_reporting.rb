@@ -97,12 +97,10 @@ module SurveyReporting
       rank_totals[idea_id] /= ct
     end
 
-    # Return stats in order ideas were assigned.
-    idea_order.each do |id_title|
-      ordered_totals << {title: id_title[1], avg: rank_totals[id_title[0]]}
-    end
-    
-    {ranking_averages: ordered_totals}
+    {ranking_averages: rank_totals.inject([]) do |array, pair|
+       array << {title: idea_order.select { |rec| rec[0] == pair[0]}.first[1],
+                 avg: rank_totals[pair[0]]}
+     end.sort_by { |hash| hash[:avg] }}
   end
 
   def self.procon_stats(ia_list)

@@ -11,4 +11,4 @@
   .col-xs-6.theme-green
     = @report_list[:respondent_count]
   .col-xs-6.theme-red
-    = sprintf("%0.2f", @report_list[:finish_count].to_f/@report_list[:individual_answer_count])
+    = as_percentage @report_list[:finish_count].to_f/@report_list[:individual_answer_count]

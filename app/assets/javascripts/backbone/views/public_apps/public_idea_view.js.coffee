@@ -56,6 +56,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       
     "click #save-procon": (evt) ->
       @model.add_feedback $(evt.target).data('fdbk-type'), @fdbk_text
+      @fdbk_text = ''
       @remove_textarea()
       
     'keyup #current-procon': (evt) ->
