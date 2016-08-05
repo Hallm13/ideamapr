@@ -12,11 +12,8 @@ en:
   survey_questions: 'Questions'
   surveys: 'Surveys'
   create_idea: 'Create Idea'
-  edit_idea: 'Edit Idea'
   create_survey: 'Create Survey'
-  edit_survey: 'Edit Survey'
   create_survey_question: 'Create Question'
-  edit_survey_question: 'Edit Question'
   prompts:
     newidea:
       title: 'Add a short title for your idea'
@@ -31,6 +28,7 @@ en:
       intro_message: 'Describe your survey'
       thankyou: 'Add a little thank you'
   survey_question:
+    add_button: 'Add a question'
     helper_defaults:
       procon: 'Supply pros and cons for these ideas'
       ranking: 'Please use the arrows to move the most important options to the top'
@@ -40,8 +38,10 @@ en:
       nonidea_radio: 'Select one of the following.'
       nonidea_fields: 'Fill in the following fields.'
   survey:
+    add_button: 'Add a survey'
     search_list_title_html: '<%- available_count %> available questions (Added <%- added_count %>)'
   idea:
+    add_button: 'Add an idea'
     search_list_title_html: '<%- available_count %> available ideas (Added <%- added_count %>)'
     card_more: 'Read More'
     card_less: 'Read Less'

@@ -1,11 +1,15 @@
-#idea-list-container {
-  &.col-xs-center-9 {
-    /* Mimic Bootstrap as if you can center a 2/3rd's width column */ 
-    width: 66.6667%;
-    margin-left: 17.66667%;
-  }
+/* cancel out the styling necessary for the edit views */
 
+#idea-list-container {
+  .component-row {
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
   .idea-card-row {
     cursor: pointer;
+    margin-left: 0px;
   }
 }

@@ -239,7 +239,8 @@
     }
   }
 }
-#selected-list {
+
+#options-list,#selected-list {
   .component-box {
     .component-row:hover {
       background-color: $background-gray;
@@ -247,9 +248,29 @@
   }
 }
 
+/* Admin controls don't look nice for non-idea fields */
+#options-list {
+  .controls-box {
+    max-width: initial;
+    &.left-margin {
+      left: 10px;
+    }
+  }
+  .admin-ranking-sign {
+    display: inline-block;
+    &.admin-up {
+      background-position: 0px 3px;
+    }
+    &.admin-down {
+      margin-left: 4px;
+    }
+  }
+}
+
+
 .idea-card-row {
   &.remove-bottom-margin {
-    margin-bottom: 0;
+    margin: 0
   }
   margin-left: 5px;
 }

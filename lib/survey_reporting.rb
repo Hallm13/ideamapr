@@ -8,9 +8,12 @@ module SurveyReporting
       ret = survey_hash
       ret[:full_details] = []
 
-      survey_questions.includes(:ideas).where('survey_questions.question_type in (?)',
-                                              [SurveyQuestion::QuestionType::PROCON, SurveyQuestion::QuestionType::NEW_IDEA,
-                                              SurveyQuestion::QuestionType::TEXT_FIELDS]).all.each do |qn|
+      survey_questions.includes(:question_assignments).
+        where('survey_questions.question_type in (?)',
+              [SurveyQuestion::QuestionType::PROCON, SurveyQuestion::QuestionType::NEW_IDEA,
+               SurveyQuestion::QuestionType::TEXT_FIELDS]).
+        order('question_assignments.ordering asc').
+        all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
         qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
                          question_type: qn.question_type}
@@ -34,7 +37,9 @@ module SurveyReporting
       ret = survey_hash
       ret[:answer_stats] = []
 
-      survey_questions.includes(:ideas).all.each do |qn|
+      survey_questions.includes(:ideas).
+        order('question_assignments.ordering asc').
+        all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
         qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
                          question_type: qn.question_type,

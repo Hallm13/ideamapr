@@ -1,7 +1,4 @@
-.row
-  %a{href: new_survey_question_url}        
-    %button.btn.btn-primary
-      = t(:add_button_text)
+= render partial: 'admin_add_button', locals: {button_text: t('survey_question.add_button'), button_target: new_survey_question_url}
       
 - if @questions.size > 0
   .entity-set

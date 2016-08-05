@@ -1,8 +1,4 @@
-.row
-  %a{href: new_survey_url}
-    .btn.btn-primary
-      = t(:add_button_text)
-
+= render partial: 'admin_add_button', locals: {button_text: t('survey.add_button'), button_target: new_survey_url}
 .entity-set
   .row.table-headers
     .col-xs-12

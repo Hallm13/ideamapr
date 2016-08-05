@@ -1,8 +1,7 @@
-.row
-  %a{href: new_idea_url}
-    .btn.btn-primary
-      = t(:add_button_text)
+= render partial: 'admin_add_button', locals: {button_text: t('idea.add_button'), button_target: new_idea_url}
 
 = render partial: 'type__1_admin_template'
-#idea-list-container.col-xs-center-9
+.row
+  .col-xs-center-9
+    .row#idea-list-container
 = javascript_include_tag 'idea_list.js'

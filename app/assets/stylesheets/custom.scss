@@ -308,3 +308,9 @@ form {
 .theme-green {
   color: $theme-green;
 }
+.col-xs-center-9 {
+  /* Mimic Bootstrap as if you can center a 2/3rd's width column */ 
+  width: 88%;
+  margin-left: 6%
+}
+

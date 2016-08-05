@@ -88,3 +88,12 @@
   margin-bottom: 10px;
 }
 
+.admin-add-button {
+  .btn {
+    background-image: initial;
+    background-color: $theme-red;
+    border-color: initial;
+    color: white;
+    @include h2-title();
+  }
+}
