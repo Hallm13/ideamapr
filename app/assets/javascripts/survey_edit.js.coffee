@@ -11,8 +11,15 @@ functions = ->
     $('.dd-choice').click (evt) ->
       evt.stopPropagation()
       status = $(evt.target).data('status-key')
+      txt = $(evt.target).text()      
       $('input#survey_status').val status
-      $('#status-change-dropdown .shown-text').text $(evt.target).text()
+      $('#status-change-dropdown .shown-text').text txt
+      if status == 1
+        # Published; show the public link
+        $('#public-link a').text('/surveys/public_show/' + $('#hidden_public_link').val())
+      else
+        $('#public-link a').text 'Not published'
+      
       $('.dd-choice-list').hide()
 
     # We are creating or editing a survey qn

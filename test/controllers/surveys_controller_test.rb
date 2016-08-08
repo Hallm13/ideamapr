@@ -5,6 +5,18 @@ class SurveysControllerTest < ActionController::TestCase
     sign_in admins(:admin_1)
   end
 
+  describe '#report' do
+    it 'works' do
+      get :report, id: surveys(:answered_survey).id
+      assert_template :report
+    end
+    
+    it 'handles errors' do
+      get :report, id: -1
+      assert_redirected_to surveys_path
+    end
+  end
+
   describe '#index' do
     it 'works for admins' do
       get :index
@@ -39,6 +51,9 @@ class SurveysControllerTest < ActionController::TestCase
 
     it 'works for admin' do
       get :show, id: @survey.id
+      assert_template :show
+
+      get :show, id: surveys(:published_survey).id
       assert_template :show
     end
 

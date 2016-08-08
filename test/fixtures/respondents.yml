@@ -2,3 +2,8 @@ respondent_1:
   cookie_key: cookie_1
 respondent_2:
   cookie_key: cookie_answered_1
+respondent_3:
+  cookie_key: cookie_answered_2
+respondent_4:
+  cookie_key: cookie_answered_3
+  

@@ -44,9 +44,27 @@ ia_answered_toppri:
   survey_public_link: answered_survey_public_link
   response: answered_response_2
   survey_question: sq_toppri
-ia_answered_budget:
+ia_answered_budget_1:
   <<: *defaults
   respondent: respondent_2
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_budget_type
+ia_answered_budget_2:
+  <<: *defaults
+  respondent: respondent_3
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_budget_type
+ia_answered_budget_3:
+  <<: *defaults
+  respondent: respondent_1
+  survey_public_link: answered_survey_public_link
+  response: answered_response_2
+  survey_question: sq_budget_type
+ia_answered_budget_4:
+  <<: *defaults
+  respondent: respondent_4
   survey_public_link: answered_survey_public_link
   response: answered_response_2
   survey_question: sq_budget_type

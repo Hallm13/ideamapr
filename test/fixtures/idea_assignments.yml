@@ -49,19 +49,19 @@ ia_1_sq_ranking_idea_3:
   ordering: 1
 ia_1_sq_budget_idea_1:
   <<: *defaults
-  budget: 5.05
+  budget: 500
   idea: idea_1
   groupable: sq_budget_type
-  ordering: 1
+  ordering: 0
 ia_1_sq_budget_idea_2:
   <<: *defaults
-  budget: 42.42
+  budget: 400
   idea: idea_2
   groupable: sq_budget_type
-  ordering: 0
+  ordering: 1
 ia_1_sq_budget_idea_3:
   <<: *defaults
-  budget: 7.07
+  budget: 700
   idea: idea_3
   groupable: sq_budget_type
   ordering: 2

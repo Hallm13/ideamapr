@@ -54,12 +54,7 @@ class SurveyTest < ActiveSupport::TestCase
                       ]
     i.save
 
-    i = individual_answers(:ia_answered_budget)
-    i.response_data = [{'idea_id' => ideas(:idea_2).id, 'component_rank' => 0, cart_count: 1},
-                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 1, cart_count: 0}
-                      ]
-    i.save
-    
+    save_budget_answers
     i = individual_answers(:ia_answered_radio)
     i.response_data = [{'text' => 'hot',  'idea_id' => ideas(:idea_2).id, 'checked' => true}, 
                        {'text' => 'cold', 'idea_id' => ideas(:idea_3).id, 'checked' => false}
@@ -78,11 +73,45 @@ class SurveyTest < ActiveSupport::TestCase
                       ]
     i.save
 
-    assert 7.07,
-           s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][0][2]
-    assert 0,
-           s.report_hash[:answer_stats].select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first[:sorted_idea_avg_budget][1][2]
+    budget_rep = s.report_hash[:answer_stats].
+                 select { |r| r[:question_id] == survey_questions(:sq_budget_type).id }.first
+
+    assert_equal 1500.0/4, budget_rep[:sorted_idea_avg_budget][0][2]
+    assert_equal 350.0, budget_rep[:sorted_idea_avg_budget][1][2]
 
     refute_nil s.full_report_hash
+  end
+
+  private
+  def save_budget_answers
+    # 1,2,3 = 500, 400, 700 budgets
+    i = individual_answers(:ia_answered_budget_1)
+    i.response_data = [{'idea_id' => ideas(:idea_1).id, 'component_rank' => 0, cart_count: 1},
+                       {'idea_id' => ideas(:idea_2).id, 'component_rank' => 1, cart_count: 1},
+                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 2, cart_count: 0}
+                      ]
+    i.save
+    
+    i = individual_answers(:ia_answered_budget_2)
+    i.response_data = [{'idea_id' => ideas(:idea_1).id, 'component_rank' => 0, cart_count: 1},
+                       {'idea_id' => ideas(:idea_2).id, 'component_rank' => 1, cart_count: 0},
+                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 2, cart_count: 1}
+                      ]
+    
+    i.save
+    i = individual_answers(:ia_answered_budget_3)
+    i.response_data = [{'idea_id' => ideas(:idea_1).id, 'component_rank' => 0, cart_count: 1},
+                       {'idea_id' => ideas(:idea_2).id, 'component_rank' => 1, cart_count: 1},
+                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 2, cart_count: 1}
+                      ]
+    
+    i.save
+    i = individual_answers(:ia_answered_budget_4)
+    i.response_data = [{'idea_id' => ideas(:idea_1).id, 'component_rank' => 0, cart_count: 0},
+                       {'idea_id' => ideas(:idea_2).id, 'component_rank' => 1, cart_count: 1},
+                       {'idea_id' => ideas(:idea_3).id, 'component_rank' => 2, cart_count: 0}
+                      ]
+    
+    i.save
   end
 end

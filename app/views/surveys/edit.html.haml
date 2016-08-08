@@ -5,16 +5,21 @@
   = hidden_field_tag '_method', 'put'
   = hidden_field_tag :survey_id, @survey.id
   = hidden_field_tag 'survey[status]', @survey.status
+  = hidden_field_tag 'hidden_public_link', ("#{request.protocol}://#{request.host}/surveys/public_show/") + "/#{@survey.public_link}"
   - Survey.viewbox_list.select { |vb| ['title', 'survey_status'].include?(vb.partial_name) }.each do |vb|
     - if vb.shown
       = render partial: vb.partial_name, layout: 'builder_box', locals: {vb: vb}
-  - if @survey.has_state?(:published)
-    .builder-box.row
-      .col-xs-offset-4.col-xs-4
-        .title
-          Share Survey
-      .col-xs-12.text-center.link-font.bold-text
-        = link_to public_show_surveys_url(public_link: @survey.public_link), public_show_surveys_url(public_link: @survey.public_link)
+
+  .builder-box.row
+    .col-xs-offset-4.col-xs-4
+      .title
+        Share Survey
+    .col-xs-12.text-center.link-font
+      - if @survey.has_state?(:published)
+        .bold-text#public-link      
+          = link_to public_show_surveys_url(public_link: @survey.public_link), public_show_surveys_url(public_link: @survey.public_link)
+      - else
+        Not published  
         
   - if @survey.individual_answers.count > 0
     = render partial: 'surveys/report_heading'

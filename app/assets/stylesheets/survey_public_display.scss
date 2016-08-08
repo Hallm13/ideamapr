@@ -197,6 +197,7 @@
   .idea-card-row {
     padding: $large-vertical-gutter calc(#{$large-vertical-gutter} - 5px);
     /* col-xs-12 adds the remaining padding on the left/right */
+    min-height: 190px;
     
     @include solid-gray-border();
     margin-bottom: $large-vertical-gutter;
@@ -254,7 +255,7 @@
 /* Ranking idea */
 .idea-row {
   position: relative;
-  min-height: 150px;
+
   .ranked-index {
     position: absolute;
     top: 0;

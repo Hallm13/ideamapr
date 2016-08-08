@@ -54,7 +54,8 @@ module SurveyReporting
         when SurveyQuestion::QuestionType::NEW_IDEA
           qn_stats_hash.merge! SurveyReporting.newidea_stats(ia_list)
         when SurveyQuestion::QuestionType::BUDGETING
-          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, qn.idea_assignments.order(ordering: :desc), idea_order)
+          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, qn.idea_assignments.order(ordering: :asc),
+                                                               idea_order)
         when SurveyQuestion::QuestionType::TOPPRI
           qn_stats_hash.merge! SurveyReporting.toppri_stats(ia_list, idea_order)
         when SurveyQuestion::QuestionType::RADIO_CHOICES
@@ -145,6 +146,7 @@ module SurveyReporting
     # Sorted desc.
     # {\"data\":[{\"answered\":true,\"checked\":false,\"cart_count\":1,\"idea_id\":2},{\"answered\":false,\"checked\":false,\"idea_id\":3},{\"answered\":true,\"checked\":false,\"cart_count\":0,\"idea_id\":1},{\"answered\":true,\"checked\":false,\"cart_count\":1,\"idea_id\":4}]}
     total_spends = {}
+
     ia_list.each do |ia|
       ia.response_data.zip(assignments.to_a).map do |answer_assg|
         total_spends[answer_assg[1]['idea_id']] ||= 0
