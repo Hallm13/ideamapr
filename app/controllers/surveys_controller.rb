@@ -51,6 +51,9 @@ class SurveysController < ApplicationController
   def edit
     @level2_menu = :create_survey
     @report_list = report_hash(@survey).merge({title: @survey.title})
+    @full_public_link = "#{request.protocol}#{request.host}"
+    @full_public_link += request.port == 80 ? '' : ":#{request.port}"
+    @full_public_link += "/surveys/public_show/#{@survey.public_link}"
     set_dropdown
   end
   
@@ -127,8 +130,8 @@ class SurveysController < ApplicationController
         # For use in view helpers
         @form_object = @survey
       when :public_show
-        status &= (params[:public_link] && (@survey = Survey.find_by_public_link(params[:public_link])) &&
-                   @survey.status == Survey::SurveyStatus::PUBLISHED)
+        status &= params[:public_link] && (@survey = Survey.find_by_public_link(params[:public_link])) &&
+                  (current_admin || @survey.status == Survey::SurveyStatus::PUBLISHED)
       when :show, :edit
         status &= (@survey = Survey.find_by_id params[:id])
         # For use in view helpers

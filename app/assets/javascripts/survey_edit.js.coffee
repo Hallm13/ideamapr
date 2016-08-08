@@ -8,6 +8,12 @@ functions = ->
       $('.dd-choice-list').toggle()
       evt.stopPropagation()
 
+    $('#public-link a').click (e) ->
+      if $(e.target).attr('href') == '#'
+        return false
+      else
+        return true
+        
     $('.dd-choice').click (evt) ->
       evt.stopPropagation()
       status = $(evt.target).data('status-key')
@@ -16,9 +22,11 @@ functions = ->
       $('#status-change-dropdown .shown-text').text txt
       if status == 1
         # Published; show the public link
-        $('#public-link a').text('/surveys/public_show/' + $('#hidden_public_link').val())
+        $('#public-link a').attr 'href', $('#hidden_public_link').val()
+        $('#public-link a').text $('#hidden_public_link').val()
       else
         $('#public-link a').text 'Not published'
+        $('#public-link a').attr 'href', '#'
       
       $('.dd-choice-list').hide()
 

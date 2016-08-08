@@ -1,6 +1,6 @@
 = hidden_field_tag :cookie_key, @cookie_key, class: 'metadata'
 = hidden_field_tag :survey_token, '', 'data-survey-token' => @survey.public_link
-
+= hidden_field_tag :survey_status, @survey.status
 #survey-public-view
   #survey-navbar
   #survey-intro.survey-sections

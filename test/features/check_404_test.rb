@@ -4,7 +4,7 @@ class RedirectFor404Test < Capybara::Rails::TestCase
   # General tests for what signed in and out users
 
   def setup
-    Capybara.default_driver = :selenium
+    Capybara.default_driver = :webkit
     login_as admins(:admin_1), scope: :admin
   end
   
@@ -15,6 +15,7 @@ class RedirectFor404Test < Capybara::Rails::TestCase
 
   test 'click on homepage on idea will not generate a 404' do
     visit '/'
+    sleep 1
     page.all('.idea-card-row').first.click
     refute_match /404/, page.current_path
   end

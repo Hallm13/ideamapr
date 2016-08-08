@@ -61,7 +61,11 @@ class SurveysControllerTest < ActionController::TestCase
       s = surveys(:survey_1)
       s.regenerate_public_link
       get :public_show, public_link: s.public_link
-      assert_redirected_to '/404.html'
+      assert_template :public_show
+      assert_select '#survey_status' do |elts|
+        assert_equal 1, elts.size
+        assert_equal '0', elts[0][:value]
+      end
     end
   end
 

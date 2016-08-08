@@ -15,8 +15,11 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
       'click .idea-card-row' : (evt) ->
         uri = document.location.href
         uri = uri.replace(/\?[^\?\/]+$/, '/')
-        if uri.match(/ideas.$/) != null
+        if uri.match(/\/ideas\/?[^\/]*$/) != null
           # This is not the homepage
+          if uri.match(/ideas$/)
+            uri += '/'
+            
           uri += @model.get('id') + '/edit'
         else
           uri += 'ideas/' + @model.get('id') + '/edit'

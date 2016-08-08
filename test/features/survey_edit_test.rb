@@ -1,7 +1,7 @@
 require 'test_helper'
 class SurveyEditTest < Capybara::Rails::TestCase
   def setup
-    Capybara.default_driver = :selenium
+    Capybara.default_driver = :webkit
     login_as admins(:admin_1), scope: :admin
   end
   

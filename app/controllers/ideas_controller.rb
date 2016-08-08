@@ -44,7 +44,7 @@ class IdeasController < ApplicationController
       end
     end
 
-    render (request.xhr? ? ({json: @all_ideas}) : ('index'))
+    render json_payload
   end
 
   def edit
@@ -80,6 +80,14 @@ class IdeasController < ApplicationController
   alias :create :update
   
   private
+  def json_payload
+    if request.xhr?
+      {json: @all_ideas}
+    else
+      'index'
+    end
+  end
+  
   def set_menubar_variables
     @navbar_active_section = :ideas
   end

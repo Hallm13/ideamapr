@@ -71,5 +71,7 @@ end
 def set_net_stubs
   stub_request(:put, "https://testbucket.s3.testregion.amazonaws.com/image.png").
     to_return(status: 200)
+  stub_request(:put, "https://testbucket.s3.testregion.amazonaws.com/dummy_name.png").
+    to_return(status: 200)
 end
 

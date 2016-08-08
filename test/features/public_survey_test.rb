@@ -1,7 +1,7 @@
 require 'test_helper'
 class PublicSurveyTest < Capybara::Rails::TestCase
   before do
-    Capybara.default_driver = :selenium
+    Capybara.default_driver = :webkit
   end
   
   describe 'pro/con' do

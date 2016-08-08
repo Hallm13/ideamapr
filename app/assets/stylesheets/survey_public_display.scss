@@ -223,6 +223,10 @@
   }
   
   .cart-count-line {
+    * {
+      vertical-align: middle;
+    }
+      
     padding-bottom: 20px;
     color: $theme-green;
     @include h1-title();
@@ -232,8 +236,17 @@
 	@include solid-border($theme-green, 5px)
       }
       display: inline-block;
-      margin-left: 40px;
-      padding: 10px 40px;
+
+      @media (min-width: $mobile-breakpoint) {
+	margin-left: 40px;
+	padding: 10px 40px;
+      }
+      @media (max-width: $mobile-breakpoint) {
+	margin-left: 15px;
+	padding: 10px 10px;
+	max-width: 50%;
+      }
+      
       &.remove {
 	color: $theme-red;
 	&:hover {
@@ -243,6 +256,7 @@
     }
     
     .spend-amount {
+      min-width: 25%;
       display: inline-block;
       padding: 5px 10px 0 20px;
       &.remove {

@@ -1,6 +1,9 @@
 funcs = ->
   return if $.find('#survey_token').length == 0
-
+  if $('#survey_status').val() != '1'
+    alert 'This survey is not published'
+    return true
+    
   survey_token = $('#survey_token').data('survey-token')
 
   shown_survey = new IdeaMapr.Models.Survey()
