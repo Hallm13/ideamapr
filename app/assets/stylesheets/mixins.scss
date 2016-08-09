@@ -3,12 +3,12 @@
 }
 
 @mixin solid-border($border_color, $border_radius) {
-  border: solid 1px $border_color;
+  border: solid $border-thickness $border_color;
   border-radius: $border_radius;
 }
 
 @mixin solid-gray-border($border_radius: 5px) {
-  border: solid 2px $form-border-gray;
+  border: solid $border-thickness $form-border-gray;
   border-radius: $border_radius;
 }
 

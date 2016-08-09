@@ -1,21 +1,8 @@
 = render partial: 'surveys/report_heading'      
 - @report_list[:answer_stats].each do |question|
-  .row.report-question
-    .col-xs-12
-      .row
-        .col-xs-12.report-para.bold-text.h2-font
-          = question[:question_title]
-        .col-xs-12.report-para
-          = question[:question_prompt]
-        .col-xs-3.col-xs-offset-3.report-para.bold-text{style: 'text-align: center;'}
-          Completed this question
-        .col-xs-3.report-para.bold-text{style: 'text-align: center;'}
-          Participation Rate
-        .col-xs-3.col-xs-offset-3.report-para{style: 'text-align: center;'}
-          .number
-            = question[:answer_rate]
-        .col-xs-3.report-para{style: 'text-align: center;'}
-          .number
-            = as_percentage(question[:participation_rate])
-    .col-xs-12
-      = render partial: 'surveys/report_partials/' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}
+  %tr{style: tr100 + reportpara}
+    %td{style: tr100 + centeralign + h2font, colspan: 2}
+      = question[:question_title]
+  %tr{style: tr100 + reportpara}
+    %td{style: tr100 + centeralign, colspan: 2}
+      = question[:question_prompt]

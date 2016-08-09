@@ -144,9 +144,9 @@
 	background: white;
 	text-align: center;
 	padding: 5px 0;
-	border-right: solid 1px $background-gray;
-	border-left: solid 1px $background-gray;	
-	border-bottom: solid 1px $background-gray;
+	border-right: solid $border-thickness $background-gray;
+	border-left: solid $border-thickness $background-gray;	
+	border-bottom: solid $border-thickness $background-gray;
 	&:hover {
 	  background-color: $background-gray;
 	}
@@ -180,11 +180,14 @@
       &#go-left {
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
+	background-color: $background-gray;
+	border: solid 5px $background-gray;
       }
 
       &#go-right {
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
+	color: white;
 	&.theme-red {
 	  background-color: $theme-red;
 	  border: solid 5px $theme-red;

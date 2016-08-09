@@ -1,5 +1,5 @@
-%tr{style: tr100 + centeralign}
-  %td{style: tr100 + boldfont + h1font + centeralign, colspan: 2}
+%tr.report-para.h1-font.bold-text
+  %td.col-xs-12.center-align
     = @report_list[:title]
 
 = render partial: 'report_heading_numbers', locals: {respondent_count: @report_list[:respondent_count], participation_rate: @report_list[:finish_count].to_f/@report_list[:individual_answer_count] }

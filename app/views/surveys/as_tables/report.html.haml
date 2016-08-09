@@ -1,0 +1,50 @@
+:css
+  .theme-red {
+  color: #C54943;
+  }
+
+  .theme-green {
+  color: #409599;
+  }
+  
+  .table-top {
+  width: 100%;
+  margin-bottom: 20px;
+  }
+  .h1-font {
+  font-family: MontserratBold, sans-serif;
+  font-weight: bold;
+  font-size: 1.75em;
+  line-height: 110%;
+  }
+  .center-align {
+  text-align: center;
+  }
+  table td[class*="col-"] {
+  float: left;
+  }
+  table .col-xs-12 {
+  width: 100%;
+  }
+  table .col-xs-6 {
+  width: 50%;
+  }
+  .main {
+  max-width: 975px;
+  margin: 0 auto;
+    }
+  }
+  
+    
+  .report-para {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    .number {
+      color: $theme-green;
+    }
+  }
+
+
+%table.table-top
+  = render partial: 'report'

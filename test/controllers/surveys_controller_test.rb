@@ -129,7 +129,7 @@ class SurveysControllerTest < ActionController::TestCase
 
     it 'shows correct reports' do
       get :edit, id: (s = surveys(:answered_survey)).id
-      assert_select ('.survey-summary-data .theme-green') do |elts|
+      assert_select ('.survey-summary-data td') do |elts|
         assert_match /#{s.respondents.count}/, elts[0].text
       end
     end

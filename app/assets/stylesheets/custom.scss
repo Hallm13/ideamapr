@@ -48,7 +48,7 @@ p {
 }
 
 .centered-textbox {
-  border: blue solid 1px;
+  border: blue solid $border-thickness;
   border-radius: 5px;
   display: inline-block;
   padding: 5px;
@@ -78,7 +78,7 @@ form {
 
 .sign-in-form {
   padding: 20px;
-  border: 1px solid $form-border-gray;
+  border: $border-thickness solid $form-border-gray;
   background-color: $form-background;
 }
 
@@ -216,7 +216,7 @@ form {
 }
 
 .cell-1 {
-  border: 1px solid $form-border-gray;
+  border: $border-thickness solid $form-border-gray;
   border-radius: 5px;
   padding: 15px 5px;
   min-height: 40px;

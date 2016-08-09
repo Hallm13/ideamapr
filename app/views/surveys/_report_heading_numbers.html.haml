@@ -1,10 +1,10 @@
-.row.survey-summary-title.report-para.h2-font
-  .col-xs-6
+%tr{style: reportpara + h2font}
+  %td{style: tr50 + centeralign}
     Unique Participants
-  .col-xs-6
+  %td{style: tr50 + centeralign}
     Participation Rate
-.row.survey-summary-data.report-para.h2-font
-  .col-xs-6.theme-green
+%tr.survey-summary-data.report-para.h2-font
+  %td{style: tr50 + centeralign + themegreen}
     = respondent_count
-  .col-xs-6.theme-red
+  %td{style: tr50 + centeralign + themered}
     = sprintf("%0.2f", participation_rate)

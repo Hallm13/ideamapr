@@ -20,7 +20,7 @@
     background: white;
 
     margin-top: 5px;
-    border: solid 1px goldenrod;
+    border: solid $border-thickness $form-border-gray;
     width: 105%;
     
     .dd-choice {
@@ -42,7 +42,7 @@
 .report-para {
   text-align: center;
   margin-bottom: 20px;
-
+  
   .number {
     color: $theme-green;
   }
