@@ -59,6 +59,6 @@ class Idea < ActiveRecord::Base
 
   private
   def set_default_source
-    source.present? or (self.source = 'Admin')
+    source.present? or (self.source = 'admin')
   end
 end

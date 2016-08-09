@@ -61,3 +61,17 @@
     }
   }
 }
+
+.question-row {
+  .question-card-line {
+    margin-bottom: 10px;
+  }
+  
+  cursor: pointer;
+  padding: 10px;
+  @include solid-gray-border();
+  margin-bottom: 20px;
+  .survey-status {
+    color: $moreless-gray;
+  }
+}

@@ -22,6 +22,6 @@ class IdeaTest < ActiveSupport::TestCase
 
   test 'default source' do
     i = Idea.create(title: 'new idea title', description: 'new idea description')
-    assert_equal 'Admin', i.source
+    assert_match /admin/i, i.source
   end
 end

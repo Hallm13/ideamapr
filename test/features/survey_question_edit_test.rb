@@ -6,7 +6,8 @@ class SurveyQuestionEditTest < Capybara::Rails::TestCase
   end
   describe 'search field works' do
     it 'can add new ideas' do
-      visit "/survey_questions/#{survey_questions(:sq_1).id}/edit"
+      visit "/survey_questions/#{survey_questions(:sq_ranking).id}/edit"
+
       click_on 'add-component'
       assert page.has_css?('.idea-card-row', visible: true)
       fill_in 'idea-search', with: 'ZZZ'

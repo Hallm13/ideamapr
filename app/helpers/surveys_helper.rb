@@ -8,6 +8,10 @@ module SurveysHelper
     end
   end
 
+  def status_as_word(id)
+    Survey::SurveyStatus.name id
+  end
+
   def as_percentage(float)
     sprintf("%0.2f", float * 100) + '%'
   end

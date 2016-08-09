@@ -82,12 +82,17 @@ class Survey < ActiveRecord::Base
   end
       
   def has_state?(sym)
-    Survey::SurveyStatus.const_defined?(sym.to_s.upcase) && status == "Survey::SurveyStatus::#{sym.upcase}".constantize
+    Survey::SurveyStatus.const_defined?(sym.to_s.upcase) &&
+      status == "Survey::SurveyStatus::#{sym.upcase}".constantize
   end
   def published?
     has_state?(:published)
   end
 
+  def participation_rate
+    report_hash[:total_screen_count].to_f/report_hash[:respondent_count]
+  end
+  
   def publish!
     self.status = SurveyStatus::PUBLISHED
     self.regenerate_public_link

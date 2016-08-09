@@ -128,7 +128,8 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         @$('#addcon').hide()
     div.show()
     div.find('#save-procon').data('fdbk-type', type)    
-    div.find('textarea').focus()    
+    div.find('textarea').focus()
+    div.find('.heading').text('Add a ' + type)
     
   remove_textarea: (type) ->
     @shown_box = ''    

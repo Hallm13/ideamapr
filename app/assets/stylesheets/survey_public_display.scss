@@ -7,7 +7,7 @@
   color: $theme-red;
   position: absolute;
   right: 0;
-  top: 0;
+  top: 10px;
   padding: 2px 8px 0 0;
 }
 
@@ -41,9 +41,16 @@
       .input-controls {
 	display: none;
 	position: relative;
-	padding: 25px 5px 5px 5px;
+	padding: 10px 5px 5px 5px;
 	background-color: $background-gray;
 
+	.heading {
+	  width: 50%;
+	  padding-bottom: 10px;
+	  margin: 0 auto;
+	  text-align: center;
+	}
+	
 	textarea {
 	  width: 100%;
 	  border-radius: 5px;
@@ -55,7 +62,7 @@
 
   #pro-column,#con-column {
     padding: 0 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   #addpro {
     position: relative;
@@ -67,6 +74,10 @@
 
   .procon-button {
     margin-bottom: 40px;
+  }
+
+  #current-procon-list {
+    margin-top: -10px;
   }
 
   /* Budgeting */
@@ -198,6 +209,11 @@
     padding: $large-vertical-gutter calc(#{$large-vertical-gutter} - 5px);
     /* col-xs-12 adds the remaining padding on the left/right */
     min-height: 190px;
+
+    @media (max-width: $mobile-breakpoint) {
+      max-height: 480px;
+      overflow: hidden;
+    }
     
     @include solid-gray-border();
     margin-bottom: $large-vertical-gutter;
@@ -223,6 +239,8 @@
   }
   
   .cart-count-line {
+    margin-top: -10px;
+    margin-bottom: 20px;
     * {
       vertical-align: middle;
     }
@@ -258,7 +276,7 @@
     .spend-amount {
       min-width: 25%;
       display: inline-block;
-      padding: 5px 10px 0 20px;
+      padding: 0 10px 0 20px;
       &.remove {
 	color: $theme-red;
       }

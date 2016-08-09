@@ -34,6 +34,8 @@ module SurveyReporting
     end
     
     def report_hash
+      return @cached_survey_hash if @cached_survey_hash
+      
       ret = survey_hash
       ret[:answer_stats] = []
 
@@ -41,6 +43,8 @@ module SurveyReporting
         order('question_assignments.ordering asc').
         all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
+        ret[:total_screen_count] += ia_list.size
+        
         qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
                          question_type: qn.question_type,
                          participation_rate: ia_list.size.to_f / responses.count, answer_rate: ia_list.count}
@@ -65,14 +69,15 @@ module SurveyReporting
         ret[:answer_stats] << qn_stats_hash
       end
 
-      ret
+      (@cached_survey_hash = ret)
     end
 
     private
     def survey_hash
       { individual_answer_count: self.individual_answers.count,
         respondent_count: self.respondents.count,
-        finish_count: self.responses.where(closed: true).count
+        finish_count: self.responses.where(closed: true).count,
+        total_screen_count: 0
       }
     end      
   end

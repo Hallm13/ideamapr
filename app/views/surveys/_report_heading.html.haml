@@ -1,14 +1,5 @@
 .row.report-para.h1-font.bold-text
   .col-xs-12
     = @report_list[:title]
-    
-.row.survey-summary-title.report-para.h2-font
-  .col-xs-6
-    Unique Participants
-  .col-xs-6
-    Participation Rate
-.row.survey-summary-data.report-para.h2-font
-  .col-xs-6.theme-green
-    = @report_list[:respondent_count]
-  .col-xs-6.theme-red
-    = as_percentage @report_list[:finish_count].to_f/@report_list[:individual_answer_count]
+
+= render partial: 'report_heading_numbers', locals: {respondent_count: @report_list[:respondent_count], participation_rate: @report_list[:finish_count].to_f/@report_list[:individual_answer_count] }

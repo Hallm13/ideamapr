@@ -5,8 +5,6 @@
 %script#type-0-public-template{type: 'text/template'}
   .procon.idea-row.component-row
     = render partial: 'idea_card'
-    .row
-      .col-xs-12#current-procon-list-wrapper
     .row#current-procon-list
       .col-xs-6#pro-column
         .row
@@ -14,6 +12,8 @@
         .row
     .row.input-row
       .input-controls.col-xs-6
+        .heading
+          
         .x-box
           X
         %textarea#current-procon{rows: 5}

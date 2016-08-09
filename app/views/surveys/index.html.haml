@@ -1,12 +1,13 @@
 = render partial: 'admin_add_button', locals: {button_text: t('survey.add_button'), button_target: new_survey_url}
-.entity-set
-  .row.table-headers
-    .col-xs-12
-      Survey Name
 - if @surveys.size > 0
-  .entity-set  
-    - @surveys.each do |survey|
-      .row.question-row
-        .col-xs-12.goto-edit{'data-goto-target' => edit_survey_path(survey)}
-          .cell-1
-            = survey.title
+  .row
+    .entity-set  
+      - @surveys.each do |survey|
+        .col-xs-center-9.question-row.goto-edit{'data-goto-target' => edit_survey_path(survey)}
+          .row
+            .h2-font.col-xs-12.question-card-line
+              = survey.title
+            .survey-status.col-xs-12.question-card-line
+              = status_as_word(survey.status)
+          - if survey.status == 1 && survey.individual_answers.count > 0
+            = render partial: 'report_heading_numbers', locals: {respondent_count: survey.report_hash[:respondent_count], participation_rate: survey.participation_rate}

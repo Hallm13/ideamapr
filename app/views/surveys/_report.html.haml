@@ -7,14 +7,14 @@
           = question[:question_title]
         .col-xs-12.report-para
           = question[:question_prompt]
-        .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
+        .col-xs-3.col-xs-offset-3.report-para.bold-text{style: 'text-align: center;'}
           Completed this question
-        .col-xs-6.report-para.bold-text{style: 'text-align: left;'}
+        .col-xs-3.report-para.bold-text{style: 'text-align: center;'}
           Participation Rate
-        .col-xs-6.report-para{style: 'text-align: left;'}
+        .col-xs-3.col-xs-offset-3.report-para{style: 'text-align: center;'}
           .number
             = question[:answer_rate]
-        .col-xs-6.report-para{style: 'text-align: left;'}
+        .col-xs-3.report-para{style: 'text-align: center;'}
           .number
             = as_percentage(question[:participation_rate])
     .col-xs-12

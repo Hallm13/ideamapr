@@ -1,0 +1,10 @@
+.row.survey-summary-title.report-para.h2-font
+  .col-xs-6
+    Unique Participants
+  .col-xs-6
+    Participation Rate
+.row.survey-summary-data.report-para.h2-font
+  .col-xs-6.theme-green
+    = respondent_count
+  .col-xs-6.theme-red
+    = sprintf("%0.2f", participation_rate)
