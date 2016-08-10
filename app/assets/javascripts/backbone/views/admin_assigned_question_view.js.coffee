@@ -25,7 +25,7 @@ IdeaMapr.Views.AdminAssignedQuestionView = IdeaMapr.Views.SurveyQuestionIdeaEdit
     html = _.template($(template_id).html())(@model.attributes)
     @$el.html html
     div_array = @create_controls()
-    @$el.find('.question-row').prepend div_array[0]
-    @$el.find('.question-row').append div_array[1]
+    @$el.find('.assigned-question-row').prepend div_array[0]
+    @$el.find('.assigned-question-row').append div_array[1]
     
     @

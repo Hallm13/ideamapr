@@ -1,6 +1,6 @@
 .aligner
   = label_tag :question_prompt
-  = text_field_tag 'survey_question[question_prompt]', @question.question_prompt
+  = text_area_tag 'survey_question[question_prompt]', @question.question_prompt
 .helper-line
   Default is:
   %span#helper-edit

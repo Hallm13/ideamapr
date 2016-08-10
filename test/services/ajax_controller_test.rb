@@ -27,5 +27,27 @@ module Ajax
         data = Ajax::Library.route_action("survey_question/delete_idea/#{@sqn.id}/#{@idea.id}")
       end
     end
+
+    test 'destroy survey_question' do
+      sqn = survey_questions(:sq_pre_5_procon)
+      assert_difference('IdeaAssignment.count', sqn.idea_assignments.count * -1) do
+        data = Ajax::Library.route_action("survey_question/destroy/#{sqn.id}")
+      end
+    end
+    
+    test 'destroy survey' do
+      surv = surveys(:answered_survey)
+      assert_difference('QuestionAssignment.count', surv.question_assignments.count * -1) do
+        data = Ajax::Library.route_action("survey/destroy/#{surv.id}")
+      end
+    end
+    
+    test 'destroy idea' do
+      idea = ideas(:idea_3)
+      assert_difference('IdeaAssignment.count', idea.idea_assignments.count * -1) do
+        data = Ajax::Library.route_action("idea/destroy/#{idea.id}")
+      end
+    end
   end
 end
+

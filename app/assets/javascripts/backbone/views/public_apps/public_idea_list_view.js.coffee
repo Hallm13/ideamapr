@@ -35,6 +35,9 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
         model: m
         collection: view_self.collection
       child_view.question = view_self.question
+      if view_self.question.get('question_type') == 1
+        # Ranking type should not show ranks to start with
+        child_view.show_ranks = (view_self.question.get('answered') == true)
       view_self.$el.append child_view.render().el
       null
 

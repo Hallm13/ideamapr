@@ -1,4 +1,6 @@
 %script#type--1-public-template{type: 'text/template'}
   .row.ranking.idea-row.component-row
-    .idea.col-xs-12
+    .idea.col-xs-12.question-data{'data-object-id' => '<%- id %>'.html_safe, 'data-object-type' => 'idea'}
+      .x-box
+        X
       = render partial: 'idea_card', locals: {remove_bottom: true}

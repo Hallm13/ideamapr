@@ -25,5 +25,9 @@ funcs = ->
   # SurveyPublicView listens to this collections and starts the rendering
   # process when it is fetched
   sq_list.fetch()
+
+  # 127 - close dropdown for all clicks
+  $(document).click (evt) ->
+    app.close_survey_navbar()  
       
 $(document).on('ready turbolinks:load', funcs)

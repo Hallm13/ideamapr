@@ -6,6 +6,14 @@ module Ajax
 
       struct = {}
       case action
+      when 'destroy'
+        id = args[0]
+        if obj = ::SurveyQuestion.find_by_id(id)
+          obj.destroy
+          struct[:status] = true
+        else
+          struct[:status] = false
+        end
       when 'get_prompt_map'
         struct[:data] = ::SurveyQuestion::QuestionType.prompts.inject({}) do |trans_hash, pair|
           trans_hash[pair[0]] = I18n.t pair[1]

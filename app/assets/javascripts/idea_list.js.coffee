@@ -11,7 +11,10 @@ idea_list_functions = ->
   )
   list_view.admin_view = true
   list_view.question_type = -1
+  list_view.attach_xbox_handler window.lists_functions
   coll.fetch
     beforeSend: bust_cache
   
 $(document).on('turbolinks:load', idea_list_functions)
+
+

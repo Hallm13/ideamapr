@@ -1,10 +1,3 @@
-# Set the helper text for question types
-window.get_helper_texts = ->
-  if typeof(window.cms_list) == 'undefined'
-    window.cms_list = new IdeaMapr.Models.CmsList()
-  cms_list.search_filter = 'help_text'
-  cms_list.getById()
-
 show_error_boxes = (arr_elts) ->
   arr_elts.forEach (e, i) ->
     error_boxes = $(e).find('+ .error-box')
@@ -49,8 +42,6 @@ forms_functions = ->
     
   if $('.builder-box').length != 0
     # initialize the page.
-    window.get_helper_texts('#helper_edit')
-
     $('form#container_update #redirect').val('')
     $('input,textarea').each (idx, elt) ->
       if $(elt).val().trim().length > 0

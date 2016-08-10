@@ -131,3 +131,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     # These selectors are used to make the remaining screens in initialize().
 
     @semaphore_increment('sq')
+    
+  close_survey_navbar: ->
+    if typeof @navbar_view != 'undefined'
+      @navbar_view.close_menu()

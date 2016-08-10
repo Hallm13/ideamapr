@@ -67,11 +67,21 @@ class IndividualAnswersControllerTest < ActionController::TestCase
       assert surveys(:published_survey).responses.all[1].closed
     end
 
-    it 'handles errors' do
-      refute_difference('Respondent.count') do
-        put :update, id: -1
+    describe 'errors' do
+      it 'handles broken survey id' do
+        refute_difference('Respondent.count') do
+          put :update, id: -1
+        end
+        refute JSON.parse(response.body)[:success]
       end
-      refute JSON.parse(response.body)[:success]
+      it 'handles bad json' do
+        answer_1_publ_survey = {survey_question_id: survey_questions(:sq_1).id,
+                                survey_token: surveys(:published_survey).public_link}
+        refute_difference('Respondent.count') do
+          post :create, answer_1_publ_survey.merge({response_data: '[thisisnotjson[]'})
+        end
+        refute JSON.parse(response.body)[:success]
+      end        
     end
     
     after do

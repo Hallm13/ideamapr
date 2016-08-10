@@ -25,3 +25,4 @@
 //= require survey_edit
 //= require idea_edit
 //= require file_upload_manipulation
+//= require lists

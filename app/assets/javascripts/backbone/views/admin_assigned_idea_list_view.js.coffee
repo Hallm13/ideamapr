@@ -26,6 +26,15 @@ IdeaMapr.Views.AdminAssignedIdeaListView = IdeaMapr.Views.IdeaListView.extend
       type: 'idea'
       $root: @$el
 
-    unless @admin_view
+    if @admin_view
+      @xbox_handler.call()
+    else
       @render_finish '#admin-add-idea-list'
     @
+
+  attach_xbox_handler: (handler) ->
+    # when the list of ideas is shown in the index view, we need to pass thru the x-box handling function
+    # that is defined in javascripts/lists.js
+    
+    @xbox_handler = handler
+    

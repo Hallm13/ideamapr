@@ -15,6 +15,12 @@ class PublicSurveyTest < Capybara::Rails::TestCase
       # order = procon, radio, new idea, budget
       refute page.has_text? 'Thank you'
       sleep 1
+
+      page.find('#current-question').click
+      assert_operator page.all('#other-sections .clickable', visible: true).count, :>, 0
+      page.find('body').click
+      assert_equal 0, page.all('#other-sections .clickable', visible: true).count
+
       (1 + @s.question_assignments.count).times do
         page.find('#go-right').click
       end

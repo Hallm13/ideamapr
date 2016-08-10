@@ -1,13 +1,9 @@
 IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
   initialize: ->
     _.bindAll(@, 'render')
-    @listenTo(@model, 'change:answered', @set_answered_display)
     @
     
   tagName: 'div',
-
-  set_answered_display: (m) ->
-    @$('.answered-status').text(m.get('answered'))
     
   render: ->
     sq_html =  _.template($('#survey-question-screen-template').html())(@model.attributes)
@@ -32,6 +28,9 @@ IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
         collection: idea_or_details_coll
       if question_type == 3
         idea_or_details_coll.budget = @model.get('budget')
+      if question_type == 1
+        # Ranking type should not show ranks to start with
+        idea_list_view.show_ranks = false
         
     idea_list_view.question = @model      
     @$('#idea-list').append(idea_list_view.render().el)

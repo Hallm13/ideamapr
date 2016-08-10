@@ -48,16 +48,18 @@ class IndividualAnswersController < ApplicationController
     params[:survey_token] ||= params[:id]
 
     @survey = Survey.valid_public_survey? params[:survey_token]
+    c = cookies['_ideamapr_response_key'] || -1
     if @survey
-      @respondent = Respondent.find_by_cookie_key cookies['_ideamapr_response_key']
+      @respondent = Respondent.find_by_cookie_key c
       @response = nil
-      unless @respondent
+      if @respondent.nil?
         # Don't create a respondent if the survey doesn't exist.
         # Store answers as anonymous without cookies
-        c = cookies['_ideamapr_response_key'] || -1
-        @respondent = Respondent.find_or_create_by cookie_key: c
+        @respondent = Respondent.find_or_initialize_by cookie_key: c
+        @response = Response.new survey: @survey
+      else
+        @response = Response.find_or_create_by respondent_id: @respondent.id, survey: @survey
       end
-      @response = Response.find_or_create_by respondent_id: @respondent.id, survey: @survey
     end
     
     status = @survey.present?
@@ -70,7 +72,8 @@ class IndividualAnswersController < ApplicationController
           if @response_hash.is_a?(Hash) and !@response_hash['data'].nil?
             # there has to be a valid survey question that has exactly as many ideas/fields
             # as the number of responses provided
-            status &&= (length = @sqn&.response_length) and (length == -1 || length == @response_hash['data'].length)
+            length = @sqn&.response_length            
+            status &&= (length == -1 || length == @response_hash['data'].length)
           end
         rescue JSON::ParserError, ArgumentError => e
           # Protect against JSON parse attacks
@@ -80,9 +83,16 @@ class IndividualAnswersController < ApplicationController
       end
     end
 
-    unless status
+    if status
+      unless @respondent.persisted?
+        @respondent.save
+        @response.respondent = @respondent
+        @response.save
+      end
+    else
       render json: ({success: false, message: 'invalid parameters'})
     end
+    
     status
   end
 end

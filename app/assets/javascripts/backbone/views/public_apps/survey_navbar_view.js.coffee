@@ -25,6 +25,7 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
     'click #current-question': (evt) ->
       @$('#other-sections').toggle()
       @toggle_bottom_border $(evt.target)
+      evt.stopPropagation()
     'click #other-sections .clickable': (evt) ->
       @model.trigger('survey:recrement_question', {move_to: $(evt.target).data('question-index')})
       
@@ -112,3 +113,6 @@ IdeaMapr.Views.SurveyNavbarView = Backbone.View.extend
       $elt.removeClass 'thin-bottom'
     else
       $elt.addClass 'thin-bottom'
+
+  close_menu: ->
+    @$('#other-sections').hide()

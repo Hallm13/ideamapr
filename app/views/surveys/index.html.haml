@@ -4,7 +4,9 @@
     .entity-set  
       - @surveys.each do |survey|
         .col-xs-center-9.question-row.goto-edit{'data-goto-target' => edit_survey_path(survey)}
-          .row
+          .row.question-data{'data-object-id' => survey.id, 'data-object-type' => 'survey'}
+            .x-box
+              X
             .h2-font.col-xs-12.question-card-line
               = survey.title
             .survey-status.col-xs-12.question-card-line

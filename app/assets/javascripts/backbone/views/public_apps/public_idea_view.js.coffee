@@ -38,12 +38,12 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     'click .up': (evt) ->
       # Cannot move top idea up
       unless @model.get('component_rank') == 0
-        @model.set 'answered', 1
+        @model.set 'answered', true
         @model.set 'ranked', 1
     'click .down': (evt) ->
       # Cannot move bottom idea down but this view can't tell - so the collection
       # that listens to this event has to.
-      @model.set 'answered', 1
+      @model.set 'answered', true
       @model.set 'ranked', -1
     
     # Procon
@@ -85,7 +85,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         _.extend({},
           @model.attributes,
             survey_question_id: @question.get('id')
-            shown_component_rank: @model.get('component_rank') + 1          
+            shown_component_rank: if @show_ranks then (@model.get('component_rank')) + 1 else ''
           )
       )
       
