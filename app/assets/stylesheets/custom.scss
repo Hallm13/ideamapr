@@ -314,14 +314,25 @@ form {
   width: 88%;
   margin-left: 6%;  
 }
-
 .col-sm-offset-2p5 {
-  margin-left: 20.833%;
+  @media (min-width: 768px) {
+    margin-left: 20.833%;
+  }
 }
 .col-sm-offset-1p5 {
-  margin-left: 12.5%;
+  @media (min-width: 768px) {
+    margin-left: 12.5%;
+  }
 }
 
 .col-sm-2p5 {
-  width: 20.8333%;
+  @media (min-width: 768px) {
+    width: 20.8333%;
+  }
+}
+
+.col-xs-2p5 {
+  @media (max-width: 768px) {
+    width: 20.8333%;
+  }
 }
