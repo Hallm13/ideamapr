@@ -11,7 +11,9 @@ module SurveyReporting
       survey_questions.includes(:question_assignments).
         where('survey_questions.question_type in (?)',
               [SurveyQuestion::QuestionType::PROCON, SurveyQuestion::QuestionType::NEW_IDEA,
-               SurveyQuestion::QuestionType::TEXT_FIELDS]).
+               SurveyQuestion::QuestionType::TEXT_FIELDS, SurveyQuestion::QuestionType::BUDGETING,
+               SurveyQuestion::QuestionType::RANKING, SurveyQuestion::QuestionType::TOPPRI,
+               SurveyQuestion::QuestionType::RADIO_CHOICES]).
         order('question_assignments.ordering asc').
         all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
@@ -25,6 +27,14 @@ module SurveyReporting
           qn_stats_hash.merge! SurveyReporting.full_newidea_stats(ia_list)
         when SurveyQuestion::QuestionType::TEXT_FIELDS
           qn_stats_hash.merge! SurveyReporting.full_text_field_stats(ia_list)
+        when SurveyQuestion::QuestionType::BUDGETING
+          qn_stats_hash.merge! SurveyReporting.full_budgeting_stats(ia_list)
+        when SurveyQuestion::QuestionType::RANKING
+          qn_stats_hash.merge! SurveyReporting.full_ranking_stats(ia_list)
+        when SurveyQuestion::QuestionType::TOPPRI
+          qn_stats_hash.merge! SurveyReporting.full_toppri_stats(ia_list)
+        when SurveyQuestion::QuestionType::RADIO_CHOICES
+          qn_stats_hash.merge! SurveyReporting.full_radio_stats(ia_list)
         end
 
         ret[:full_details] << qn_stats_hash
@@ -58,8 +68,7 @@ module SurveyReporting
         when SurveyQuestion::QuestionType::NEW_IDEA
           qn_stats_hash.merge! SurveyReporting.newidea_stats(ia_list)
         when SurveyQuestion::QuestionType::BUDGETING
-          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, qn.idea_assignments.order(ordering: :asc),
-                                                               idea_order)
+          qn_stats_hash.merge! SurveyReporting.budgeting_stats(ia_list, idea_order)
         when SurveyQuestion::QuestionType::TOPPRI
           qn_stats_hash.merge! SurveyReporting.toppri_stats(ia_list, idea_order)
         when SurveyQuestion::QuestionType::RADIO_CHOICES
@@ -151,19 +160,21 @@ module SurveyReporting
     {total_new_ideas: total_ideas, average_number_of_submissions: average}
   end
 
-  def self.budgeting_stats(ia_list, assignments, idea_order)
+  def self.budgeting_stats(ia_list, idea_order)
     # Avg. spending on idea over all answers; and also just show the unit cost informationally
     # Sorted desc.
-    total_spends = {}
+    costs = total_spends = {}
     available_ids = idea_order.map { |pair| pair[0] }
 
     ia_list.each do |ia|
-      ia.response_data.zip(assignments.to_a).map do |answer_assg|
-        if available_ids.include? answer_assg[1]['idea_id']
-          total_spends[answer_assg[1]['idea_id']] ||= 0
-          if (x = answer_assg[0]['cart_count']) == 1
-            # Trying to avoid multiplication here... is it helpful, or a silly optimization?
-            total_spends[answer_assg[1]['idea_id']] += answer_assg[1].budget
+      ia.response_data.map do |idea_rec|
+        if available_ids.include? idea_rec['idea_id']
+          total_spends[idea_rec['idea_id']] ||= 0
+          if idea_rec['cart_count'] == 1
+            amt = idea_rec['cart_amount'] || 0.0
+            costs[idea_rec['idea_id']] ||= amt
+
+            total_spends[idea_rec['idea_id']] += amt * idea_rec['cart_count']
           end
         end
       end
@@ -172,8 +183,9 @@ module SurveyReporting
     idea_list = []
     respondent_ct = Respondent.count
     {sorted_idea_avg_budget: total_spends.map do |k, v|
-       [k, (idea_order.select { |idea| idea[0] == k}.first[1] ),
-        v.to_f / ia_list.length, assignments.where(idea_id: k).first.budget]
+       # id, title, avg budget spend, cart cost -> sorted by the avg budget spend
+       [k, (idea_order.select { |idea| idea[0] == k}.first[1] ),        
+        v.to_f / ia_list.length, costs[k]]
      end.sort_by { |pair| -1 * pair[2] }
     }
   end
@@ -243,6 +255,51 @@ module SurveyReporting
     {lists_by_idea: lists}
   end
   
+  def self.full_budgeting_stats(ia_list)
+    cart = {}    
+    ia_list.each do |ia|
+      ia.response_data.each do |idea_packet|
+        idea = Idea.find_by_id idea_packet['idea_id']
+        if idea && idea_packet['cart_count'] == 1
+          cart[idea.title] ||= []
+          cart_amount = idea_packet['cart_amount'] || 0 # Backward compatibility for when the cart_amount key was not passed thru in response.
+          cart[idea.title] << [cart_amount * idea_packet['cart_count'], ia.respondent_id]
+        end
+      end
+    end
+    
+    {lists_by_idea: cart}
+  end
+  
+  def self.full_toppri_stats(ia_list)
+    id_lists = {}
+    ia_list.each do |ia|
+      ia.response_data.each do |idea_packet|
+        if idea_packet['checked'] && (idea = Idea.find_by_id idea_packet['idea_id'])
+          id_lists[idea.title] ||= []
+          id_lists[idea.title] << ia.respondent_id
+        end
+      end
+    end
+    
+    {lists_by_idea: id_lists}
+  end
+
+  def self.full_ranking_stats(ia_list)
+    rank_lists = {}
+    ia_list.each do |ia|
+      ia.response_data.each do |idea_packet|
+        idea = Idea.find_by_id idea_packet['idea_id']
+        if idea
+           rank_lists[idea.title] ||= []
+          rank_lists[idea.title] << [idea_packet['component_rank'], ia.respondent_id]
+        end
+      end
+    end
+    
+    {lists_by_idea: rank_lists}
+  end
+  
   def self.full_newidea_stats(ia_list)
     idea_list = []
     ia_list.each do |ia|
@@ -260,6 +317,20 @@ module SurveyReporting
       ia.response_data.each do |field|
         field_values[field['text']] ||= []
         field_values[field['text']] << [ia.respondent_id, field['text_entry']]
+      end
+    end
+    
+    {field_values: field_values}
+  end
+  
+  def self.full_radio_stats(ia_list)
+    field_values = {}
+    ia_list.each do |ia|
+      ia.response_data.each do |field|
+        if field['checked']
+          field_values[field['text']] ||= []
+          field_values[field['text']] << ia.respondent_id
+        end
       end
     end
     

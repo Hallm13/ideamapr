@@ -1,0 +1,14 @@
+- qn[:field_values].each do |text, id_list|
+  .row
+    .col-xs-12.bold-text.h2-font.para-line
+      = text
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %td.col-xs-12
+          Participant ID
+    %tbody
+      - id_list.each do |id|
+        %tr
+          %td.col-xs-12
+            = id

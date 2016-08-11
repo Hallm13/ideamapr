@@ -74,7 +74,8 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       @set 'cart_count', 1
     else
       @set 'cart_count', 0
-      
+
+    @set_response_data 'cart_amount', @get('cart_amount')
     @set_response_data 'cart_count', @get('cart_count')
     
   set_text_entry: (id, txt) ->

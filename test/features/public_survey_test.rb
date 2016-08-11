@@ -12,7 +12,7 @@ class PublicSurveyTest < Capybara::Rails::TestCase
     end
 
     it 'gets to thank you screen' do
-      # order = procon, radio, new idea, budget
+      # order = procon, radio, new idea, budget, ranking
       refute page.has_text? 'Thank you'
       sleep 1
 
@@ -25,9 +25,9 @@ class PublicSurveyTest < Capybara::Rails::TestCase
         page.find('#go-right').click
       end
 
-      # Can use summary clicks - go back one screen - budget
+      # Can use summary clicks - go back one screen - ranking
       page.all('.clickable').last.click
-      assert page.has_content? 'budget type'
+      assert page.has_content? 'ranking'
       # return to summary
       page.find('#go-right').click
       

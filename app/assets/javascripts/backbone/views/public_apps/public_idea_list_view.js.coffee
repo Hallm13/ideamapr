@@ -8,7 +8,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     @form_elt = null
     
     # Ranking
-    @listenTo @collection, 'sort', @render
+    @listenTo @collection, 'sort', @remove_prompt_and_render
     
     # Budgeting
     @remaining_budget_title_html = "Total <span class='bold-text'>Remaining: </span><span class='value'></span>"
@@ -23,7 +23,11 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
         @add_idea_model @form_elt
       else
         evt.stopPropagation()
-        
+
+  remove_prompt_and_render: ->
+    @$el.find('.ranking-prompt').remove()
+    @render()
+
   render: ->
     view_self = @
     # clear!
@@ -42,6 +46,10 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       null
 
     switch @question.get('question_type')
+      when 1
+        # Ranking: fresh view shd have the helper box at the top
+        if !view_self.question.get('answered')
+          @$el.prepend @ranking_prompt_box()
       when 3
         # Budget questions will need an extra line before, and new idea question requires add-button after.
         @$el.prepend @redraw_budget_line()
@@ -52,6 +60,11 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
 
     @
 
+  ranking_prompt_box: ->
+    root = $('<div>').addClass('col-xs-12 ranking-prompt')
+    root.append($('<div>').addClass('help-text').html('Click the + or <span class="red">-</span> to rank'))
+    root
+    
   change_spent_amount: (m, options) ->
     # m is the model for the idea (cart_amount is added from the idea_assignment that connected to it.)
     current_count = m.get 'cart_count'

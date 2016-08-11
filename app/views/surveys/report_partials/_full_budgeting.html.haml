@@ -1,0 +1,18 @@
+- qn[:lists_by_idea].each do |title, list_recs|
+  .row
+    .col-xs-12.bold-text.h2-font.para-line
+      = title
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %td
+          Responses
+        %td.col-xs-2
+          Participant ID
+      %tbody
+        - list_recs.each do |amt_id_pair|
+          %tr
+            %td
+              = amt_id_pair[0]
+            %td.col-xs-2
+              = amt_id_pair[1]

@@ -14,6 +14,10 @@ qa_pub_budget:
   survey: published_survey
   survey_question: sq_budget_type
   ordering: 3
+qa_pub_budget:
+  survey: published_survey
+  survey_question: sq_ranking
+  ordering: 4  
 qa_1_1:
   survey: survey_1
   survey_question: sq_1

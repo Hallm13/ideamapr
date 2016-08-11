@@ -305,7 +305,25 @@
     @include solid-gray-border();
   }
 }
-  
+
+.ranking-prompt {
+  border: dotted $border-thickness $theme-green;
+  min-height: 70px;
+  margin-bottom: 20px;
+  .help-text {
+    color: $theme-green;
+    padding: 20px 0 20px;
+    @include h2-title();
+    width: 75%;
+    text-align: center;
+    margin: 0 auto;
+    height: 30px;
+    .red {
+      color: $theme-red;
+    }
+  }
+}
+
 .user-controls-box {
   position: absolute;
   max-width: 66px;
