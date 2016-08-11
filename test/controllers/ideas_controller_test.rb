@@ -69,7 +69,7 @@ class IdeasControllerTest < ActionController::TestCase
   describe '#create' do
     it 'is successful without attachments' do
       post :create, idea: {title: 'is a long title', description: "is a long title and description"}
-      assert_redirected_to ideas_path(Idea.last)
+      assert_redirected_to ideas_path
     end
     it 'is successful with attachments' do
       assert_difference('DownloadFile.count', 1) do

@@ -1,11 +1,12 @@
 %script#type-1-public-template{type: 'text/template'}
   .row.ranking.idea-row.component-row
-    .user-controls-box
-      .ranking-sign.up
-        +
-      .ranking-sign.down
-        \-
     .idea.col-xs-11.col-xs-offset-1
+      .user-controls-box
+        .ranking-sign.up
+          +
+        .ranking-sign.down
+          \-
+      
       .ranked-index
         <%- shown_component_rank %>
       = render partial: 'idea_card'

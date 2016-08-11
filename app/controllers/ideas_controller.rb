@@ -71,7 +71,7 @@ class IdeasController < ApplicationController
         df.save
       end
       
-      redirect_to ideas_path @idea
+      redirect_to ideas_path
     else
       flash.now[:alert] = t(:resource_creation_failure, resource_name: 'Idea')
       render (params[:action] == 'create' ? :new : :edit)

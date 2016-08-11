@@ -289,8 +289,10 @@
 
 /* Ranking idea */
 .idea-row {
-  position: relative;
-
+  .idea {
+    position: relative;
+  }
+  
   .ranked-index {
     position: absolute;
     top: 0;
@@ -299,11 +301,6 @@
     width: 10%;
     text-align: center;
     background-color: white;
-    @include solid-gray-border();
-  }
-
-  .idea.col-xs-10 {
-    margin-top: 20px;
     @include solid-gray-border();
   }
 }
@@ -315,7 +312,7 @@
   top: 25%;
 
   @media (min-width: $mobile-breakpoint) {
-    left: 115px;
+    left: -45px;
   }
   @media (max-width: $mobile-breakpoint) {
     left: 85px;
