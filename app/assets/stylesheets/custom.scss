@@ -151,11 +151,11 @@ form {
   .main {
     @media (min-width: $mobile-breakpoint) {
       max-width: 75%;
+      margin: auto;
     }
     @media (max-width: $mobile-breakpoint) {
-      max-width: 92%;
+      max-width: 100%;
     }
-    margin: auto;
   }
 }
 
@@ -278,6 +278,12 @@ form {
   /* Just a redirect */
   @include h1-title();
 }
+.desktop-h2-font {
+  @media (min-width: $mobile-breakpoint) {
+    @include h2-title();
+  }
+}
+
 .h2-font {
   /* Just a redirect */
   @include h2-title();

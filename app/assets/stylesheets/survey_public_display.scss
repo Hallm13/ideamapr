@@ -66,10 +66,16 @@
   }
   #addpro {
     position: relative;
+    @media(max-width: $mobile-breakpoint) {
+      font-size: 16px;
+    }
   }
 
   #addcon {
     color: $theme-red;
+    @media(max-width: $mobile-breakpoint) {
+      font-size: 16px;
+    }
   }
 
   .procon-button {
@@ -251,7 +257,12 @@
       
     padding-bottom: 20px;
     color: $theme-green;
-    @include h1-title();
+    @media(min-width: $mobile-breakpoint) {
+      @include h1-title();
+    }
+    @media(max-width: $mobile-breakpoint) {
+      @include h2-title();
+    }
 
     .add-to-cart {
       &:hover {
@@ -377,7 +388,13 @@
   &:valid {
     padding-left: 5px;
   }
-}  
+}
+#add-idea {
+  @media(max-width: $mobile-breakpoint) {
+    font-size: 16px;
+  }
+}
+
 #new_idea_title {
   min-height: 50px;
 }
