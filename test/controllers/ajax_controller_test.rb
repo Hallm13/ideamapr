@@ -11,12 +11,31 @@ class AjaxControllerTest < ActionController::TestCase
     assert_equal 'success', JSON.parse(response.body)['status']
   end
 
-  test '#delete_attachment' do
-    i = ideas(:idea_with_img)
+  describe '#destroy' do
+    it 'handles errors' do
+      refute_difference('Idea.count') do
+        xhr :post, :multiplex, {payload: "idea/destroy/-10"}
+      end
 
-    assert_difference('DownloadFile.count', -1) do
-      xhr :post, :multiplex, {payload: "idea/delete_attachment/#{i.download_files.first.id}"}
+      assert_equal 'error', JSON.parse(response.body)['status']
+    end      
+  end
+
+  describe '#delete_attachment' do
+    it 'works' do
+      i = ideas(:idea_with_img)
+
+      assert_difference('DownloadFile.count', -1) do
+        xhr :post, :multiplex, {payload: "idea/delete_attachment/#{i.download_files.first.id}"}
+      end
     end
+    it 'handles errors' do
+      refute_difference('DownloadFile.count') do
+        xhr :post, :multiplex, {payload: "idea/delete_attachment/-10"}
+      end
+
+      assert_equal 'error', JSON.parse(response.body)['status']
+    end      
   end
 
   test 'error' do

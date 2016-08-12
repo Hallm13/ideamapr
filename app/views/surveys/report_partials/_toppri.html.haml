@@ -1,12 +1,12 @@
-.row.h2-font
-  .col-xs-1.bold-text
+%tr{style: tr100 + reportpara}
+  %td{style: width12(2) + boldfont + h2font}
     \#Times selected
-  .col-xs-11.bold-text
+  %td{style: width12(10) + boldfont + h2font}
     Idea
 
 - qn[:sorted_idea_top_counts].each do |ct_data|
-  .row
-    .col-xs-1
+  %tr
+    %td{style: width12(2)}
       = ct_data[2]
-    .col-xs-11
+    %td{style: width12(10)}
       = ct_data[1]

@@ -1,4 +1,6 @@
-.row.report-para.h2-font.bold-text
-  Total Submitted
-.row.report-para
-  = qn[:total_new_ideas]
+%tr{style: tr100 + reportpara + h2font + boldfont}
+  %td{style: width12(12)}
+    Total Submitted
+%tr
+  %td{style: width12(12)}
+    = qn[:total_new_ideas]

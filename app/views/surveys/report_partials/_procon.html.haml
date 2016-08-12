@@ -1,17 +1,16 @@
-.row.h2-font
-  .col-xs-1.bold-text
+%tr{style: tr100 + reportpara + h2font}
+  %td{style: width12(1) + boldfont}
     Pro
-  .col-xs-1.bold-text
+  %td{style: width12(1) + boldfont}
     Con
-  .col-xs-10.bold-text
+  %td{style: width12(10) + boldfont}
     Ideas
     
 - qn[:procon_diffs].each do |ct_data|
-  .row
-    .col-xs-1
+  %tr
+    %td{style: width12(1) + boldfont}
       = ct_data[:pro_count]
-    .col-xs-1
+    %td{style: width12(1) + boldfont}
       = ct_data[:con_count]
-    .col-xs-10
+    %td{style: width12(10) + boldfont}
       = ct_data[:title]
-

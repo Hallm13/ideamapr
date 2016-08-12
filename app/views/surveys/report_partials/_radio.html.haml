@@ -1,12 +1,12 @@
-.row.h2-font
-  .col-xs-2.bold-text
+%tr{style: tr100 + reportpara}
+  %td{style: width12(2) + boldfont + h2font}
     Total Counts
-  .col-xs-10.bold-text
+  %td{style: width12(10) + boldfont + h2font}
     Radio Options
 
 - qn[:sorted_radio_counts].each do |ct_data|
-  .row
-    .col-xs-2
+  %tr
+    %td{style: width12(2)}
       = ct_data[1]
-    .col-xs-10
+    %td{style: width12(10)}
       = ct_data[0]

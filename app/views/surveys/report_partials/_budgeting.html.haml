@@ -1,18 +1,17 @@
-.row.h2-font
-  .col-xs-2.bold-text
+%tr{style: tr100 + reportpara + h2font}
+  %td{style: width12(2) + boldfont}
     Average Spending
-  .col-xs-1.bold-text
+  %td{style: width12(1) + boldfont}
     Cost
-  .col-xs-9.bold-text
+  %td{style: width12(9) + boldfont}
     Ideas
     
 - qn[:sorted_idea_avg_budget].each do |budget_data|
-  <!- [3,20.0,10.0]  ->
-  .row
-    .col-xs-2
+  %tr
+    %td{style: width12(2)}
       = as_dollar(budget_data[2])
-    .col-xs-1
+    %td{style: width12(1)}
       = as_dollar(budget_data[3])
-    .col-xs-9
+    %td{style: width12(9)}
       = budget_data[1]
 

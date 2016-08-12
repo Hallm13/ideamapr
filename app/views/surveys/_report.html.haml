@@ -1,8 +1,10 @@
-= render partial: 'surveys/report_heading'      
+= render partial: 'surveys/report_heading'
 - @report_list[:answer_stats].each do |question|
-  %tr{style: tr100 + reportpara}
+  %tr{style: tr100 + reportpara + forcetoppadding(20)}
     %td{style: tr100 + centeralign + h2font, colspan: 2}
       = question[:question_title]
   %tr{style: tr100 + reportpara}
     %td{style: tr100 + centeralign, colspan: 2}
       = question[:question_prompt]
+  = render partial: 'surveys/report_partials/' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}
+        

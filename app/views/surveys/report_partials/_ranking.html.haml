@@ -1,12 +1,12 @@
-.row.h2-font
-  .col-xs-2.bold-text
+%tr{style: tr100 + reportpara + h2font + boldfont}
+  %td{style: width12(2) + boldfont}
     Ranking Averages
-  .col-xs-10.bold-text
+  %td{style: width12(10) + boldfont}
     Ideas
 
 - qn[:ranking_averages].each do |avg_data|
-  .row
-    .col-xs-2
+  %tr
+    %td{style: width12(2)}
       = sprintf("%0.2f", (avg_data[:avg] || 0))
-    .col-xs-10
+    %td{style: width12(10)}
       = avg_data[:title]
