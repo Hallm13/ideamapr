@@ -329,13 +329,7 @@
   max-width: 66px;
   height: 50%;
   top: 25%;
-
-  @media (min-width: $mobile-breakpoint) {
-    left: -45px;
-  }
-  @media (max-width: $mobile-breakpoint) {
-    left: 85px;
-  }
+  left: -45px;
 
   .control-icon {
     width: 20px;
