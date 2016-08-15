@@ -11,12 +11,15 @@ IdeaMapr.Views.SummaryExpander = Backbone.View.extend
       switch_to = x.data('switch-to')
       x.closest('span.wrapper').hide()
       @$('span.' + switch_to).show()
+      img_box = @$el.find '.idea-image'
 
       if switch_to == 'full'
         @$el.find('.idea-attachments').show()
+        img_box.addClass 'summary'
       else
         @$el.find('.idea-attachments').hide()
-        
+        img_box.removeClass 'summary'
+          
       false
       
   run_summary_logic: (idea) ->

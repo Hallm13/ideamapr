@@ -233,6 +233,15 @@
       max-width: 200px;
       max-height: 133px;
       overflow: hidden;
+      &.summary {
+	float: none;
+	max-width: 100%;
+	max-height: initial;
+	img {
+	  margin: 0 auto;
+	  display: block;
+	}
+      }
     }
     
     .idea-description {

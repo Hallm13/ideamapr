@@ -13,12 +13,22 @@ class AjaxControllerTest < ActionController::TestCase
 
   describe '#destroy' do
     it 'handles errors' do
+      refute_difference('IdeaAssignment.count') do
+        xhr :post, :multiplex, {payload: "survey_question/noaction/1/2"}
+      end
+      assert_equal 'error', JSON.parse(response.body)['status']
+      
       refute_difference('Idea.count') do
         xhr :post, :multiplex, {payload: "idea/destroy/-10"}
       end
+      assert_equal 'error', JSON.parse(response.body)['status']
+      
+      refute_difference('SurveyQuestion.count') do
+        xhr :post, :multiplex, {payload: "survey_question/destroy/-10"}
+      end
 
       assert_equal 'error', JSON.parse(response.body)['status']
-    end      
+    end
   end
 
   describe '#delete_attachment' do
