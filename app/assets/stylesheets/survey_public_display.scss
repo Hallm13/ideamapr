@@ -59,7 +59,15 @@
       }
     }
   }
-
+  .procon {
+    #save-procon {
+      color: $button-background;
+      &:hover {
+	@include solid-border($button-background, 2px);
+      }
+    }
+  }
+  
   #pro-column,#con-column {
     padding: 0 20px;
     margin-bottom: 10px;
@@ -76,6 +84,9 @@
     @media(max-width: $mobile-breakpoint) {
       font-size: 16px;
     }
+    &:hover {
+      @include solid-border($theme-red, 5px)
+    }
   }
 
   .procon-button {
@@ -84,6 +95,9 @@
 
   #current-procon-list {
     margin-top: -10px;
+    .procon-title {
+      display: none;
+    }
   }
 
   /* Budgeting */

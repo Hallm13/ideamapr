@@ -105,13 +105,17 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     pro_root = root.find '#pro-column'
     con_root = root.find '#con-column'
 
-    @model.get('response_data')['type-0-data']['feedback']['pro'].forEach (text_elt, idx) ->
+    pros = @model.get('response_data')['type-0-data']['feedback']['pro']
+    pros.forEach (text_elt, idx) ->
       div = $(_.template($('#procon-entry').html())({text: text_elt}))
       pro_root.find('.row').append div
-    @model.get('response_data')['type-0-data']['feedback']['con'].forEach (text_elt, idx) ->
+    cons = @model.get('response_data')['type-0-data']['feedback']['con']
+    cons.forEach (text_elt, idx) ->
       div = $(_.template($('#procon-entry').html())({text: text_elt}))
       con_root.find('.row').append div
-
+    if pros.length > 0 or cons.length > 0
+      root.find('.procon-title').show()
+      
   show_textarea: (type) ->
     # Switch all the visible buttons around in this row.
     # Some of the calls below might be no-ops.
