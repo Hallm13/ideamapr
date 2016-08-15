@@ -15,6 +15,7 @@ class FancyRankingBoxTest < Capybara::Rails::TestCase
       # order = procon, radio, new idea, budget, ranking
       refute page.has_text? 'Thank you'
       sleep 1
+
       (1 + @s.question_assignments.count - 1).times do
         page.find('#go-right').click
       end

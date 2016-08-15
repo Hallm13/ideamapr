@@ -18,11 +18,11 @@ class Survey < ActiveRecord::Base
       end
     end
     
-    [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', 10, 'Add a survey title'),
-     Struct::VbStruct.new('survey_status', 'Survey Status', 'survey-status', 10, 'Survey status'),     
-     Struct::VbStruct.new('intro_field', 'Intro Message', 'survey-create-intro', 15, 'Add an introduction'),
+    [Struct::VbStruct.new('title', 'Survey Title', 'survey-create-title', 1, 'Add a survey title'),
+     Struct::VbStruct.new('survey_status', 'Survey Status', 'survey-status', -1, 'Survey status'),     
+     Struct::VbStruct.new('intro_field', 'Intro Message', 'survey-create-intro', 1, 'Add an introduction'),
      Struct::VbStruct.new('add_questions', 'Questions', 'survey-add-questions', -1, 'Add Questions in Ranked Order'),
-     Struct::VbStruct.new('thankyou_field', 'Thank You Message', 'survey-thank-you-note', 15, 'Add a Thank You Note') ]
+     Struct::VbStruct.new('thankyou_field', 'Thank You Message', 'survey-thank-you-note', 1, 'Add a Thank You Note') ]
   end
   
   class SurveyStatus
@@ -60,8 +60,8 @@ class Survey < ActiveRecord::Base
     end
   end
   
-  validates :title, length: {minimum: 10}
-  validates :introduction, length: {minimum: 15}
+  validates :title, length: {minimum: 1}
+  validates :introduction, length: {minimum: 1}
 
   has_many :survey_questions, through: :question_assignments
   has_many :question_assignments, dependent: :destroy

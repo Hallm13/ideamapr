@@ -19,8 +19,8 @@ IdeaMapr.Views.AdminSearchIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.e
           
   render: ->
     template_id = '#idea-search-template'
-    html = _.template($(template_id).html())(@model.attributes)
+    html = _.template($(template_id).html())(_.extend({}, @model.attributes, {card_image_url: @model.get('attachments')['card_image_url']}))
     @$el.html html
     @add_image_margin()
-    @run_summary_logic()
+    @run_summary_logic @model
     @

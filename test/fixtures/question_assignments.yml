@@ -1,3 +1,7 @@
+qa_pub2_newidea:
+  survey: published_survey_2
+  survey_question: sq_new_idea
+  ordering: 0
 qa_pub_5:
   survey: published_survey
   survey_question: sq_pre_5_procon

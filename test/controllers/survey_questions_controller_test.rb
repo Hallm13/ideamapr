@@ -143,10 +143,10 @@ class SurveyQuestionsControllerTest < ActionController::TestCase
     end
 
     it 'model validation are required' do
-      post :create, {survey_question: {title: 'shor'}}
+      post :create, {survey_question: {title: ''}}
       assert_template :new
 
-      put :update, {id: survey_questions(:sq_1), survey_question: {title: 'shor'}}
+      put :update, {id: survey_questions(:sq_1), survey_question: {title: ''}}
       assert_template :edit
     end
 

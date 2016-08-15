@@ -29,13 +29,16 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
         @attributes['desc_summary'] = @attributes['description']
         @has_expansion = false
     else
-      @attributes['desc_summary'] = ''
+      @attributes['desc_summary'] = @attributes['description']
       @has_expansion = false
 
     # Create an image URL if there is one
-    if @attributes.hasOwnProperty('attachments') \
-       and @attributes['attachments'].hasOwnProperty('card_image_url')
-      @set 'image_url', @attributes.attachments.card_image_url
+    # This is set in app/models/idea.rb
+    if @attributes.hasOwnProperty('attachments')
+      if @attributes['attachments'].hasOwnProperty('card_image_url')
+        @set 'image_url', @attributes.attachments.card_image_url
+      if @attributes['attachments']['attachment_urls'].length > 0
+        @has_expansion = true
       
     @attributes['response_data'] =
       answered: false
@@ -48,6 +51,7 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       component_rank: opts.rank
       image_url: ''
       desc_summary: ''
+      attachments: new Array()
     )
     
     @has_expansion = false

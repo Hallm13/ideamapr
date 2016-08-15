@@ -79,7 +79,7 @@ class IdeasControllerTest < ActionController::TestCase
     end
     
     it 'shows errors' do
-      post :create, idea: {title: 'iz a', description: "is"}
+      post :create, idea: {title: '', description: "iz a"}
       assert_template :new
       assert_match /iz a/, response.body
     end

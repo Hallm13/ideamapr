@@ -241,7 +241,10 @@
 	cursor: pointer;
       }
     }
-
+    .idea-attachments {
+      margin-top: 20px;
+    }
+    
     .idea-title {
       margin-bottom: 5px;
       @include h1-title();
@@ -455,3 +458,14 @@
   display: inline-block;
 }
 
+.ipad-hidden {
+  @media(max-width: $ipad-breakpoint) {
+    display: none;
+  }
+}
+
+.desktop-hidden {
+  @media(min-width: $ipad-breakpoint) {
+    display: none;
+  }
+}  

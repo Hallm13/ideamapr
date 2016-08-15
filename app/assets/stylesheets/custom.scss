@@ -250,6 +250,10 @@ form {
 .cancel-padding {
   padding: 0;
 }
+.row.cancel-margins {
+  margin-left: 0px;
+  margin-right: 0px;
+}
 
 .bottom-padding {
   padding-bottom: 10px;
@@ -342,3 +346,9 @@ form {
     width: 20.8333%;
   }
 }
+
+.centered-cell {
+  width: 100%;
+  text-align: center;
+}
+

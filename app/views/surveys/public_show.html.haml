@@ -38,8 +38,10 @@
 %script#survey-nb-template{type: 'text/template'}
   .col-sm-offset-2.col-sm-offset-1p5.col-sm-9.col-xs-11.col-xs-offset-half
     .row
-      .col-sm-3.col-sm-2p5.col-xs-3.col-xs-2p5#go-left.active.navtab.desktop-h2-font
+      .col-sm-3.col-sm-2p5.col-xs-3.col-xs-2p5#go-left.active.navtab.desktop-h2-font.ipad-hidden
         Previous
+      .col-sm-3.col-sm-2p5.col-xs-3.col-xs-2p5#go-left.active.navtab.desktop-h2-font.desktop-hidden
+        Prev
       .col-sm-7.col-xs-7#current-question.navtab
         <%- summarized_qn_title %>
         %i.fa.fa-chevron-down

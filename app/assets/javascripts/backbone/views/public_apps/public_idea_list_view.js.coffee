@@ -110,8 +110,10 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     m = new IdeaMapr.Models.Idea
       title: $elt.find('#new_idea_title').val()
       description: $elt.find('#new_idea_description').val()
-      image_url: ''
-
+      attachments:
+        card_image_url: ''
+        attachment_urls: []
+  
     @collection.add m
     m.set 'answered', true
     m.trigger('idea:new_idea_added')

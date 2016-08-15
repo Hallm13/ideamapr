@@ -12,12 +12,7 @@ class IdeasController < ApplicationController
   def index
     @all_ideas = Idea.order(created_at: :desc).map do |i|
       base_info = {id: i.id, title: i.title, description: i.description}
-      if (img = i.card_image)
-        base_info.merge!({image_url: img.downloadable.url})
-      else
-        base_info.merge!({image_url: ''})
-      end
-
+      base_info.merge!({attachments: i.download_files_hash})
       base_info
     end
     

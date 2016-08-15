@@ -56,7 +56,11 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     else
       t = _.template($('#type-' + @question_type + '-public-template').html())
 
-    hash = _.extend {}, @model.attributes, {shown_component_rank: @model.get('component_rank') + 1}
+    hash = _.extend({}, @model.attributes,
+      shown_component_rank: @model.get('component_rank') + 1,
+      card_image_url: @model.get('attachments')['card_image_url']
+    )
+    
     @$el.html t(hash)
     @add_image_margin()
       
@@ -73,5 +77,5 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @$el.find('.idea-row').append div_array[1]
 
     @add_image_margin()
-    @run_summary_logic()
+    @run_summary_logic @model
     @

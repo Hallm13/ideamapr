@@ -86,6 +86,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
           @model.attributes,
             survey_question_id: @question.get('id')
             shown_component_rank: if @show_ranks then (@model.get('component_rank')) + 1 else ''
+            card_image_url: @model.get('attachments')['card_image_url']
           )
       )
       
@@ -96,7 +97,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       when 0
         @append_procon_boxes()
         @$('.procon-list').hide()
-    @run_summary_logic()
+    @run_summary_logic @model
     @
 
   append_procon_boxes: ->

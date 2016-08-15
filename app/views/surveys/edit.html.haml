@@ -22,8 +22,9 @@
         = link_to 'Not published', '#'
         
   - if @survey.individual_answers.count > 0
-    = render partial: 'surveys/report_heading'
     .builder-box.row
+      %table{style: "font-family: 'Montserrat', sans-serif; font-size: 16px; width: 100%; border: 0; "}
+        = render partial: 'surveys/report_heading_numbers', locals: {respondent_count: @survey.report_hash[:respondent_count], participation_rate: @survey.report_hash[:finish_count].to_f/@survey.report_hash[:individual_answer_count] }
       .col-xs-6
         %a{href: report_survey_path(@survey)}
           .btn.green

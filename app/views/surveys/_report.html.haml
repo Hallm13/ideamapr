@@ -6,5 +6,16 @@
   %tr{style: tr100 + reportpara}
     %td{style: tr100 + centeralign, colspan: 2}
       = question[:question_prompt]
+  %tr{style: tr100 + reportpara}
+    %td{style: tr50 + centeralign}
+      Completed this question
+    %td{style: tr50 + centeralign}
+      Participation Rate
+  %tr{style: tr100 + reportpara}
+    %td{style: tr50 + centeralign + themegreen}
+      = question[:answer_rate]
+    %td{style: tr50 + centeralign + themered}
+      = as_percentage(question[:participation_rate])
+      
   = render partial: 'surveys/report_partials/' + SurveyQuestion::QuestionType.name_as_filename(question[:question_type]), locals: {qn: question}
         

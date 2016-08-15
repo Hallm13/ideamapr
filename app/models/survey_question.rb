@@ -15,9 +15,9 @@ class SurveyQuestion < ActiveRecord::Base
         end
       end
     end    
-    l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title', 10, 'Add a title for your survey'),
+    l = [Struct::SurveyQuestionVbStruct.new('add_title', 'Question Title', 'sq-title', 1, 'Add a title for your survey'),
          Struct::SurveyQuestionVbStruct.new('add_question_type', 'Question Type', 'sq-question-type', -1, 'Types are either those that contain lists of ideas, or those that collect information from the participant'),
-         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 15, 'The prompt is shown at the top of the survey question screen'),
+         Struct::SurveyQuestionVbStruct.new('question_prompt', 'Write An Explanation Prompt', 'sq-question-prompt', 1, 'The prompt is shown at the top of the survey question screen'),
          Struct::SurveyQuestionVbStruct.new('set_budget', 'Set Budget', 'sq-set-budget', -1, 'This is used in budget questions, as the maximum available spend'),
          Struct::SurveyQuestionVbStruct.new('add_ideas', 'Add Ideas', 'sq-add-ideas', -1, 'Select ideas and set ranked order'),
          Struct::SurveyQuestionVbStruct.new('new_idea_template', 'Question Preview', 'sq-new-idea', -1, ''),
@@ -88,7 +88,7 @@ class SurveyQuestion < ActiveRecord::Base
   has_many :individual_answers
   has_one :question_detail
   
-  validates :title, length: {minimum: 10}
+  validates :title, length: {minimum: 1}
   def question_type_name
     QuestionType.name(question_type)    
   end

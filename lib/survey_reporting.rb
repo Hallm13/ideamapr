@@ -292,7 +292,7 @@ module SurveyReporting
         idea = Idea.find_by_id idea_packet['idea_id']
         if idea
            rank_lists[idea.title] ||= []
-          rank_lists[idea.title] << [idea_packet['component_rank'], ia.respondent_id]
+          rank_lists[idea.title] << [1 + (idea_packet['component_rank'] || 0), ia.respondent_id]
         end
       end
     end

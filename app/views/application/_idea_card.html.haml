@@ -1,22 +1,27 @@
 - remove_bottom ||= false
 .row.idea-card-row{class: remove_bottom ? 'remove-bottom-margin' : ''}
   .col-xs-12.cancel-padding
-    .idea-image
-      %image{src: '<%- image_url %>'.html_safe}
-    .idea-title
-      <%- title %>
-    .idea-description
-      %span.summary.wrapper
-        %span
-          <%- desc_summary %>
-        %span.moreless-text{'data-switch-to' => 'full'}
-          = precede '...' do
-            = t('idea.card_more')
+    .row.cancel-margins
+      .idea-image
+        %image{src: '<%- card_image_url %>'.html_safe}
+      .idea-title
+        <%- title %>
+      .idea-description
+        %span.summary.wrapper
+          %span
+            <%- desc_summary %>
+          %span.moreless-text{'data-switch-to' => 'full'}
+            = precede '...' do
+              = t('idea.card_more')
 
-      %span.full.wrapper
-        %span
-          <%- description %>
-        %span.moreless-text{'data-switch-to' => 'summary'}
-          = precede '...' do
-            = t('idea.card_less')
+        %span.full.wrapper
+          %span
+            <%- description %>
+          %span.moreless-text{'data-switch-to' => 'summary'}
+            = precede '...' do
+              = t('idea.card_less')
 
+    .idea-attachments
+      .centered-cell.bold-text
+        Attachments
+      

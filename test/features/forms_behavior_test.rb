@@ -8,9 +8,12 @@ class FormsBehaviorTest < Capybara::Rails::TestCase
 
   test 'turning green' do
     elt = page.all('.validated-box')[0]
+    assert_match /rgb.255..255..255/, page.all('.validated-box')[0]['style']
+    
     elt.set 'abcdefghijklmno'
-    assert_match /background-color: rgb.\d+, \d+, \d+/, page.all('.validated-box')[0]['style']
-    elt.set 'abc'
+    assert_match /background-color: rgb.223, \d+, \d+/, page.all('.validated-box')[0]['style']
+    elt.set '  '
+
     assert_match /rgb.255..255..255/, page.all('.validated-box')[0]['style']
   end
 
