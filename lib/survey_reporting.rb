@@ -53,8 +53,6 @@ module SurveyReporting
         order('question_assignments.ordering asc').
         all.each do |qn|
         ia_list = individual_answers.where(survey_question_id: qn.id)
-        ret[:total_screen_count] += ia_list.size
-        
         qn_stats_hash = {question_id: qn.id, question_title: qn.title, question_prompt: qn.question_prompt,
                          question_type: qn.question_type,
                          participation_rate: ia_list.size.to_f / responses.count, answer_rate: ia_list.count}
@@ -86,7 +84,7 @@ module SurveyReporting
       { individual_answer_count: self.individual_answers.count,
         respondent_count: self.respondents.count,
         finish_count: self.responses.where(closed: true).count,
-        total_screen_count: 0
+        number_of_questions: self.survey_questions.count
       }
     end      
   end
@@ -163,7 +161,8 @@ module SurveyReporting
   def self.budgeting_stats(ia_list, idea_order)
     # Avg. spending on idea over all answers; and also just show the unit cost informationally
     # Sorted desc.
-    costs = total_spends = {}
+    costs = {}
+    total_spends = {}
     available_ids = idea_order.map { |pair| pair[0] }
 
     ia_list.each do |ia|
@@ -171,7 +170,7 @@ module SurveyReporting
         if available_ids.include? idea_rec['idea_id']
           total_spends[idea_rec['idea_id']] ||= 0
           if idea_rec['cart_count'] == 1
-            amt = idea_rec['cart_amount'] || 0.0
+            amt = (idea_rec['cart_amount'] || 0.0)
             costs[idea_rec['idea_id']] ||= amt
 
             total_spends[idea_rec['idea_id']] += amt * idea_rec['cart_count']

@@ -78,7 +78,7 @@ class SurveyTest < ActiveSupport::TestCase
 
     assert_equal 1500.0/4, budget_rep[:sorted_idea_avg_budget][0][2]
     assert_equal 1200.0/4, budget_rep[:sorted_idea_avg_budget][1][2]
-
+    assert_equal 500, budget_rep[:sorted_idea_avg_budget][0][3]
     refute_nil s.full_report_hash
   end
 

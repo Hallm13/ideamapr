@@ -13,4 +13,4 @@
               = status_as_word(survey.status)
           - if survey.status == 1 && survey.individual_answers.count > 0
             %table{style: 'width: 100%'}
-              = render partial: 'report_heading_numbers', locals: {respondent_count: survey.report_hash[:respondent_count], participation_rate: survey.participation_rate}
+              = render partial: 'report_heading_numbers', locals: {respondent_count: survey.report_hash[:respondent_count], participation_rate: survey.report_hash[:individual_answer_count] / (survey.report_hash[:number_of_questions] * survey.report_hash[:respondent_count].to_f)}
