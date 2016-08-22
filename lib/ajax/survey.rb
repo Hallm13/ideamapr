@@ -2,8 +2,6 @@ module Ajax
   class Survey
     def self.run_ajax_action(action, *args)
       args.flatten!
-      params = args[0]
-
       struct = {}
       case action
       when 'destroy'
