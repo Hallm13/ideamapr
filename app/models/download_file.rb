@@ -1,7 +1,7 @@
 class DownloadFile < ActiveRecord::Base
   belongs_to :idea
 
-  has_attached_file :downloadable, storage: :s3, url: ":s3_domain_url",
+  has_attached_file :downloadable, storage: :s3, url: ":s3_domain_url", s3_protocol: :https,
                     path: ':filename',
                     s3_credentials: {:bucket => Rails.application.secrets.s3_bucket,
                                      :access_key_id => Rails.application.secrets.aws_aki,

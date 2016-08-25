@@ -90,7 +90,7 @@ class Survey < ActiveRecord::Base
   end
 
   def participation_rate
-    report_hash[:total_screen_count].to_f/report_hash[:respondent_count]
+    report_hash[:individual_answer_count].to_f / (report_hash[:number_of_questions] * report_hash[:respondent_count])
   end
   
   def publish!

@@ -29,7 +29,11 @@ IdeaMapr.Views.SummaryExpander = Backbone.View.extend
       @$el.find('.full').hide()
       for idea_hash in idea.get('attachments')['attachment_urls']
         root = $('<div>').addClass('centered-cell')
-        a = $('<a>').attr('href', idea_hash.url).text idea_hash.filename
+        a = $('<a>').text idea_hash.filename
+        a.attr 'href', idea_hash.url
+        a.attr 'target', '_blank'
+        a.attr 'rel', 'noopener noreferrer'
+        
         root.append a 
         @$el.find('.idea-attachments').append root
     else

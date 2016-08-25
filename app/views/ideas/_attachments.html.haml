@@ -4,7 +4,7 @@
     .col-xs-12.attachment-desc{'data-attachment-id' => a.id}
       .x-box
         X
-      = link_to a.downloadable_file_name, a.downloadable.url
+      = link_to a.downloadable_file_name, a.downloadable.url, target: '_blank', rel: 'noopener noreferrer'
       - if is_image?(a.downloadable_content_type)
         - if !found_image
           - found_image = true
