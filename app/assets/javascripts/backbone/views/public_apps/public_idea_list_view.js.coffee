@@ -7,7 +7,6 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     # Suggest Idea
     @form_elt = null
     
-    # Ranking
     @listenTo @collection, 'sort', @remove_prompt_and_render
     
     # Budgeting
@@ -25,8 +24,12 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
         evt.stopPropagation()
 
   remove_prompt_and_render: ->
+    # Ranking type requires the removal of this element
     @$el.find('.ranking-prompt').remove()
     @render()
+    if @question.get('question_type') == 2
+      # new idea - rendering should cause data to be saved - it only happens when ideas are added or deleted.
+      @question.post_response_to_server()
 
   render: ->
     view_self = @
@@ -113,7 +116,8 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       attachments:
         card_image_url: ''
         attachment_urls: []
-  
-    @collection.add m
+        
     m.set 'answered', true
-    m.trigger('idea:new_idea_added')
+    @question.set 'answered', true
+    # this triggers a sort on the collection that posts the data to the server
+    @collection.add m

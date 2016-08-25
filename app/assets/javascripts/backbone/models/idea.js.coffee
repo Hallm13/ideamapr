@@ -18,7 +18,7 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     
   urlRoot: '/ideas',
 
-  initialize: ->
+  set_summary: ->
     # Add a summary for the card: first 30 "words"
     unless typeof @attributes['description'] == 'undefined'
       words = @attributes['description'].trim().split(/\s+/)
@@ -31,7 +31,10 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     else
       @attributes['desc_summary'] = @attributes['description']
       @has_expansion = false
-
+    
+  initialize: ->
+    @set_summary()
+    
     # Create an image URL if there is one
     # This is set in app/models/idea.rb
     if @attributes.hasOwnProperty('attachments')
@@ -70,8 +73,15 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
     unless text.trim().length == 0
       @set('answered', true)
       @attributes['response_data']['type-0-data']['feedback'][type].push text
-      @trigger('idea:new_procon')
+      @trigger 'idea:new_procon'
+  edit_feedback: (id, type, text) ->
+      @attributes['response_data']['type-0-data']['feedback'][type][id] = text
+      @trigger 'idea:new_procon'
       
+  remove_feedback: (id, type) ->
+      @attributes['response_data']['type-0-data']['feedback'][type].splice(id, 1)
+      @trigger 'idea:new_procon'
+          
   toggle_cart_count: ->
     current_count = @get('cart_count')
     if current_count == 0

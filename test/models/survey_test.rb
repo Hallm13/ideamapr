@@ -67,7 +67,7 @@ class SurveyTest < ActiveSupport::TestCase
                       ]
     i.save
 
-    i = individual_answers(:ia_answered_new_idea_1)
+    i = individual_answers(:ia_answered_text_fields)
     i.response_data = [{'answered' => true, 'text' => 'hot',  'text_entry' => '.id'},
                        {'answered' => true, 'text' => 'cold',  'text_entry' => '.id'}
                       ]

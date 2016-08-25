@@ -405,7 +405,14 @@
   }
 }
 
-/* Suggest Idea */
+/* Suggest Idea aka New Idea */
+.editbox {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  display: none;
+}
+
 .edit-areas {
   min-width: 400px;
   @include solid-gray-border();
@@ -452,8 +459,13 @@
 
 .procon-entry {
   @include solid-gray-border();
-  padding: 10px;
+  .entry-text {
+    padding: 10px;
+  }
+  padding-left: 0;
+  padding-right: 0;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 /* For summary screen */

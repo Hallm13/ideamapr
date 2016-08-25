@@ -1,5 +1,7 @@
 %script#type-2-public-template{type: 'text/template'}
-  .component-row.idea-row
+  .component-row.idea-row{"data-index" => '<%- index %>'.html_safe}
+    .x-box
+      X
     = render partial: 'idea_card'
 
 %script#type-2-add-idea-form-public-template{type: 'text/template'}

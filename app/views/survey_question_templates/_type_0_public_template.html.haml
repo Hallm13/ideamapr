@@ -1,6 +1,9 @@
 %script#procon-entry{type: 'text/template'}
-  .col-xs-12.procon-entry
-    <%- text %>
+  .col-xs-12.procon-entry{"data-index" => '<%- index %>'.html_safe, "data-entry-type" => '<%- type %>'.html_safe}
+    .x-box
+      X
+    .entry-text
+      <%- text %>
   
 %script#type-0-public-template{type: 'text/template'}
   .procon.idea-row.component-row

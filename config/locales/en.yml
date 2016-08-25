@@ -41,7 +41,7 @@ en:
     add_button: 'Add a survey'
     search_list_title_html: '<%- available_count %> available questions (Added <%- added_count %>)'
   idea:
-    add_button: 'Add an idea'
+    add_button: 'Select an idea'
     search_list_title_html: '<%- available_count %> available ideas (Added <%- added_count %>)'
     card_more: 'Read More'
     card_less: 'Read Less'
@@ -50,6 +50,6 @@ en:
       thankyou: 'Thank you!'
   buttons:
     survey:
-      add_question: 'Add a Question'
+      add_question: 'Select a question'
     survey_question:
       add_idea: 'Add an Idea'

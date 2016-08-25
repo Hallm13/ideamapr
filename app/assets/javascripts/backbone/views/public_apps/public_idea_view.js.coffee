@@ -27,6 +27,40 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     @delegateEvents()
     
   my_events:
+    # new idea aka
+    # Suggest Idea
+    'keyup .edit-areas': (evt) ->
+      @model.set_text_entry $(evt.target).attr('id'), $(evt.target).val().trim()
+
+    "click .component-row .entry-text": (evt) ->      
+      if $(evt.currentTarget).hasClass('idea-description')
+        parent = $(evt.currentTarget).closest('.component-row')        
+        editable = parent.find '.editbox'
+        editable.show()
+        parent.find('.wrapper').hide()
+        parent.find('.moreless-text').hide()
+      else
+        editable = $(evt.target)
+        
+      editable.attr('contentEditable', true)
+      editable.closest('.component-row').find('.x-box').detach()
+      editable.focus()
+    "blur .component-row .entry-text": (evt) ->
+      parent = $(evt.currentTarget).closest('.component-row')
+      parent.prepend($('<div>').addClass('x-box').text('X'))
+      $(evt.target).attr('contentEditable', false)
+
+      id = parent.data('index')
+      type = $(evt.target).data('type')
+      text = $(evt.target).text()
+      
+      @collection.edit_new_idea id, type, text
+    "click .component-row .x-box": (evt) ->
+      evt.stopPropagation()
+      parent = $(evt.target).closest('.component-row')
+      id = parent.data('index')
+      @collection.remove_new_idea id
+    
     # toppri
     'change input[type=radio]': (evt) ->
       @question.change_checked @model.get('id')
@@ -47,6 +81,24 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       @model.set 'ranked', -1
     
     # Procon
+    "click .procon-entry .entry-text": (evt) ->
+      $(evt.target).attr('contentEditable', true)
+      $(evt.target).closest('.procon-entry').find('.x-box').detach()
+      $(evt.target).focus()
+    "blur .procon-entry .entry-text": (evt) ->
+      $(evt.target).closest('.procon-entry').prepend($('<div>').addClass('x-box').text('X'))
+      $(evt.target).attr('contentEditable', false)
+      type = $(evt.target).data('entry-type')
+      id = $(evt.target).data('index')
+      text = $(evt.target).text()
+      @model.edit_feedback id, type, text
+    "click .procon-entry .x-box": (evt) ->
+      evt.stopPropagation()
+      parent = $(evt.target).closest('.procon-entry')
+      type = parent.data('entry-type')
+      id = parent.data('index')
+      @model.remove_feedback id, type
+      
     "click #addpro": ->
       @show_textarea 'pro'
     "click #addcon": ->
@@ -69,10 +121,6 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         @toggle_cart_text $(evt.target)
         @model.toggle_cart_count()
         
-    # Suggest Idea
-    'keyup .edit-areas': (evt) ->
-      @model.set_text_entry $(evt.target).attr('id'), $(evt.target).val().trim()
-
   render: ->
     @model.init_type_specific_data(@question.get('question_type'))
     
@@ -97,6 +145,13 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       when 0
         @append_procon_boxes()
         @$('.procon-list').hide()
+      when 2
+      # Idea cards for new ideas are editable
+        @$('.idea-title').addClass 'entry-text'
+        @$('.idea-title').attr('data-type', 'title')
+        @$('.idea-description').addClass 'entry-text'
+        @$('.idea-description .editbox').attr('data-type', 'description')
+        
     @run_summary_logic @model
     @
 
@@ -107,11 +162,11 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
 
     pros = @model.get('response_data')['type-0-data']['feedback']['pro']
     pros.forEach (text_elt, idx) ->
-      div = $(_.template($('#procon-entry').html())({text: text_elt}))
+      div = $(_.template($('#procon-entry').html())({text: text_elt, index: idx, type: 'pro'}))
       pro_root.find('.row').append div
     cons = @model.get('response_data')['type-0-data']['feedback']['con']
     cons.forEach (text_elt, idx) ->
-      div = $(_.template($('#procon-entry').html())({text: text_elt}))
+      div = $(_.template($('#procon-entry').html())({text: text_elt, index: idx, type: 'con'}))
       con_root.find('.row').append div
     if pros.length > 0 or cons.length > 0
       root.find('.procon-title').show()

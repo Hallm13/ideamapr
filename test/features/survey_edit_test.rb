@@ -8,7 +8,7 @@ class SurveyEditTest < Capybara::Rails::TestCase
   describe 'save questions multiple times' do
     it 'works' do
       visit "/surveys/new"
-      click_on 'Add a Question'
+      click_on 'Select a question'
       assert_equal SurveyQuestion.count, page.all('.add-button').size
     end
   end

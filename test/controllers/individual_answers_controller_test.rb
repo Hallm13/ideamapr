@@ -31,6 +31,7 @@ class IndividualAnswersControllerTest < ActionController::TestCase
         post :create, @answer_1_publ_survey.merge({response_data: ({data: [new_idea_hash, new_idea_hash]}).to_json})
       end
 
+      # @answer_1_publ_survey points to a "new idea" qn type
       assert_equal idea_count + 2, Idea.count
       assert_equal response_count + 1, Response.count
     end
@@ -38,16 +39,26 @@ class IndividualAnswersControllerTest < ActionController::TestCase
     it 'cookied requests overwrite' do
       cookies['_ideamapr_response_key'] = 'testercookie'
       response_count = Response.count
+      ids = []
+      idea_ct = Idea.count
+      
       assert_difference('IndividualAnswer.count', 1) do
-        post :create, @answer_1_publ_survey.merge({response_data: ({data: [1]}).to_json})
-        post :create, @answer_1_publ_survey.merge({response_data: ({data: [2]}).to_json})
+        post :create, @answer_1_publ_survey.merge({response_data: ({data: [{title: '1', description: '1'}]}).to_json})
+        ids << Idea.last.id
+
+        post :create, @answer_1_publ_survey.merge({response_data: ({data: [{title: '2', description: '2'}]}).to_json})
+        ids << Idea.last.id
       end
+
+      assert_equal idea_ct + 1, Idea.count
 
       # There's only one new Response, though two fragments were saved
       assert_equal response_count + 1, Response.count
       assert_equal 'testercookie', Response.last.respondent.cookie_key
       
-      assert_equal 2, IndividualAnswer.last.response_data[0]
+      assert_equal '2', IndividualAnswer.last.response_data[0]['title']
+      # Generated ideas are always freshly created
+      refute ids[0] == ids[1]
     end
 
     after do

@@ -120,15 +120,54 @@ form {
   font-size: 0.8em;
 }
 
-.btn-primary {
-  background-image: linear-gradient($primary-button-gradient-start, $primary-button-gradient-end);
+.btn, .btn-primary {
+  background-color: $button-background;
+  background-image: none;
 }
 
 .navtop {
   background-color: $background-gray;
-
   margin-bottom: 20px;
   padding: 20px;
+}
+
+.footer {
+  background-color: $background-gray;
+  padding: 20px;
+  width: 100%;
+  .cityname {
+    @include h2-title();
+    text-align: center;
+    color: $theme-red;
+  }
+  
+  .subfooter {
+    font-size: 0.8em;
+    .centerbox {
+      width: 415px;
+      @media(max-width: $mobile-breakpoint) {
+	width: 215px;
+      }
+      margin: 0 auto;
+      * {
+	display: inline-block;
+      }
+      
+      .itembox {
+	width: 200px;
+	@media(max-width: $mobile-breakpoint) {
+	  width: 100px;
+	}
+      }
+      .pipebox {
+	width: 5px;
+      }
+    }
+  }
+}
+
+.float-right {
+  @include float-right();
 }
 
 .nav-right {

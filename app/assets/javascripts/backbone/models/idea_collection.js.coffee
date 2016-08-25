@@ -32,3 +32,15 @@ IdeaMapr.Collections.IdeaCollection = IdeaMapr.Collections.AdminSortableCollecti
   set_answered: (m, v, opts) ->
     @answered = m.get('answered')
     @trigger 'answered', @
+
+  remove_new_idea: (id) ->
+    @models.splice id, 1
+    @trigger 'sort'
+
+  edit_new_idea: (id, type, text) ->
+    @models[id].set type, text
+    if type == 'description'
+      @models[id].set_summary()
+      
+    @trigger 'sort'
+    
