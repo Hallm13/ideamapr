@@ -13,6 +13,7 @@
 
     = stylesheet_link_tag    "application", media: "screen", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
+    = javascript_include_tag "http://maps.googleapis.com/maps/api/js?libraries=places&key=#{Rails.application.secrets.google_maps_api_key}"
     = yield :extra_js
     = csrf_meta_tags
 

@@ -17,13 +17,12 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     @$el.addClass @top_container_class
     @listenTo(@model, 'idea:new_procon', @save_and_render)
     @listenTo(@model, 'idea:new_idea_added', @save_and_render)
-    
+    _.extend(@, new IdeaMapr.Views.SummaryExpander())
     @extend_events()
-    @run_summary_logic = (new IdeaMapr.Views.SummaryExpander).run_summary_logic
     @
     
   extend_events: ->
-    @events = _.extend({}, @my_events, (new IdeaMapr.Views.SummaryExpander()).events)
+    @events = _.extend({}, @my_events, @expander_events())
     @delegateEvents()
     
   my_events:
@@ -32,7 +31,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     'keyup .edit-areas': (evt) ->
       @model.set_text_entry $(evt.target).attr('id'), $(evt.target).val().trim()
 
-    "click .component-row .entry-text": (evt) ->      
+    "click .new-idea .entry-text": (evt) ->      
       if $(evt.currentTarget).hasClass('idea-description')
         parent = $(evt.currentTarget).closest('.component-row')        
         editable = parent.find '.editbox'
@@ -45,7 +44,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       editable.attr('contentEditable', true)
       editable.closest('.component-row').find('.x-box').detach()
       editable.focus()
-    "blur .component-row .entry-text": (evt) ->
+    "blur .new-idea .entry-text": (evt) ->
       parent = $(evt.currentTarget).closest('.component-row')
       parent.prepend($('<div>').addClass('x-box').text('X'))
       $(evt.target).attr('contentEditable', false)
@@ -55,7 +54,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
       text = $(evt.target).text()
       
       @collection.edit_new_idea id, type, text
-    "click .component-row .x-box": (evt) ->
+    "click .new-idea .x-box": (evt) ->
       evt.stopPropagation()
       parent = $(evt.target).closest('.component-row')
       id = parent.data('index')

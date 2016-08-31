@@ -14,7 +14,7 @@ IdeaMapr.Views.AdminSearchIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.e
       'click .add-box': (evt) ->
         @model.set('ranked', -10)
     # Add in the expander behavior.
-    _.extend(@events, (new IdeaMapr.Views.SummaryExpander()).events)
+    _.extend(@events, (new IdeaMapr.Views.SummaryExpander()).expander_events)
     @delegateEvents()
           
   render: ->

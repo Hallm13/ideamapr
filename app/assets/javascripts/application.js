@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.geocomplete.min
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require underscore

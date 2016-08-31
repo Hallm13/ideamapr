@@ -13,7 +13,7 @@ show_error_boxes = (arr_elts) ->
   
 set_expected_color = (tgt) ->
   exp_length = $(tgt).data('expected-length')
-  if $(tgt).val().trim().length >= exp_length
+  if exp_length != -1 and $(tgt).val().trim().length >= exp_length
       $(tgt).css('background-color', '#DFF2C2')
     else
       $(tgt).css('background-color', '#FFF')

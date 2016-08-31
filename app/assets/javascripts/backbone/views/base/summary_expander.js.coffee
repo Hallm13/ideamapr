@@ -1,16 +1,34 @@
-IdeaMapr.Views.SummaryExpander = Backbone.View.extend
-  events:
+IdeaMapr.Views.SummaryExpander = ->
+  @toggle_switch = (x) ->
+    # Call AFTER using the switch-to data attribute 
+    switch x.data('switch-to')
+      when 'full'
+        set_to = 'summary'
+        newtext = 'Read less'
+      when 'summary'
+        set_to = 'full'
+        newtext = 'Read more'
+      
+    x.data 'switch-to', set_to
+    x.text newtext
+    x
+    
+  @expander_events = ->
     'click .moreless-text': (evt) ->
-      # Works if the click happens on a node that contains data-switch-to as an attribute
-      # which points to a class name that exists for a span in the inheritor view's base element,
-      # and evt target has an ancestor that is a 'span.wrapper' element (which is where the event target itself
-      # lives.) Got that? ;)
+      # Works iff the click happens on a node that contains data-switch-to as an attribute
+      # which points to a class name that exists for a span that's the child of this event's target's
+      # sibling. Got that? ;)
 
       evt.stopPropagation()
-      x = $(evt.target)      
+      x = $(evt.target)
       switch_to = x.data('switch-to')
-      x.closest('span.wrapper').hide()
-      @$('span.' + switch_to).show()
+      # Change the button itself.
+      @toggle_switch(x)
+      
+      desc_container = x.prev('.idea-description')
+      desc_container.find('span.wrapper').hide()
+      desc_container.find('span.' + switch_to).show()
+      
       img_box = @$el.find '.idea-image'
 
       if switch_to == 'full'
@@ -22,7 +40,7 @@ IdeaMapr.Views.SummaryExpander = Backbone.View.extend
           
       false
       
-  run_summary_logic: (idea) ->
+  @run_summary_logic = (idea) ->
     # Decide whether to show the expansion behavior
     @$el.find('.idea-attachments').hide()
     if @model.has_expansion
@@ -39,3 +57,4 @@ IdeaMapr.Views.SummaryExpander = Backbone.View.extend
     else
       @$el.find('.full .moreless-text').hide()
       @$el.find('.summary').hide()
+  @

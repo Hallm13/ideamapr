@@ -54,6 +54,8 @@ Capybara::Webkit.configure do |config|
   config.allow_url("test.local")
   config.allow_url("https://testbucket.s3.amazonaws.com/dummy_name.png")  
   config.block_url("http://www.google-analytics.com/analytics.js")
+  config.block_url("http://maps.googleapis.com/")
+  config.block_url("http://csi.gstatic.com/")
   config.ignore_ssl_errors
 end
 

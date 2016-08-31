@@ -47,7 +47,7 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     _.extend(@events, @base_events)
 
     # Add in the expander behavior.
-    _.extend(@events, (new IdeaMapr.Views.SummaryExpander()).events)
+    _.extend(@events, (new IdeaMapr.Views.SummaryExpander()).expander_events)
     @delegateEvents()
      
   render: ->

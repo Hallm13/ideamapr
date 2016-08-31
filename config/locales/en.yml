@@ -21,6 +21,7 @@ en:
     idea:
       title: 'Add a short title'
       description: 'Describe your idea'
+      location: 'Add an optional location'
     survey_question:
       title: 'Add a short title'
     survey:
@@ -41,7 +42,7 @@ en:
     add_button: 'Add a survey'
     search_list_title_html: '<%- available_count %> available questions (Added <%- added_count %>)'
   idea:
-    add_button: 'Select an idea'
+    add_button: 'Add an idea'
     search_list_title_html: '<%- available_count %> available ideas (Added <%- added_count %>)'
     card_more: 'Read More'
     card_less: 'Read Less'
@@ -52,4 +53,4 @@ en:
     survey:
       add_question: 'Select a question'
     survey_question:
-      add_idea: 'Add an Idea'
+      add_idea: 'Select an idea'

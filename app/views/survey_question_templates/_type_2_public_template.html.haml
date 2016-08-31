@@ -1,5 +1,5 @@
 %script#type-2-public-template{type: 'text/template'}
-  .component-row.idea-row{"data-index" => '<%- index %>'.html_safe}
+  .component-row.new-idea.idea-row{"data-index" => '<%- index %>'.html_safe}
     .x-box
       X
     = render partial: 'idea_card'
@@ -7,9 +7,9 @@
 %script#type-2-add-idea-form-public-template{type: 'text/template'}
   .col-xs-12.bottom-padding
     .bold-text.bottom-padding
-      Title
+      Title (required)
     = text_field_tag :new_idea_title, '', placeholder: t('prompts.newidea.title'), class: 'edit-areas', required: true
   .col-xs-12
     .bold-text.bottom-padding
-      Description
+      Description (required)
     = text_area_tag :new_idea_description, '', placeholder: t('prompts.newidea.description'), class: 'edit-areas', required: true

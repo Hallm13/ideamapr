@@ -14,6 +14,7 @@ class Idea < ActiveRecord::Base
     
     [Struct::IdeaVbStruct.new('title', 'Idea Title', 'idea-title', true, 1, 'Add a short title'),
      Struct::IdeaVbStruct.new('source', 'Source', 'idea-source', true, 10, ''),     
+     Struct::IdeaVbStruct.new('location', 'Location', 'idea-location', true, -1, 'Enter an optional location'),
      Struct::IdeaVbStruct.new('description', 'Idea Intro', 'idea-description', true, 1, 'Describe your idea'),
      Struct::IdeaVbStruct.new('attachments', 'Attachments', 'idea-attachments', true, 1, 'Upload attachments')
     ]
@@ -52,6 +53,7 @@ class Idea < ActiveRecord::Base
   end
   
   validates :title, length: {minimum: 1}
+  validates :description, length: {minimum: 1}
   has_many :idea_assignments, dependent: :destroy
   has_many :download_files
 

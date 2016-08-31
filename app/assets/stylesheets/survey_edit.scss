@@ -135,6 +135,10 @@
   min-height: 250px;
 }
 
+.btn#add-component {
+  background: $theme-green;
+}
+
 #unassigned-ideas,#unassigned-questions {
   .add-button {
     color: white;

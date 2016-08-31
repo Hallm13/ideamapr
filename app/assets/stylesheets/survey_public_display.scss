@@ -234,11 +234,6 @@
     /* col-xs-12 adds the remaining padding on the left/right */
     min-height: 190px;
 
-    @media (max-width: $mobile-breakpoint) {
-      max-height: 480px;
-      overflow: hidden;
-    }
-    
     @include solid-gray-border();
     margin-bottom: $large-vertical-gutter;
     
@@ -258,12 +253,13 @@
       }
     }
     
-    .idea-description {
-      .moreless-text {
-	color: $moreless-gray;
-	cursor: pointer;
-      }
+    .moreless-text {
+      text-align: center;
+      color: $moreless-gray;
+      cursor: pointer;
+      margin-top: 10px;
     }
+
     .idea-attachments {
       margin-top: 20px;
     }
@@ -426,6 +422,7 @@
   @media(max-width: $mobile-breakpoint) {
     font-size: 16px;
   }
+  margin-bottom: 20px;  
 }
 
 #new_idea_title {
