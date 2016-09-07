@@ -13,9 +13,11 @@ module SurveysHelper
   end
 
   def as_percentage(float)
+    float ||= 0.0
     sprintf("%0.2f", float * 100) + '%'
   end
   def as_dollar(float)
+    float ||= 0.0
     sprintf("$%0.2f", float)
   end  
 end

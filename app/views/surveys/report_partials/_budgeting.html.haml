@@ -1,17 +1,17 @@
 %tr{style: tr100 + reportpara + h2font}
-  %td{style: width12(2) + boldfont}
+  %td.mobile3{style: width12(2) + boldfont}
     Average Spending
   %td{style: width12(1) + boldfont}
     Cost
-  %td{style: width12(9) + boldfont}
+  %td.mobile8{style: width12(9) + boldfont}
     Ideas
     
 - qn[:sorted_idea_avg_budget].each do |budget_data|
   %tr
-    %td{style: width12(2)}
+    %td.mobile3{style: width12(2)}
       = as_dollar(budget_data[2])
     %td{style: width12(1)}
       = as_dollar(budget_data[3])
-    %td{style: width12(9)}
+    %td.mobile8{style: width12(9)}
       = budget_data[1]
 

@@ -10,6 +10,7 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     @listenTo(@model, "survey:server_error", @thankyou_error)
     
     @listenTo(@model, 'survey:has_ideas', @semaphore_increment)
+    _.extend(@, new IdeaMapr.Views.SummaryExpander())
     
     @screens = new Array()
     @semaphore_value = 0
@@ -84,7 +85,11 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       
     @$('#survey-navbar').append(@navbar_view.render().el)
 
-    b = {title: 'Introduction', screen_body_content: @model.get('introduction'), question_screen_id: 'welcome-screen'}
+    b =
+      title: 'Introduction'
+      screen_body_content: @add_br_tags(@model.get('introduction'))
+      question_screen_id: 'welcome-screen'
+      
     intro_html = _.template($('#survey-empty-screen-template').html()) b
     @$('#survey-intro').html intro_html
     
@@ -105,9 +110,12 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
     # Pass a reference to the screens to the survey model, so it can manage toggles.
     @model.screens = @screens
 
-    b = {title: 'Thank you!', screen_body_content: @model.get('thankyou_note'), question_screen_id: 'thankyou-screen'}
+    b =
+      title: 'Thank you!'
+      screen_body_content: @add_br_tags(@model.get('thankyou_note'))
+      question_screen_id: 'thankyou-screen'
+      
     thankyou_html = _.template($('#survey-empty-screen-template').html()) b
-    
     @thankyou_screen = @$('#survey-thankyou')
     @thankyou_screen.html thankyou_html
       

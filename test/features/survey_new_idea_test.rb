@@ -14,10 +14,13 @@ class SurveyNewIdeaTest < Capybara::Rails::TestCase
     it 'gets to thank you screen' do
       # order = new idea
       page.find('#go-right').click
-      page.fill_in 'new_idea_title', with: 'i like this idea'
+      page.fill_in 'new_idea_title', with: "i like this idea\n\nand it has 3 paras\n\nthe last one"
       page.fill_in 'new_idea_description', with: 'i like this idea it is a great idea huuuuge'
       page.find('.btn').click
       assert_equal 1, page.all('.idea-row').size
+
+      # The summary correctly shows only the first line      
+      refute page.has_content?("and it has 3")
     end
   end
 end

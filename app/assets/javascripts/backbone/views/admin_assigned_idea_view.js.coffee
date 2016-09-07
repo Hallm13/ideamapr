@@ -7,6 +7,7 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
     @top_container_selector = '.' + @top_container_class
     @$el.addClass @top_container_class
     @run_summary_logic = (new IdeaMapr.Views.SummaryExpander).run_summary_logic
+    _.extend(@, new IdeaMapr.Views.SummaryExpander())
 
     @
 
@@ -55,7 +56,8 @@ IdeaMapr.Views.AdminAssignedIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView
       t = _.template($('#type-' + @question_type + '-admin-template').html())
     else
       t = _.template($('#type-' + @question_type + '-public-template').html())
-
+      
+    @model.set('description_with_breaks', @add_br_tags(@model.get('description')))
     hash = _.extend({}, @model.attributes,
       shown_component_rank: @model.get('component_rank') + 1,
       card_image_url: @model.get('attachments')['card_image_url']

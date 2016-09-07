@@ -1,11 +1,14 @@
 IdeaMapr.Views.SurveyQuestionView = IdeaMapr.Views.SurveyScreenView.extend
   initialize: ->
     _.bindAll(@, 'render')
+    _.extend(@, new IdeaMapr.Views.SummaryExpander())
+    
     @
     
   tagName: 'div',
     
   render: ->
+    @model.set('question_prompt_with_breaks', @add_br_tags(@model.get('question_prompt')))
     sq_html =  _.template($('#survey-question-screen-template').html())(@model.attributes)
     @$el.html sq_html
 

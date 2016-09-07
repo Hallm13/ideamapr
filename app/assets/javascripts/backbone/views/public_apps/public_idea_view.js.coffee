@@ -31,9 +31,9 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
     'keyup .edit-areas': (evt) ->
       @model.set_text_entry $(evt.target).attr('id'), $(evt.target).val().trim()
 
-    "click .new-idea .entry-text": (evt) ->      
+    "click .new-idea .entry-text": (evt) ->
       if $(evt.currentTarget).hasClass('idea-description')
-        parent = $(evt.currentTarget).closest('.component-row')        
+        parent = $(evt.currentTarget).closest('.component-row')
         editable = parent.find '.editbox'
         editable.show()
         parent.find('.wrapper').hide()
@@ -123,6 +123,7 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
   render: ->
     @model.init_type_specific_data(@question.get('question_type'))
     
+    @model.set('description_with_breaks', @add_br_tags(@model.get('description')))
     unless @model.get('id') == -1
       # id == -1, when the model is a dummy, in the Suggest Idea question type
       template_id = '#type-' + @question.get('question_type') + '-public-template'
@@ -179,22 +180,22 @@ IdeaMapr.Views.PublicIdeaView = IdeaMapr.Views.SurveyQuestionIdeaEditView.extend
         @shown_box = 'pro'
         div.removeClass 'col-xs-offset-6'
         @$('#addpro').hide()
-        @$('#addcon').show()        
+        @$('#addcon').show()
       when 'con'
         @shown_box = 'con'
         div.addClass 'col-xs-offset-6'
         @$('#addpro').show()
         @$('#addcon').hide()
     div.show()
-    div.find('#save-procon').data('fdbk-type', type)    
+    div.find('#save-procon').data('fdbk-type', type)
     div.find('textarea').focus()
     div.find('.heading').text('Add a ' + type)
     
   remove_textarea: (type) ->
-    @shown_box = ''    
+    @shown_box = ''
     @$el.find('.input-controls').hide()
     @$('#addpro').show()
-    @$('#addcon').show()        
+    @$('#addcon').show()
     @$el.find('.input-controls textarea').val ''
         
   toggle_cart_text: ($button) ->

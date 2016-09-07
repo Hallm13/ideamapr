@@ -12,7 +12,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     # Budgeting
     @remaining_budget_title_html = "Total <span class='bold-text'>Remaining: </span><span class='value'></span>"
     @used_budget_title_html = "Total <span class='bold-text'>Spent</span>: <span class='value'></span>"
-    @listenTo(@collection, 'change:cart_count', @change_spent_amount)      
+    @listenTo(@collection, 'change:cart_count', @change_spent_amount)
     @
 
   events:
@@ -88,7 +88,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
       qty_bkgrd = $('<div>').addClass('quantity-bkgrd')
       qty_bkgrd.append($('<div>').addClass('row'))
       
-      @budget_root_elt.append qty_bkgrd      
+      @budget_root_elt.append qty_bkgrd
       qty_bkgrd.find('.row').append $('<div>').attr('id', 'used-budget').addClass('col-xs-12 col-sm-6')
       qty_bkgrd.find('.row').append $('<div>').attr('id', 'available-budget').addClass('col-xs-12 col-sm-6')
 
@@ -111,6 +111,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
     
   add_idea_model: ($elt) ->
     m = new IdeaMapr.Models.Idea
+      index: @collection.models.length
       title: $elt.find('#new_idea_title').val()
       description: $elt.find('#new_idea_description').val()
       attachments:

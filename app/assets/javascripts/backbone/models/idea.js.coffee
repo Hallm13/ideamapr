@@ -20,14 +20,24 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
 
   set_summary: ->
     # Add a summary for the card: first 30 "words"
-    unless typeof @attributes['description'] == 'undefined'
-      words = @attributes['description'].trim().split(/\s+/)
-      if words.length > 30
-        @attributes['desc_summary'] = words.slice(0,30).join(' ')
+    if typeof @attributes['description'] != 'undefined'
+      # Summarize if there are at least 3 paras, or more than 30 words.
+      lines1 = @attributes['description'].match /[^\r\n]+\r\n(\r\n)+/g
+      lines2 = @attributes['description'].match /[^\n]+\n(\n)+/g
+      
+      if (lines1 != null and lines1.length > 1) or (lines2 != null and lines2.length > 1)
+        lines = (if lines1 == null then lines2 else lines1)
+        
+        @attributes['desc_summary'] = lines[0]
         @has_expansion = true
       else
-        @attributes['desc_summary'] = @attributes['description']
-        @has_expansion = false
+        words = @attributes['description'].trim().split(/\s+/)
+        if words.length > 30
+          @attributes['desc_summary'] = words.slice(0,30).join(' ')
+          @has_expansion = true
+        else
+          @attributes['desc_summary'] = @attributes['description']
+          @has_expansion = false
     else
       @attributes['desc_summary'] = @attributes['description']
       @has_expansion = false
@@ -75,12 +85,12 @@ IdeaMapr.Models.Idea = IdeaMapr.Models.PublicViewModel.extend
       @attributes['response_data']['type-0-data']['feedback'][type].push text
       @trigger 'idea:new_procon'
   edit_feedback: (id, type, text) ->
-      @attributes['response_data']['type-0-data']['feedback'][type][id] = text
-      @trigger 'idea:new_procon'
+    @attributes['response_data']['type-0-data']['feedback'][type][id] = text
+    @trigger 'idea:new_procon'
       
   remove_feedback: (id, type) ->
-      @attributes['response_data']['type-0-data']['feedback'][type].splice(id, 1)
-      @trigger 'idea:new_procon'
+    @attributes['response_data']['type-0-data']['feedback'][type].splice(id, 1)
+    @trigger 'idea:new_procon'
           
   toggle_cart_count: ->
     current_count = @get('cart_count')

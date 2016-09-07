@@ -5,7 +5,6 @@ IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
     _.bindAll(@, 'render')
     @listenTo(@collection, 'change:answered', @render)
     @listenTo(@collection, 'change:view_request', @recrement_question_passthru)
-    
     @
     
   render: ->
@@ -30,4 +29,4 @@ IdeaMapr.Views.PublicSurveySummaryView = IdeaMapr.Views.SurveyScreenView.extend
     null
 
   recrement_question_passthru: (model) ->
-    @model.trigger 'survey:recrement_question', 
+    @model.trigger 'survey:recrement_question'

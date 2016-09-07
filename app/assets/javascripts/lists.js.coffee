@@ -19,5 +19,4 @@ window.lists_functions = ->
           detach.detach()
       )
 
-$(document).ready(window.lists_functions)
 $(document).on('turbolinks:load', window.lists_functions)

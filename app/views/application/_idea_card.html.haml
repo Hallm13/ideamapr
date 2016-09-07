@@ -11,10 +11,10 @@
           <%- description %>
         %span.summary.wrapper
           %span
-            <%- desc_summary %>
+            <%= desc_summary %>
         %span.full.wrapper
           %span
-            <%- description %>
+            <%= description_with_breaks %>
       .moreless-text{'data-switch-to' => 'full'}
         = t('idea.card_more')
 

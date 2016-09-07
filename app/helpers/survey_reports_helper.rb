@@ -38,4 +38,8 @@ module SurveyReportsHelper
   def forcetoppadding(height, border: true)
     "display: block; padding-top: #{height}px; " + (border ? "border-top: solid 2px #{theme_formborder_gray}; " : '')
   end
+
+  def mobile_breakpoint
+    '450px'
+  end
 end

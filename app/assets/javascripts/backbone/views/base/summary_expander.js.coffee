@@ -1,4 +1,6 @@
 IdeaMapr.Views.SummaryExpander = ->
+  # General utility functions - this name is a bit of a misnomer now. 
+
   @toggle_switch = (x) ->
     # Call AFTER using the switch-to data attribute 
     switch x.data('switch-to')
@@ -57,4 +59,11 @@ IdeaMapr.Views.SummaryExpander = ->
     else
       @$el.find('.full .moreless-text').hide()
       @$el.find('.summary').hide()
+  
+  @add_br_tags = (str) ->
+    if str == null
+      ''
+    else
+      s = str.replace(/\r\n(\r\n)+/g, '<p></p>')
+      s.replace(/\n(\n)+/g, '<p></p>')
   @
