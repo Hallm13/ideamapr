@@ -1,16 +1,16 @@
 %tr{style: tr100 + reportpara + h2font}
-  %td{style: width12(1) + boldfont}
+  %td{style: width_ratio(15, 100) + boldfont}
     Pro
-  %td{style: width12(1) + boldfont}
+  %td{style: width_ratio(15, 100) + boldfont}
     Con
-  %td{style: width12(10) + boldfont}
+  %td{style: width_ratio(70, 100) + boldfont}
     Ideas
     
 - qn[:procon_diffs].each do |ct_data|
   %tr
-    %td{style: width12(1) + boldfont}
+    %td{style: width_ratio(15, 100)}
       = ct_data[:pro_count]
-    %td{style: width12(1) + boldfont}
+    %td{style: width_ratio(15, 100) }
       = ct_data[:con_count]
-    %td{style: width12(10) + boldfont}
+    %td{style: width_ratio(70, 100) }
       = ct_data[:title]

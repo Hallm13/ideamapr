@@ -13,6 +13,8 @@ module Ajax
           struct[:status] = false
         end
       end
+
+      struct
     end
   end
 end

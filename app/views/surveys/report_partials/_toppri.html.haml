@@ -1,12 +1,12 @@
 %tr{style: tr100 + reportpara}
-  %td.mobile3{style: width12(2) + boldfont + h2font}
+  %td{style: width12(3) + boldfont + h2font}
     \#Times selected
-  %td.mobile9{style: width12(10) + boldfont + h2font}
+  %td{style: width12(9) + boldfont + h2font}
     Idea
 
 - qn[:sorted_idea_top_counts].each do |ct_data|
   %tr
-    %td.mobile3{style: width12(2)}
+    %td{style: width12(3)}
       = ct_data[2]
-    %td.mobile9{style: width12(10)}
+    %td{style: width12(9)}
       = ct_data[1]

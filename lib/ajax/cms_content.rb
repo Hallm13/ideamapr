@@ -16,7 +16,6 @@ module Ajax
         end
       end
 
-      Rails.logger.debug "cms content returning #{struct[:data]}"
       struct[:status] ||= false
       struct
     end

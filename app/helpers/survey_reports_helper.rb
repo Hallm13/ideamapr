@@ -1,4 +1,8 @@
 module SurveyReportsHelper
+  def width_ratio(num, den)
+    "width: #{num.to_f*100/den}%; float: left; display: block; "
+  end
+  
   def width12(num)
     "width: #{num.to_f/12*100}%; float: left; display: block; "
   end

@@ -11,7 +11,7 @@ IdeaMapr.Views.PublicDetailView = Backbone.View.extend
       # Tell the question to figure out which model to set the radio button for.
       @question.change_checked @model.get('id')
         
-    'keyup .text-entry-box input[type=text]': (evt) ->
+    'keyup .text-entry-box input[type=text],textarea': (evt) ->
       @model.set_text_entry $(evt.target).val().trim()
       
     'click .radio-choice-text': (evt) ->

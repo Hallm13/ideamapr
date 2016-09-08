@@ -1,12 +1,12 @@
 %tr{style: tr100 + reportpara + h2font + boldfont}
-  %td{style: width12(2) + boldfont}
+  %td{style: width12(3) + boldfont}
     Ranking Averages
-  %td{style: width12(10) + boldfont}
+  %td{style: width12(9) + boldfont}
     Ideas
 
 - qn[:ranking_averages].each do |avg_data|
   %tr
-    %td{style: width12(2)}
+    %td{style: width12(3)}
       = sprintf("%0.2f", (avg_data[:avg] || 0))
-    %td{style: width12(10)}
+    %td{style: width12(9)}
       = avg_data[:title]

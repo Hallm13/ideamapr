@@ -1,12 +1,12 @@
 %tr{style: tr100 + reportpara}
-  %td{style: width12(2) + boldfont + h2font}
+  %td{style: width12(3) + boldfont + h2font}
     Total Counts
-  %td{style: width12(10) + boldfont + h2font}
+  %td{style: width12(9) + boldfont + h2font}
     Radio Options
 
 - qn[:sorted_radio_counts].each do |ct_data|
   %tr
-    %td{style: width12(2)}
+    %td{style: width12(3)}
       = ct_data[1]
-    %td{style: width12(10)}
+    %td{style: width12(9)}
       = ct_data[0]

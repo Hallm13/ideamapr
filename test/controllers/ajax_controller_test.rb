@@ -26,6 +26,11 @@ class AjaxControllerTest < ActionController::TestCase
       refute_difference('SurveyQuestion.count') do
         xhr :post, :multiplex, {payload: "survey_question/destroy/-10"}
       end
+      assert_equal 'error', JSON.parse(response.body)['status']
+      
+      refute_difference('Survey.count') do
+        xhr :post, :multiplex, {payload: "survey/destroy/-10"}
+      end
 
       assert_equal 'error', JSON.parse(response.body)['status']
     end
