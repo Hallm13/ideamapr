@@ -15,8 +15,8 @@ en:
   create_survey: 'Create Survey'
   create_survey_question: 'Create Question'
   general:
-    tos_url: 'https://www.ideamapr.com/tos'
-    privacy_url: 'https://www.ideamapr.com/privacy'
+    tos_url: 'http://www.ideamapr.com/tos'
+    privacy_url: 'http://www.ideamapr.com/privacy'
   prompts:
     newidea:
       title: 'Add a short title for your idea'
@@ -31,6 +31,8 @@ en:
       title: 'Add a short title'
       intro_message: 'Describe your survey'
       thankyou: 'Add a little thank you'
+      thankyou_btn_text: ''
+      thankyou_btn_link: ''
   survey_question:
     add_button: 'Add a question'
     helper_defaults:

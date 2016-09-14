@@ -32,6 +32,8 @@ class SurveysController < ApplicationController
       render_json_payload
     else
       cookie_key = find_or_create_cookie params[:cookie_key]
+
+      # Note that a respondent who never answered anything and just hit finish will still see the survey
       if cookie_key.new? || !(Response.find_by_respondent_id(cookie_key.respondent_id)&.closed?)
         @cookie_key = cookie_key.key
         render 'public_show', layout: 'public_survey'
@@ -76,9 +78,11 @@ class SurveysController < ApplicationController
       end
 
       attrs = params[:survey]&.permit(:title, :introduction, :status, :thankyou_note)
+
       @survey.attributes= attrs
+      @survey.thankyou_btn_hash = params[:survey][:thankyou_btn]
     end
-    
+
     if (saved = @survey.valid?)
       if params[:survey_details].present? and (deets = JSON.parse(params[:survey_details])).is_a?(Hash)
         sqn_ids = deets.with_indifferent_access[:details].sort_by { |i| i['component_rank']}.map { |hash| hash['id'].to_i}
@@ -116,7 +120,11 @@ class SurveysController < ApplicationController
   def render_json_payload
     # One screen for each qn + intro + summary
     json = (@survey.attributes.slice('id', 'title', 'introduction', 'thankyou_note', 'public_link', 'status').
-             merge({number_of_screens: 2 + @survey.survey_questions.count}))    
+             merge({number_of_screens: 2 + @survey.survey_questions.count}))
+
+    ty_hash = {thankyou_btn_text: @survey.thankyou_btn_hash[:text], thankyou_btn_link: @survey.thankyou_btn_hash[:link]}
+    json.merge! ty_hash
+    
     render json: json
   end
   

@@ -11,6 +11,7 @@
 /* not perfectly dry, could use some work here TODO */
 = render partial: 'participant_template', locals: {script_id: 'survey-question-screen-template', body_string: raw('<div id="idea-list"></div>')}
 = render partial: 'participant_template', locals: {script_id: 'survey-empty-screen-template', body_string: raw('<%= screen_body_content %>')}
+= render partial: 'survey_thankyou_screen_template', locals: {body_string: raw('<%= screen_body_content %>')}
     
 %script#survey-summary-template{type: 'text/template'}
   .screen

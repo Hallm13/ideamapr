@@ -114,8 +114,10 @@ IdeaMapr.Views.SurveyPublicView = Backbone.View.extend
       title: 'Thank you!'
       screen_body_content: @add_br_tags(@model.get('thankyou_note'))
       question_screen_id: 'thankyou-screen'
-      
-    thankyou_html = _.template($('#survey-empty-screen-template').html()) b
+      thankyou_btn_text: @model.get('thankyou_btn_text')
+      thankyou_btn_link: @model.get('thankyou_btn_link')
+
+    thankyou_html = _.template($('#survey-thankyou-screen-template').html()) b
     @thankyou_screen = @$('#survey-thankyou')
     @thankyou_screen.html thankyou_html
       

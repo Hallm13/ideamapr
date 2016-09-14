@@ -123,6 +123,9 @@ form {
 .btn, .btn-primary {
   background-color: $button-background;
   background-image: none;
+  &.btn-red {
+    background-color: $theme-red;
+  }
 }
 
 .navtop {
@@ -138,31 +141,18 @@ form {
   padding: 20px;
   width: 100%;
   .cityname {
-    @include h2-title();
     text-align: center;
-    color: $theme-red;
+    
+    a {
+      @include h2-title();
+      color: $theme-red;
+    }
   }
   
   .subfooter {
     font-size: 0.8em;
-      
-    .itembox#box1 {
-      @media(min-width: $ipad-breakpoint) {
-	border-right: solid 1px black;
-	padding-right: 5px;
-	text-align: right;
-      }
-    }
-    .itembox#box2 {
-      @media(min-width: $ipad-breakpoint) {
-	text-align: left;
-      }
-    }
-    
     .itembox {
-      @media(max-width: $ipad-breakpoint) {
-	text-align: center;
-      }
+      text-align: center;
     }
   }
 }

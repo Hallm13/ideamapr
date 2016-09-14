@@ -29,6 +29,10 @@ window.run_validations = ->
 
   if !all_valid
     show_error_boxes error_list
+    $('html, body').animate(
+        scrollTop: $(error_list[0]).offset().top - 100
+      , 500
+    )
     false
   else
     true

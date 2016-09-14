@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830175935) do
+ActiveRecord::Schema.define(version: 20160914180751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20160830175935) do
     t.string   "owner_type"
     t.text     "thankyou_note"
     t.string   "public_link"
+    t.text     "thankyou_btn_hash"
   end
 
   create_table "users", force: :cascade do |t|

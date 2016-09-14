@@ -18,7 +18,7 @@ IdeaMapr.Views.PublicIdeaListView = IdeaMapr.Views.IdeaListView.extend
   events:
     # The only action collected at the list level is for suggesting ideas
     'click #add-idea': (evt) ->
-      if $('#new_idea_title').val().trim().length > 0 and $('#new_idea_description').val().trim().length > 0
+      if @$el.find('#new_idea_title').val().trim().length > 0 and @$el.find('#new_idea_description').val().trim().length > 0
         @add_idea_model @form_elt
       else
         evt.stopPropagation()

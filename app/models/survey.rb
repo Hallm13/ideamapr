@@ -22,7 +22,9 @@ class Survey < ActiveRecord::Base
      Struct::VbStruct.new('survey_status', 'Survey Status', 'survey-status', -1, 'Survey status'),     
      Struct::VbStruct.new('intro_field', 'Intro Message', 'survey-create-intro', 1, 'Add an introduction'),
      Struct::VbStruct.new('add_questions', 'Questions', 'survey-add-questions', -1, 'Add Questions in Ranked Order'),
-     Struct::VbStruct.new('thankyou_field', 'Thank You Message', 'survey-thank-you-note', 1, 'Add a Thank You Note') ]
+     Struct::VbStruct.new('thankyou_field', 'Thank You Message', 'survey-thank-you-note', 1, 'Add a Thank You Note'),
+     Struct::VbStruct.new('thankyou_button_text', 'Thank You Button Text', 'survey-thankyou-btn-text', 0, 'Thank You Button Text'),
+     Struct::VbStruct.new('thankyou_button_link', 'Thank You Button Link', 'survey-thankyou-btn-link', 0, 'Thank You Button Link') ]
   end
   
   class SurveyStatus
@@ -59,7 +61,8 @@ class Survey < ActiveRecord::Base
       end
     end
   end
-  
+
+  serialize :thankyou_btn_hash, Hash
   validates :title, length: {minimum: 1}
   validates :introduction, length: {minimum: 1}
 

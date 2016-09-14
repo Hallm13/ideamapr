@@ -1,0 +1,3 @@
+.relative-container
+  = text_area_tag 'survey[thankyou_btn][text]', @survey.thankyou_btn_hash[:text], class: 'form-control validated-box', 'data-expected-length' => vb.expected_length
+  = label_tag 'survey[thankyou_btn][text]', t('prompts.survey.thankyou_btn_text'), class: 'placeholder-label'
